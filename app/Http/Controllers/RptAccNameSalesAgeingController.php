@@ -101,6 +101,10 @@ class RptAccNameSalesAgeingController extends Controller
                 $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
                 $status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';  // Determine the status here
                 $maxDaysStyle = $items['remaining_amount'] != 0 ? 'style="color:red;"' : '';  // Apply red color if remaining_amount is not 0
+            
+                // Calculate the number of days from bill_date to today
+                $daysFromBillDate = $items['bill_date'] ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today()) : '';
+            
                 $html .= '<tr style="background-color:' . $bgColor . ';">
                             <td>' . $count . '</td>
                             <td>' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
@@ -108,14 +112,17 @@ class RptAccNameSalesAgeingController extends Controller
                             <td>' . $items["ac2"] . $items["remarks"] . '</td>
                             <td>' . number_format($items['bill_amount'], 0) . '</td>
                             <td>' . number_format($items['remaining_amount'], 0) . '</td>
+                            <td>' . ($items['remaining_amount'] != 0 ? $daysFromBillDate : '') . '</td>
                             <td>' . number_format($items['1_20_Days'], 0) . '</td>
                             <td>' . number_format($items['21_35_Days'], 0) . '</td>
                             <td>' . number_format($items['36_50_Days'], 0) . '</td>
                             <td>' . number_format($items['over_50_Days'], 0) . '</td>
                             <td ' . $maxDaysStyle . '>' . $items['max_days'] . ' - ' . $status . '</td>
                         </tr>';
+            
                 $count++;
             }
+            
             $html .= '</table>';
             $pdf->writeHTML($html, true, false, true, false, '');
         
