@@ -393,6 +393,10 @@
         // Un Adjusted Vouchers Tab
         Route::get('/dashboard-tabs/uv', [App\Http\Controllers\DashboardUnAdjustedVouchersTabController::class, 'UV']);
 
+
+        // Over Days Tab
+        Route::get('/dashboard-tabs/over-days', [App\Http\Controllers\DashboardOverDaysTabController::class, 'OverDays']);
+
     });
 
     Route::middleware(['checkPermission:view'])->group(function () {

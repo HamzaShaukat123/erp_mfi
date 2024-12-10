@@ -1439,7 +1439,7 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
-													<h2 class="card-title">UnAdjusted Sales Ageing Voucher</h2>
+													<h2 class="card-title">UnAdjusted Purchase Ageing Voucher</h2>
 												</header>
 												<div class="card-body scrollable-div">
 													
@@ -1464,6 +1464,80 @@
 										
 									</div>
 								</div>
+
+								<div id="OVER_DUES" class="tab-pane">
+									<div class="row form-group pb-3">
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Over Days Sales Invoices</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">>Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Id</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Bill Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Recved Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount/font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Days Cross</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="ODSalesInvTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Over Days Purchase Invoices</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">>Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Id</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Bill Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Recved Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount/font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Days Cross</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="ODPurInvTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										
+										
+										
+									</div>
+								</div>
+
+
+
 								
 							</div>
 						</div>
@@ -2503,6 +2577,54 @@
 						alert("Error loading UV data");
 					}
 				});
+
+			}
+			else if(tabId=="#OVER_DUES"){
+
+			var table = document.getElementById('ODSalesInvTable');
+			while (table.rows.length > 0) {
+				table.deleteRow(0);
+			}
+
+			// var table = document.getElementById('ODPurInvTable');
+			// while (table.rows.length > 0) {
+			// 	table.deleteRow(0);
+			// }
+
+			$.ajax({
+				type: "GET",
+				url: '/dashboard-tabs/over-days',
+				success: function(result) {
+					// For Sales Ageing
+					var salesRows = '';
+					$.each(result['dash_over_days_sales'], function (index, value) {
+						salesRows += `<tr>
+							<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+							<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+							<td>${value['bill_date'] ? value['bill_date'] : ''}</td>
+							<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
+							<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
+							<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
+							<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
+						</tr>`;
+					});
+					$('#ODSalesInvTable').html(salesRows);
+
+					// // For Purchase Ageing
+					// var purchaseRows = '';
+					// $.each(result['purchase_ageing'], function (index, value) {
+					// 	purchaseRows += `<tr>
+					// 		<td>${value['jv2_id'] ? value['jv2_id'] : ''}</td>
+					// 		<td>${value['sales_prefix'] ? value['sales_prefix'] : ''} ${value['sales_id'] ? value['sales_id'] : ''}</td>
+					// 		<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+					// 	</tr>`;
+					// });
+					// $('#UVPurTable').html(purchaseRows);
+				},
+				error: function() {
+					alert("Error loading UV data");
+				}
+			});
 
 			}
 
