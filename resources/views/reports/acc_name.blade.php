@@ -976,7 +976,7 @@
                                 <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
                                 <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
                                 <td>${v['over_50_Days'] ? v['over_50_Days'] : ''}</td>
-                                ${remainingAmount === 0 ? `<td style="${maxDaysStyle}">${v['max_days'] ? v['max_days'] : ''}</td>` : ''}
+                                <td>${remainingAmount === 0 ? `<td style="${maxDaysStyle}">${v['max_days'] ? v['max_days'] : ''}</td>` : `<td></td>`}</td>
                                 <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
                             </tr>`;
 
