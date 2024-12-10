@@ -2586,10 +2586,10 @@
 				table.deleteRow(0);
 			}
 
-			// var table = document.getElementById('ODPurInvTable');
-			// while (table.rows.length > 0) {
-			// 	table.deleteRow(0);
-			// }
+			var table = document.getElementById('ODPurInvTable');
+			while (table.rows.length > 0) {
+				table.deleteRow(0);
+			}
 
 			$.ajax({
 				type: "GET",
@@ -2610,16 +2610,20 @@
 					});
 					$('#ODSalesInvTable').html(salesRows);
 
-					// // For Purchase Ageing
-					// var purchaseRows = '';
-					// $.each(result['purchase_ageing'], function (index, value) {
-					// 	purchaseRows += `<tr>
-					// 		<td>${value['jv2_id'] ? value['jv2_id'] : ''}</td>
-					// 		<td>${value['sales_prefix'] ? value['sales_prefix'] : ''} ${value['sales_id'] ? value['sales_id'] : ''}</td>
-					// 		<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
-					// 	</tr>`;
-					// });
-					// $('#UVPurTable').html(purchaseRows);
+					// For Purchase Ageing
+					var purchaseRows = '';
+					$.each(result['dash_over_days_pur'], function (index, value) {
+						salesRows += `<tr>
+							<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+							<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+							<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
+							<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
+							<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
+							<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
+							<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
+						</tr>`;
+					});
+					$('#ODPurInvTable').html(purchaseRows);
 				},
 				error: function() {
 					alert("Error loading UV data");
