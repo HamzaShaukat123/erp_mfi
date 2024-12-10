@@ -94,7 +94,9 @@
                                             <h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
                                                 <span style="color:#17365D;font-size:20px;">Account Name: &nbsp;</span>
                                                 <span style="font-weight:400; color:rgb(238, 19, 19);font-size:20px;" id="gl_acc"></span>
-
+                                                
+                                                <span style="flex: 0.3;"></span> <!-- Spacer to push the "To" to the right -->
+                                                
                                                 <span style="color: #17365D;">Credit Limit: &nbsp;</span>
                                                 <span style="font-weight: 400; color: black;"></span>
                                             </h4>
