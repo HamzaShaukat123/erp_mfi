@@ -1465,7 +1465,7 @@
 									</div>
 								</div>
 
-								<div id="OVER_DUES" class="tab-pane">
+								<div id="OVER_DAYS" class="tab-pane">
 									<div class="row form-group pb-3">
 
 										<div class="col-12 col-md-6 mb-3">
@@ -1482,12 +1482,12 @@
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
 															<tr>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">>Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Id</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Date</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Bill Amount</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Recved Amount</font></font></th>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount/font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Days Cross</font></font></th>
 															</tr>
 														</thead>
@@ -1513,12 +1513,12 @@
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
 															<tr>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">>Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Id</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Invoice Date</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Bill Amount</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Recved Amount</font></font></th>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount/font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Remaing Amount</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Days Cross</font></font></th>
 															</tr>
 														</thead>
@@ -2579,7 +2579,7 @@
 				});
 
 			}
-			else if(tabId=="#OVER_DUES"){
+			else if(tabId=="#OVER_DAYS"){
 
 			var table = document.getElementById('ODSalesInvTable');
 			while (table.rows.length > 0) {
