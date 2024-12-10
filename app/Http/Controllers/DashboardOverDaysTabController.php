@@ -12,6 +12,7 @@ class DashboardOverDaysTabController extends Controller
     {
         $dash_over_days_sales = dash_over_days_sales::where('remaining_amount', '!=', 0)
         ->where('days_cross', '>', 0)
+        ->orderBy('days_cross', 'asc')
         ->get();
 
 
