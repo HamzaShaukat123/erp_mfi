@@ -886,7 +886,7 @@
 
                     // Check if the result has data
                     if (!result.length) {
-                        $(tableID).html('<tr><td colspan="12" class="text-center">No data available for the selected criteria.</td></tr>');
+                        $(tableID).html('<tr><td colspan="13" class="text-center">No data available for the selected criteria.</td></tr>');
                         return;
                     }
 
@@ -906,10 +906,10 @@
                             <td>${k + 1}</td>
                             <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
                             <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
-                            <td>${daysFromBillDate}</td>
                             <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
                             <td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
                             <td>${remainingAmount}</td>
+                            <td>${daysFromBillDate}</td>
                             <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
                             <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
                             <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
@@ -925,7 +925,7 @@
                     $(tableID).html(rows);
                 },
                 error: function (xhr, status, error) {
-                    $(tableID).html(`<tr><td colspan="11" class="text-center text-danger">
+                    $(tableID).html(`<tr><td colspan="13" class="text-center text-danger">
                         Error loading data: ${xhr.responseText || error}.
                     </td></tr>`);
                 }
