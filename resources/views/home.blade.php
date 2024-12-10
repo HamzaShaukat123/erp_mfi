@@ -24,7 +24,12 @@
 			display: block;
 		}
 		.scrollable-div{
-			height: 800px;
+			height: 300px;
+			overflow-y: auto;
+			padding: 0px !important;
+		}
+		.scrollable-div2{
+			height: 600px;
 			overflow-y: auto;
 			padding: 0px !important;
 		}
@@ -1477,7 +1482,7 @@
 
 													<h2 class="card-title">Over Days Sales Invoices</h2>
 												</header>
-												<div class="card-body scrollable-div">
+												<div class="card-body scrollable-div2">
 													
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
@@ -1508,7 +1513,7 @@
 
 													<h2 class="card-title">Over Days Purchase Invoices</h2>
 												</header>
-												<div class="card-body scrollable-div">
+												<div class="card-body scrollable-div2">
 													
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
