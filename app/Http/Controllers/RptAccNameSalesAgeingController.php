@@ -89,6 +89,7 @@ class RptAccNameSalesAgeingController extends Controller
                 <th style="width:19%; color:#17365D; font-weight:bold;">Detail</th>
                 <th style="width:10%;color:#17365D; font-weight:bold;">Bill Amount</th>
                 <th style="width:10%;color:#17365D; font-weight:bold;">UnPaid Amount</th>
+                <th style="width:8%;color:#17365D; font-weight:bold;">Days</th>
                 <th style="width:8%;color:#17365D; font-weight:bold;">1-20 Days</th>
                 <th style="width:8%;color:#17365D; font-weight:bold;">21-35 Days</th>
                 <th style="width:8%;color:#17365D; font-weight:bold;">36-50 Days</th>
