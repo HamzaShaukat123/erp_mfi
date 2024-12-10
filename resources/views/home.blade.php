@@ -413,7 +413,7 @@
 									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#UV" href="#UV" data-bs-toggle="tab">Unadjusted Vouchers</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#OVER_DUES" href="#OVER_DUES" data-bs-toggle="tab">Overdues</a>
+									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#OVER_DUES" href="#OVER_DUES" data-bs-toggle="tab">Over Dues</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#OVER_DAYS" href="#OVER_DAYS" data-bs-toggle="tab">Over Days</a>
@@ -1536,6 +1536,67 @@
 									</div>
 								</div>
 
+								<div id="OVER_DUES" class="tab-pane">
+									<div class="row form-group pb-3">
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Over Dues Account Receivables</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount Limit</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Balance</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Over Limit Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="ODRecvAccTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Over Dues Account Payables</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount Limit</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Balance</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Over Limit Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="ODPayAccTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+
 
 
 								
@@ -2581,54 +2642,100 @@
 			}
 			else if(tabId=="#OVER_DAYS"){
 
-			var table = document.getElementById('ODSalesInvTable');
-			while (table.rows.length > 0) {
-				table.deleteRow(0);
-			}
-
-			var table = document.getElementById('ODPurInvTable');
-			while (table.rows.length > 0) {
-				table.deleteRow(0);
-			}
-
-			$.ajax({
-				type: "GET",
-				url: '/dashboard-tabs/over-days',
-				success: function(result) {
-					// For Sales Ageing
-					var salesRows = '';
-					$.each(result['dash_over_days_sales'], function (index, value) {
-						salesRows += `<tr>
-							<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
-							<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
-							<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
-							<td>${value['bill_amount'] ? value['bill_amount'].toFixed(0) : ''}</td>
-							<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'].toFixed(0) : ''}</td>
-							<td>${value['remaining_amount'] ? value['remaining_amount'].toFixed(0) : ''}</td>
-							<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
-						</tr>`;
-					});
-					$('#ODSalesInvTable').html(salesRows);
-
-					// For Purchase Ageing
-					var purchaseRows = '';
-					$.each(result['dash_over_days_pur'], function (index, value) {
-						purchaseRows += `<tr>
-							<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
-							<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
-							<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
-							<td>${value['bill_amount'] ? value['bill_amount'].toFixed(0) : ''}</td>
-							<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'].toFixed(0) : ''}</td>
-							<td>${value['remaining_amount'] ? value['remaining_amount'].toFixed(0) : ''}</td>
-							<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
-						</tr>`;
-					});
-					$('#ODPurInvTable').html(purchaseRows);
-				},
-				error: function() {
-					alert("Error loading UV data");
+				var table = document.getElementById('ODSalesInvTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
 				}
-			});
+
+				var table = document.getElementById('ODPurInvTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				$.ajax({
+					type: "GET",
+					url: '/dashboard-tabs/over-days',
+					success: function(result) {
+						// For Sales Ageing
+						var salesRows = '';
+						$.each(result['dash_over_days_sales'], function (index, value) {
+							salesRows += `<tr>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+								<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
+								<td>${value['bill_amount'] ? value['bill_amount'].toFixed(0) : ''}</td>
+								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'].toFixed(0) : ''}</td>
+								<td>${value['remaining_amount'] ? value['remaining_amount'].toFixed(0) : ''}</td>
+								<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
+							</tr>`;
+						});
+						$('#ODSalesInvTable').html(salesRows);
+
+						// For Purchase Ageing
+						var purchaseRows = '';
+						$.each(result['dash_over_days_pur'], function (index, value) {
+							purchaseRows += `<tr>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+								<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
+								<td>${value['bill_amount'] ? value['bill_amount'].toFixed(0) : ''}</td>
+								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'].toFixed(0) : ''}</td>
+								<td>${value['remaining_amount'] ? value['remaining_amount'].toFixed(0) : ''}</td>
+								<td>${value['days_cross'] ? value['days_cross'] : ''}</td>
+							</tr>`;
+						});
+						$('#ODPurInvTable').html(purchaseRows);
+					},
+					error: function() {
+						alert("Error loading Over Days data");
+					}
+				});
+
+			}
+			else if(tabId=="#OVER_DUES"){
+
+				var table = document.getElementById('ODRecvAccTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				var table = document.getElementById('ODPayAccTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				$.ajax({
+					type: "GET",
+					url: '/dashboard-tabs/over-dues',
+					success: function(result) {
+						// For Sales Ageing
+						var salesRows = '';
+						$.each(result['dash_over_dues_recv'], function (index, value) {
+							salesRows += `<tr>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['credit_limit'] ? value['credit_limit'].toFixed(0) : ''}</td>
+								<td>${value['Bal'] ? value['Bal'].toFixed(0) : ''}</td>
+								<td>${value['over_dues'] ? value['over_dues'].toFixed(0) : ''}</td>
+							</tr>`;
+						});
+						$('#ODRecvAccTable').html(salesRows);
+
+						// For Purchase Ageing
+						var purchaseRows = '';
+						$.each(result['dash_over_dues_pay'], function (index, value) {
+							purchaseRows += `<tr>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['credit_limit'] ? value['credit_limit'].toFixed(0) : ''}</td>
+								<td>${value['Bal'] ? value['Bal'].toFixed(0) : ''}</td>
+								<td>${value['over_dues'] ? value['over_dues'].toFixed(0) : ''}</td>
+							</tr>`;
+						});
+						$('#ODPayAccTable').html(purchaseRows);
+					},
+					error: function() {
+						alert("Error loading Over Dues data");
+					}
+				});
 
 			}
 

@@ -397,6 +397,9 @@
         // Over Days Tab
         Route::get('/dashboard-tabs/over-days', [App\Http\Controllers\DashboardOverDaysTabController::class, 'OverDays']);
 
+         // Over Dues Tab
+         Route::get('/dashboard-tabs/over-dues', [App\Http\Controllers\DashboardOverDuesTabController::class, 'OverDues']);
+
     });
 
     Route::middleware(['checkPermission:view'])->group(function () {
