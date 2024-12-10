@@ -29,7 +29,7 @@
 			padding: 0px !important;
 		}
 		.scrollable-div2{
-			height: 600px;
+			height: 900px;
 			overflow-y: auto;
 			padding: 0px !important;
 		}
