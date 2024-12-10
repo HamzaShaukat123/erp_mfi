@@ -95,7 +95,7 @@
                                                 <span style="color: #17365D; font-size: 20px;">Account Name:&nbsp;</span>
                                                 <span id="gl_acc" style="font-weight: 400; color: rgb(238, 19, 19); font-size: 20px;"></span>
                                                 
-                                                <span style="flex: 0.3;"></span> <!-- Spacer to push the "Credit Limit" to the right -->
+                                                <span style="flex: 0.9;"></span> <!-- Spacer to push the "Credit Limit" to the right -->
                                                 
                                                 <span style="color: #17365D; font-size: 20px;">Credit Limit:&nbsp;</span>
                                                 <span style="font-weight: 400; color: black; font-size: 20px;" id="credit_limit"></span>
