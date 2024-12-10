@@ -1556,7 +1556,7 @@
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount Limit</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Balance</font></font></th>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Over Limit Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">UnPaid Amount</font></font></th>
 															</tr>
 														</thead>
 														<tbody id="ODRecvAccTable">
@@ -1584,7 +1584,7 @@
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Account Name</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount Limit</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Balance</font></font></th>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Over Limit Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">UnPaid Amount</font></font></th>
 															</tr>
 														</thead>
 														<tbody id="ODPayAccTable">
