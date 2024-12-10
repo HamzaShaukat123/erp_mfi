@@ -2613,7 +2613,7 @@
 					// For Purchase Ageing
 					var purchaseRows = '';
 					$.each(result['dash_over_days_pur'], function (index, value) {
-						salesRows += `<tr>
+						purchaseRows += `<tr>
 							<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 							<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
 							<td>${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
