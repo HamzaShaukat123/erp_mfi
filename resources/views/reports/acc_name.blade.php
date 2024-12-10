@@ -206,6 +206,7 @@
                                                     <th>Detail</th>
                                                     <th>Bill Amount</th>
                                                     <th>UnPaid Amount</th>
+                                                    <th>Days</th>
                                                     <th>1-20 Days</th>
                                                     <th>21-35 Days</th>
                                                     <th>36-50 Days</th>
@@ -256,6 +257,7 @@
                                                     <th>Detail</th>
                                                     <th>Bill Amount</th>
                                                     <th>UnPaid Amount</th>
+                                                    <th>Days</th>
                                                     <th>1-20 Days</th>
                                                     <th>21-35 Days</th>
                                                     <th>36-50 Days</th>
@@ -896,11 +898,15 @@
                         // Apply red color style if remaining amount is not 0
                         const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
                         
+                        // Calculate the number of days from the bill date to today
+                        const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
+                        
                         // Generate row
                         rows += `<tr>
                             <td>${k + 1}</td>
                             <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
                             <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
+                            <td>${daysFromBillDate}</td>
                             <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
                             <td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
                             <td>${remainingAmount}</td>
@@ -910,8 +916,10 @@
                             <td>${v['over_50_Days'] ? v['over_50_Days'] : ''}</td>
                             <td style="${remainingAmount === 0 ? maxDaysStyle : ''}">${remainingAmount === 0 ? (v['max_days'] ? v['max_days'] : '') : ''}</td>
                             <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
+                            
                         </tr>`;
                     });
+
 
                     // Replace table content with new rows
                     $(tableID).html(rows);
