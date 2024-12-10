@@ -1553,7 +1553,7 @@
 
 													<h2 class="card-title">Over Dues Account Receivables</h2>
 												</header>
-												<div class="card-body scrollable-div">
+												<div class="card-body scrollable-div2">
 													
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
@@ -1581,7 +1581,7 @@
 
 													<h2 class="card-title">Over Dues Account Payables</h2>
 												</header>
-												<div class="card-body scrollable-div">
+												<div class="card-body scrollable-div2">
 													
 													<table class="table table-responsive-md table-striped mb-0">
 														<thead class="sticky-tbl-header">
