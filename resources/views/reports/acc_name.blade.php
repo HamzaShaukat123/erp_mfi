@@ -907,7 +907,7 @@
                             <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
                             <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
                             <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
-                            <td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
+                            <td>${v['bill_amount'] ? v['bill_amount'] : '0'}</td>
                             <td>${remainingAmount}</td>
                             <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
                             <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
@@ -981,7 +981,7 @@
                                 <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
                                 <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
                                 <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
-                                <td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
+                                <td>${v['bill_amount'] ? v['bill_amount'] : '0'}</td>
                                 <td>${remainingAmount}</td>
                                 <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
                                 <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
