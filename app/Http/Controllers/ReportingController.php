@@ -7,6 +7,7 @@ use App\Models\AC;
 use App\Models\ac_group;
 use App\Models\sub_head_of_acc;
 use App\Models\Item_entry2;
+use App\Models\Item_entry;
 use App\Models\Item_Groups;
 use App\Models\pur_by_account;
 use App\Models\pipe_pur_by_account;
@@ -32,6 +33,13 @@ class ReportingController extends Controller
         return view('reports.acc_group',compact('ac_group','sub_head_of_acc'));
     }
 
+    // By Item Name 1
+    public function byItemName1()
+    {
+        $items1 = Item_entry::orderBy('item_name', 'asc')->get();
+        return view('reports.item_name1',compact('items1'));
+    }
+
     // By Godown Item Name
     public function byGodownItemName()
     {
@@ -53,6 +61,7 @@ class ReportingController extends Controller
         return view('reports.daily_register',compact('coa'));
     }
 
+    // Commissions
     public function commissions()
     {
         $item_group = Item_Groups::orderBy('group_name', 'asc')->get();

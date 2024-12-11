@@ -575,3 +575,21 @@
     Route::get('/send-email', [App\Http\Controllers\UsersController::class, 'sendEmail']);
     
     Route::get('/pos', [App\Http\Controllers\POSController::class, 'index'])->name('pos');
+
+
+    // Main Routes
+    Route::get('/rep-by-item-name1', [App\Http\Controllers\ReportingController::class, 'byItemName1'])->name('rep-by-item-name1');
+
+
+    // RPT by Item Name1 Sale 
+    Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
+    // Route::get('/rep-by-item-name1/sale/excel', [App\Http\Controllers\RptItemName1SaleController::class, 'saleExcel'])->name('sale-rep-by-item-name1-excel');
+    // Route::get('/rep-by-item-name1/sale/PDF', [App\Http\Controllers\RptItemName1SaleController::class, 'salePDF'])->name('sale-rep-by-item-name1-PDF');
+    // Route::get('/rep-by-item-name1e/sale/download', [App\Http\Controllers\RptItemName1SaleController::class, 'saleDownload'])->name('sale-rep-by-item-name1-name-download');
+
+    // RPT by Item Name1 Purchase 
+    Route::get('/rep-by-item-name1/pur', [App\Http\Controllers\RptItemName1PurController::class, 'purchase'])->name('pur-rep-by-item-name1');
+    // Route::get('/rep-by-item-name1/pur/excel', [App\Http\Controllers\RptItemName1PurController::class, 'purchaseExcel'])->name('pur-rep-by-item-name1-excel');
+    // Route::get('/rep-by-item-name1/pur/PDF', [App\Http\Controllers\RptItemName1PurController::class, 'purchasePDF'])->name('pur-rep-by-item-name1PDF');
+    // Route::get('/rep-by-item-name1/pur/download', [App\Http\Controllers\RptItemName1PurController::class, 'purchase1Download'])->name('pur-rep-by-item-name1-download');
+
