@@ -222,7 +222,7 @@
 
                         // Append totals row
                         let totalHtml = "<tr class='font-weight-bold'>";
-                        totalHtml += "<td colspan='4' class='text-right'>Total</td>";
+                        totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
                         totalHtml += "<td>" + totalQty.toFixed(2) + "</td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
@@ -291,7 +291,7 @@
 
                         // Append totals row
                         let totalHtml = "<tr class='font-weight-bold'>";
-                        totalHtml += "<td colspan='4' class='text-right'>Total</td>";
+                        totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
                         totalHtml += "<td>" + totalQty.toFixed(2) + "</td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
