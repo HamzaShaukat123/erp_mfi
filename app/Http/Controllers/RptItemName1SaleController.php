@@ -139,7 +139,7 @@ class RptItemName1SaleController extends Controller
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
                     <td style="width:12%;">' . $item['weight'] . '</td>
-                    <td style="width:13%;">' . number_format($amount, 2) . '</td>
+                    <td style="width:13%;">' . number_format($amount, 0) . '</td>
                 </tr>';
             
             $count++;
@@ -147,7 +147,7 @@ class RptItemName1SaleController extends Controller
 
         // Add totals row
         $html .= '
-            <tr style="background-color:#d9d9d9; font-weight:bold;">
+            <tr style="background-color:#d9edf7; font-weight:bold;">
                 <td colspan="4" style="text-align:right;">Total</td>
                 <td style="width:11%;">' . $totalQty . '</td>
                 <td style="width:12%;">--</td>
