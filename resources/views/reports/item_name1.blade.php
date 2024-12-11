@@ -212,9 +212,9 @@
                             html += "<td>" + (v['sa_date'] ? moment(v['sa_date']).format('DD-MM-YY') : "") + "</td>";
                             html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}</td>`;
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
-                            html += "<td>" + (qty ? qty.toFixed(2) : "") + "</td>";
-                            html += "<td>" + (price ? price.toFixed(2) : "") + "</td>";
-                            html += "<td>" + (weight ? weight.toFixed(2) : "") + "</td>";
+                            html += "<td>" + (v['qty'] ? v['qty'] : "") + "</td>";
+                            html += "<td>" + (v['price'] ? v['price'] : "") + "</td>";
+                            html += "<td>" + (v['weight'] ? v['weight'] : "") + "</td>";
                             html += "<td>" + (amount ? amount.toFixed(2) : "") + "</td>";
                             html += "</tr>";
                             $(tableID).append(html);
@@ -281,9 +281,9 @@
                             html += "<td>" + (v['pur_date'] ? moment(v['pur_date']).format('DD-MM-YY') : "") + "</td>";
                             html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['pur_id'] ? v['pur_id'] : ''}</td>`;
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
-                            html += "<td>" + (qty ? qty.toFixed(2) : "") + "</td>";
-                            html += "<td>" + (price ? price.toFixed(2) : "") + "</td>";
-                            html += "<td>" + (weight ? weight.toFixed(2) : "") + "</td>";
+                            html += "<td>" + (v['qty'] ? v['qty'] : "") + "</td>";
+                            html += "<td>" + (v['price'] ? v['price'] : "") + "</td>";
+                            html += "<td>" + (v['weight'] ? v['weight'] : "") + "</td>";
                             html += "<td>" + (amount ? amount.toFixed(2) : "") + "</td>";
                             html += "</tr>";
                             $(tableID).append(html);
