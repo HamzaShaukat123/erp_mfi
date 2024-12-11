@@ -40,6 +40,13 @@ class ReportingController extends Controller
         return view('reports.item_name1',compact('items1'));
     }
 
+    // By Item Name 2
+    public function byItemName2()
+    {
+        $items2 = Item_entry2::orderBy('item_name', 'asc')->get();
+        return view('reports.item_name2',compact('items2'));
+    }
+
     // By Godown Item Name
     public function byGodownItemName()
     {
