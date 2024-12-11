@@ -120,7 +120,7 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "/rep-comm/comm",
+                    url: "/rep-commissions/comm",
                     data: { fromDate, toDate, acc_id: accId },
                     success: function(result) {
                         $('#comm_from').text(formattedFromDate);
@@ -244,7 +244,7 @@
             }
 
             if (tabName === "comm") {
-                window.open(`/rep-comm/comm/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-commissions/comm/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
         }
@@ -258,7 +258,7 @@
             }
 
             if (tabName === "comm") {
-                window.open(`/rep-comm/comm/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-commissions/comm/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
 
         }

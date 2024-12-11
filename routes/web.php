@@ -566,9 +566,9 @@
         Route::get('/rep-godown-by-item-grp/sat/report', [App\Http\Controllers\RptGoDownItemGroupController::class, 'stockAllTReport'])->name('sat-rep-godown-by-item-grp-report');
 
         // RPT Commissions 
-        Route::get('/rep-comm/comm', [App\Http\Controllers\RptCommissionsController::class, 'comm'])->name('comm-rep');
-        Route::get('/rep-comm/comm/excel', [App\Http\Controllers\RptCommissionsController::class, 'commExcel'])->name('comm-rep-excel');
-        Route::get('/rep-comm/comm/report', [App\Http\Controllers\RptCommissionsController::class, 'commReport'])->name('comm-rep-report');
+        Route::get('/rep-commissions/comm', [App\Http\Controllers\RptCommissionsController::class, 'comm'])->name('comm-rep');
+        Route::get('/rep-commissions/comm/excel', [App\Http\Controllers\RptCommissionsController::class, 'commExcel'])->name('comm-rep-excel');
+        Route::get('/rep-commissions/comm/report', [App\Http\Controllers\RptCommissionsController::class, 'commReport'])->name('comm-rep-report');
     });
 
     Route::post('/fingerprint', [App\Http\Controllers\UsersController::class, 'fingerprint']);
