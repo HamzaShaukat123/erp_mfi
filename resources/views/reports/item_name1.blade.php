@@ -223,7 +223,7 @@
                         // Append totals row
                         let totalHtml = "<tr class='font-weight-bold'>";
                         totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalHtml += "<td>" + totalQty.toFixed(2) + "</td>";
+                        totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
                         totalHtml += "<td>" + totalAmount.toFixed(2) + "</td>";
@@ -292,7 +292,7 @@
                         // Append totals row
                         let totalHtml = "<tr class='font-weight-bold'>";
                         totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalHtml += "<td>" + totalQty.toFixed(2) + "</td>";
+                        totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
                         totalHtml += "<td>" + totalAmount.toFixed(2) + "</td>";
@@ -334,7 +334,7 @@
                 window.open(`/rep-by-item-name1/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
-            // else if (tabName === "PURCHASE") {
+            // else if (tabName === "purchase") {
             //     window.open(`/rep-godown-by-item-name/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             // }
@@ -350,7 +350,7 @@
             if (tabName === "sale") {
                 window.location.href = `/rep-by-item-name1/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
-            // else if (tabName === "PURCHASE") {
+            // else if (tabName === "purchase") {
             //     window.location.href = `/rep-godown-by-item-name/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             // }
         }
