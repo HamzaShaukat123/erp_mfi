@@ -171,7 +171,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-item-name1/sale";
+                url="/rep-by-item-name2/sale";
                 tableID="#SaleTbleBody";
 
                 $.ajax({
@@ -241,7 +241,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-item-name1/pur";
+                url="/rep-by-item-name2/pur";
                 tableID="#PurTbleBody";
 
                 $.ajax({
@@ -331,11 +331,11 @@
             }
 
             if (tabName === "sale") {
-                window.open(`/rep-by-item-name1/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-by-item-name2/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
             else if (tabName === "purchase") {
-                window.open(`/rep-by-item-name1/pur/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-by-item-name2/pur/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
         }
@@ -348,10 +348,10 @@
                 return;
             }
             if (tabName === "sale") {
-                window.location.href = `/rep-by-item-name1/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+                window.location.href = `/rep-by-item-name2/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
             else if (tabName === "purchase") {
-                window.location.href = `/rep-by-item-name1/pur/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+                window.location.href = `/rep-by-item-name2/pur/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
         }
 

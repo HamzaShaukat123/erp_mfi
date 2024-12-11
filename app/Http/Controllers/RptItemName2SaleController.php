@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AC;
-use App\Models\pur_account_item_group_info;
+use App\Models\sale_account_item_group_info;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
 
-class RptItemName1PurController extends Controller
+class RptItemName2SaleController extends Controller
 {
-    public function purchase(Request $request){
-        $pur_account_item_group_info = pur_account_item_group_info::where('item_cod',$request->acc_id)
-        ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
-        ->orderBy('pur_date', 'asc')
-        ->get(['prefix', 'pur_id','pur_date', 'ac_name', 'weight','qty', 'price']);
+    public function sale(Request $request){
+        $sale_account_item_group_info = sale_account_item_group_info::where('item_cod',$request->acc_id)
+        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+        ->orderBy('sa_date', 'asc')
+        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name','weight','qty', 'price']);
 
-        return $pur_account_item_group_info;
+        return $sale_account_item_group_info;
     }
 
-    public function ItemName1PurReport(Request $request)
+    public function ItemName2SaleReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -29,22 +29,23 @@ class RptItemName1PurController extends Controller
             'acc_id' => 'required',
             'outputType' => 'required|in:download,view',
         ]);
-        
-        $pur_account_item_group_info = pur_account_item_group_info::where('item_cod',$request->acc_id)
-        ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
-        ->orderBy('pur_date', 'asc')
-        ->get(['prefix', 'pur_id','pur_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price']);
+    
+        // Retrieve data from the database
+        $sale_account_item_group_info = sale_account_item_group_info::where('item_cod',$request->acc_id)
+        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+        ->orderBy('sa_date', 'asc')
+        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name','weight','qty', 'price']);
     
         // Check if data exists
-        if ($pur_account_item_group_info->isEmpty()) {
+        if ($sale_account_item_group_info->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
     
         // Generate the PDF
-        return $this->ItemName1PurPDF($pur_account_item_group_info, $request);
+        return $this->ItemName2SalePDF($sale_account_item_group_info, $request);
     }
 
-    private function ItemName1PurPDF($pur_account_item_group_info, Request $request)
+    private function ItemName2SalePDF($sale_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
@@ -54,9 +55,9 @@ class RptItemName1PurController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Purchase Report Of Item - ' . $pur_account_item_group_info[0]['item_name']);
-        $pdf->SetSubject('Purchase Report');
-        $pdf->SetKeywords('Purchase Report, TCPDF, PDF');
+        $pdf->SetTitle('Sales Report Of Item - ' . $sale_account_item_group_info[0]['item_name']);
+        $pdf->SetSubject('Sales Report');
+        $pdf->SetKeywords('Sales Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
     
         // Add a page and set padding
@@ -64,7 +65,7 @@ class RptItemName1PurController extends Controller
         $pdf->setCellPadding(1.2);
     
         // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Purchase Report Of Item</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Sales Report Of Item</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
     
         // Header details
@@ -72,7 +73,7 @@ class RptItemName1PurController extends Controller
         <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
             <tr>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
-                    Item Name: <span style="color:black;">' . $pur_account_item_group_info[0]['item_name'] . '</span>
+                    Item Name: <span style="color:black;">' . $sale_account_item_group_info[0]['item_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     Print Date: <span style="color:black;">' . $formattedDate . '</span>
@@ -80,7 +81,7 @@ class RptItemName1PurController extends Controller
             </tr>
             <tr>
                 <td style="font-size:12px; color:#17365D; border-bottom:1px solid #000;width:70%;">
-                    Item Group: <span style="color:black;">' . $pur_account_item_group_info[0]['item_group_name'] . '</span>
+                    Item Group: <span style="color:black;">' . $sale_account_item_group_info[0]['item_group_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     From Date: <span style="color:black;">' . $formattedFromDate . '</span>
@@ -118,7 +119,7 @@ class RptItemName1PurController extends Controller
         // Iterate through items and add rows
         $count = 1;
 
-        foreach ($pur_account_item_group_info as $item) {
+        foreach ($sale_account_item_group_info as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
 
             // Calculate amount
@@ -132,8 +133,8 @@ class RptItemName1PurController extends Controller
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
-                    <td style="width:14%;">' . Carbon::parse($item['pur_date'])->format('d-m-y') . '</td>
-                    <td style="width:13%;">' . $item['prefix'] . $item['pur_id'] . '</td>
+                    <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
+                    <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
                     <td style="width:18%;">' . $item['ac_name'] . '</td>
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
@@ -163,7 +164,7 @@ class RptItemName1PurController extends Controller
         $accId = $request->acc_id;
         $fromDate = Carbon::parse($request->fromDate)->format('Y-m-d');
         $toDate = Carbon::parse($request->toDate)->format('Y-m-d');
-        $filename = "Purchase_item_report_{$accId}_from_{$fromDate}_to_{$toDate}.pdf";
+        $filename = "sales_item_report_{$accId}_from_{$fromDate}_to_{$toDate}.pdf";
     
         // Determine output type
         if ($request->outputType === 'download') {
