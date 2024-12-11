@@ -10,7 +10,7 @@ use App\Services\myPDF;
 use Carbon\Carbon;
 class RptItemName1PurController extends Controller
 {
-    public function pur_account_item_group_info(Request $request){
+    public function purchase(Request $request){
         $pur_account_item_group_info = pur_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
         ->orderBy('pur_date', 'asc')
