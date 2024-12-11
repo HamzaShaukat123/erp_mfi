@@ -424,7 +424,7 @@
                                 </a>
                                 <ul class="nav nav-children">
                                     <li>
-                                        <a class="nav-link" href="#">
+                                        <a class="nav-link" href="{{ route('rep-by-item-name1')}}">
                                             By Item Name 1
                                         </a>
                                     </li>
