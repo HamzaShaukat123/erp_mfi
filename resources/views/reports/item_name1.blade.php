@@ -330,7 +330,7 @@
                 return;
             }
 
-            if (tabName === "SALE") {
+            if (tabName === "sale") {
                 window.open(`/rep-by-item-name1/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
@@ -347,7 +347,7 @@
                 alert('Please fill in all required fields.');
                 return;
             }
-            if (tabName === "SALE") {
+            if (tabName === "sale") {
                 window.location.href = `/rep-by-item-name1/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
             // else if (tabName === "PURCHASE") {
