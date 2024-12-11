@@ -81,7 +81,7 @@ class RptItemName1SaleController extends Controller
             </tr>
             <tr>
                 <td style="font-size:12px; color:#17365D; border-bottom:1px solid #000;width:70%;">
-                    Item Remarks: <span style="color:black;">' . $sale_account_item_group_info[0]['item_group_name'] . '</span>
+                    Item Group: <span style="color:black;">' . $sale_account_item_group_info[0]['item_group_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     From Date: <span style="color:black;">' . $formattedFromDate . '</span>
