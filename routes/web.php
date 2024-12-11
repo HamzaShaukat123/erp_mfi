@@ -583,13 +583,10 @@
 
     // RPT by Item Name1 Sale 
     Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
-    // Route::get('/rep-by-item-name1/sale/excel', [App\Http\Controllers\RptItemName1SaleController::class, 'saleExcel'])->name('sale-rep-by-item-name1-excel');
     Route::get('/rep-by-item-name1/sale/report', [App\Http\Controllers\RptItemName1SaleController::class, 'ItemName1SaleReport'])->name('sale-rep-by-item-name1-report');
     
 
     // RPT by Item Name1 Purchase 
     Route::get('/rep-by-item-name1/pur', [App\Http\Controllers\RptItemName1PurController::class, 'purchase'])->name('pur-rep-by-item-name1');
-    // Route::get('/rep-by-item-name1/pur/excel', [App\Http\Controllers\RptItemName1PurController::class, 'purchaseExcel'])->name('pur-rep-by-item-name1-excel');
-    // Route::get('/rep-by-item-name1/pur/PDF', [App\Http\Controllers\RptItemName1PurController::class, 'purchasePDF'])->name('pur-rep-by-item-name1PDF');
-    // Route::get('/rep-by-item-name1/pur/download', [App\Http\Controllers\RptItemName1PurController::class, 'purchase1Download'])->name('pur-rep-by-item-name1-download');
-
+    Route::get('/rep-by-item-name1/pur/report', [App\Http\Controllers\RptItemName1PurController::class, 'ItemName1PurReport'])->name('pur-rep-by-item-name1-report');
+    

@@ -334,10 +334,10 @@
                 window.open(`/rep-by-item-name1/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
             }
-            // else if (tabName === "purchase") {
-            //     window.open(`/rep-godown-by-item-name/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+            else if (tabName === "purchase") {
+                window.open(`/rep-by-item-name1/pur/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
-            // }
+            }
         }
 
         function downloadPDF(tabName) {
@@ -350,9 +350,9 @@
             if (tabName === "sale") {
                 window.location.href = `/rep-by-item-name1/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
-            // else if (tabName === "purchase") {
-            //     window.location.href = `/rep-godown-by-item-name/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-            // }
+            else if (tabName === "purchase") {
+                window.location.href = `/rep-by-item-name1/pur/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            }
         }
 
        
