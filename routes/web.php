@@ -584,8 +584,8 @@
     // RPT by Item Name1 Sale 
     Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
     // Route::get('/rep-by-item-name1/sale/excel', [App\Http\Controllers\RptItemName1SaleController::class, 'saleExcel'])->name('sale-rep-by-item-name1-excel');
-    // Route::get('/rep-by-item-name1/sale/PDF', [App\Http\Controllers\RptItemName1SaleController::class, 'salePDF'])->name('sale-rep-by-item-name1-PDF');
-    // Route::get('/rep-by-item-name1e/sale/download', [App\Http\Controllers\RptItemName1SaleController::class, 'saleDownload'])->name('sale-rep-by-item-name1-name-download');
+    Route::get('/rep-by-item-name1/sale/report', [App\Http\Controllers\RptItemName1SaleController::class, 'ItemName1SaleReport'])->name('sale-rep-by-item-name1-report');
+    
 
     // RPT by Item Name1 Purchase 
     Route::get('/rep-by-item-name1/pur', [App\Http\Controllers\RptItemName1PurController::class, 'purchase'])->name('pur-rep-by-item-name1');

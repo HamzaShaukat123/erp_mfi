@@ -322,54 +322,39 @@
             };
         }
 
-        // function downloadExcel(tabName){
-        //     const { fromDate, toDate, acc_id } = getInputValues();
+        function printPDF(tabName) {
+            const { fromDate, toDate, acc_id } = getInputValues();
 
-        //     if (!fromDate || !toDate || !acc_id) {
-        //         alert('Please fill in all required fields.');
-        //         return;
-        //     }
+            if (!fromDate || !toDate || !acc_id) {
+                alert('Please fill in all required fields.');
+                return;
+            }
 
-        //     if (tabName === "purchase") {
-        //         window.location.href = `/rep-by-item-name1/pur1/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-        //     }
+            if (tabName === "SALE") {
+                window.open(`/rep-by-item-name1/sale/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
-        //     else if (tabName === "sale") {
-        //         window.location.href = `/rep-by-item-name1/sale1/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-        //     }
-        // }
+            }
+            // else if (tabName === "PURCHASE") {
+            //     window.open(`/rep-godown-by-item-name/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
 
-        // function printPDF(tabName){
-        //     const { fromDate, toDate, acc_id } = getInputValues();
+            // }
+        }
 
-        //     if (!fromDate || !toDate || !acc_id) {
-        //         alert('Please fill in all required fields.');
-        //         return;
-        //     }
+        function downloadPDF(tabName) {
+            const { fromDate, toDate, acc_id } = getInputValues();
 
-        //     if (tabName === "purchase") {
-        //         window.open(`/rep-by-item-name1/pur1/PDF?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
-        //     }
-        //     else if (tabName === "sale") {
-        //        window.open(`/rep-by-item-name1/sale1/PDF?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
-        //     }
-        // }
+            if (!fromDate || !toDate || !acc_id) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            if (tabName === "SALE") {
+                window.location.href = `/rep-by-item-name1/sale/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            }
+            // else if (tabName === "PURCHASE") {
+            //     window.location.href = `/rep-godown-by-item-name/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            // }
+        }
 
-        // function downloadPDF(tabName){
-        //     const { fromDate, toDate, acc_id } = getInputValues();
-
-        //     if (!fromDate || !toDate || !acc_id) {
-        //         alert('Please fill in all required fields.');
-        //         return;
-        //     }
-
-        //     if (tabName === "purchase") {
-        //         window.location.href = `/rep-by-item-name1/pur1/download?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-        //     }
-            
-        //     else if (tabName === "sale") {
-        //         window.location.href = `/rep-by-item-name1/sale1/download?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-        //     }
-        // }
+       
     </script>
 </html>
