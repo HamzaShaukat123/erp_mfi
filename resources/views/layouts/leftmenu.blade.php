@@ -436,7 +436,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="{{ route('rep-by-item-group')}}">
                                     Item Group
                                 </a>
                             </li>
