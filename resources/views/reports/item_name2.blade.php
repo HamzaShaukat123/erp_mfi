@@ -185,7 +185,7 @@
                         acc_id:acc_id,
                     }, 
                     beforeSend: function() {
-                        $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
+                        $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
                     },
                     success: function(result){
                         $('#sale_from').text(formattedfromDate);
@@ -252,7 +252,7 @@
                         acc_id:acc_id,
                     }, 
                     beforeSend: function() {
-                        $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
+                        $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
                     },
                     success: function(result){
                         $('#pur_from').text(formattedfromDate);
