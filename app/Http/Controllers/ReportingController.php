@@ -47,6 +47,13 @@ class ReportingController extends Controller
         return view('reports.item_name2',compact('items2'));
     }
 
+    // By Item Group
+    public function byItemGroup()
+    {
+        $items_group = Item_Groups::orderBy('group_name', 'asc')->get();
+        return view('reports.item_group',compact('items_group'));
+    }
+
     // By Godown Item Name
     public function byGodownItemName()
     {

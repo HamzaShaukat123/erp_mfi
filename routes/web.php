@@ -580,6 +580,7 @@
     // Main Routes
     Route::get('/rep-by-item-name1', [App\Http\Controllers\ReportingController::class, 'byItemName1'])->name('rep-by-item-name1');
     Route::get('/rep-by-item-name2', [App\Http\Controllers\ReportingController::class, 'byItemName2'])->name('rep-by-item-name2');
+    Route::get('/rep-by-item-group', [App\Http\Controllers\ReportingController::class, 'byItemGroup'])->name('rep-by-item-group');
 
     // RPT by Item Name1 Sale 
     Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
