@@ -275,7 +275,7 @@
                             let html = "<tr>";
                             html += "<td>" + (k + 1) + "</td>";
                             html += "<td>" + (v['sa_date'] ? moment(v['sa_date']).format('DD-MM-YY') : "") + "</td>";
-                            html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}</td>`;
+                            html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['Sale_inv_no'] ? v['Sale_inv_no'] : ''}</td>`;
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
                             html += "<td>" + (v['qty'] ? v['qty'] : "0") + "</td>";
                             html += "<td>" + (v['price'] ? v['price'] : "0") + "</td>";

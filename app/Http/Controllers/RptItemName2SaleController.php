@@ -15,7 +15,7 @@ class RptItemName2SaleController extends Controller
         $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent']);
+        ->get(['prefix', 'Sa_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent']);
 
         return $sale2_account_item_group_info;
     }
@@ -33,7 +33,7 @@ class RptItemName2SaleController extends Controller
         $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
+        ->get(['prefix', 'Sa_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
     
         // Check if data exists
         if ($sale2_account_item_group_info->isEmpty()) {
@@ -133,7 +133,7 @@ class RptItemName2SaleController extends Controller
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
                     <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
-                    <td style="width:13%;">' . $item['prefix'] . $item['Sale_inv_no'] . '</td>
+                    <td style="width:13%;">' . $item['prefix'] . $item['Sa_inv_no'] . '</td>
                     <td style="width:18%;">' . $item['ac_name'] . '</td>
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
