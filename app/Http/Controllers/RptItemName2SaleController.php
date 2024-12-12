@@ -102,9 +102,9 @@ class RptItemName2SaleController extends Controller
             <table border="1" style="border-collapse: collapse; text-align: center;">
                 <tr>
                     <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
-                    <th style="width:14%;color:#17365D;font-weight:bold;">Date</th>
+                    <th style="width:13%;color:#17365D;font-weight:bold;">Date</th>
                     <th style="width:13%;color:#17365D;font-weight:bold;">Inv ID</th>
-                    <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
+                    <th style="width:19%;color:#17365D;font-weight:bold;">Account Name</th>
                     <th style="width:10%;color:#17365D;font-weight:bold;">Qty</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Price</th>
                     <th style="width:7%;color:#17365D;font-weight:bold;">Len</th>
