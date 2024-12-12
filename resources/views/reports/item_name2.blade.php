@@ -82,6 +82,7 @@
                                                     <th>Price</th>
                                                     <th>Length</th>
                                                     <th>Percent</th>
+                                                    <th>Weight</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="SaleTbleBody">
@@ -131,6 +132,7 @@
                                                     <th>Price</th>
                                                     <th>Length</th>
                                                     <th>Percent</th>
+                                                    <th>Weight</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="PurTbleBody">
@@ -195,17 +197,14 @@
 
                         let totalQty = 0;
                         let totalWeight = 0;
-                        let totalAmount = 0;
 
                         $.each(result, function(k, v) {
                             let qty = parseFloat(v['qty'] || 0);
                             let weight = parseFloat(v['weight'] || 0);
-                            let price = parseFloat(v['price'] || 0);
-                            let amount = weight * price;
+                            let price = parseFloat(v['price'] || 0); 
 
                             totalQty += qty;
                             totalWeight += weight;
-                            totalAmount += amount;
 
                             let html = "<tr>";
                             html += "<td>" + (k + 1) + "</td>";
@@ -214,8 +213,9 @@
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
                             html += "<td>" + (v['qty'] ? v['qty'] : "0") + "</td>";
                             html += "<td>" + (v['price'] ? v['price'] : "0") + "</td>";
+                            html += "<td>" + (v['length'] ? v['length'] : "0") + "</td>";
+                            html += "<td>" + (v['percent'] ? v['percent'] : "0") + "</td>";
                             html += "<td>" + (v['weight'] ? v['weight'] : "0") + "</td>";
-                            html += "<td>" + (amount ? amount.toFixed(2) : "") + "</td>";
                             html += "</tr>";
                             $(tableID).append(html);
                         });
@@ -225,8 +225,8 @@
                         totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
                         totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
                         totalHtml += "<td></td>";
+                        totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
-                        totalHtml += "<td>" + totalAmount.toFixed(2) + "</td>";
                         totalHtml += "</tr>";
                         $(tableID).append(totalHtml);
                     },
@@ -264,27 +264,25 @@
 
                         let totalQty = 0;
                         let totalWeight = 0;
-                        let totalAmount = 0;
 
                         $.each(result, function(k, v) {
                             let qty = parseFloat(v['qty'] || 0);
                             let weight = parseFloat(v['weight'] || 0);
-                            let price = parseFloat(v['price'] || 0);
-                            let amount = weight * price;
+                            let price = parseFloat(v['price'] || 0); 
 
                             totalQty += qty;
                             totalWeight += weight;
-                            totalAmount += amount;
 
                             let html = "<tr>";
                             html += "<td>" + (k + 1) + "</td>";
-                            html += "<td>" + (v['pur_date'] ? moment(v['pur_date']).format('DD-MM-YY') : "") + "</td>";
-                            html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['pur_id'] ? v['pur_id'] : ''}</td>`;
+                            html += "<td>" + (v['sa_date'] ? moment(v['sa_date']).format('DD-MM-YY') : "") + "</td>";
+                            html += `<td>${v['prefix'] ? v['prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}</td>`;
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
                             html += "<td>" + (v['qty'] ? v['qty'] : "0") + "</td>";
                             html += "<td>" + (v['price'] ? v['price'] : "0") + "</td>";
+                            html += "<td>" + (v['length'] ? v['length'] : "0") + "</td>";
+                            html += "<td>" + (v['percent'] ? v['percent'] : "0") + "</td>";
                             html += "<td>" + (v['weight'] ? v['weight'] : "0") + "</td>";
-                            html += "<td>" + (amount ? amount.toFixed(2) : "") + "</td>";
                             html += "</tr>";
                             $(tableID).append(html);
                         });
@@ -294,11 +292,11 @@
                         totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
                         totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
                         totalHtml += "<td></td>";
+                        totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
-                        totalHtml += "<td>" + totalAmount.toFixed(2) + "</td>";
                         totalHtml += "</tr>";
                         $(tableID).append(totalHtml);
-                    },
+                        },
                     error: function() {
                         $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
                     }

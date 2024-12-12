@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AC;
-use App\Models\pur_account_item_group_info;
+use App\Models\pur2_account_item_group_info;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
@@ -12,12 +12,12 @@ use Carbon\Carbon;
 class RptItemName2PurController extends Controller
 {
     public function purchase(Request $request){
-        $pur_account_item_group_info = pur_account_item_group_info::where('item_cod',$request->acc_id)
-        ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
-        ->orderBy('pur_date', 'asc')
-        ->get(['prefix', 'pur_id','pur_date', 'ac_name', 'weight','qty', 'price']);
+        $pur2_account_item_group_info = pur2_account_item_group_info::where('item_cod',$request->acc_id)
+        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+        ->orderBy('sa_date', 'asc')
+        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent']);
 
-        return $pur_account_item_group_info;
+        return $pur2_account_item_group_info;
     }
 
     public function ItemName2PurReport(Request $request)
@@ -30,21 +30,21 @@ class RptItemName2PurController extends Controller
             'outputType' => 'required|in:download,view',
         ]);
         
-        $pur_account_item_group_info = pur_account_item_group_info::where('item_cod',$request->acc_id)
-        ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
-        ->orderBy('pur_date', 'asc')
-        ->get(['prefix', 'pur_id','pur_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price']);
+        $pur2_account_item_group_info = pur2_account_item_group_info::where('item_cod',$request->acc_id)
+        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+        ->orderBy('sa_date', 'asc')
+        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
     
         // Check if data exists
-        if ($pur_account_item_group_info->isEmpty()) {
+        if ($pur2_account_item_group_info->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
     
         // Generate the PDF
-        return $this->ItemName2PurPDF($pur_account_item_group_info, $request);
+        return $this->ItemName2PurPDF($pur2_account_item_group_info, $request);
     }
 
-    private function ItemName2PurPDF($pur_account_item_group_info, Request $request)
+    private function ItemName2PurPDF($pur2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
@@ -54,7 +54,7 @@ class RptItemName2PurController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Purchase Report Of Item - ' . $pur_account_item_group_info[0]['item_name']);
+        $pdf->SetTitle('Purchase Report Of Item - ' . $pur2_account_item_group_info[0]['item_name']);
         $pdf->SetSubject('Purchase Report');
         $pdf->SetKeywords('Purchase Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
@@ -72,7 +72,7 @@ class RptItemName2PurController extends Controller
         <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
             <tr>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
-                    Item Name: <span style="color:black;">' . $pur_account_item_group_info[0]['item_name'] . '</span>
+                    Item Name: <span style="color:black;">' . $pur2_account_item_group_info[0]['item_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     Print Date: <span style="color:black;">' . $formattedDate . '</span>
@@ -80,7 +80,7 @@ class RptItemName2PurController extends Controller
             </tr>
             <tr>
                 <td style="font-size:12px; color:#17365D; border-bottom:1px solid #000;width:70%;">
-                    Item Group: <span style="color:black;">' . $pur_account_item_group_info[0]['item_group_name'] . '</span>
+                    Item Group: <span style="color:black;">' . $pur2_account_item_group_info[0]['item_group_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     From Date: <span style="color:black;">' . $formattedFromDate . '</span>
@@ -118,7 +118,7 @@ class RptItemName2PurController extends Controller
         // Iterate through items and add rows
         $count = 1;
 
-        foreach ($pur_account_item_group_info as $item) {
+        foreach ($pur2_account_item_group_info as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
 
             // Calculate amount
@@ -132,8 +132,8 @@ class RptItemName2PurController extends Controller
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
-                    <td style="width:14%;">' . Carbon::parse($item['pur_date'])->format('d-m-y') . '</td>
-                    <td style="width:13%;">' . $item['prefix'] . $item['pur_id'] . '</td>
+                    <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
+                    <td style="width:13%;">' . $item['prefix'] . $item['Sale_inv_no'] . '</td>
                     <td style="width:18%;">' . $item['ac_name'] . '</td>
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
