@@ -20,7 +20,7 @@ class RptItemName2SaleController extends Controller
         return $sale2_account_item_group_info;
     }
 
-    public function ItemName2PurReport(Request $request)
+    public function ItemName2SaleReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -41,10 +41,10 @@ class RptItemName2SaleController extends Controller
         }
     
         // Generate the PDF
-        return $this->ItemName2PurPDF($sale2_account_item_group_info, $request);
+        return $this->ItemName2SalePDF($sale2_account_item_group_info, $request);
     }
 
-    private function ItemName2PurPDF($sale2_account_item_group_info, Request $request)
+    private function ItemName2SalePDF($sale2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
