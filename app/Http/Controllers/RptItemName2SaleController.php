@@ -107,7 +107,7 @@ class RptItemName2SaleController extends Controller
                     <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
                     <th style="width:10%;color:#17365D;font-weight:bold;">Qty</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Price</th>
-                    <th style="width:7%;color:#17365D;font-weight:bold;">Length</th>
+                    <th style="width:7%;color:#17365D;font-weight:bold;">Len</th>
                     <th style="width:7%;color:#17365D;font-weight:bold;">%</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Weight</th>
                 </tr>';
