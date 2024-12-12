@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AC;
-use App\Models\sale_account_item_group_info;
+use App\Models\sale2_account_item_group_info;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
 
-class RptItemName2SaleController extends Controller
+class RptItemName1SaleController extends Controller
 {
     public function sale(Request $request){
-        $sale_account_item_group_info = sale_account_item_group_info::where('item_cod',$request->acc_id)
+        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name','weight','qty', 'price']);
+        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name','weight','qty', 'price','length','percent']);
 
-        return $sale_account_item_group_info;
+        return $sale2_account_item_group_info;
     }
 
-    public function ItemName2SaleReport(Request $request)
+    public function ItemName1SaleReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -31,21 +31,21 @@ class RptItemName2SaleController extends Controller
         ]);
     
         // Retrieve data from the database
-        $sale_account_item_group_info = sale_account_item_group_info::where('item_cod',$request->acc_id)
+        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name','weight','qty', 'price']);
+        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name','weight','qty', 'price','length','percent']);
     
         // Check if data exists
-        if ($sale_account_item_group_info->isEmpty()) {
+        if ($sale2_account_item_group_info->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
     
         // Generate the PDF
-        return $this->ItemName2SalePDF($sale_account_item_group_info, $request);
+        return $this->ItemName1SalePDF($sale2_account_item_group_info, $request);
     }
 
-    private function ItemName2SalePDF($sale_account_item_group_info, Request $request)
+    private function ItemName1SalePDF($sale2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
@@ -55,7 +55,7 @@ class RptItemName2SaleController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Sales Report Of Item - ' . $sale_account_item_group_info[0]['item_name']);
+        $pdf->SetTitle('Sales Report Of Item - ' . $sale2_account_item_group_info[0]['item_name']);
         $pdf->SetSubject('Sales Report');
         $pdf->SetKeywords('Sales Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
@@ -73,7 +73,7 @@ class RptItemName2SaleController extends Controller
         <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
             <tr>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
-                    Item Name: <span style="color:black;">' . $sale_account_item_group_info[0]['item_name'] . '</span>
+                    Item Name: <span style="color:black;">' . $sale2_account_item_group_info[0]['item_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     Print Date: <span style="color:black;">' . $formattedDate . '</span>
@@ -81,7 +81,7 @@ class RptItemName2SaleController extends Controller
             </tr>
             <tr>
                 <td style="font-size:12px; color:#17365D; border-bottom:1px solid #000;width:70%;">
-                    Item Group: <span style="color:black;">' . $sale_account_item_group_info[0]['item_group_name'] . '</span>
+                    Item Group: <span style="color:black;">' . $sale2_account_item_group_info[0]['item_group_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     From Date: <span style="color:black;">' . $formattedFromDate . '</span>
@@ -119,7 +119,7 @@ class RptItemName2SaleController extends Controller
         // Iterate through items and add rows
         $count = 1;
 
-        foreach ($sale_account_item_group_info as $item) {
+        foreach ($sale2_account_item_group_info as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
 
             // Calculate amount
