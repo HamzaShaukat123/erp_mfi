@@ -15,12 +15,12 @@ class RptItemName2SaleController extends Controller
         $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name','weight','qty', 'price','length','percent']);
+        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent']);
 
         return $sale2_account_item_group_info;
     }
 
-    public function ItemName2SaleReport(Request $request)
+    public function ItemName2PurReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -29,12 +29,11 @@ class RptItemName2SaleController extends Controller
             'acc_id' => 'required',
             'outputType' => 'required|in:download,view',
         ]);
-    
-        // Retrieve data from the database
+        
         $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name','weight','qty', 'price','length','percent']);
+        ->get(['prefix', 'Sale_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
     
         // Check if data exists
         if ($sale2_account_item_group_info->isEmpty()) {
@@ -42,10 +41,10 @@ class RptItemName2SaleController extends Controller
         }
     
         // Generate the PDF
-        return $this->ItemName2SalePDF($sale2_account_item_group_info, $request);
+        return $this->ItemName2PurPDF($sale2_account_item_group_info, $request);
     }
 
-    private function ItemName2SalePDF($sale2_account_item_group_info, Request $request)
+    private function ItemName2PurPDF($sale2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
@@ -55,9 +54,9 @@ class RptItemName2SaleController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Sales Report Of Item - ' . $sale2_account_item_group_info[0]['item_name']);
-        $pdf->SetSubject('Sales Report');
-        $pdf->SetKeywords('Sales Report, TCPDF, PDF');
+        $pdf->SetTitle('Sale Report Of Item - ' . $sale2_account_item_group_info[0]['item_name']);
+        $pdf->SetSubject('Sale Report');
+        $pdf->SetKeywords('Sale Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
     
         // Add a page and set padding
@@ -65,7 +64,7 @@ class RptItemName2SaleController extends Controller
         $pdf->setCellPadding(1.2);
     
         // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Sales Report Of Item</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Sale Report Of Item</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
     
         // Header details
@@ -134,7 +133,7 @@ class RptItemName2SaleController extends Controller
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
                     <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
-                    <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
+                    <td style="width:13%;">' . $item['prefix'] . $item['Sale_inv_no'] . '</td>
                     <td style="width:18%;">' . $item['ac_name'] . '</td>
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
@@ -164,7 +163,7 @@ class RptItemName2SaleController extends Controller
         $accId = $request->acc_id;
         $fromDate = Carbon::parse($request->fromDate)->format('Y-m-d');
         $toDate = Carbon::parse($request->toDate)->format('Y-m-d');
-        $filename = "sales_item_report_{$accId}_from_{$fromDate}_to_{$toDate}.pdf";
+        $filename = "Sale_item_report_{$accId}_from_{$fromDate}_to_{$toDate}.pdf";
     
         // Determine output type
         if ($request->outputType === 'download') {
