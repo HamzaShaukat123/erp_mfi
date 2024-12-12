@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
 
-class RptItemName1SaleController extends Controller
+class RptItemName2SaleController extends Controller
 {
     public function sale(Request $request){
         $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
@@ -20,7 +20,7 @@ class RptItemName1SaleController extends Controller
         return $sale2_account_item_group_info;
     }
 
-    public function ItemName1SaleReport(Request $request)
+    public function ItemName2SaleReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -42,10 +42,10 @@ class RptItemName1SaleController extends Controller
         }
     
         // Generate the PDF
-        return $this->ItemName1SalePDF($sale2_account_item_group_info, $request);
+        return $this->ItemName2SalePDF($sale2_account_item_group_info, $request);
     }
 
-    private function ItemName1SalePDF($sale2_account_item_group_info, Request $request)
+    private function ItemName2SalePDF($sale2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
