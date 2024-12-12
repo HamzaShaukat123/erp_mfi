@@ -118,7 +118,7 @@ class RptItemName2PurController extends Controller
         // Iterate through items and add rows
         $count = 1;
 
-        foreach ($sale2_account_item_group_info as $item) {
+        foreach ($pur2_account_item_group_info as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
 
             
@@ -130,9 +130,9 @@ class RptItemName2PurController extends Controller
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
-                    <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
+                    <td style="width:13%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
                     <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
-                    <td style="width:18%;">' . $item['ac_name'] . '</td>
+                    <td style="width:19%;">' . $item['ac_name'] . '</td>
                     <td style="width:10%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
                     <td style="width:7%;">' . $item['length'] . '</td>

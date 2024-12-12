@@ -130,9 +130,9 @@ class RptItemName2SaleController extends Controller
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:7%;">' . $count . '</td>
-                    <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
+                    <td style="width:13%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
                     <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
-                    <td style="width:18%;">' . $item['ac_name'] . '</td>
+                    <td style="width:19%;">' . $item['ac_name'] . '</td>
                     <td style="width:10%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
                     <td style="width:7%;">' . $item['length'] . '</td>
