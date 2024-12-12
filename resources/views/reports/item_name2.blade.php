@@ -179,19 +179,18 @@
                 $.ajax({
                     type: "GET",
                     url: url,
-                    data: {
+                    data:{
                         fromDate: fromDate,
                         toDate: toDate,
-                        acc_id: acc_id,
-                    },
+                        acc_id:acc_id,
+                    }, 
                     beforeSend: function() {
-                        $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
+                        $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
                     },
-                    success: function(result) {
+                    success: function(result){
                         $('#sale_from').text(formattedfromDate);
                         $('#sale_to').text(formattedtoDate);
                         var selectedAcc = $('#acc_id').find("option:selected").text();
-
                         $('#sale_acc').text(selectedAcc);
                         $(tableID).empty(); // Clear the loading message
 
@@ -226,15 +225,15 @@
                         totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td></td>";
+                        totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
                         totalHtml += "</tr>";
                         $(tableID).append(totalHtml);
-                    },
+                        },
                     error: function() {
                         $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
                     }
                 });
-
             }
             else if(tabId=="#PURCHASE"){
                 var table = document.getElementById('PurTbleBody');
@@ -291,6 +290,7 @@
                         let totalHtml = "<tr class='font-weight-bold'>";
                         totalHtml += "<td colspan='4' style='text-align: right;'><strong>Total:</strong></td>";
                         totalHtml += "<td>" + totalQty.toFixed(0) + "</td>";
+                        totalHtml += "<td></td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td></td>";
                         totalHtml += "<td>" + totalWeight.toFixed(2) + "</td>";
