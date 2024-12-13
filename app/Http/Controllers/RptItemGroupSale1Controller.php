@@ -150,7 +150,6 @@ class RptItemGroupSale1Controller extends Controller
                 <td style="width:11%;">' . $totalQty . '</td>
                 <td style="width:12%;">--</td>
                 <td style="width:12%;">' . $totalWeight . '</td>
-                <td style="width:13%;">--</td>
             </tr>';
 
         $html .= '</table>';
