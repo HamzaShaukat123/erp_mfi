@@ -142,6 +142,7 @@ class RptItemGroupSale2Controller extends Controller
             <tr style="background-color:#d9edf7; font-weight:bold;">
                 <td colspan="5" style="text-align:right;">Total</td>
                 <td style="width:11%;">' . $totalQty . '</td>
+                <td></td>
             </tr>';
 
         $html .= '</table>';
