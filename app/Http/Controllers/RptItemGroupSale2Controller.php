@@ -130,12 +130,10 @@ class RptItemGroupSale2Controller extends Controller
                     <td style="width:7%;">' . $count . '</td>
                     <td style="width:13%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
                     <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
-                    <td style="width:19%;">' . $item['ac_name'] . '</td>
-                    <td style="width:12%;">' . $item['item_name'] . '</td>
-                    <td style="width:10%;">' . $item['qty'] . '</td>
-                    <td style="width:12%;">' . $item['price'] . '</td>
-                    <td style="width:7%;">' . $item['length'] . '</td>
-                    <td style="width:7%;">' . $item['percent'] . '</td>
+                    <td style="width:22%;">' . $item['ac_name'] . '</td>
+                    <td style="width:21%;">' . $item['item_name'] . '</td>
+                    <td style="width:11%;">' . $item['qty'] . '</td>
+                    <td style="width:13%;">' . $item['price'] . '</td>
                 </tr>';
             
             $count++;
