@@ -146,10 +146,11 @@ class RptItemGroupSale1Controller extends Controller
         // Add totals row
         $html .= '
             <tr style="background-color:#d9edf7; font-weight:bold;">
-                <td colspan="4" style="text-align:right;">Total</td>
+                <td colspan="5" style="text-align:right;">Total</td>
                 <td style="width:11%;">' . $totalQty . '</td>
                 <td style="width:12%;">--</td>
                 <td style="width:12%;">' . $totalWeight . '</td>
+                <td style="width:13%;">--</td>
             </tr>';
 
         $html .= '</table>';
