@@ -102,12 +102,10 @@ class RptItemGroupSale2Controller extends Controller
                     <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
                     <th style="width:13%;color:#17365D;font-weight:bold;">Date</th>
                     <th style="width:13%;color:#17365D;font-weight:bold;">Inv ID</th>
-                    <th style="width:19%;color:#17365D;font-weight:bold;">Account Name</th>
-                    <th style="width:12%;color:#17365D;font-weight:bold;">Item Name</th>
-                    <th style="width:10%;color:#17365D;font-weight:bold;">Qty</th>
-                    <th style="width:12%;color:#17365D;font-weight:bold;">Price</th>
-                    <th style="width:7%;color:#17365D;font-weight:bold;">Len</th>
-                    <th style="width:7%;color:#17365D;font-weight:bold;">%</th>
+                    <th style="width:22%;color:#17365D;font-weight:bold;">Account Name</th>
+                    <th style="width:21%;color:#17365D;font-weight:bold;">Item Name</th>
+                    <th style="width:11%;color:#17365D;font-weight:bold;">Qty</th>
+                    <th style="width:13%;color:#17365D;font-weight:bold;">Price</th>
                 </tr>';
         // Initialize total variables
         $totalQty = 0;
@@ -143,10 +141,7 @@ class RptItemGroupSale2Controller extends Controller
         $html .= '
             <tr style="background-color:#d9edf7; font-weight:bold;">
                 <td colspan="5" style="text-align:right;">Total</td>
-                <td style="width:10%;">' . $totalQty . '</td>
-                <td style="width:12%;">--</td>
-                <td style="width:7%;">--</td>
-                <td style="width:7%;">--</td>
+                <td style="width:11%;">' . $totalQty . '</td>
             </tr>';
 
         $html .= '</table>';
