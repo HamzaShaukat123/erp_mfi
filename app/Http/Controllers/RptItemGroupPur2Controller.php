@@ -127,7 +127,7 @@ class RptItemGroupPur2Controller extends Controller
            <tr style="background-color:' . $backgroundColor . ';">
                <td style="width:7%;">' . $count . '</td>
                <td style="width:13%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
-               <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
+               <td style="width:13%;">' . $item['prefix'] . $item['Sale_inv_no'] . '</td>
                <td style="width:22%;">' . $item['ac_name'] . '</td>
                <td style="width:21%;">' . $item['item_name'] . '</td>
                <td style="width:11%;">' . $item['qty'] . '</td>
