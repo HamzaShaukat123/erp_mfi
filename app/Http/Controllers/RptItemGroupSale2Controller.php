@@ -9,18 +9,18 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
 
-class RptItemName2SaleController extends Controller
+class RptItemGroupSale2Controller extends Controller
 {
-    public function sale(Request $request){
-        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
+    public function sale2(Request $request){
+        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_group_code',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
-        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent']);
+        ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'weight','qty', 'price','length','percent','item_name']);
 
         return $sale2_account_item_group_info;
     }
 
-    public function ItemName2SaleReport(Request $request)
+    public function ItemGroupSale2Report(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -30,7 +30,7 @@ class RptItemName2SaleController extends Controller
             'outputType' => 'required|in:download,view',
         ]);
         
-        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod',$request->acc_id)
+        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_group_code',$request->acc_id)
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->orderBy('sa_date', 'asc')
         ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
@@ -41,10 +41,10 @@ class RptItemName2SaleController extends Controller
         }
     
         // Generate the PDF
-        return $this->ItemName2SalePDF($sale2_account_item_group_info, $request);
+        return $this->ItemGroupSale2PDF($sale2_account_item_group_info, $request);
     }
 
-    private function ItemName2SalePDF($sale2_account_item_group_info, Request $request)
+    private function ItemGroupSale2PDF($sale2_account_item_group_info, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
@@ -54,7 +54,7 @@ class RptItemName2SaleController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Sale Report Of Item - ' . $sale2_account_item_group_info[0]['item_name']);
+        $pdf->SetTitle('Sale Report Of Item Group - ' . $sale2_account_item_group_info[0]['item_group_name']);
         $pdf->SetSubject('Sale Report');
         $pdf->SetKeywords('Sale Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
@@ -64,7 +64,7 @@ class RptItemName2SaleController extends Controller
         $pdf->setCellPadding(1.2);
     
         // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Sale Report Of Item</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Sale Report Of Item Group</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
     
         // Header details
@@ -72,16 +72,14 @@ class RptItemName2SaleController extends Controller
         <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
             <tr>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
-                    Item Name: <span style="color:black;">' . $sale2_account_item_group_info[0]['item_name'] . '</span>
+                    Item Group: <span style="color:black;">' . $sale2_account_item_group_info[0]['item_group_name'] . '</span>
                 </td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     Print Date: <span style="color:black;">' . $formattedDate . '</span>
                 </td>
             </tr>
             <tr>
-                <td style="font-size:12px; color:#17365D; border-bottom:1px solid #000;width:70%;">
-                    Item Group: <span style="color:black;">' . $sale2_account_item_group_info[0]['item_group_name'] . '</span>
-                </td>
+                <td></td>
                 <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
                     From Date: <span style="color:black;">' . $formattedFromDate . '</span>
                 </td>
@@ -105,11 +103,11 @@ class RptItemName2SaleController extends Controller
                     <th style="width:13%;color:#17365D;font-weight:bold;">Date</th>
                     <th style="width:13%;color:#17365D;font-weight:bold;">Inv ID</th>
                     <th style="width:19%;color:#17365D;font-weight:bold;">Account Name</th>
+                    <th style="width:12%;color:#17365D;font-weight:bold;">Item Name</th>
                     <th style="width:10%;color:#17365D;font-weight:bold;">Qty</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Price</th>
                     <th style="width:7%;color:#17365D;font-weight:bold;">Len</th>
                     <th style="width:7%;color:#17365D;font-weight:bold;">%</th>
-                    <th style="width:12%;color:#17365D;font-weight:bold;">Weight</th>
                 </tr>';
         // Initialize total variables
         $totalQty = 0;
@@ -133,11 +131,11 @@ class RptItemName2SaleController extends Controller
                     <td style="width:13%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
                     <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
                     <td style="width:19%;">' . $item['ac_name'] . '</td>
+                    <td style="width:12%;">' . $item['item_name'] . '</td>
                     <td style="width:10%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
                     <td style="width:7%;">' . $item['length'] . '</td>
                     <td style="width:7%;">' . $item['percent'] . '</td>
-                    <td style="width:12%;">' . $item['weight'] . '</td>
                 </tr>';
             
             $count++;
@@ -146,12 +144,11 @@ class RptItemName2SaleController extends Controller
         // Add totals row
         $html .= '
             <tr style="background-color:#d9edf7; font-weight:bold;">
-                <td colspan="4" style="text-align:right;">Total</td>
+                <td colspan="5" style="text-align:right;">Total</td>
                 <td style="width:10%;">' . $totalQty . '</td>
                 <td style="width:12%;">--</td>
                 <td style="width:7%;">--</td>
                 <td style="width:7%;">--</td>
-                <td style="width:12%;">' . number_format($totalWeight, 0) . '</td>
             </tr>';
 
         $html .= '</table>';
