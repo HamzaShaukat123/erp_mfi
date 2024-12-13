@@ -104,10 +104,10 @@ class RptItemGroupSale1Controller extends Controller
                     <th style="width:14%;color:#17365D;font-weight:bold;">Date</th>
                     <th style="width:13%;color:#17365D;font-weight:bold;">Inv ID</th>
                     <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
+                    <th style="width:13%;color:#17365D;font-weight:bold;">Item Name</th>
                     <th style="width:11%;color:#17365D;font-weight:bold;">Qty</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Price</th>
                     <th style="width:12%;color:#17365D;font-weight:bold;">Weight</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">Amount</th>
                 </tr>';
         // Initialize total variables
         $totalQty = 0;
@@ -134,10 +134,10 @@ class RptItemGroupSale1Controller extends Controller
                     <td style="width:14%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
                     <td style="width:13%;">' . $item['prefix'] . $item['Sal_inv_no'] . '</td>
                     <td style="width:18%;">' . $item['ac_name'] . '</td>
+                    <td style="width:13%;">' . $item['item_name'] . '</td>
                     <td style="width:11%;">' . $item['qty'] . '</td>
                     <td style="width:12%;">' . $item['price'] . '</td>
                     <td style="width:12%;">' . $item['weight'] . '</td>
-                    <td style="width:13%;">' . number_format($amount, 0) . '</td>
                 </tr>';
             
             $count++;
@@ -150,7 +150,6 @@ class RptItemGroupSale1Controller extends Controller
                 <td style="width:11%;">' . $totalQty . '</td>
                 <td style="width:12%;">--</td>
                 <td style="width:12%;">' . $totalWeight . '</td>
-                <td style="width:13%;">' . number_format($totalAmount, 0) . '</td>
             </tr>';
 
         $html .= '</table>';
