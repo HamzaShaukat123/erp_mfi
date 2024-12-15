@@ -184,7 +184,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<header class="card-header">
-                        <h2 class="card-title">Edit Bill Number</h2>
+                        <h2 class="card-title">Edit Sales Against</h2>
                     </header>
 					<form action="{{ route('update-sale-against-pur1') }}" method="POST">
 						@csrf

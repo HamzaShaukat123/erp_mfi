@@ -50,7 +50,7 @@ class PurchaseController extends Controller
         ]);
     
         // Get the new bill number
-        $sale_against = $request->pur_ord_no;
+        $sale_against = $request->sale_against;
     
         // Update the record in purchase table
         purchase::where('pur_id', $request->pur3_id)
