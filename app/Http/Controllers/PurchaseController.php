@@ -40,6 +40,29 @@ class PurchaseController extends Controller
      
     }
 
+
+    public function UpdateSalesAgainst(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'sale_against' => 'required|string', // Ensure it's a string if it's a text input
+            'pur3_id' => 'required|integer',   // Validate pur3_id to be a valid integer
+        ]);
+    
+        // Get the new bill number
+        $sale_against = $request->pur_ord_no;
+    
+        // Update the record in purchase table
+        purchase::where('pur_id', $request->pur3_id)
+              ->update([
+                  'sale_against' => $sale_against,
+              ]);
+    
+        // Redirect to the appropriate route
+        return redirect()->route('all-purchases1');
+    }
+
+
     public function create(Request $request)
     {
         $items = Item_entry::orderBy('item_name', 'asc')->get();

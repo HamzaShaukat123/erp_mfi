@@ -66,9 +66,15 @@
 													<span style="font-weight:400;color:black" class="value"> {{$pur->cash_saler_address}}</span>
 												</h4>
 
-												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
+												{{-- <h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
 													<span  style="color:#17365D">Sale Inv No: &nbsp</span>
 													<span style="font-weight:400;color:black" class="value"> {{$pur->sale_against}}</span>
+												</h4> --}}
+												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
+													<a href="#" style="color:#53b21c" data-bs-toggle="modal" data-bs-target="#editBillModal">
+														Sale Inv No:: &nbsp;
+													</a>
+													<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $pur->sale_against }}</span>
 												</h4>
 												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
 													<span style="color:#17365D">Remarks: &nbsp</span>
@@ -172,6 +178,34 @@
 			</div>
 			</div>
 		</section>
+
+		<!-- Edit Bill Modal -->
+		<div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<header class="card-header">
+                        <h2 class="card-title">Edit Bill Number</h2>
+                    </header>
+					<form action="{{ route('update-sale-against-pur1') }}" method="POST">
+						@csrf
+						<div class="modal-body">
+							<div class="mb-3">
+								<label for="billNumberInput" class="form-label">Bill Number</label>
+								<input type="text" class="form-control" id="billNumberInput" name="sale_against" value="{{ $pur->sale_against }}" required>
+							</div>
+							<input type="hidden" name="pur3_id" value="{{ $pur->pur_id }}">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Save Changes</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+
+		
         @include('../layouts.footerlinks')
 	</body>
 	<script>

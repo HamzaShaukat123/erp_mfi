@@ -50,6 +50,7 @@
         Route::get('/tquotation/show/{id}', [App\Http\Controllers\TQuotationController::class, 'show'])->name('show-tquotation');
         Route::get('/weight/show/{id}', [App\Http\Controllers\WeightController::class, 'show'])->name('show-weight');
         Route::get('/purchase1/show/{id}', [App\Http\Controllers\PurchaseController::class, 'show'])->name('show-purchases1');
+        Route::post('/purchase1/show/update', [App\Http\Controllers\PurchaseController::class, 'UpdateSalesAgainst'])->name('update-sale-against-pur1');
         Route::get('/vouchers/show/{id}', [App\Http\Controllers\JV1Controller::class, 'show'])->name('show-jv1');
         Route::get('/tbad_dabs/show/{id}', [App\Http\Controllers\TBadDabsController::class, 'show'])->name('show-tbad-dabs');
         Route::get('/tstock_in/tstock_in_invoice/view/{id}', [App\Http\Controllers\TStockInController::class, 'show'])->name('show-tstock-in-invoice');
