@@ -580,150 +580,215 @@
 
 	}
 
-// General function to fetch pending invoices (shared for sales and purchase)
-function fetchPendingInvoices(url, tableId, prefix, inputsName, totalInputId, callback) {
-    const table = document.getElementById(tableId);
-    const customerId = $(`#${prefix}_customer_name`).val();
-    $(`#${tableId}`).html('');
-    $(`#${tableId}`).find('tr').remove();
+	function goBack() {
+		window.history.back();
+	}
 
-    if (customerId != 0) {
-        let counter = 1;
-        $(`#${prefix}_prevInvoices`).val(1);
+	function getPendingInvoices(){
+		var cust_id=$('#customer_name').val();
+		var table = document.getElementById('pendingInvoices');
+		$('#pendingInvoices').html('');
+		$('#pendingInvoices').find('tr').remove();
 
-        $.ajax({
-            type: "GET",
-            url: `${url}/${customerId}`,
-            success: function (result) {
-                $.each(result, function (k, v) {
-                    if (Math.round(v['balance']) > 0) {
-                        const html = `
-                            <tr>
-                                <td width="18%">
-                                    <input type="text" class="form-control" value="${v['prefix']}${v['Sal_inv_no']}" disabled>
-                                    <input type="hidden" name="${inputsName}_invoice_nos[]" value="${v['Sal_inv_no']}">
-                                    <input type="hidden" name="${inputsName}_totalInvoices" value="${counter}">
-                                    <input type="hidden" name="${inputsName}_prefix[]" value="${v['prefix']}">
-                                </td>
-                                <td width="15%">${v['sa_date']}
-                                    <input type="hidden" value="${v['sa_date']}">
-                                </td>
-                                <td width="20%">
-                                    <input type="number" class="form-control" value="${Math.round(v['b_amt'])}" disabled>
-                                    <input type="hidden" name="balance_amount[]" value="${Math.round(v['b_amt'])}">
-                                </td>
-                                <td width="20%">
-                                    <input type="number" class="form-control text-danger" value="${Math.round(v['balance'])}" disabled>
-                                    <input type="hidden" name="bill_amount[]" value="${Math.round(v['bill_balance'])}">
-                                </td>
-                                <td width="20%">
-                                    <input type="number" class="form-control" value="0" max="${Math.round(v['balance'])}" 
-                                        step="any" name="${inputsName}_rec_amount[]" onchange="${callback}()" required>
-                                </td>
-                            </tr>`;
-                        $(`#${tableId}`).append(html);
-                        counter++;
-                    }
-                });
-            },
-            error: function () {
-                alert("Error fetching invoices");
-            }
-        });
-    }
-}
+		if(cust_id!=0){
+			var counter=1;
+			$('#prevInvoices').val(1)
+			
+			$.ajax({
+				type: "GET",
+				url: "/vouchers2/pendingInvoice/"+cust_id,
+				success: function(result){
+					$.each(result, function(k,v){
+						if(Math.round(v['balance'])>0){
+							var html="<tr>";
+							html+= "<td width='18%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='prefix[]' class='form-control' value="+v['prefix']+"></td>"
+							html+= "<td width='15%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
+							html+= "<td width='20%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
+							html+= "<td width='20%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
+							html+= "<td width='20%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='rec_amount[]' onchange='totalReci()' required></td>"
+							html+="</tr>";
+							$('#pendingInvoices').append(html);
+							counter++;
+						}
+					});
+				},
+				error: function(){
+					alert("error");
+				}
+			});
+		}
+	}
 
-// Fetch sales pending invoices
-function getPendingInvoices() {
-    fetchPendingInvoices(
-        "/vouchers2/pendingInvoice",
-        "pendingInvoices",
-        "sales",
-        "sales",
-        "totalReci"
-    );
-}
+	function totalReci() {
+		var totalRec = 0; // Initialize the total amount variable
+		var table = document.getElementById("pendingInvoices"); // Get the table element
+		var rowCount = table.rows.length; // Get the total number of rows
 
-// Fetch purchase pending invoices
-function getPurPendingInvoices() {
-    fetchPendingInvoices(
-        "/vouchers2/purpendingInvoice",
-        "purpendingInvoices",
-        "pur",
-        "pur",
-        "totalPay"
-    );
-}
+		// Loop through each row in the table
+		for (var i = 0; i < rowCount; i++) {
+			var input = table.rows[i].cells[4].querySelector('input'); // Get the input field in the specified cell
+			if (input) { // Check if the input exists
+				var rec = Number(input.value); // Convert the input value to a number
+				totalRec += isNaN(rec) ? 0 : rec; // Add to totalRec, handle NaN cases
+			}
+		}
+		
+		$('#total_reci_amount').val(totalRec); // Set the total in the corresponding input field
+	}
 
-// General function to calculate total amounts
-function calculateTotal(tableId, inputName, totalInputId) {
-    let total = 0;
-    const table = document.getElementById(tableId);
-    const rows = table.rows;
+	function totalPay(){
+		var totalPay = 0; // Initialize the total amount variable
+		var table = document.getElementById("purpendingInvoices"); // Get the table element
+		var rowCount = table.rows.length; // Get the total number of rows
 
-    for (let i = 0; i < rows.length; i++) {
-        const input = rows[i].cells[4].querySelector('input');
-        if (input) {
-            const value = Number(input.value);
-            total += isNaN(value) ? 0 : value;
+		// Loop through each row in the table
+		for (var i = 0; i < rowCount; i++) {
+			var input = table.rows[i].cells[4].querySelector('input'); // Get the input field in the specified cell
+			if (input) { // Check if the input exists
+				var rec = Number(input.value); // Convert the input value to a number
+				totalPay += isNaN(rec) ? 0 : rec; // Add to totalRec, handle NaN cases
+			}
+		}
+		
+		$('#total_pay_amount').val(totalPay); // Set the total in the corresponding input field
+	}
+
+	function getPurPendingInvoices(){
+		var cust_id=$('#pur_customer_name').val();
+		var table = document.getElementById('purpendingInvoices');
+		$('#purpendingInvoices').html('');
+		$('#purpendingInvoices').find('tr').remove();
+
+		if(cust_id!=0){
+			var counter=1;
+			$('#pur_prevInvoices').val(1)
+			
+			$.ajax({
+				type: "GET",
+				url: "/vouchers2/purpendingInvoice/"+cust_id,
+				success: function(result){
+					$.each(result, function(k,v){
+						if(Math.round(v['balance'])>0){
+							var html="<tr>";
+							html+= "<td width='18%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='pur_invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='pur_totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='pur_prefix[]' class='form-control' value="+v['prefix']+"></td>"
+							html+= "<td width='15%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
+							html+= "<td width='20%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
+							html+= "<td width='20%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
+							html+= "<td width='20%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='pur_rec_amount[]' onchange='totalPay()' required></td>"
+							html+="</tr>";
+							$('#purpendingInvoices').append(html);
+							counter++;
+						}
+					});
+				},
+				error: function(){
+					alert("error");
+				}
+			});
+		}
+	}
+
+	function PurtoggleInputs() {
+        const pur_customer_name = $('#pur_customer_name');
+        const pur_unadjusted_amount = $('#pur_unadjusted_amount');
+		const jv_no= $('#jv_no').val();
+	
+        if ($('#PurtoggleSwitch').is(':checked')) {
+			document.getElementById('pur_warning').style.display = 'block';
+			document.getElementById('PurrefreshBtn').style.display = 'inline';
+			var table = document.getElementById('purpendingInvoices');
+        	if (table.rows.length > 0) {
+				
+				$.ajax({
+					type: "GET",
+					url: "/vouchers2/deactive_pur_ageing/"+jv_no,
+					success: function(result){
+
+					},
+					error: function(){
+						alert("error");
+					}
+				});
+			}
+            pur_customer_name.prop('disabled', false);
+            pur_unadjusted_amount.prop('disabled', false);
+			$('#pur_prevInvoices').val(1);
+        } else{
+			document.getElementById('pur_warning').style.display = 'none';
+			document.getElementById('PurrefreshBtn').style.display = 'none';
+
+			var table = document.getElementById('pendingInvoices');
+        	if (table.rows.length > 0) {
+				$.ajax({
+					type: "GET",
+					url: "/vouchers2/active_pur_ageing/"+jv_no,
+					success: function(result){
+					},
+					error: function(){
+						alert("error");
+					}
+				});
+			}
+            pur_customer_name.prop('disabled', true);
+            pur_unadjusted_amount.prop('disabled', true);
+			$('#pur_prevInvoices').val(0);
         }
     }
 
-    $(`#${totalInputId}`).val(total);
-}
 
-// Calculate total for sales
-function totalReci() {
-    calculateTotal("pendingInvoices", "rec_amount", "total_reci_amount");
-}
+	function SaletoggleInputs() {
+        const customer_name = $('#customer_name');
+        const sales_unadjusted_amount = $('#sales_unadjusted_amount');
+		const jv_no= $('#jv_no').val();
+	
+        if ($('#SaletoggleSwitch').is(':checked')) {
+			document.getElementById('sales_warning').style.display = 'block';
+			document.getElementById('refreshBtn').style.display = 'inline';
+			var table = document.getElementById('pendingInvoices');
+        	if (table.rows.length > 0) {
+				
+				$.ajax({
+					type: "GET",
+					url: "/vouchers2/deactive_sales_ageing/"+jv_no,
+					success: function(result){
 
-// Calculate total for purchases
-function totalPay() {
-    calculateTotal("purpendingInvoices", "pur_rec_amount", "total_pay_amount");
-}
+					},
+					error: function(){
+						alert("error");
+					}
+				});
+			}
+            customer_name.prop('disabled', false);
+            sales_unadjusted_amount.prop('disabled', false);
+			$('#prevInvoices').val(1);
+        } else{
+			document.getElementById('sales_warning').style.display = 'none';
+			document.getElementById('refreshBtn').style.display = 'none';
 
-// General toggle function for sales/purchase inputs
-function toggleInputs(prefix, ageingUrl, toggleSwitchId, warningId, refreshBtnId) {
-    const customerName = $(`#${prefix}_customer_name`);
-    const unadjustedAmount = $(`#${prefix}_unadjusted_amount`);
-    const jvNo = $('#jv_no').val();
-    const isChecked = $(`#${toggleSwitchId}`).is(':checked');
-
-    $(`#${warningId}`).toggle(isChecked);
-    $(`#${refreshBtnId}`).toggle(isChecked);
-    customerName.prop('disabled', !isChecked);
-    unadjustedAmount.prop('disabled', !isChecked);
-    $(`#${prefix}_prevInvoices`).val(isChecked ? 1 : 0);
-
-    const action = isChecked ? "deactive" : "active";
-
-    $.ajax({
-        type: "GET",
-        url: `${ageingUrl}/${action}_${prefix}_ageing/${jvNo}`,
-        success: function () { },
-        error: function () {
-            alert(`Error toggling ${prefix} ageing`);
+			var table = document.getElementById('pendingInvoices');
+        	if (table.rows.length > 0) {
+				$.ajax({
+					type: "GET",
+					url: "/vouchers2/active_sales_ageing/"+jv_no,
+					success: function(result){
+					},
+					error: function(){
+						alert("error");
+					}
+				});
+			}
+            customer_name.prop('disabled', true);
+            sales_unadjusted_amount.prop('disabled', true);
+			$('#prevInvoices').val(0);
         }
-    });
-}
+    }
 
-// Toggle sales inputs
-function SaletoggleInputs() {
-    toggleInputs("sales", "/vouchers2", "SaletoggleSwitch", "sales_warning", "refreshBtn");
-}
+	function refreshSalesAgeing(){
+		$('#customer_name').trigger('change');
+	}
 
-// Toggle purchase inputs
-function PurtoggleInputs() {
-    toggleInputs("pur", "/vouchers2", "PurtoggleSwitch", "pur_warning", "PurrefreshBtn");
-}
-
-// Refresh functions for sales and purchase ageing
-function refreshSalesAgeing() {
-    $('#customer_name').trigger('change');
-}
-
-function refreshPurAgeing() {
-    $('#pur_customer_name').trigger('change');
-}
+	function refreshPurAgeing(){
+		$('#pur_customer_name').trigger('change');
+	}
 
 </script>
