@@ -87,7 +87,6 @@
                                                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-danger" onclick="setAttId({{$row->pur_id}})" href="#addAttModal"> <i class="fas fa-paperclip"> </i></a>
                                                     </td>
                                                     <td class="actions">
-                                                        <span class="separator"> | </span> -->
                                                         <a href="{{ route('show-purchases1',$row->pur_id) }}" class="">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
