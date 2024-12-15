@@ -76,7 +76,7 @@
                                                     @else
                                                         <td><strong style="font-size:15px">{{ number_format(intval($net_amount))}}</strong></td>
                                                     @endif
-                                                    @if($row->sales_against!=null) 
+                                                    @if($row->sale_against!=null) 
                                                         <td> <i class="fas fa-circle" style="color:green;font-size:10px"></i> Closed </td>
                                                     @else
                                                         <td> <i class="fas fa-circle" style="color:red;font-size:10px"></i> Not Close </td>
