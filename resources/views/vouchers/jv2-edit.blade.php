@@ -590,6 +590,9 @@
 		$('#pendingInvoices').html('');
 		$('#pendingInvoices').find('tr').remove();
 
+		// Clear the table content
+		tableBody.empty();
+
 		if(cust_id!=0){
 			var counter=1;
 			$('#prevInvoices').val(1)
