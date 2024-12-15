@@ -68,8 +68,7 @@
                                                     <td>{{$row->weight_sum}}</td>
                                                     <td>{{$row->total_bill}}</td>
                                                     <td>{{$row->pur_convance_char}}/{{$row->pur_labor_char}}/{{$row->pur_discount}}</td>
-                                                    {{-- <td>{{$row->pur_labor_char}}</td>
-                                                    <td>{{$row->pur_discount}}</td> --}}
+                                            
                                                     @php ($net_amount=$row->total_bill+$row->pur_convance_char+$row->pur_labor_char-$row->pur_discount)
                                                     @if(substr(strval($row->net_amount), strpos(strval($row->net_amount), '.') + 1)>0) 
                                                         <td><strong style="font-size:15px">{{ rtrim(rtrim(number_format($net_amount), '0'), '.') }}</strong></td>
