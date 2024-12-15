@@ -584,40 +584,65 @@
 		window.history.back();
 	}
 
-	function getPendingInvoices(){
-		var cust_id=$('#customer_name').val();
-		var table = document.getElementById('pendingInvoices');
-		$('#pendingInvoices').html('');
-		$('#pendingInvoices').find('tr').remove();
+	function getPendingInvoices() {
+    const cust_id = $('#customer_name').val();
+    const table = $('#pendingInvoices');
 
-		if(cust_id!=0){
-			var counter=1;
-			$('#prevInvoices').val(1)
-			
-			$.ajax({
-				type: "GET",
-				url: "/vouchers2/pendingInvoice/"+cust_id,
-				success: function(result){
-					$.each(result, function(k,v){
-						if(Math.round(v['balance'])>0){
-							var html="<tr>";
-							html+= "<td width='18%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='prefix[]' class='form-control' value="+v['prefix']+"></td>"
-							html+= "<td width='15%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
-							html+= "<td width='20%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='rec_amount[]' onchange='totalReci()' required></td>"
-							html+="</tr>";
-							$('#pendingInvoices').append(html);
-							counter++;
-						}
-					});
-				},
-				error: function(){
-					alert("error");
-				}
-			});
-		}
-	}
+    table.empty(); // Clear table contents efficiently.
+
+    if (cust_id != 0) {
+        let counter = 1;
+        $('#prevInvoices').val(1);
+
+        $.ajax({
+            type: "GET",
+            url: `/vouchers2/pendingInvoice/${cust_id}`,
+            success: function (result) {
+                if (Array.isArray(result) && result.length > 0) {
+                    result.forEach(v => {
+                        const balance = Math.round(v['balance'] || 0);
+                        const bAmt = Math.round(v['b_amt'] || 0);
+                        const billBalance = Math.round(v['bill_balance'] || 0);
+                        
+                        if (balance > 0) {
+                            const html = `
+                                <tr>
+                                    <td width="18%">
+                                        <input type="text" class="form-control" value="${v['prefix']}${v['Sal_inv_no']}" disabled>
+                                        <input type="hidden" name="invoice_nos[]" value="${v['Sal_inv_no']}">
+                                        <input type="hidden" name="totalInvoices" value="${counter}">
+                                        <input type="hidden" name="prefix[]" value="${v['prefix']}">
+                                    </td>
+                                    <td width="15%">
+                                        ${v['sa_date']}
+                                        <input type="hidden" value="${v['sa_date']}">
+                                    </td>
+                                    <td width="20%">
+                                        <input type="number" class="form-control" value="${bAmt}" disabled>
+                                        <input type="hidden" name="balance_amount[]" value="${bAmt}">
+                                    </td>
+                                    <td width="20%">
+                                        <input type="number" class="form-control text-danger" value="${balance}" disabled>
+                                        <input type="hidden" name="bill_amount[]" value="${billBalance}">
+                                    </td>
+                                    <td width="20%">
+                                        <input type="number" class="form-control" value="0" max="${balance}" step="any" name="rec_amount[]" required>
+                                    </td>
+                                </tr>`;
+                            table.append(html);
+                            counter++;
+                        }
+                    });
+                } else {
+                    alert("No pending invoices found.");
+                }
+            },
+            error: function () {
+                alert("An error occurred while fetching pending invoices. Please try again.");
+            }
+        });
+    }
+}
 
 	function totalReci() {
 		var totalRec = 0; // Initialize the total amount variable
