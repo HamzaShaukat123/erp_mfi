@@ -283,7 +283,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-godown-by-item-grp/sa";
+                url="/rep-godown-by-group-name/sa";
                 tableID="#SATbleBody";
 
                 $.ajax({
@@ -338,7 +338,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-godown-by-item-grp/si";
+                url="/rep-godown-by-group-name/si";
                 tableID="#SITbleBody";
 
                 $.ajax({
@@ -402,7 +402,7 @@
                     table.deleteRow(0);
                 }
 
-                const url = "/rep-godown-by-item-grp/so";
+                const url = "/rep-godown-by-group-name/so";
                 const tableID = "#SOTbleBody";
 
                 // Helper function to safely access data
@@ -466,7 +466,7 @@
                     table.deleteRow(0);
                 }
 
-                const url = "/rep-godown-by-item-grp/sat";
+                const url = "/rep-godown-by-group-name/sat";
                 const tableID = "#SATTble";
 
                 // Helper function to safely access data
@@ -590,15 +590,15 @@
             }
 
             if (tabName === "SA") {
-                window.open(`/rep-godown-by-item-grp/sa/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-godown-by-group-name/sa/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
 
             else if (tabName === "SI") {
-                window.open(`/rep-godown-by-item-grp/si/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-godown-by-group-name/si/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
 
             else if (tabName === "SO") {
-                window.open(`/rep-godown-by-item-grp/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-godown-by-group-name/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
         }
 
@@ -611,15 +611,15 @@
             }
 
             if (tabName === "SA") {
-                window.location.href = `/rep-godown-by-item-grp/sa/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+                window.location.href = `/rep-godown-by-group-name/sa/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
 
             else if (tabName === "SI") {
-                window.location.href = `/rep-godown-by-item-grp/si/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+                window.location.href = `/rep-godown-by-group-name/si/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
 
             else if (tabName === "SO") {
-                window.location.href = `/rep-godown-by-item-grp/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+                window.location.href = `/rep-godown-by-group-name/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
 
         }
