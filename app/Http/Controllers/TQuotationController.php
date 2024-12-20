@@ -834,72 +834,72 @@ $html .= '</table>';
         ->get();
         
         
-$pdf = new MyPDF();
+        $pdf = new MyPDF();
 
-// Set document information
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('MFI');
-$pdf->SetTitle('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
-$pdf->SetSubject('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
-$pdf->SetKeywords('Quotation, TCPDF, PDF');
-           
-// Add a page
-$pdf->AddPage();
-   
-$pdf->setCellPadding(1.2); // Set padding for all cells in the table
+        // Set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
+        $pdf->SetSubject('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
+        $pdf->SetKeywords('Quotation, TCPDF, PDF');
+                
+        // Add a page
+        $pdf->AddPage();
+        
+        $pdf->setCellPadding(1.2); // Set padding for all cells in the table
 
-// margin top
-$margin_top = '.margin-top {
-    margin-top: 10px;
-}';
-// $pdf->writeHTML('<style>' . $margin_top . '</style>', true, false, true, false, '');
+        // margin top
+        $margin_top = '.margin-top {
+            margin-top: 10px;
+        }';
+        // $pdf->writeHTML('<style>' . $margin_top . '</style>', true, false, true, false, '');
 
-// margin bottom
-$margin_bottom = '.margin-bottom {
-    margin-bottom: 4px;
-}';
+        // margin bottom
+        $margin_bottom = '.margin-bottom {
+            margin-bottom: 4px;
+        }';
 
-// $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
+        // $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
 
-$heading='<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">Quotation</h1>';
-$pdf->writeHTML($heading, true, false, true, false, '');
-$pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
+        $heading='<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">Quotation</h1>';
+        $pdf->writeHTML($heading, true, false, true, false, '');
+        $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
 
-$html = '<table style="margin-bottom:1rem">';
-$html .= '<tr>';
-$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Quotation#: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
-$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
-$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">PO No: <span style="text-decoration: underline;color:#000">'.$purchase['pur_ord_no'].'</span></td>';
-$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
-$html .= '</tr>';
-$html .= '</table>';
+        $html = '<table style="margin-bottom:1rem">';
+        $html .= '<tr>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Quotation#: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">PO No: <span style="text-decoration: underline;color:#000">'.$purchase['pur_ord_no'].'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        $html .= '</tr>';
+        $html .= '</table>';
 
-// $pdf->writeHTML($html, true, false, true, false, '');
+        // $pdf->writeHTML($html, true, false, true, false, '');
 
-$html .= '<table border="0.1px" style="border-collapse: collapse;">';
-$html .= '<tr>';
-$html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Account Name </td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['ac_name'].'</td>';
-$html .= '<td width="20%" width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Dispatch From</td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['disp_to'].'</td>';
-$html .= '</tr>';
-$html .= '<tr>';
-$html .= '<td width="20%" width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D" >Address </td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['address'].'</td>';
-$html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Address</td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['cash_Pur_address'].'</td>';
-$html .= '</tr>';
-$html .= '<tr>';
-$html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Phone </td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['phone_no'].'</td>';
-$html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Name OF Person</td>';
-$html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['Cash_pur_name'].'</td>';
-$html .= '</tr>';
-$html .= '<tr>';
-$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Remarks </td>';
-$html .= '<td width="80%" style="font-size:10px;font-family:poppins;">'.$purchase['Sales_Remarks'].'</td>';
-$html .= '</tr>';
-$html .= '</table>';
+        $html .= '<table border="0.1px" style="border-collapse: collapse;">';
+        $html .= '<tr>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Account Name </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['ac_name'].'</td>';
+        $html .= '<td width="20%" width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Dispatch From</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['disp_to'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td width="20%" width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D" >Address </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['address'].'</td>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Address</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['cash_Pur_address'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Phone </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['phone_no'].'</td>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Name OF Person</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['Cash_pur_name'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Remarks </td>';
+        $html .= '<td width="80%" style="font-size:10px;font-family:poppins;">'.$purchase['Sales_Remarks'].'</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
 
         
         $pdf->writeHTML($html, true, false, true, false, '');
@@ -1043,6 +1043,120 @@ $html .= '</table>';
         $pdf->Output('Quotation_'.$purchase['prefix'].$purchase['Sale_inv_no'].'.pdf', 'I');
     }
 
+
+    public function onlyWeightQtyPDF($id)
+    {
+        $purchase = tquotation::where('Sale_inv_no',$id)
+            ->join('ac as acc_name','tquotation.account_name','=','acc_name.ac_code')
+            ->join('ac as dispt_to','tquotation.Cash_pur_name_ac','=','dispt_to.ac_code')
+            ->select('tquotation.*','dispt_to.ac_name as disp_to','acc_name.ac_name as ac_name', 
+            'acc_name.address as address', 'acc_name.phone_no as phone_no')
+            ->first();
+    
+        $purchase_items = tquotation_2::where('sales_inv_cod',$id)
+            ->join('item_entry2 as ie','tquotation_2.item_cod','=','ie.it_cod')
+            ->select('tquotation_2.*','ie.item_name')
+            ->get();
+    
+        $pdf = new MyPDF();
+    
+        // Set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
+        $pdf->SetSubject('Quotation-'.$purchase['prefix'].$purchase['Sale_inv_no']);
+        $pdf->SetKeywords('Quotation, TCPDF, PDF');
+    
+        // Add a page
+        $pdf->AddPage();
+    
+        $pdf->setCellPadding(1.2); // Set padding for all cells in the table
+    
+        // Heading
+        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">Quotation</h1>';
+        $pdf->writeHTML($heading, true, false, true, false, '');
+    
+        // Purchase details table
+        $html = '<table style="margin-bottom:1rem">';
+        $html .= '<tr>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Quotation#: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">PO No: <span style="text-decoration: underline;color:#000">'.$purchase['pur_ord_no'].'</span></td>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+    
+        $html .= '<table border="0.1px" style="border-collapse: collapse;">';
+        $html .= '<tr>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Account Name </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['ac_name'].'</td>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Dispatch From</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['disp_to'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D" >Address </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['address'].'</td>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Address</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['cash_Pur_address'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Phone </td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['phone_no'].'</td>';
+        $html .= '<td width="20%" style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Name OF Person</td>';
+        $html .= '<td width="30%" style="font-size:10px;font-family:poppins;">'.$purchase['Cash_pur_name'].'</td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Remarks </td>';
+        $html .= '<td width="80%" style="font-size:10px;font-family:poppins;">'.$purchase['Sales_Remarks'].'</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+    
+        $pdf->writeHTML($html, true, false, true, false, '');
+    
+        // Items table header
+        $html = '<table border="0.3" style="text-align:center;margin-top:10px">';
+        $html .= '<tr>';
+        $html .= '<th style="width:8%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">S/R</th>';
+        $html .= '<th style="width:35%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Item Name</th>';
+        $html .= '<th style="width:28%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Description</th>';
+        $html .= '<th style="width:13%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Qty</th>';
+        $html .= '<th style="width:16%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Weight</th>';
+        $html .= '</tr>';
+        $html .= '</table>';
+    
+        $pdf->setTableHtml($html);
+    
+        $count = 1;
+        $total_weight = 0;
+        $total_quantity = 0;
+    
+        $html .= '<table cellspacing="0" cellpadding="5">';
+        foreach ($purchase_items as $items) {
+            // Determine background color based on odd/even rows
+            $bg_color = ($count % 2 == 0) ? 'background-color:#f1f1f1' : '';
+    
+            $html .= '<tr style="' . $bg_color . '">';
+            $html .= '<td style="width:8%;border-right:1px dashed #000;border-left:1px dashed #000; text-align:center">' . $count . '</td>';
+            $html .= '<td style="width:35%;border-right:1px dashed #000">' . $items['item_name'] . '</td>';
+            $html .= '<td style="width:28%;border-right:1px dashed #000">' . $items['remarks'] . '</td>';
+            $html .= '<td style="width:13%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
+            $total_quantity += $items['Sales_qty2'];
+            $weight = $items['Sales_qty2'] * $items['weight_pc'];
+            $html .= '<td style="width:16%;border-right:1px dashed #000; text-align:center">' . round($weight, 2) . '</td>';
+            $total_weight += $weight;
+    
+            $html .= '</tr>';
+            $count++;
+        }
+        $html .= '</table>';
+    
+        $pdf->writeHTML($html, true, false, true, false, '');
+    
+        // Close and output PDF
+        $pdf->Output('Quotation_'.$purchase['prefix'].$purchase['Sale_inv_no'].'.pdf', 'I');
+    }
+    
+
     public function generatePDF(Request $request)
     {
         if($request->print_type==1){
@@ -1053,6 +1167,9 @@ $html .= '</table>';
         }
         elseif($request->print_type==3){
             $this->onlyPriceQtyPDF($request->print_sale2);
+        }
+        elseif($request->print_type==4){
+            $this->onlyWeightQtyPDF($request->print_sale2);
         }
     }
 }

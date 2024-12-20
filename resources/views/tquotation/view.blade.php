@@ -196,6 +196,7 @@
 												<option value="1" >Show All</option>
 												<option value="2" >Exclude Item Length</option>
 												<option value="3" >Only Quantity & Price</option>
+												<option value="4" >Only Weight & Quantity</option>
 											</select>
 											<input type="hidden" name="print_sale2" id="printID" >
 										</div>
