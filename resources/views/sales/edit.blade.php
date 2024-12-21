@@ -244,17 +244,24 @@
 	});
 
     function removeRow(button) {
-		var tableRows = $("#saleInvoiceTable tr").length;
-		if(tableRows>1){
-			var row = button.parentNode.parentNode;
-			row.parentNode.removeChild(row);
-			index--;
-			var itemCount = Number($('#itemCount').val());
-			itemCount = itemCount-1;
-			$('#itemCount').val(itemCount);
-		}  
-		tableTotal();
-    }
+		var confirmation = confirm("Are you sure you want to remove this row?");
+		if (confirmation) {
+			var tableRows = $("#saleInvoiceTable tr").length;
+			if (tableRows > 1) {
+				var row = button.parentNode.parentNode;
+				row.parentNode.removeChild(row);
+				index--;
+				var itemCount = Number($('#itemCount').val());
+				itemCount = itemCount - 1;
+				$('#itemCount').val(itemCount);
+			}
+			tableTotal();
+		} else {
+			// Do nothing if the user selects "No"
+			
+		}
+	}
+
 
     document.getElementById('removeRowBtn').addEventListener('click', function() {
         var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
