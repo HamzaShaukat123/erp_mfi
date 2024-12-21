@@ -322,20 +322,6 @@
 				// toggleInputs();
 			});
 
-			// function removeRow(button) {
-			// 	var tableRows = $("#Purchase2Table tr").length;
-			// 	if(tableRows>1){
-			// 		var row = button.parentNode.parentNode;
-			// 		row.parentNode.removeChild(row);
-			// 		index--;	
-			// 		itemCount = Number($('#itemCount').val());
-			// 		itemCount = itemCount-1;
-			// 		$('#itemCount').val(itemCount);
-			// 	}  
-			// 	tableTotal(); 
-			// }
-
-
 
 			function removeRow(button) {
 				if (confirm("Are you sure you want to remove this row?")) {
