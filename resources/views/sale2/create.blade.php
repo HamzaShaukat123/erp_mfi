@@ -684,7 +684,7 @@
 						var pur2PriceDate = $('#pur2_price_date' + row_no);
 						var pur2PriceDateShow = $('#pur2_price_date_show' + row_no);
 
-						pur2PerUnit.val(result[0]['sales_price']).addClass('text-danger');
+						pur2PerUnit.val(result[0]['sales_price']).addClass('text-danger fw-bold');
 						pur2PriceDate.val(result[0]['sale_rate_date']);
 						pur2PriceDateShow.val(result[0]['sale_rate_date']);
 					},
