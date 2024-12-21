@@ -239,7 +239,7 @@
 			tableTotal();
 		} else {
 			// Do nothing if the user selects "No"
-			console.log("Row removal cancelled.");
+			
 		}
 	}
 
