@@ -1,4 +1,26 @@
 @include('../layouts.header')
+
+<style>
+
+    .table-responsive {
+        overflow-y: auto; /* Enables vertical scrolling */
+        width: 100%; /* Ensures the table stretches horizontally */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 10;
+        text-align: center;
+    }
+</style>
+
 	<body>
 		<section class="body">
             @include('layouts.homepageheader')
