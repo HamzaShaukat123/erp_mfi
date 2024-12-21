@@ -672,25 +672,28 @@
 				});
    			}
 
-			function enablePrice(row_no){
-				var itemId=$('#item_cod'+row_no).val();
+			function enablePrice(row_no) {
+				var itemId = $('#item_cod' + row_no).val();
 
 				$.ajax({
 					type: "GET",
 					url: "/item2/detail",
-					data: {id:itemId},
-					success: function(result){
-						$('#pur2_per_unit'+row_no).val(result[0]['sales_price']);
-						$('#pur2_price_date'+row_no).val(result[0]['sale_rate_date']);
-						$('#pur2_price_date_show'+row_no).val(result[0]['sale_rate_date']);
+					data: { id: itemId },
+					success: function(result) {
+						var pur2PerUnit = $('#pur2_per_unit' + row_no);
+						var pur2PriceDate = $('#pur2_price_date' + row_no);
+						var pur2PriceDateShow = $('#pur2_price_date_show' + row_no);
+
+						pur2PerUnit.val(result[0]['sales_price']).addClass('text-danger');
+						pur2PriceDate.val(result[0]['sale_rate_date']);
+						pur2PriceDateShow.val(result[0]['sale_rate_date']);
 					},
-					error: function(){
+					error: function() {
 						alert("error");
 					}
 				});
-
-
 			}
+
 
 			function inducedStockOutItems(id){
 				var ind_total_qty=0, ind_total_weight=0;
