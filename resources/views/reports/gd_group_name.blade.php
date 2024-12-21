@@ -227,7 +227,7 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
                                     
-                                    <div class="col-12 mt-4">
+                                    <div class="col-12 mt-4" style="overflow-y: auto; max-height: 400px;">
                                         <table class="table table-bordered table-striped mb-0" id="TSAThead">
                                             <thead>
                                                 <tr>
@@ -247,9 +247,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="SATTble">
+                                                <!-- Table rows will go here -->
                                             </tbody>
                                         </table>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
