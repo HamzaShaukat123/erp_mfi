@@ -225,17 +225,24 @@
 	});
 
     function removeRow(button) {
-		var tableRows = $("#Purchase1Table tr").length;
-		if(tableRows>1){
-			var row = button.parentNode.parentNode;
-			row.parentNode.removeChild(row);
-			itemCount = Number($('#itemCount').val());
-			itemCount = itemCount-1;
-			$('#itemCount').val(itemCount);
-			index--;
-		}   
-		tableTotal();
-    }
+		var confirmation = confirm("Are you sure you want to remove this row?");
+		if (confirmation) {
+			var tableRows = $("#Purchase1Table tr").length;
+			if (tableRows > 1) {
+				var row = button.parentNode.parentNode;
+				row.parentNode.removeChild(row);
+				var itemCount = Number($('#itemCount').val());
+				itemCount = itemCount - 1;
+				$('#itemCount').val(itemCount);
+				index--;
+			}
+			tableTotal();
+		} else {
+			// Do nothing if the user selects "No"
+			console.log("Row removal cancelled.");
+		}
+	}
+
 
     document.getElementById('removeRowBtn').addEventListener('click', function() {
         var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
