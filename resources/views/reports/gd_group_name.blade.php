@@ -1,35 +1,4 @@
 @include('../layouts.header')
-
-<style>
-
-    .table-wrapper {
-        overflow-y: auto; /* Enables vertical scrolling */
-        max-height: 400px; /* Adjust based on your needs */
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th {
-        position: sticky;
-        top: 0;
-        background-color: #f8f9fa; /* Light gray for better visibility */
-        z-index: 2;
-        text-align: center;
-        padding: 8px;
-        border: 1px solid #ddd;
-    }
-
-    td {
-        text-align: center;
-        padding: 8px;
-        border: 1px solid #ddd;
-    }
-
-</style>
-
 	<body>
 		<section class="body">
             @include('layouts.homepageheader')
@@ -258,33 +227,30 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
                                     
-                                    <div class="table-wrapper">
+                                    <div class="col-12 mt-4">
                                         <table class="table table-bordered table-striped mb-0" id="TSAThead">
                                             <thead>
                                                 <tr>
                                                     <th>Item Name</th>
-                                                    <th id="12G">12G/2.50mm</th>
-                                                    <th id="14G">14G/2.00mm</th>
-                                                    <th id="16G">16G/1.60mm</th>
-                                                    <th id="1.5">1.50mm</th>
-                                                    <th id="18G">18G/1.20mm</th>
-                                                    <th id="1.10">1.10mm</th>
-                                                    <th id="19G">19G/1.0mm</th>
-                                                    <th id="20G">20G/0.9mm</th>
-                                                    <th id="21G">21G/0.8mm</th>
-                                                    <th id="22G">22G/0.7mm</th>
-                                                    <th id="23G">23G/0.6mm</th>
-                                                    <th id="24G">24G/0.5mm</th>
+                                                    <th id="12G" style="text-align: center;">12G/2.50mm</th>
+                                                    <th id="14G" style="text-align: center;">14G/2.00mm</th>
+                                                    <th id="16G" style="text-align: center;">16G/1.60mm</th>
+                                                    <th id="1.5" style="text-align: center;">1.50mm</th>
+                                                    <th id="18G" style="text-align: center;">18G/1.20mm</th>
+                                                    <th id="1.10" style="text-align: center;">1.10mm</th>
+                                                    <th id="19G" style="text-align: center;">19G/1.0mm</th>
+                                                    <th id="20G" style="text-align: center;">20G/0.9mm</th>
+                                                    <th id="21G" style="text-align: center;">21G/0.8mm</th>
+                                                    <th id="22G" style="text-align: center;">22G/0.7mm</th>
+                                                    <th id="23G" style="text-align: center;">23G/0.6mm</th>
+                                                    <th id="24G" style="text-align: center;">24G/0.5mm</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody id="SATTble">
-                                                <!-- Table rows go here -->
                                             </tbody>
                                         </table>
                                     </div>
-                                    
-                                    
-                                    
                                 </div>
                             </div>
                         </div>
