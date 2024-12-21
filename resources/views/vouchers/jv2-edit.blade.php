@@ -464,18 +464,24 @@
 		document.getElementById('PurtoggleSwitch').addEventListener('change', PurtoggleInputs);
 	});
 
-    function removeRow(button) {
-		var tableRows = $("#JV2Table tr").length;
-		if(tableRows>1){
-			var row = button.parentNode.parentNode;
-			row.parentNode.removeChild(row);
-			itemCount = Number($('#itemCount').val());
-			itemCount = itemCount-1;
-			$('#itemCount').val(itemCount);
-		}   
-		totalDebit();
-		totalCredit();
-    }
+	function removeRow(button) {
+		var confirmation = confirm("Are you sure you want to remove this row?");
+		if (confirmation) {
+			var tableRows = $("#JV2Table tr").length;
+			if (tableRows > 1) {
+				var row = button.parentNode.parentNode;
+				row.parentNode.removeChild(row);
+				var itemCount = Number($('#itemCount').val());
+				itemCount = itemCount - 1;
+				$('#itemCount').val(itemCount);
+			}
+			totalDebit();
+			totalCredit();
+		} else {
+			// Do nothing if the user selects "No"
+		}
+	}
+
 
     document.getElementById('removeRowBtn').addEventListener('click', function() {
         var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
