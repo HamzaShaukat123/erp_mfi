@@ -227,24 +227,23 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
                                     
-                                    <div class="col-12 mt-4" style="overflow-y: auto;>
+                                    <div class="col-12 mt-4">
                                         <table class="table table-bordered table-striped mb-0" id="TSAThead">
                                             <thead>
                                                 <tr>
-                                                    <th>Item Name</th>
-                                                    <th id="12G" style="text-align: center;">12G/2.50mm</th>
-                                                    <th id="14G" style="text-align: center;">14G/2.00mm</th>
-                                                    <th id="16G" style="text-align: center;">16G/1.60mm</th>
-                                                    <th id="1.5" style="text-align: center;">1.50mm</th>
-                                                    <th id="18G" style="text-align: center;">18G/1.20mm</th>
-                                                    <th id="1.10" style="text-align: center;">1.10mm</th>
-                                                    <th id="19G" style="text-align: center;">19G/1.0mm</th>
-                                                    <th id="20G" style="text-align: center;">20G/0.9mm</th>
-                                                    <th id="21G" style="text-align: center;">21G/0.8mm</th>
-                                                    <th id="22G" style="text-align: center;">22G/0.7mm</th>
-                                                    <th id="23G" style="text-align: center;">23G/0.6mm</th>
-                                                    <th id="24G" style="text-align: center;">24G/0.5mm</th>
-
+                                                    <th style="position: sticky; top: 0; background: #fff; z-index: 10;">Item Name</th>
+                                                    <th id="12G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">12G/2.50mm</th>
+                                                    <th id="14G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">14G/2.00mm</th>
+                                                    <th id="16G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">16G/1.60mm</th>
+                                                    <th id="1.5" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">1.50mm</th>
+                                                    <th id="18G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">18G/1.20mm</th>
+                                                    <th id="1.10" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">1.10mm</th>
+                                                    <th id="19G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">19G/1.0mm</th>
+                                                    <th id="20G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">20G/0.9mm</th>
+                                                    <th id="21G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">21G/0.8mm</th>
+                                                    <th id="22G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">22G/0.7mm</th>
+                                                    <th id="23G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">23G/0.6mm</th>
+                                                    <th id="24G" style="text-align: center; position: sticky; top: 0; background: #fff; z-index: 10;">24G/0.5mm</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="SATTble">
