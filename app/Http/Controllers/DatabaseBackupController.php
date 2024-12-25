@@ -8,34 +8,44 @@ class DatabaseBackupController extends Controller
 {
         public function backupDatabase()
     {
-        // Database credentials
         $dbHost = env('DB_HOST', '127.0.0.1');
         $dbName = env('DB_DATABASE', 'database');
         $dbUser = env('DB_USERNAME', 'username');
         $dbPassword = env('DB_PASSWORD', 'password');
 
-        // Set headers for download
-        $fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
+        // Set the backup file name
+        $fileName = 'backup_' . now()->format('Y-m-d_H-i-s') . '.sql';
         $headers = [
             'Content-Type' => 'application/sql',
             'Content-Disposition' => "attachment; filename=\"{$fileName}\"",
         ];
 
-        // Query to get all table names, excluding views
-        $tableQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = '{$dbName}' AND table_type = 'BASE TABLE'";
+        // Query to fetch table names, excluding views
+        $tableQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND table_type = 'BASE TABLE'";
+        $tables = DB::select($tableQuery, [$dbName]);
 
-        // Get the list of table names
-        $tables = \DB::select($tableQuery);
+        if (empty($tables)) {
+            return response()->json(['message' => 'No tables found in the database.'], 404);
+        }
+
+        // Escape table names for shell command
         $tableNames = array_map(function ($table) {
-            return $table->table_name;
+            return escapeshellarg($table->table_name);
         }, $tables);
 
-        // Prepare the mysqldump command with only the tables
-        $tableList = implode(' ', $tableNames); // Convert the table names to a space-separated string
-        $command = "mysqldump --host={$dbHost} --user={$dbUser} --password={$dbPassword} {$dbName} {$tableList}";
+        // Prepare the mysqldump command
+        $tableList = implode(' ', $tableNames);
+        $command = sprintf(
+            "mysqldump --host=%s --user=%s --password=%s %s %s",
+            escapeshellarg($dbHost),
+            escapeshellarg($dbUser),
+            escapeshellarg($dbPassword),
+            escapeshellarg($dbName),
+            $tableList
+        );
 
-        // Stream mysqldump output to the browser
-        return response()->stream(function () use ($command) {
+        // Stream the mysqldump output as a response
+        return Response::stream(function () use ($command) {
             $process = proc_open($command, [
                 1 => ['pipe', 'w'], // Standard output
                 2 => ['pipe', 'w'], // Standard error
@@ -49,6 +59,8 @@ class DatabaseBackupController extends Controller
 
                 fclose($pipes[1]);
                 proc_close($process);
+            } else {
+                echo "Failed to execute the backup process.";
             }
         }, 200, $headers);
     }
