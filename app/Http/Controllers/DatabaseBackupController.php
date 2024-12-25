@@ -21,9 +21,20 @@ class DatabaseBackupController extends Controller
             'Content-Disposition' => "attachment; filename=\"{$fileName}\"",
         ];
 
-        // Stream mysqldump output to the browser
-        $command = "mysqldump --host={$dbHost} --user={$dbUser} --password={$dbPassword} {$dbName}";
+        // Query to get all table names, excluding views
+        $tableQuery = "SELECT table_name FROM information_schema.tables WHERE table_schema = '{$dbName}' AND table_type = 'BASE TABLE'";
 
+        // Get the list of table names
+        $tables = \DB::select($tableQuery);
+        $tableNames = array_map(function ($table) {
+            return $table->table_name;
+        }, $tables);
+
+        // Prepare the mysqldump command with only the tables
+        $tableList = implode(' ', $tableNames); // Convert the table names to a space-separated string
+        $command = "mysqldump --host={$dbHost} --user={$dbUser} --password={$dbPassword} {$dbName} {$tableList}";
+
+        // Stream mysqldump output to the browser
         return response()->stream(function () use ($command) {
             $process = proc_open($command, [
                 1 => ['pipe', 'w'], // Standard output
