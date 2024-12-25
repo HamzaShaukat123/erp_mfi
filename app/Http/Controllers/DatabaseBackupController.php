@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class DatabaseBackupController extends Controller
 {
-    public function backupDatabase()
+        public function backupDatabase()
     {
         $dbHost = env('DB_HOST', '127.0.0.1');
         $dbName = env('DB_DATABASE', 'database');
