@@ -410,7 +410,7 @@ public function edit($id)
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Invoice No: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Pur Inv No: <span style="text-decoration: underline;color:#000">'.$purchase['sales_against'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 
@@ -667,7 +667,7 @@ public function edit($id)
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Invoice No: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Pur Inv No: <span style="text-decoration: underline;color:#000">'.$purchase['sales_against'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 
@@ -922,7 +922,7 @@ public function edit($id)
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Invoice No: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Pur Inv No: <span style="text-decoration: underline;color:#000">'.$purchase['sales_against'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 
@@ -1178,7 +1178,7 @@ $html .= '</tr>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Invoice No: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['Sale_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['sa_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Pur Inv No: <span style="text-decoration: underline;color:#000">'.$purchase['sales_against'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 

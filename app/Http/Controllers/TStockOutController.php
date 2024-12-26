@@ -371,7 +371,7 @@ class TStockOutController extends Controller
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">ID: &nbsp;<span style="text-decoration: underline;color:#000">'.$tstock_out['prefix'].$tstock_out['Sal_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($tstock_out['sa_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Gate Pass No: <span style="text-decoration: underline;color:#000">'.$tstock_out['mill_gate'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        //$html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 

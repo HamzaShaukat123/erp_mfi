@@ -312,7 +312,7 @@ class StockInController extends Controller
         $html .= '<tr>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">ID: &nbsp;<span style="text-decoration: underline;color:#000">'.$stock_in['prefix'].$stock_in['Sal_inv_no'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($stock_in['sa_date'])->format('d-m-y').'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 

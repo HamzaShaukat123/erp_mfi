@@ -211,7 +211,7 @@ class BadDabsController extends Controller
         $html .= '<tr>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">ID: <span style="text-decoration: underline;color:#000">' . $bad_dabs['bad_dabs_id'] . '</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: <span style="color:#000">' . \Carbon\Carbon::parse($bad_dabs['date'])->format('d-m-y') . '</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: <span style="text-decoration: underline;color:#000">' . auth()->user()->name . '</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: <span style="text-decoration: underline;color:#000">' . auth()->user()->name . '</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
     

@@ -348,7 +348,7 @@ class PoController extends Controller
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">PO No: &nbsp;<span style="text-decoration: underline;color:#000">'.$purchase['prefix'].$purchase['pur_id'].'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Date: &nbsp;<span style="color:#000">'.\Carbon\Carbon::parse($purchase['pur_date'])->format('d-m-y').'</span></td>';
         $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Qoutation No: <span style="text-decoration: underline;color:#000">'.$purchase['pur_bill_no'].'</span></td>';
-        $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
+        // $html .= '<td style="font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Login: &nbsp; <span style="text-decoration: underline;color:#000">Hamza</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
 
