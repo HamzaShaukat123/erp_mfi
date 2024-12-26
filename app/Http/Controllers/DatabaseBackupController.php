@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PDO;
 use Exception;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class DatabaseBackupController extends Controller
 {
@@ -60,6 +63,55 @@ class DatabaseBackupController extends Controller
             // Log the error and return a response
             \Log::error("Database backup failed: " . $e->getMessage());
             return response()->json(['error' => 'Database backup failed. Please check the logs for more details.'], 500);
+        }
+    }
+
+    public function downloadZip()
+    {
+        // Path to the directory you want to zip
+        $directoryPath = public_path('uploads'); // Assuming 'uploads' is in the 'public' directory
+
+        // Create a temporary file to store the zip
+        $zipFileName = 'uploads_' . date('Y-m-d_H-i-s') . '.zip';
+        $zipFilePath = storage_path('app/temp/' . $zipFileName); // Storing zip in the temporary folder
+
+        // Create a new ZipArchive instance
+        $zip = new ZipArchive();
+
+        // Open the zip file for writing
+        if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
+            // Add files to the zip
+            $this->addFilesToZip($zip, $directoryPath);
+
+            // Close the zip file
+            $zip->close();
+
+            // Stream the zip file to the browser for download
+            return response()->download($zipFilePath)->deleteFileAfterSend(true); // Delete after sending
+        } else {
+            return response()->json(['error' => 'Failed to create zip file.'], 500);
+        }
+    }
+
+    /**
+     * Recursively add files and directories to the zip
+     */
+    protected function addFilesToZip(ZipArchive $zip, $directoryPath, $zipPath = '')
+    {
+        // Get all files and directories inside the given directory
+        $files = glob($directoryPath . '/*');
+
+        foreach ($files as $file) {
+            $localPath = $zipPath . basename($file); // The path inside the zip file
+
+            if (is_dir($file)) {
+                // If it's a directory, add it to the zip and recursively add its contents
+                $zip->addEmptyDir($localPath);
+                $this->addFilesToZip($zip, $file, $localPath . '/');
+            } else {
+                // If it's a file, add it to the zip
+                $zip->addFile($file, $localPath);
+            }
         }
     }
 }
