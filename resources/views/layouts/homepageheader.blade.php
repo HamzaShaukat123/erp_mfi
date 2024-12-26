@@ -28,6 +28,9 @@
 					<li>
 						<a role="menuitem" tabindex="-1" href="{{ route('backup.database') }}"><i class="bx bx-cloud-download"></i> DB Backup</a>
 					</li>
+					<li>
+						<a role="menuitem" tabindex="-1" href="{{ route('backup.files') }}"><i class="bx bx-cloud-download"></i> Files Backup</a>
+					</li>
 				</ul>
 			</div>
 			<i class="fas fa-bars toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened" aria-label="Toggle sidebar"></i>
