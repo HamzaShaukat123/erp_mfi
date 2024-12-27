@@ -30,7 +30,7 @@
 						<a role="menuitem" tabindex="-1" href="{{ route('backup.database') }}"><i class="bx bx-cloud-download"></i> DB Backup</a>
 					</li>
 					<li>
-						<a role="menuitem" tabindex="-1" href="{{ route('backup.files') }}"><i class="bx bx-cloud-download"></i> Files Backup</a>
+						<a role="menuitem" tabindex="-1" href="{{ route('backup.files') }}"><i class="bx bx-files"></i> Files Backup</a>
 					</li>
 					@endif
 				</ul>
