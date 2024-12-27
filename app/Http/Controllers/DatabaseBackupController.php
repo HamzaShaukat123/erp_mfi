@@ -13,13 +13,11 @@ class DatabaseBackupController extends Controller
 {
     public function backupDatabase()
     {
-        // Database credentials
         $dbHost = env('DB_HOST', '127.0.0.1');
         $dbName = env('DB_DATABASE', 'database');
         $dbUser = env('DB_USERNAME', 'username');
         $dbPassword = env('DB_PASSWORD', 'password');
     
-        // Set headers for download
         $fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
         $headers = [
             'Content-Type' => 'application/octet-stream',
@@ -27,27 +25,28 @@ class DatabaseBackupController extends Controller
         ];
     
         try {
-            // Create a new PDO instance
+            \Log::info("Connecting to database...");
             $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-            // Get a list of tables (excluding views)
+            \Log::info("Fetching tables...");
             $tables = $pdo->query("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'")->fetchAll(PDO::FETCH_COLUMN);
     
-            // Start building the SQL dump
+            if (empty($tables)) {
+                \Log::error("No tables found in the database.");
+                return response()->json(['error' => 'No tables found in the database.'], 500);
+            }
+    
             $sqlDump = "-- Database Backup\n-- Generated on " . date('Y-m-d H:i:s') . "\n\n";
             foreach ($tables as $table) {
+                \Log::info("Processing table: {$table}");
                 $escapedTable = "`" . str_replace("`", "``", $table) . "`";
     
-                // Add the CREATE TABLE statement
                 $createTableStmt = $pdo->query("SHOW CREATE TABLE {$escapedTable}")->fetch(PDO::FETCH_ASSOC)['Create Table'];
                 $sqlDump .= "-- Structure for table `{$table}`\n";
                 $sqlDump .= "{$createTableStmt};\n\n";
     
-                // Add the INSERT statements for table data
-                $sqlDump .= "-- Dumping data for table `{$table}`\n";
                 $rows = $pdo->query("SELECT * FROM {$escapedTable}");
-    
                 while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
                     $values = array_map([$pdo, 'quote'], $row);
                     $sqlDump .= "INSERT INTO `{$table}` VALUES (" . implode(", ", $values) . ");\n";
@@ -55,17 +54,16 @@ class DatabaseBackupController extends Controller
                 $sqlDump .= "\n";
             }
     
-            // Return the SQL dump as a response
             return response()->stream(function () use ($sqlDump) {
                 echo $sqlDump;
             }, 200, $headers);
     
         } catch (Exception $e) {
-            // Log the error and return a response
             \Log::error("Database backup failed: " . $e->getMessage());
-            return response()->json(['error' => 'Database backup failed. Please check the logs for more details.'], 500);
+            return response()->json(['error' => 'Database backup failed. ' . $e->getMessage()], 500);
         }
     }
+    
     
 
     public function downloadZip()
