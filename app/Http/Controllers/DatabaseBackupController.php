@@ -13,10 +13,10 @@ class DatabaseBackupController extends Controller
 {
     public function backupDatabase()
     {
-        $dbHost = env('DB_HOST', '127.0.0.1');
-        $dbName = env('DB_DATABASE', 'database');
-        $dbUser = env('DB_USERNAME', 'username');
-        $dbPassword = env('DB_PASSWORD', 'password');
+        $dbHost = env('DB_HOST');
+        $dbName = env('DB_DATABASE');
+        $dbUser = env('DB_USERNAME');
+        $dbPassword = env('DB_PASSWORD');
     
         $fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
         $headers = [
