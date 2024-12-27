@@ -25,12 +25,14 @@
 					<li>
 						<a role="menuitem" tabindex="-1" href="/logout"><i class="bx bx-power-off"></i> Logout</a>
 					</li>
+					@if(session('user_role')==1 || session('user_role')==2)
 					<li>
 						<a role="menuitem" tabindex="-1" href="{{ route('backup.database') }}"><i class="bx bx-cloud-download"></i> DB Backup</a>
 					</li>
 					<li>
 						<a role="menuitem" tabindex="-1" href="{{ route('backup.files') }}"><i class="bx bx-cloud-download"></i> Files Backup</a>
 					</li>
+					@endif
 				</ul>
 			</div>
 			<i class="fas fa-bars toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened" aria-label="Toggle sidebar"></i>
