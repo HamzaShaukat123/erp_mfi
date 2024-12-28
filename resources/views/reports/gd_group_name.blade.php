@@ -517,16 +517,22 @@
                             uniqueHeaders.forEach(header => {
                                 const item = groupedData[itemName].find(i => i.item_mm === header);
                                 if (item && item.opp_bal !== null && item.opp_bal !== undefined && item.opp_bal !== '') {
-                                    const value = parseFloat(item.opp_bal); // Parse the value as a number
-                                    const color = value < 0 ? 'red' : value > 0 ? 'green' : 'black'; // Set color based on value
-                                    rowHTML += `<td style="text-align: center; color: ${color};">${value}</td>`;
+                                    const value = parseFloat(item.opp_bal); // Ensure opp_bal is treated as a number
+                                    if (value < 0) {
+                                        rowHTML += `<td style="text-align: center; color: red;">${value}</td>`;
+                                    } else if (value > 0) {
+                                        rowHTML += `<td style="text-align: center; color: green; font-weight: bold;">${value}</td>`;
+                                    } else {
+                                        rowHTML += `<td style="text-align: center;">${value}</td>`;
+                                    }
                                 } else {
-                                    rowHTML += '<td style="text-align: center;"></td>'; // Blank cell for empty values
+                                    rowHTML += '<td style="text-align: center;"></td>';
                                 }
                             });
                             rowHTML += '</tr>';
                             tableBody.insertAdjacentHTML('beforeend', rowHTML);
                         });
+
 
                     },
                     error: function () {
