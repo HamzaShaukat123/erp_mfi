@@ -521,7 +521,7 @@
                                     if (value < 0) {
                                         rowHTML += `<td style="text-align: center; color: red;">${value}</td>`;
                                     } else if (value > 0) {
-                                        rowHTML += `<td style="text-align: center; color: green; font-weight: bold;">${value}</td>`;
+                                        rowHTML += `<td style="text-align: center; color: red; font-weight: bold;">${value}</td>`;
                                     } else {
                                         rowHTML += `<td style="text-align: center;">${value}</td>`;
                                     }
