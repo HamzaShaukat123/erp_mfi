@@ -39,6 +39,7 @@ class RptGoDownItemGroupController extends Controller
         // ->get();
 
         $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
+        ->where('pipe_stock_all_by_item_group.opp_bal', '<>', 0)
         ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
         ->select(
             'pipe_stock_all_by_item_group.item_group_cod',
