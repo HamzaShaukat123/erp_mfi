@@ -453,84 +453,96 @@ class RptGoDownItemGroupController extends Controller
     }
     
     private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
-{
-    $currentDate = Carbon::now();
-    $formattedDate = $currentDate->format('d-m-y');
-
-    $pdf = new MyPDF();
-    $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('MFI');
-    $pdf->SetTitle('Stock All Tabular ' . $request->acc_id);
-    $pdf->SetSubject('Stock All Tabular');
-    $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-    $pdf->setPageOrientation('L');
-
-    // Add a page and set padding
-    $pdf->AddPage();
-    $pdf->setCellPadding(1.2);
-
-    // Report heading
-    $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular</h1>';
-    $pdf->writeHTML($heading, true, false, true, false, '');
-
-    // Define gauges for columns
-    $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '23G', '24G'];
-
-    // Check which columns have non-empty values before rendering the headers and rows
-    $columnsToShow = [];
-
-    // Iterate through gauges to check if each column has non-empty values
-    foreach ($gauges as $gauge) {
-        $hasData = $groupedByItemName->pluck('item_name')->map(function ($items) use ($gauge) {
-            return $items->firstWhere('item_mm', $gauge)['opp_bal'] ?? null;
-        })->filter(function ($value) {
-            return $value !== null && $value !== '';  // Consider empty or null as no data
-        })->isNotEmpty();
-
-        if ($hasData) {
-            $columnsToShow[] = $gauge;
+    {
+        $currentDate = Carbon::now();
+        $formattedDate = $currentDate->format('d-m-y');
+    
+        $pdf = new MyPDF();
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle('Stock All Tabular ' . $request->acc_id);
+        $pdf->SetSubject('Stock All Tabular');
+        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+        $pdf->setPageOrientation('L');
+    
+        // Add a page and set padding
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
+    
+        // Report heading
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular</h1>';
+        $pdf->writeHTML($heading, true, false, true, false, '');
+    
+        // Define gauges for columns
+        $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '23G', '24G'];
+    
+        // Check which columns have non-empty values before rendering the headers and rows
+        $columnsToShow = [];
+    
+        // Iterate through gauges to check if each column has non-empty values
+        foreach ($gauges as $gauge) {
+            $hasData = $groupedByItemName->pluck('item_name')->map(function ($items) use ($gauge) {
+                // Check if $items is null or not before calling firstWhere
+                if (is_null($items)) {
+                    return null;
+                }
+    
+                // Find the matching item for the gauge
+                return $items->firstWhere('item_mm', $gauge)['opp_bal'] ?? null;
+            })->filter(function ($value) {
+                return $value !== null && $value !== '';  // Consider empty or null as no data
+            })->isNotEmpty();
+    
+            if ($hasData) {
+                $columnsToShow[] = $gauge;
+            }
         }
-    }
-
-    // Table header for data
-    $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-    $html .= '<tr>';
-    $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-
-    // Dynamically add headers based on columns that have data
-    foreach ($columnsToShow as $gauge) {
-        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">{$gauge} /<br>mm</th>";
-    }
-
-    $html .= '</tr>';
-
-    // Iterate through the grouped data and create table rows
-    foreach ($groupedByItemName as $itemName => $items) {
+    
+        // Table header for data
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
         $html .= '<tr>';
-        $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
-
-        // Iterate through columns based on available item gauges (mm)
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+    
+        // Dynamically add headers based on columns that have data
         foreach ($columnsToShow as $gauge) {
-            // Find the matching item for the gauge
-            $item = $items->firstWhere('item_mm', $gauge);
-            $html .= $item ? "<td style=\"text-align: center; font-size: 10px;\">{$item['opp_bal']}</td>" : "<td></td>";
+            $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">{$gauge} /<br>mm</th>";
         }
-
+    
         $html .= '</tr>';
+    
+        // Iterate through the grouped data and create table rows
+        foreach ($groupedByItemName as $itemName => $items) {
+            $html .= '<tr>';
+            $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+    
+            // Iterate through columns based on available item gauges (mm)
+            foreach ($columnsToShow as $gauge) {
+                // Check if $items is null before proceeding
+                if (is_null($items)) {
+                    $html .= "<td></td>";
+                    continue;
+                }
+    
+                // Find the matching item for the gauge
+                $item = $items->firstWhere('item_mm', $gauge);
+                $html .= $item ? "<td style=\"text-align: center; font-size: 10px;\">{$item['opp_bal']}</td>" : "<td></td>";
+            }
+    
+            $html .= '</tr>';
+        }
+    
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+    
+        $filename = "stock_all_tabular.pdf";
+    
+        // Determine output type
+        if ($request->outputType === 'download') {
+            $pdf->Output($filename, 'D'); // For download
+        } else {
+            $pdf->Output($filename, 'I'); // For inline view
+        }
     }
-
-    $html .= '</table>';
-    $pdf->writeHTML($html, true, false, true, false, '');
-
-    $filename = "stock_all_tabular.pdf";
-
-    // Determine output type
-    if ($request->outputType === 'download') {
-        $pdf->Output($filename, 'D'); // For download
-    } else {
-        $pdf->Output($filename, 'I'); // For inline view
-    }
-}
-
+    
 
 }
