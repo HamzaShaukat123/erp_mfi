@@ -455,11 +455,11 @@ public function stockAllTabularReport(Request $request)
     });
 
     $sqrItems = $processedData->filter(function ($item) {
-        return substr($item['item_name'], -3) === ' SQR'; // Check if it ends with 'SQR'
+        return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
     });
 
     $otherItems = $processedData->filter(function ($item) {
-        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === ' SQR'); // Exclude ROUND X and SQR
+        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
     });
 
     // Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
@@ -469,7 +469,7 @@ public function stockAllTabularReport(Request $request)
     $groupedByItemName = $orderedData->groupBy('item_name');
 
     // Sort the grouped data by item_name (alphabetical)
-    $groupedByItemName = $groupedByItemName->sortKeys();
+    // $groupedByItemName = $groupedByItemName->sortKeys();
 
     // Check if data exists
     if ($groupedByItemName->isEmpty()) {
