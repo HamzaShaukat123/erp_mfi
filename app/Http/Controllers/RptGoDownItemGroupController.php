@@ -175,7 +175,7 @@ class RptGoDownItemGroupController extends Controller
         $gd_pipe_pur_by_item_group = gd_pipe_pur_by_item_group::where('item_group_cod', $request->acc_id)
         ->join('ac', 'ac.ac_code', '=', 'gd_pipe_pur_by_item_group.account_name')
         ->join('item_entry2', 'item_entry2.it_cod', '=', 'gd_pipe_pur_by_item_group.item_cod')
-        ->join('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
+        ->join('item_group', 'item_group.item_group_cod', '=', 'gd_pipe_pur_by_item_group.item_group_cod')
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
         ->select('gd_pipe_pur_by_item_group.*', 'ac.ac_name', 'item_entry2.item_name','item_group.group_name')
         ->get();
