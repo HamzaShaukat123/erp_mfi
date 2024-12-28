@@ -440,6 +440,9 @@ class RptGoDownItemGroupController extends Controller
         // Group the items by item_name
         $groupedByItemName = $processedData->groupBy('item_name');
     
+        // Sort the grouped data by item_name
+        $groupedByItemName = $groupedByItemName->sortKeys(); // Sort alphabetically by item_name
+    
         // Check if data exists
         if ($groupedByItemName->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
@@ -449,78 +452,76 @@ class RptGoDownItemGroupController extends Controller
         return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
     
-
-
     private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
-{
-    $currentDate = Carbon::now();
-    $formattedDate = $currentDate->format('d-m-y');
+    {
+        $currentDate = Carbon::now();
+        $formattedDate = $currentDate->format('d-m-y');
 
-    $pdf = new MyPDF();
-    $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('MFI');
-    $pdf->SetTitle('Stock All Tabular ' . $request->acc_id);
-    $pdf->SetSubject('Stock All Tabular');
-    $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-    $pdf->setPageOrientation('L');
+        $pdf = new MyPDF();
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle('Stock All Tabular ' . $request->acc_id);
+        $pdf->SetSubject('Stock All Tabular');
+        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+        $pdf->setPageOrientation('L');
 
-    // Add a page and set padding
-    $pdf->AddPage();
-    $pdf->setCellPadding(1.2);
+        // Add a page and set padding
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
 
-    // Report heading
-    $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular</h1>';
-    $pdf->writeHTML($heading, true, false, true, false, '');
+        // Report heading
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular</h1>';
+        $pdf->writeHTML($heading, true, false, true, false, '');
 
-    // Table header for data
-    $html = '
-        <table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        // Table header for data
+        $html = '
+            <table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
 
-    // Column headers (12 columns including Item Name and 11 gauges)
-    $html .= '<tr>';
-    $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">12G /<br>2.50mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">14G /<br>2.00mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">16G /<br>1.60mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.50mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">18G /<br>1.20mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.10</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">19G /<br>1.0mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">20G /<br>0.9mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">21G /<br>0.8mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">22G /<br>0.7mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">23G /<br>0.6mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">24G /<br>0.5mm</th>";
-    $html .= '</tr>';
-
-    // Iterate through the grouped data and create table rows
-    foreach ($groupedByItemName as $itemName => $items) {
+        // Column headers (12 columns including Item Name and 11 gauges)
         $html .= '<tr>';
-        $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">12G /<br>2.50mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">14G /<br>2.00mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">16G /<br>1.60mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.50mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">18G /<br>1.20mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.10</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">19G /<br>1.0mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">20G /<br>0.9mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">21G /<br>0.8mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">22G /<br>0.7mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">23G /<br>0.6mm</th>";
+        $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">24G /<br>0.5mm</th>";
+        $html .= '</tr>';
 
-        // Iterate through columns based on available item gauges (mm)
-        $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '23G', '24G'];
-        foreach ($gauges as $gauge) {
-            // Find the matching item for the gauge
-            $item = $items->firstWhere('item_mm', $gauge);
-            $html .= $item ? "<td style=\"text-align: center; font-size: 10px;\">{$item['opp_bal']}</td>" : "<td></td>";
+        // Iterate through the grouped data and create table rows
+        foreach ($groupedByItemName as $itemName => $items) {
+            $html .= '<tr>';
+            $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+
+            // Iterate through columns based on available item gauges (mm)
+            $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '23G', '24G'];
+            foreach ($gauges as $gauge) {
+                // Find the matching item for the gauge
+                $item = $items->firstWhere('item_mm', $gauge);
+                $html .= $item ? "<td style=\"text-align: center; font-size: 10px;\">{$item['opp_bal']}</td>" : "<td></td>";
+            }
+
+            $html .= '</tr>';
         }
 
-        $html .= '</tr>';
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $filename = "stock_all_tabular.pdf";
+
+        // Determine output type
+        if ($request->outputType === 'download') {
+            $pdf->Output($filename, 'D'); // For download
+        } else {
+            $pdf->Output($filename, 'I'); // For inline view
+        }
     }
-
-    $html .= '</table>';
-    $pdf->writeHTML($html, true, false, true, false, '');
-
-    $filename = "stock_all_tabular.pdf";
-
-    // Determine output type
-    if ($request->outputType === 'download') {
-        $pdf->Output($filename, 'D'); // For download
-    } else {
-        $pdf->Output($filename, 'I'); // For inline view
-    }
-}
 
 
 }
