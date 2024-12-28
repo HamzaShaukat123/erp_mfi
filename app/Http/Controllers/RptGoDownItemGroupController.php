@@ -67,6 +67,34 @@ class RptGoDownItemGroupController extends Controller
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
+
+
+        // Header details
+        $html = '
+        <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
+            <tr>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
+                    Item Group: <span style="color:black;">' . $pur_account_item_group_info[0]['item_group_name'] . '</span>
+                </td>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
+                    Print Date: <span style="color:black;">' . $formattedDate . '</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
+                    From Date: <span style="color:black;">' . $formattedFromDate . '</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left;border-left:1px solid #000; width:30%;">
+                    To Date: <span style="color:black;">' . $formattedToDate . '</span>
+                </td>
+            </tr>
+        </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
     
 
         // Table header for data
