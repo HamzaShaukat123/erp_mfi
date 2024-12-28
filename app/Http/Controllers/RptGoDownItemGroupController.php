@@ -35,7 +35,20 @@ class RptGoDownItemGroupController extends Controller
         ]);
     
         // Retrieve data from the database
+        // $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
+        // ->get();
+
         $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
+        ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
+        ->select(
+            'pipe_stock_all_by_item_group.item_group_cod',
+            'pipe_stock_all_by_item_group.it_cod',
+            'pipe_stock_all_by_item_group.item_name',
+            'pipe_stock_all_by_item_group.item_remark',
+            'pipe_stock_all_by_item_group.opp_bal',
+            'pipe_stock_all_by_item_group.wt',
+            'item_group.group_name'
+        )
         ->get();
     
         // Check if data exists
