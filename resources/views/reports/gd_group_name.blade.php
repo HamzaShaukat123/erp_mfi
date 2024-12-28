@@ -243,6 +243,7 @@
                                                     <th id="20G" style="text-align: center;">20G/0.9mm</th>
                                                     <th id="21G" style="text-align: center;">21G/0.8mm</th>
                                                     <th id="22G" style="text-align: center;">22G/0.7mm</th>
+                                                    <th id="0.70" style="text-align: center;">22G/0.7mm</th>
                                                     <th id="23G" style="text-align: center;">23G/0.6mm</th>
                                                     <th id="24G" style="text-align: center;">24G/0.5mm</th>
 
