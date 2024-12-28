@@ -223,7 +223,7 @@
                                     
                                     <div class="col-lg-6 text-end">
                                         <a class="mb-1 mt-1 me-1 btn btn-warning" aria-label="Download" onclick="downloadPDF('SAT')"><i class="fa fa-download"></i> Download</a>
-                                        <a class="mb-1 mt-1 me-1 btn btn-dark" aria-label="Print PDF" onclick="printPDFStar('SAT')"><i class="fa fa-file-pdf"></i> Print Star PDF</a>
+                                        <a class="mb-1 mt-1 me-1 btn btn-light" aria-label="Print PDF" onclick="printPDFStar('SAT')"><i class="fa fa-file-pdf"></i> Print Star PDF</a>
                                         <a class="mb-1 mt-1 me-1 btn btn-danger" aria-label="Print PDF" onclick="printPDF('SAT')"><i class="fa fa-file-pdf"></i> Print PDF</a>
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
