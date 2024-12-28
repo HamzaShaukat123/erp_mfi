@@ -228,27 +228,15 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
                                     
-                                    <div class="col-12 mt-4" style="height: 775px;overflow-y: auto;padding:0px !important">
+                                    <div class="col-12 mt-4" style="height: 775px; overflow-y: auto; padding: 0 !important;">
                                         <table class="table table-bordered table-striped mb-0" id="TSAThead">
-                                            <thead style="position: sticky;top: 0;background-color: white; ">
-                                                <tr>
-                                                    <th>Item Name</th>
-                                                    <th id="12G" style="text-align: center;">12G/2.50mm</th>
-                                                    <th id="14G" style="text-align: center;">14G/2.00mm</th>
-                                                    <th id="16G" style="text-align: center;">16G/1.60mm</th>
-                                                    <th id="1.5" style="text-align: center;">1.50mm</th>
-                                                    <th id="18G" style="text-align: center;">18G/1.20mm</th>
-                                                    <th id="1.10" style="text-align: center;">1.10mm</th>
-                                                    <th id="19G" style="text-align: center;">19G/1.0mm</th>
-                                                    <th id="20G" style="text-align: center;">20G/0.9mm</th>
-                                                    <th id="21G" style="text-align: center;">21G/0.8mm</th>
-                                                    <th id="22G" style="text-align: center;">22G/0.7mm</th>
-                                                    <th id="23G" style="text-align: center;">23G/0.6mm</th>
-                                                    <th id="24G" style="text-align: center;">24G/0.5mm</th>
-
+                                            <thead style="position: sticky; top: 0; background-color: white;">
+                                                <tr id="tableHeaderRow">
+                                                    <!-- Dynamic headers will be appended here -->
                                                 </tr>
                                             </thead>
                                             <tbody id="SATTble">
+                                                <!-- Dynamic rows will be appended here -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -458,111 +446,78 @@
                     }
                 });
             }
-
             else if (tabId == "#SAT") {
-    let table = document.getElementById('SATTble');
-    
-    // Clear the table
-    while (table.rows.length > 0) {
-        table.deleteRow(0);
-    }
+                const tableBody = document.getElementById('SATTble');
+                const tableHeader = document.getElementById('tableHeaderRow');
+                
+                // Clear existing rows and headers
+                tableBody.innerHTML = '';
+                tableHeader.innerHTML = '';
 
-    const url = "/rep-godown-by-group-name/sat";
-    const tableID = "#SATTble";
+                const url = "/rep-godown-by-group-name/sat";
 
-    // Helper function to safely access data
-    const safeVal = (val) => val !== null && val !== undefined ? val : "";
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        acc_id: acc_id,
+                    },
+                    beforeSend: function () {
+                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
+                    },
+                    success: function (result) {
+                        $('#SAT_from').text(formattedfromDate);
+                        $('#SAT_to').text(formattedtoDate);
 
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-            fromDate: fromDate,
-            toDate: toDate,
-            acc_id: acc_id,
-        },
-        beforeSend: function() {
-            $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
-        },
-        success: function (result) {
-            $('#SAT_from').text(formattedfromDate);
-            $('#SAT_to').text(formattedtoDate);
+                        const selectedAcc = $('#acc_id').find("option:selected").text();
+                        $('#SAT_acc').text(selectedAcc);
 
-            const selectedAcc = $('#acc_id').find("option:selected").text();
-            $('#SAT_acc').text(selectedAcc);
+                        // Process the data to extract unique headers and rows
+                        const processedData = result.map(item => {
+                            const itemChunks = item.item_name.split(' ');
+                            return {
+                                ...item,
+                                item_group: itemChunks[0] || '',
+                                item_mm: itemChunks[1] || '',
+                                item_name: itemChunks.slice(2).join(' ') || '',
+                            };
+                        });
 
-            $(tableID).empty(); // Clear the loading message
+                        const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
 
-            // Step 1: Break item_name into 3 chunks and extract `item_gauge` dynamically
-            const processedData = result.map(item => {
-                const itemChunks = item.item_name.split(' ');
-                const item_group = itemChunks[0] || '';   // First chunk (before the first space)
-                const item_gauge = itemChunks[1] || '';   // Second chunk (dynamic column header)
-                const item_name = itemChunks.slice(2).join(' ') || ''; // Everything after the second space
+                        // Append dynamic headers
+                        let headerHTML = '<th>Item Name</th>';
+                        uniqueHeaders.forEach(header => {
+                            headerHTML += `<th style="text-align: center;">${header}</th>`;
+                        });
+                        tableHeader.innerHTML = headerHTML;
 
-                return {
-                    ...item,
-                    item_group: item_group,
-                    item_mm: item_gauge,
-                    item_name: item_name,
-                };
-            });
+                        // Group items by `item_name`
+                        const groupedData = processedData.reduce((acc, item) => {
+                            if (!acc[item.item_name]) acc[item.item_name] = [];
+                            acc[item.item_name].push(item);
+                            return acc;
+                        }, {});
 
-            // Step 2: Extract unique `item_mm` values dynamically to form headers
-            const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(header => header);
-
-            // Step 3: Group the items under `item_name`
-            const groupedByItemName = processedData.reduce((acc, item) => {
-                const item_name = item.item_name;
-
-                if (!acc[item_name]) {
-                    acc[item_name] = [];
-                }
-
-                acc[item_name].push(item);
-                return acc;
-            }, {});
-
-            // Step 4: Check non-empty columns (dynamic headers)
-            const nonEmptyColumns = uniqueHeaders.filter(col_id => {
-                return Object.values(groupedByItemName).some(items => 
-                    items.some(item => item.item_mm === col_id && safeVal(item.opp_bal) !== "")
-                );
-            });
-
-            // Step 5: Update the table header dynamically
-            let headerHtml = "<tr><th>Item Name</th>";
-            nonEmptyColumns.forEach(header => {
-                headerHtml += `<th style="text-align: center;" id="${header}">${header}</th>`;
-            });
-            headerHtml += "</tr>";
-            $('#TSAThead thead').html(headerHtml);
-
-            // Step 6: Build the table rows
-            $.each(groupedByItemName, function(k, v) {
-                let html = "<tr>";
-                html += "<td>" + (k ? k : "") + "</td>";
-
-                nonEmptyColumns.forEach(col_id => {
-                    const item = v.find(i => i.item_mm === col_id); // Find the matching item
-                    if (item) {
-                        const oppBal = item.opp_bal || '0';
-                        const textColor = oppBal < 0 ? 'color: red;' : '';
-                        html += `<td style="text-align: center; font-size: 20px; ${textColor}">${oppBal}</td>`;
-                    } else {
-                        html += '<td style="text-align: center; font-size: 20px;">0</td>';
+                        // Append rows dynamically
+                        Object.keys(groupedData).forEach(itemName => {
+                            let rowHTML = `<tr><td>${itemName}</td>`;
+                            uniqueHeaders.forEach(header => {
+                                const item = groupedData[itemName].find(i => i.item_mm === header);
+                                rowHTML += item ? `<td style="text-align: center;">${item.opp_bal || '0'}</td>` : '<td style="text-align: center;">0</td>';
+                            });
+                            rowHTML += '</tr>';
+                            tableBody.insertAdjacentHTML('beforeend', rowHTML);
+                        });
+                    },
+                    error: function () {
+                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
                     }
                 });
+            }
 
-                html += "</tr>";
-                $(tableID).append(html);
-            });
-        },
-        error: function () {
-            $(tableID).html('<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
-        }
-    });
-}
 
         }
 
