@@ -70,8 +70,8 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Stock All Report Item Group - ' . $request->acc_id);
-        $pdf->SetSubject('Stock All Report');
+        $pdf->SetTitle("Stock All Report Item Group  - {$pipe_stock_all_by_item_group[0]['group_name']}");
+        $pdf->SetSubject("Stock All Report - {$pipe_stock_all_by_item_group[0]['group_name']}");
         $pdf->SetKeywords('Stock All Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
 
@@ -140,6 +140,9 @@ class RptGoDownItemGroupController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
 
         $filename = "stock_all_report.pdf";
+
+        $filename = "stock_all_report_{$pipe_stock_all_by_item_group[0]['group_name']}.pdf";
+
 
         // Determine output type
         if ($request->outputType === 'download') {
