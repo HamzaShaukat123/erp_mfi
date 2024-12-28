@@ -505,7 +505,7 @@ class RptGoDownItemGroupController extends Controller
         // Table header for data
         $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
         $html .= '<tr>';
-        $html .= '<th style="width: 24%;color:#17365D;font-weight:bold;">Item Name</th>';
+        $html .= '<th style="width: 14%;color:#17365D;font-weight:bold;">Item Name</th>';
 
         // Dynamically determine the available gauges
         $allGauges = [];
