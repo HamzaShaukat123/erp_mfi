@@ -642,7 +642,7 @@ class RptGoDownItemGroupController extends Controller
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
 
-                if ($value !== null && $value != 0) {
+                if ($value !== null && $value > 0) {
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
                 } else {
                     $html .= "<td style=\"text-align: center; font-size: 12px;\"></td>";
