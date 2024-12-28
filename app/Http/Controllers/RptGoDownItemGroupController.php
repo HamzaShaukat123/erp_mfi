@@ -455,7 +455,7 @@ public function stockAllTabularReport(Request $request)
     });
 
     $sqrItems = $processedData->filter(function ($item) {
-        return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
+        return substr($item['item_name'], -3) === 'MM SQR'; // Check if it ends with 'SQR'
     });
 
     $otherItems = $processedData->filter(function ($item) {
