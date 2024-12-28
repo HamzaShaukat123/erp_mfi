@@ -639,7 +639,7 @@ class RptGoDownItemGroupController extends Controller
                     $fontSize = '12px'; // Default font size
                 } else {
                     $valueToDisplay = '*'; // Show '*' for positive values
-                    $fontSize = '15px'; // Increased font size for positive values
+                    $fontSize = '20px'; // Increased font size for positive values
                 }
     
                 // If the value is negative, apply red color
