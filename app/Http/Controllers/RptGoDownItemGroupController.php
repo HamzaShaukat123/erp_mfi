@@ -139,7 +139,7 @@ class RptGoDownItemGroupController extends Controller
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        $filename = "stock_all_report.pdf";
+     
 
         $filename = "stock_all_report_{$pipe_stock_all_by_item_group[0]['group_name']}.pdf";
 
@@ -175,8 +175,9 @@ class RptGoDownItemGroupController extends Controller
         $gd_pipe_pur_by_item_group = gd_pipe_pur_by_item_group::where('item_group_cod', $request->acc_id)
         ->join('ac', 'ac.ac_code', '=', 'gd_pipe_pur_by_item_group.account_name')
         ->join('item_entry2', 'item_entry2.it_cod', '=', 'gd_pipe_pur_by_item_group.item_cod')
+        ->join('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
         ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
-        ->select('gd_pipe_pur_by_item_group.*', 'ac.ac_name', 'item_entry2.item_name')
+        ->select('gd_pipe_pur_by_item_group.*', 'ac.ac_name', 'item_entry2.item_name','item_group.group_name')
         ->get();
     
         // Check if data exists
@@ -196,8 +197,8 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Stock In Report Item Group - ' . $request->acc_id);
-        $pdf->SetSubject('Stock In Report');
+        $pdf->SetTitle("Stock In Report Item Group  - {$gd_pipe_pur_by_item_group[0]['group_name']}");
+        $pdf->SetSubject("Stock In Report - {$gd_pipe_pur_by_item_group[0]['group_name']}");
         $pdf->SetKeywords('Stock In Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
     
@@ -208,6 +209,18 @@ class RptGoDownItemGroupController extends Controller
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock In Report</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
+
+        // Header details
+        $html = '
+        <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
+            <tr>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:100%;">
+                    Item Group: <span style="color:black;">' . $gd_pipe_pur_by_item_group[0]['item_group_cod'] . ' - ' . $gd_pipe_pur_by_item_group[0]['group_name'] . '</span>
+                </td>
+            </tr>
+        </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
     
 
         // Table header for data
@@ -224,7 +237,8 @@ class RptGoDownItemGroupController extends Controller
     
         // Iterate through items and add rows
         $count = 1;
-        $totalAmount = 0;
+        $totalQty = 0;
+        $totalWeight = 0;
     
         foreach ($gd_pipe_pur_by_item_group as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
@@ -238,15 +252,25 @@ class RptGoDownItemGroupController extends Controller
                     <td style="width:14%;">' . $item['Sales_qty'] . '</td>
                     <td style="width:14%;">' . $item['wt'] . '</td>
                 </tr>';
-            
+
+            $totalQty += $item['Sales_qty'];
+            $totalWeight += $item['wt'];
             $count++;
         }
     
+        // Add total row
+        $html .= '
+            <tr style="font-weight:bold; background-color:#d9edf7;">
+                <td colspan="3" style="text-align:right;">Total:</td>
+                <td>' . $totalQty . '</td>
+                <td>' . $totalWeight . '</td>
+            </tr>';
+
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
 
-        $filename = "stock_in_report.pdf";
+        $filename = "stock_in_report_{$pipe_stock_all_by_item_group[0]['group_name']}.pdf";
 
         // Determine output type
         if ($request->outputType === 'download') {
