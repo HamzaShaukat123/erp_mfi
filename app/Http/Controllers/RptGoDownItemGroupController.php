@@ -510,7 +510,7 @@ class RptGoDownItemGroupController extends Controller
     // Iterate through the grouped data and create table rows
     foreach ($groupedByItemName as $itemName => $items) {
         $html .= '<tr>';
-        $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+        $html .= "<td style=\"font-size: 14px;\">{$itemName}</td>";
 
         // Iterate through columns based on available item gauges (mm)
         foreach ($headerColumns as $gauge) {
