@@ -465,36 +465,6 @@ class RptGoDownItemGroupController extends Controller
     
     private function stockAllTabulargeneratePDF($groupedByItemName, $request)
     {
-        $currentDate = Carbon::now();
-        $formattedDate = $currentDate->format('d-m-y');
-    
-        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
-    
-        $pdf = new MyPDF();
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
-        $pdf->SetSubject("Stock All Report - {$groupName}");
-        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-        $pdf->setPageOrientation('L');
-    
-        // Add a page and set padding
-        $pdf->AddPage();
-        $pdf->setCellPadding(1.2);
-    
-        // Dynamic heading
-        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
-        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
-        $pdf->writeHTML($heading, true, false, true, false, '');
-    
-        // Table header for data
-        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-    
-        // Start building the headers with fixed width for Item Name (28%) and the rest dynamically
-        $html .= '<tr>';
-        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-    
         // Dynamically determine the available gauges
         $allGauges = [];
         foreach ($groupedByItemName as $items) {
@@ -506,35 +476,35 @@ class RptGoDownItemGroupController extends Controller
         }
         $availableGauges = array_keys($allGauges); // Extract unique gauges
     
-        // Sort gauges in ascending order
-        sort($availableGauges);
+        // Sort gauges in natural order
+        natsort($availableGauges);
+        $availableGauges = array_values($availableGauges); // Reindex after sorting
     
-        $headerColumns = [];
+        // Generate table headers
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $html .= '<tr>';
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+    
         $remainingWidth = 72; // Remaining width for the other columns
         $numColumns = count($availableGauges); // Count dynamically available gauges
     
         // Calculate the width for the remaining columns
         $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
     
-        // Add the headers for the dynamically available gauges
         foreach ($availableGauges as $gauge) {
-            $headerStyle = "width: {$columnWidth}%;color:#17365D;font-weight:bold;";
-            $html .= "<th style=\"{$headerStyle}\">{$gauge}</th>";
+            $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
         }
         $html .= '</tr>';
     
-        // Iterate through the grouped data and create table rows
+        // Generate table rows
         foreach ($groupedByItemName as $itemName => $items) {
             $html .= '<tr>';
             $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
     
-            // Iterate through columns based on available item gauges (mm)
             foreach ($availableGauges as $gauge) {
-                // Find the matching item for the gauge
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
     
-                // Check if the value is negative and apply red color
                 if ($value !== null && $value < 0) {
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
                 } else {
@@ -544,20 +514,10 @@ class RptGoDownItemGroupController extends Controller
     
             $html .= '</tr>';
         }
-    
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
-    
-        $filename = "stock_all_tabular_{$groupName}.pdf";
-    
-        // Determine output type
-        if ($request->outputType === 'download') {
-            $pdf->Output($filename, 'D'); // For download
-        } else {
-            $pdf->Output($filename, 'I'); // For inline view
-        }
     }
-    
+        
     
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
