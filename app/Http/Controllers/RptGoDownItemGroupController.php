@@ -452,7 +452,7 @@ class RptGoDownItemGroupController extends Controller
         return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
     
- private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
+    private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
 {
     $currentDate = Carbon::now();
     $formattedDate = $currentDate->format('d-m-y');
@@ -482,12 +482,6 @@ class RptGoDownItemGroupController extends Controller
     // Iterate through gauges to check if each column has non-empty values
     foreach ($gauges as $gauge) {
         $hasData = $groupedByItemName->pluck('item_name')->map(function ($items) use ($gauge) {
-            // Check if $items is null or not before calling firstWhere
-            if (is_null($items)) {
-                return null;
-            }
-
-            // Find the matching item for the gauge
             return $items->firstWhere('item_mm', $gauge)['opp_bal'] ?? null;
         })->filter(function ($value) {
             return $value !== null && $value !== '';  // Consider empty or null as no data
@@ -517,12 +511,6 @@ class RptGoDownItemGroupController extends Controller
 
         // Iterate through columns based on available item gauges (mm)
         foreach ($columnsToShow as $gauge) {
-            // Check if $items is null before proceeding
-            if (is_null($items)) {
-                $html .= "<td></td>";
-                continue;
-            }
-
             // Find the matching item for the gauge
             $item = $items->firstWhere('item_mm', $gauge);
             $html .= $item ? "<td style=\"text-align: center; font-size: 10px;\">{$item['opp_bal']}</td>" : "<td></td>";
