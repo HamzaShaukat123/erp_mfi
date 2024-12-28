@@ -449,7 +449,7 @@ class RptGoDownItemGroupController extends Controller
             ];
         });
     
-        // Separate the items into three groups: ROUND, SQR, and others
+        // Separate the items into three groups: ROUND (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
         $roundItems = $processedData->filter(function ($item) {
             return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
         });
@@ -567,7 +567,7 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
-        
+            
 
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
