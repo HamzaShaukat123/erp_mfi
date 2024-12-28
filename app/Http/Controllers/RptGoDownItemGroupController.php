@@ -478,7 +478,7 @@ class RptGoDownItemGroupController extends Controller
     
         // Column headers (12 columns including Item Name and 11 gauges)
         $html .= '<tr>';
-        $html .= '<th style="width: 10%;color:#17365D;font-weight:bold;">Item Name</th>';
+        $html .= '<th style="width: 8%;color:#17365D;font-weight:bold;">Item Name</th>';
         foreach (['12G/2.50mm', '14G/2.00mm', '16G/1.60mm', '1.50mm', '18G/1.20mm', '1.10mm', '19G/1.0mm', '20G/0.9mm', '21G/0.8mm', '22G/0.7mm', '23G/0.6mm', '24G/0.5mm'] as $gauge) {
             $html .= "<th style=\"width: 8%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
         }
