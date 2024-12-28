@@ -130,7 +130,7 @@ class RptGoDownItemGroupController extends Controller
 
         // Add total row
         $html .= '
-            <tr style="font-weight:bold; background-color:#e3e3e3;">
+            <tr style="font-weight:bold; background-color:#d9edf7;">
                 <td colspan="3" style="text-align:right;">Total:</td>
                 <td>' . $totalQty . '</td>
                 <td>' . $totalWeight . '</td>
