@@ -471,7 +471,7 @@
     const tableID = "#SATTble";
 
     // Helper function to safely access data
-    const safeVal = (val) => val ? val : "";
+    const safeVal = (val) => val !== null && val !== undefined ? val : "";
 
     $.ajax({
         type: "GET",
@@ -523,14 +523,16 @@
                 return acc;
             }, {});
 
-            // Step 3: Determine which columns are entirely empty
+            // Step 3: Determine which columns are completely empty
             const gaugeColumns = $('#TSAThead thead tr').children('th').map(function() {
                 return $(this).attr('id');
             }).get(); // Get all column IDs
 
             const nonEmptyColumns = gaugeColumns.filter(col_id => {
                 // Check if any item in grouped data has data for this column
-                return Object.values(groupedByChunk3).some(items => items.some(item => item.item_mm === col_id && item.opp_bal));
+                return Object.values(groupedByChunk3).some(items => 
+                    items.some(item => item.item_mm === col_id && safeVal(item.opp_bal) !== "")
+                );
             });
 
             // Step 4: Build the table
@@ -545,7 +547,7 @@
                         const textColor = oppBal < 0 ? 'color: red;' : '';
                         html += `<td style="text-align: center; font-size: 20px; ${textColor}">${oppBal}</td>`;
                     } else {
-                        html += '<td style="text-align: center; font-size: 20px;"></td>';
+                        html += '<td style="text-align: center; font-size: 20px;">0</td>';
                     }
                 });
 
