@@ -449,27 +449,27 @@ public function stockAllTabularReport(Request $request)
         ];
     });
 
-    // Separate the items into three groups: ROUND X (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
-    $roundItems = $processedData->filter(function ($item) {
-        return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
-    });
+// Separate the items into three groups: ROUND X (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
+$roundItems = $processedData->filter(function ($item) {
+    return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
+})->sortBy('item_name'); // Sort ROUND X items in ascending order
 
-    $sqrItems = $processedData->filter(function ($item) {
-        return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
-    });
+$sqrItems = $processedData->filter(function ($item) {
+    return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
+})->sortBy('item_name'); // Sort SQR items in ascending order
 
-    $otherItems = $processedData->filter(function ($item) {
-        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
-    });
+$otherItems = $processedData->filter(function ($item) {
+    return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
+})->sortBy('item_name'); // Sort other items in ascending order
 
-    // Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
-    $orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
+// Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
+$orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
 
-    // Group the items by item_name (maintains the separate groups in order)
-    $groupedByItemName = $orderedData->groupBy('item_name');
+// Group the items by item_name (maintains the separate groups in order)
+$groupedByItemName = $orderedData->groupBy('item_name');
 
-    // Sort the grouped data by item_name (alphabetical)
-    // $groupedByItemName = $groupedByItemName->sortKeys();
+// Now $groupedByItemName contains the sorted and grouped items
+
 
     // Check if data exists
     if ($groupedByItemName->isEmpty()) {
