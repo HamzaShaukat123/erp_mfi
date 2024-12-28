@@ -322,8 +322,8 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Stock Out Report Item Group - ' . $request->acc_id);
-        $pdf->SetSubject('Stock Out Report');
+        $pdf->SetTitle("Stock Out Report Item Group  - {$gd_pipe_sales_by_item_group[0]['group_name']}");
+        $pdf->SetSubject("Stock Out Report - {$gd_pipe_sales_by_item_group[0]['group_name']}");
         $pdf->SetKeywords('Stock Out Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
     
@@ -334,6 +334,19 @@ class RptGoDownItemGroupController extends Controller
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock Out Report</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
+
+
+        // Header details
+        $html = '
+        <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
+            <tr>
+                <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:100%;">
+                    Item Group: <span style="color:black;">' . $gd_pipe_sales_by_item_group[0]['item_group_cod'] . ' - ' . $gd_pipe_sales_by_item_group[0]['group_name'] . '</span>
+                </td>
+            </tr>
+        </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
     
 
         // Table header for data
@@ -350,7 +363,8 @@ class RptGoDownItemGroupController extends Controller
     
         // Iterate through items and add rows
         $count = 1;
-        $totalAmount = 0;
+        $totalQty = 0;
+        $totalWeight = 0;
     
         foreach ($gd_pipe_sales_by_item_group as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
@@ -364,15 +378,25 @@ class RptGoDownItemGroupController extends Controller
                     <td style="width:14%;">' . $item['Sales_qty'] . '</td>
                     <td style="width:14%;">' . $item['wt'] . '</td>
                 </tr>';
-            
+
+            $totalQty += $item['opSales_qtyp_bal'];
+            $totalWeight += $item['wt'];
             $count++;
         }
+
+          // Add total row
+          $html .= '
+          <tr style="font-weight:bold; background-color:#d9edf7;">
+              <td colspan="4" style="text-align:right;">Total:</td>
+              <td>' . $totalQty . '</td>
+              <td>' . $totalWeight . '</td>
+          </tr>';
     
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
 
-        $filename = "stock_out_report.pdf";
+        $filename = "stock_out_report_{$gd_pipe_sales_by_item_group[0]['group_name']}.pdf";
 
         // Determine output type
         if ($request->outputType === 'download') {
