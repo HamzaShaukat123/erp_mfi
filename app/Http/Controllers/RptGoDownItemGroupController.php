@@ -506,6 +506,9 @@ class RptGoDownItemGroupController extends Controller
         }
         $availableGauges = array_keys($allGauges); // Extract unique gauges
     
+        // Sort gauges in ascending order
+        sort($availableGauges);
+    
         $headerColumns = [];
         $remainingWidth = 72; // Remaining width for the other columns
         $numColumns = count($availableGauges); // Count dynamically available gauges
@@ -554,6 +557,7 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
+    
     
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
