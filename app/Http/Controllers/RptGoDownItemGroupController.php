@@ -379,7 +379,7 @@ class RptGoDownItemGroupController extends Controller
                     <td style="width:14%;">' . $item['wt'] . '</td>
                 </tr>';
 
-            $totalQty += $item['opSales_qtyp_bal'];
+            $totalQty += $item['Sales_qty'];
             $totalWeight += $item['wt'];
             $count++;
         }
