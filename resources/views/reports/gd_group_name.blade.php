@@ -243,7 +243,6 @@
                                                     <th id="20G" style="text-align: center;">20G/0.9mm</th>
                                                     <th id="21G" style="text-align: center;">21G/0.8mm</th>
                                                     <th id="22G" style="text-align: center;">22G/0.7mm</th>
-                                                    <th id="0.70" style="text-align: center;">22G/0.7mm</th>
                                                     <th id="23G" style="text-align: center;">23G/0.6mm</th>
                                                     <th id="24G" style="text-align: center;">24G/0.5mm</th>
 
@@ -460,117 +459,110 @@
                 });
             }
 
-            else if(tabId == "#SAT") {
-                let table = document.getElementById('SATTble');
-                
-                // Clear the table
-                while (table.rows.length > 0) {
-                    table.deleteRow(0);
+            else if (tabId == "#SAT") {
+    let table = document.getElementById('SATTble');
+    
+    // Clear the table
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
+
+    const url = "/rep-godown-by-group-name/sat";
+    const tableID = "#SATTble";
+
+    // Helper function to safely access data
+    const safeVal = (val) => val !== null && val !== undefined ? val : "";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            acc_id: acc_id,
+        },
+        beforeSend: function() {
+            $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
+        },
+        success: function (result) {
+            $('#SAT_from').text(formattedfromDate);
+            $('#SAT_to').text(formattedtoDate);
+
+            const selectedAcc = $('#acc_id').find("option:selected").text();
+            $('#SAT_acc').text(selectedAcc);
+
+            $(tableID).empty(); // Clear the loading message
+
+            // Step 1: Break item_name into 3 chunks and extract `item_gauge` dynamically
+            const processedData = result.map(item => {
+                const itemChunks = item.item_name.split(' ');
+                const item_group = itemChunks[0] || '';   // First chunk (before the first space)
+                const item_gauge = itemChunks[1] || '';   // Second chunk (dynamic column header)
+                const item_name = itemChunks.slice(2).join(' ') || ''; // Everything after the second space
+
+                return {
+                    ...item,
+                    item_group: item_group,
+                    item_mm: item_gauge,
+                    item_name: item_name,
+                };
+            });
+
+            // Step 2: Extract unique `item_mm` values dynamically to form headers
+            const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(header => header);
+
+            // Step 3: Group the items under `item_name`
+            const groupedByItemName = processedData.reduce((acc, item) => {
+                const item_name = item.item_name;
+
+                if (!acc[item_name]) {
+                    acc[item_name] = [];
                 }
 
-                const url = "/rep-godown-by-group-name/sat";
-                const tableID = "#SATTble";
+                acc[item_name].push(item);
+                return acc;
+            }, {});
 
-                // Helper function to safely access data
-                const safeVal = (val) => val !== null && val !== undefined ? val : "";
+            // Step 4: Check non-empty columns (dynamic headers)
+            const nonEmptyColumns = uniqueHeaders.filter(col_id => {
+                return Object.values(groupedByItemName).some(items => 
+                    items.some(item => item.item_mm === col_id && safeVal(item.opp_bal) !== "")
+                );
+            });
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        acc_id: acc_id,
-                    },
-                    beforeSend: function() {
-                        $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
-                    },
-                    success: function (result) {
-                        $('#SAT_from').text(formattedfromDate);
-                        $('#SAT_to').text(formattedtoDate);
+            // Step 5: Update the table header dynamically
+            let headerHtml = "<tr><th>Item Name</th>";
+            nonEmptyColumns.forEach(header => {
+                headerHtml += `<th style="text-align: center;" id="${header}">${header}</th>`;
+            });
+            headerHtml += "</tr>";
+            $('#TSAThead thead').html(headerHtml);
 
-                        const selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#SAT_acc').text(selectedAcc);
+            // Step 6: Build the table rows
+            $.each(groupedByItemName, function(k, v) {
+                let html = "<tr>";
+                html += "<td>" + (k ? k : "") + "</td>";
 
-                        $(tableID).empty(); // Clear the loading message
-
-                        // Step 1: Break item_name into 3 chunks based on space
-                        const processedData = result.map(item => {
-                            const itemChunks = item.item_name.split(' ');
-                            const item_group = itemChunks[0] || '';   // First chunk (before the first space)
-                            const item_gauge = itemChunks[1] || '';   // Second chunk (between the first and second space)
-                            const item_name = itemChunks.slice(2).join(' ') || ''; // Everything after the second space
-
-                            return {
-                                ...item,
-                                item_group: item_group,
-                                item_mm: item_gauge,
-                                item_name: item_name,
-                            };
-                        });
-
-                        // Step 2: Group the items under the third chunk value
-                        const groupedByChunk3 = processedData.reduce((acc, item) => {
-                            const item_name = item.item_name;
-
-                            // If a group for this item_name doesn't exist, create an empty array
-                            if (!acc[item_name]) {
-                                acc[item_name] = [];
-                            }
-
-                            // Push the item into the corresponding group under the third chunk
-                            acc[item_name].push(item);
-
-                            return acc;
-                        }, {});
-
-                        // Step 3: Determine which columns are completely empty
-                        const gaugeColumns = $('#TSAThead thead tr').children('th').map(function() {
-                            return $(this).attr('id');
-                        }).get(); // Get all column IDs
-
-                        const nonEmptyColumns = gaugeColumns.filter(col_id => {
-                            // Check if any item in grouped data has data for this column
-                            return Object.values(groupedByChunk3).some(items => 
-                                items.some(item => item.item_mm === col_id && safeVal(item.opp_bal) !== "")
-                            );
-                        });
-
-                        // Step 4: Build the table
-                        $.each(groupedByChunk3, function(k, v) {
-                            let html = "<tr>";
-                            html += "<td>" + (k ? k : "") + "</td>";
-
-                            nonEmptyColumns.forEach(col_id => {
-                                const item = v.find(i => i.item_mm === col_id); // Find the matching item
-                                if (item) {
-                                    const oppBal = item.opp_bal || '0';
-                                    const textColor = oppBal < 0 ? 'color: red;' : '';
-                                    html += `<td style="text-align: center; font-size: 20px; ${textColor}">${oppBal}</td>`;
-                                } else {
-                                    html += '<td style="text-align: center; font-size: 20px;">0</td>';
-                                }
-                            });
-
-                            html += "</tr>";
-                            $(tableID).append(html);
-                        });
-
-                        // Step 5: Update the table header to only show non-empty columns
-                        $('#TSAThead thead tr').children('th').each(function() {
-                            const col_id = $(this).attr('id');
-                            if (!nonEmptyColumns.includes(col_id) && col_id) {
-                                $(this).hide(); // Hide empty column headers
-                            } else {
-                                $(this).show(); // Show non-empty column headers
-                            }
-                        });
-                    },
-                    error: function () {
-                        $(tableID).html('<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+                nonEmptyColumns.forEach(col_id => {
+                    const item = v.find(i => i.item_mm === col_id); // Find the matching item
+                    if (item) {
+                        const oppBal = item.opp_bal || '0';
+                        const textColor = oppBal < 0 ? 'color: red;' : '';
+                        html += `<td style="text-align: center; font-size: 20px; ${textColor}">${oppBal}</td>`;
+                    } else {
+                        html += '<td style="text-align: center; font-size: 20px;">0</td>';
                     }
                 });
-            }
+
+                html += "</tr>";
+                $(tableID).append(html);
+            });
+        },
+        error: function () {
+            $(tableID).html('<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+        }
+    });
+}
 
         }
 
