@@ -468,11 +468,11 @@
                         tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
                     },
                     success: function (result) {
-                        $('#sat_from').text(formattedfromDate);
-                        $('#sat_to').text(formattedtoDate);
+                        $('#SAT_from').text(formattedfromDate);
+                        $('#SAT_to').text(formattedtoDate);
 
                         const selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#sat_acc').text(selectedAcc);
+                        $('#SAT_acc').text(selectedAcc);
                         // Clear loading message
                         tableBody.innerHTML = '';
                         tableHeader.innerHTML = '';
