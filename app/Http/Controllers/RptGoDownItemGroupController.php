@@ -269,7 +269,7 @@ class RptGoDownItemGroupController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
     
 
-        $filename = "stock_in_report_{$pipe_stock_all_by_item_group[0]['group_name']}.pdf";
+        $filename = "stock_in_report_{$gd_pipe_pur_by_item_group[0]['group_name']}.pdf";
 
         // Determine output type
         if ($request->outputType === 'download') {
