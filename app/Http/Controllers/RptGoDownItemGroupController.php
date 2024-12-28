@@ -467,10 +467,10 @@ class RptGoDownItemGroupController extends Controller
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
-
+    
         // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
         $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
-
+    
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
@@ -478,60 +478,59 @@ class RptGoDownItemGroupController extends Controller
         $pdf->SetSubject("Stock All Report - {$groupName}");
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
-
+    
         // Add a page and set padding
         $pdf->AddPage();
         $pdf->setCellPadding(1.2);
-
-        // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular - ' . $groupName . '</h1>';
+    
+        // Dynamic heading
+        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
+        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
         $pdf->writeHTML($heading, true, false, true, false, '');
-
+    
         // Table header for data
         $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-
+    
         // Start building the headers with fixed width for Item Name (28%) and the rest dynamically
         $html .= '<tr>';
         $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-
-        // Check and display column headers if there is any data for each gauge
-        $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '0.70', '23G', '24G'];
-        $headerColumns = [];
-        $remainingWidth = 72; // Remaining width for the other columns
-        $numColumns = 0; // To calculate how many columns will be displayed
-
-        foreach ($gauges as $gauge) {
-            // Check if there's data for this gauge in any of the items
-            $hasData = $groupedByItemName->contains(function($items) use ($gauge) {
-                return $items->firstWhere('item_mm', $gauge) !== null;
-            });
-
-            if ($hasData) {
-                $headerColumns[] = $gauge;
-                $numColumns++;
+    
+        // Dynamically determine the available gauges
+        $allGauges = [];
+        foreach ($groupedByItemName as $items) {
+            foreach ($items as $item) {
+                if (isset($item['item_mm'])) {
+                    $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+                }
             }
         }
-
+        $availableGauges = array_keys($allGauges); // Extract unique gauges
+    
+        $headerColumns = [];
+        $remainingWidth = 72; // Remaining width for the other columns
+        $numColumns = count($availableGauges); // Count dynamically available gauges
+    
         // Calculate the width for the remaining columns
         $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
-
-        // Add the headers for the gauges
-        foreach ($headerColumns as $gauge) {
-            $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
+    
+        // Add the headers for the dynamically available gauges
+        foreach ($availableGauges as $gauge) {
+            $headerStyle = "width: {$columnWidth}%;color:#17365D;font-weight:bold;";
+            $html .= "<th style=\"{$headerStyle}\">{$gauge}</th>";
         }
         $html .= '</tr>';
-
+    
         // Iterate through the grouped data and create table rows
         foreach ($groupedByItemName as $itemName => $items) {
             $html .= '<tr>';
             $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
-
+    
             // Iterate through columns based on available item gauges (mm)
-            foreach ($headerColumns as $gauge) {
+            foreach ($availableGauges as $gauge) {
                 // Find the matching item for the gauge
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
-
+    
                 // Check if the value is negative and apply red color
                 if ($value !== null && $value < 0) {
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
@@ -539,16 +538,15 @@ class RptGoDownItemGroupController extends Controller
                     $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
                 }
             }
-
+    
             $html .= '</tr>';
         }
-
+    
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
-
+    
         $filename = "stock_all_tabular_{$groupName}.pdf";
-
-
+    
         // Determine output type
         if ($request->outputType === 'download') {
             $pdf->Output($filename, 'D'); // For download
@@ -556,7 +554,7 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
-
+    
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
     {
