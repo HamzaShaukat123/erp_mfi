@@ -463,10 +463,13 @@ class RptGoDownItemGroupController extends Controller
         return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
     
-    private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
+    private function stockAllTabulargeneratePDF($groupedByItemName, $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
+    
+        // Assuming 'group_name' is available in $groupedByItemName
+        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
     
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
@@ -483,7 +486,6 @@ class RptGoDownItemGroupController extends Controller
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular- ' . $groupName . '</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
-
     
         // Table header for data
         $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
@@ -529,7 +531,7 @@ class RptGoDownItemGroupController extends Controller
                 // Find the matching item for the gauge
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
-                
+    
                 // Check if the value is negative and apply red color
                 if ($value !== null && $value < 0) {
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
@@ -553,6 +555,7 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
+    
     
 
 
