@@ -38,7 +38,7 @@ class RptGoDownItemGroupController extends Controller
         // $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
         // ->get();
 
-        $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
+        $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
         ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
         ->select(
             'pipe_stock_all_by_item_group.item_group_cod',
@@ -50,6 +50,7 @@ class RptGoDownItemGroupController extends Controller
             'item_group.group_name'
         )
         ->get();
+    
     
         // Check if data exists
         if ($pipe_stock_all_by_item_group->isEmpty()) {
