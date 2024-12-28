@@ -76,21 +76,6 @@ class RptGoDownItemGroupController extends Controller
                 <td style="font-size:12px; font-weight:bold; color:#17365D; border-bottom:1px solid #000; width:70%;">
                     Item Group: <span style="color:black;">' . $pipe_stock_all_by_item_group[0]['item_group_name'] . '</span>
                 </td>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
-                    Print Date: <span style="color:black;">' . $formattedDate . '</span>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
-                    From Date: <span style="color:black;">' . $formattedFromDate . '</span>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left;border-left:1px solid #000; width:30%;">
-                    To Date: <span style="color:black;">' . $formattedToDate . '</span>
-                </td>
             </tr>
         </table>';
 
