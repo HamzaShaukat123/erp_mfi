@@ -490,8 +490,8 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
-        $pdf->SetSubject("Stock All Report - {$groupName}");
+        $pdf->SetTitle("Stock All Report Item Group - {$groupedByItemName[0]['group_name']}");
+        $pdf->SetSubject("Stock All Report - {$groupedByItemName[0]['group_name']}");
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
 
