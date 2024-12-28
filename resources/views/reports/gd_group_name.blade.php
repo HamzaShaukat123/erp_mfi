@@ -447,77 +447,82 @@
                 });
             }
             else if (tabId == "#SAT") {
-                const tableBody = document.getElementById('SATTble');
-                const tableHeader = document.getElementById('tableHeaderRow');
-                
-                // Clear existing rows and headers
-                tableBody.innerHTML = '';
-                tableHeader.innerHTML = '';
+    const tableBody = document.getElementById('SATTble');
+    const tableHeader = document.getElementById('tableHeaderRow');
 
-                const url = "/rep-godown-by-group-name/sat";
+    // Clear existing rows and headers
+    tableBody.innerHTML = '';
+    tableHeader.innerHTML = '';
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        acc_id: acc_id,
-                    },
-                    beforeSend: function () {
-                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
-                    },
-                    success: function (result) {
-                        $('#SAT_from').text(formattedfromDate);
-                        $('#SAT_to').text(formattedtoDate);
+    const url = "/rep-godown-by-group-name/sat";
 
-                        const selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#SAT_acc').text(selectedAcc);
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            acc_id: acc_id,
+        },
+        beforeSend: function () {
+            // Add loading message
+            tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
+        },
+        success: function (result) {
+            // Clear loading message
+            tableBody.innerHTML = '';
+            tableHeader.innerHTML = '';
 
-                        // Process the data to extract unique headers and rows
-                        const processedData = result.map(item => {
-                            const itemChunks = item.item_name.split(' ');
-                            return {
-                                ...item,
-                                item_group: itemChunks[0] || '',
-                                item_mm: itemChunks[1] || '',
-                                item_name: itemChunks.slice(2).join(' ') || '',
-                            };
-                        });
+            $('#SAT_from').text(formattedfromDate);
+            $('#SAT_to').text(formattedtoDate);
 
-                        const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
+            const selectedAcc = $('#acc_id').find("option:selected").text();
+            $('#SAT_acc').text(selectedAcc);
 
-                        // Append dynamic headers
-                        let headerHTML = '<th>Item Name</th>';
-                        uniqueHeaders.forEach(header => {
-                            headerHTML += `<th style="text-align: center;">${header}</th>`;
-                        });
-                        tableHeader.innerHTML = headerHTML;
+            // Process the data
+            const processedData = result.map(item => {
+                const itemChunks = item.item_name.split(' ');
+                return {
+                    ...item,
+                    item_group: itemChunks[0] || '',
+                    item_mm: itemChunks[1] || '',
+                    item_name: itemChunks.slice(2).join(' ') || '',
+                };
+            });
 
-                        // Group items by `item_name`
-                        const groupedData = processedData.reduce((acc, item) => {
-                            if (!acc[item.item_name]) acc[item.item_name] = [];
-                            acc[item.item_name].push(item);
-                            return acc;
-                        }, {});
+            const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
 
-                        // Append rows dynamically
-                        Object.keys(groupedData).forEach(itemName => {
-                            let rowHTML = `<tr><td>${itemName}</td>`;
-                            uniqueHeaders.forEach(header => {
-                                const item = groupedData[itemName].find(i => i.item_mm === header);
-                                rowHTML += item ? `<td style="text-align: center;">${item.opp_bal || '0'}</td>` : '<td style="text-align: center;">0</td>';
-                            });
-                            rowHTML += '</tr>';
-                            tableBody.insertAdjacentHTML('beforeend', rowHTML);
-                        });
-                    },
-                    error: function () {
-                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
-                    }
+            // Append dynamic headers
+            let headerHTML = '<th>Item Name</th>';
+            uniqueHeaders.forEach(header => {
+                headerHTML += `<th style="text-align: center;">${header}</th>`;
+            });
+            tableHeader.innerHTML = headerHTML;
+
+            // Group items by `item_name`
+            const groupedData = processedData.reduce((acc, item) => {
+                if (!acc[item.item_name]) acc[item.item_name] = [];
+                acc[item.item_name].push(item);
+                return acc;
+            }, {});
+
+            // Append rows dynamically
+            Object.keys(groupedData).forEach(itemName => {
+                let rowHTML = `<tr><td>${itemName}</td>`;
+                uniqueHeaders.forEach(header => {
+                    const item = groupedData[itemName].find(i => i.item_mm === header);
+                    rowHTML += item ? `<td style="text-align: center;">${item.opp_bal || '0'}</td>` : '<td style="text-align: center;">0</td>';
                 });
-            }
-
+                rowHTML += '</tr>';
+                tableBody.insertAdjacentHTML('beforeend', rowHTML);
+            });
+        },
+        error: function () {
+            // Handle error case
+            tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
+        }
+    });
+}
 
         }
 
