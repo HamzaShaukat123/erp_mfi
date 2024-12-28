@@ -446,6 +446,7 @@ class RptGoDownItemGroupController extends Controller
                 'item_mm' => $item_gauge,
                 'item_name' => $item_name,
                 'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
+                'group_name' => $item->group_name ?? 'Unknown Group',
             ];
         });
 
