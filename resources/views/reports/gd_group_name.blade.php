@@ -516,13 +516,18 @@
                             let rowHTML = `<tr><td>${itemName}</td>`;
                             uniqueHeaders.forEach(header => {
                                 const item = groupedData[itemName].find(i => i.item_mm === header);
-                                rowHTML += item && item.opp_bal !== null && item.opp_bal !== undefined && item.opp_bal !== ''
-                                    ? `<td style="text-align: center;">${item.opp_bal}</td>`
-                                    : '<td style="text-align: center;"></td>';
+                                if (item && item.opp_bal !== null && item.opp_bal !== undefined && item.opp_bal !== '') {
+                                    const value = parseFloat(item.opp_bal); // Parse the value as a number
+                                    const color = value < 0 ? 'red' : value > 0 ? 'green' : 'black'; // Set color based on value
+                                    rowHTML += `<td style="text-align: center; color: ${color};">${value}</td>`;
+                                } else {
+                                    rowHTML += '<td style="text-align: center;"></td>'; // Blank cell for empty values
+                                }
                             });
                             rowHTML += '</tr>';
                             tableBody.insertAdjacentHTML('beforeend', rowHTML);
                         });
+
                     },
                     error: function () {
                         tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
