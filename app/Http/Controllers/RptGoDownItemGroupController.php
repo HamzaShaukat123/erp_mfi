@@ -449,17 +449,17 @@ class RptGoDownItemGroupController extends Controller
             ];
         });
     
-        // Separate the items into three groups: ROUND (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
+        // Separate the items into three groups:
         $roundItems = $processedData->filter(function ($item) {
-            return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
+            return strpos($item['item_name'], 'ROUND X') === 0; // Items that start with 'ROUND X'
         });
     
         $sqrItems = $processedData->filter(function ($item) {
-            return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
+            return substr($item['item_name'], -3) === 'SQR'; // Items that end with 'SQR'
         });
     
         $otherItems = $processedData->filter(function ($item) {
-            return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND and SQR
+            return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
         });
     
         // Merge the groups in the order: ROUND, SQR, others
@@ -468,7 +468,7 @@ class RptGoDownItemGroupController extends Controller
         // Group the items by item_name
         $groupedByItemName = $orderedData->groupBy('item_name');
     
-        // Sort the grouped data by item_name (alphabetical)
+        // Sort the grouped data by item_name (alphabetically)
         $groupedByItemName = $groupedByItemName->sortKeys();
     
         // Check if data exists
@@ -567,7 +567,7 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
-            
+                
 
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
