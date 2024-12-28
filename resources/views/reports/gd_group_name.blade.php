@@ -447,81 +447,75 @@
                 });
             }
             else if (tabId == "#SAT") {
-    const tableBody = document.getElementById('SATTble');
-    const tableHeader = document.getElementById('tableHeaderRow');
+                const tableBody = document.getElementById('SATTble');
+                const tableHeader = document.getElementById('tableHeaderRow');
 
-    // Clear existing rows and headers
-    tableBody.innerHTML = '';
-    tableHeader.innerHTML = '';
+                // Clear existing rows and headers
+                tableBody.innerHTML = '';
+                tableHeader.innerHTML = '';
 
-    const url = "/rep-godown-by-group-name/sat";
+                const url = "/rep-godown-by-group-name/sat";
 
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-            fromDate: fromDate,
-            toDate: toDate,
-            acc_id: acc_id,
-        },
-        beforeSend: function () {
-            console.log("BeforeSend: Adding loading message");
-            tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
-        },
-        success: function (result) {
-            console.log("AJAX Success: Result received", result);
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        acc_id: acc_id,
+                    },
+                    beforeSend: function () {
+                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
+                    },
+                    success: function (result) {
+                        // Clear loading message
+                        tableBody.innerHTML = '';
+                        tableHeader.innerHTML = '';
 
-            // Clear loading message
-            tableBody.innerHTML = '';
-            tableHeader.innerHTML = '';
+                        // Process the data
+                        const processedData = result.map(item => {
+                            const itemChunks = item.item_name.split(' ');
+                            return {
+                                ...item,
+                                item_group: itemChunks[0] || '',
+                                item_mm: itemChunks[1] || '',
+                                item_name: itemChunks.slice(2).join(' ') || '',
+                            };
+                        });
 
-            // Debug processed data
-            const processedData = result.map(item => {
-                const itemChunks = item.item_name.split(' ');
-                return {
-                    ...item,
-                    item_group: itemChunks[0] || '',
-                    item_mm: itemChunks[1] || '',
-                    item_name: itemChunks.slice(2).join(' ') || '',
-                };
-            });
-            console.log("Processed Data:", processedData);
+                        const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
 
-            const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
-            console.log("Unique Headers:", uniqueHeaders);
+                        // Append dynamic headers
+                        let headerHTML = '<th>Item Name</th>';
+                        uniqueHeaders.forEach(header => {
+                            headerHTML += `<th style="text-align: center;">${header}</th>`;
+                        });
+                        tableHeader.innerHTML = headerHTML;
 
-            // Append dynamic headers
-            let headerHTML = '<th>Item Name</th>';
-            uniqueHeaders.forEach(header => {
-                headerHTML += `<th style="text-align: center;">${header}</th>`;
-            });
-            tableHeader.innerHTML = headerHTML;
+                        // Group items by `item_name`
+                        const groupedData = processedData.reduce((acc, item) => {
+                            if (!acc[item.item_name]) acc[item.item_name] = [];
+                            acc[item.item_name].push(item);
+                            return acc;
+                        }, {});
 
-            // Group items by `item_name`
-            const groupedData = processedData.reduce((acc, item) => {
-                if (!acc[item.item_name]) acc[item.item_name] = [];
-                acc[item.item_name].push(item);
-                return acc;
-            }, {});
-            console.log("Grouped Data:", groupedData);
-
-            // Append rows dynamically
-            Object.keys(groupedData).forEach(itemName => {
-                let rowHTML = `<tr><td>${itemName}</td>`;
-                uniqueHeaders.forEach(header => {
-                    const item = groupedData[itemName].find(i => i.item_mm === header);
-                    rowHTML += item ? `<td style="text-align: center;">${item.opp_bal || '0'}</td>` : '<td style="text-align: center;">0</td>';
+                        // Append rows dynamically
+                        Object.keys(groupedData).forEach(itemName => {
+                            let rowHTML = `<tr><td>${itemName}</td>`;
+                            uniqueHeaders.forEach(header => {
+                                const item = groupedData[itemName].find(i => i.item_mm === header);
+                                rowHTML += item ? `<td style="text-align: center;">${item.opp_bal || '0'}</td>` : '<td style="text-align: center;">0</td>';
+                            });
+                            rowHTML += '</tr>';
+                            tableBody.insertAdjacentHTML('beforeend', rowHTML);
+                        });
+                    },
+                    error: function () {
+                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
+                    }
                 });
-                rowHTML += '</tr>';
-                tableBody.insertAdjacentHTML('beforeend', rowHTML);
-            });
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", error, status);
-            tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
-        }
-    });
-}
+            }
+
 
         }
 
