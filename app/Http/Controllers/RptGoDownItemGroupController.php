@@ -80,7 +80,7 @@ class RptGoDownItemGroupController extends Controller
         $pdf->setCellPadding(1.2);
 
         // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All <span style="color:black;">' . $pipe_stock_all_by_item_group[0]['item_group_cod'] . ' - ' . $pipe_stock_all_by_item_group[0]['group_name'] . '</span></h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All </h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
 
         // Header details
