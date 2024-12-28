@@ -617,7 +617,7 @@
             }
             
             if (tabName === "SAT") {
-                window.open(`/rep-godown-by-group-name/sat/starreport?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+                window.open(`/rep-godown-by-group-name/sat/star/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
         }
 
