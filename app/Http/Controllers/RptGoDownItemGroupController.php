@@ -647,7 +647,7 @@ class RptGoDownItemGroupController extends Controller
                     $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
                     $hasData = true;
                 } else {
-                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">0</td>";
+                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">x</td>";
                 }
             }
     
