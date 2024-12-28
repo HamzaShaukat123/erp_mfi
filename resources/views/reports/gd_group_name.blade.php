@@ -465,21 +465,17 @@
             acc_id: acc_id,
         },
         beforeSend: function () {
-            // Add loading message
+            console.log("BeforeSend: Adding loading message");
             tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
         },
         success: function (result) {
+            console.log("AJAX Success: Result received", result);
+
             // Clear loading message
             tableBody.innerHTML = '';
             tableHeader.innerHTML = '';
 
-            $('#SAT_from').text(formattedfromDate);
-            $('#SAT_to').text(formattedtoDate);
-
-            const selectedAcc = $('#acc_id').find("option:selected").text();
-            $('#SAT_acc').text(selectedAcc);
-
-            // Process the data
+            // Debug processed data
             const processedData = result.map(item => {
                 const itemChunks = item.item_name.split(' ');
                 return {
@@ -489,8 +485,10 @@
                     item_name: itemChunks.slice(2).join(' ') || '',
                 };
             });
+            console.log("Processed Data:", processedData);
 
             const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
+            console.log("Unique Headers:", uniqueHeaders);
 
             // Append dynamic headers
             let headerHTML = '<th>Item Name</th>';
@@ -505,6 +503,7 @@
                 acc[item.item_name].push(item);
                 return acc;
             }, {});
+            console.log("Grouped Data:", groupedData);
 
             // Append rows dynamically
             Object.keys(groupedData).forEach(itemName => {
@@ -517,8 +516,8 @@
                 tableBody.insertAdjacentHTML('beforeend', rowHTML);
             });
         },
-        error: function () {
-            // Handle error case
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error, status);
             tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
         }
     });
