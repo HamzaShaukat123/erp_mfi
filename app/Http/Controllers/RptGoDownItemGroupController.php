@@ -495,7 +495,7 @@ class RptGoDownItemGroupController extends Controller
         $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
 
         // Check and display column headers if there is any data for each gauge
-        $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '23G', '24G'];
+        $gauges = ['12G', '14G', '16G', '1.5', '18G', '1.10', '19G', '20G', '21G', '22G', '0.70', '23G', '24G'];
         $headerColumns = [];
         $remainingWidth = 72; // Remaining width for the other columns
         $numColumns = 0; // To calculate how many columns will be displayed
