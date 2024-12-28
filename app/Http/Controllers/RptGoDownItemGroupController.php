@@ -489,6 +489,11 @@ class RptGoDownItemGroupController extends Controller
         $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
         $pdf->writeHTML($heading, true, false, true, false, '');
     
+        // Table header for data
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $html .= '<tr>';
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+    
         // Dynamically determine the available gauges
         $allGauges = [];
         foreach ($groupedByItemName as $items) {
@@ -504,11 +509,6 @@ class RptGoDownItemGroupController extends Controller
         natsort($availableGauges);
         $availableGauges = array_values($availableGauges); // Reindex after sorting
     
-        // Table header
-        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-        $html .= '<tr>';
-        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-    
         $remainingWidth = 72; // Remaining width for the other columns
         $numColumns = count($availableGauges); // Count dynamically available gauges
     
@@ -520,13 +520,10 @@ class RptGoDownItemGroupController extends Controller
         }
         $html .= '</tr>';
     
-        // Generate table rows with alternate colors
-        foreach ($groupedByItemName as $itemIndex => $items) {
-            // Alternate row color: Use light gray for odd rows and white for even rows
-            $rowColor = ($itemIndex % 2 === 0) ? '#FFFFFF' : '#F2F2F2';
-    
-            $html .= "<tr style=\"background-color: {$rowColor};\">";
-            $html .= "<td style=\"font-size: 12px;\">{$items->first()['item_name']}</td>";
+        // Generate table rows
+        foreach ($groupedByItemName as $itemName => $items) {
+            $html .= '<tr>';
+            $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
     
             foreach ($availableGauges as $gauge) {
                 $item = $items->firstWhere('item_mm', $gauge);
@@ -552,7 +549,8 @@ class RptGoDownItemGroupController extends Controller
         } else {
             $pdf->Output($filename, 'I'); // For inline view
         }
-    } 
+    }    
+    
 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
     {
