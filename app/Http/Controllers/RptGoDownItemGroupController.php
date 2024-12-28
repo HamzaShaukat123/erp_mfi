@@ -459,7 +459,7 @@ public function stockAllTabularReport(Request $request)
     });
 
     $otherItems = $processedData->filter(function ($item) {
-        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
+        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'MM SQR'); // Exclude ROUND X and SQR
     });
 
     // Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
