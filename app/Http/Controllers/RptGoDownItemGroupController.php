@@ -643,7 +643,7 @@ class RptGoDownItemGroupController extends Controller
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$valueToDisplay}</td>";
                 } else {
                     // For zero or positive (non-negative) values, display as normal '*'
-                    $html .= "<td style=\"text-align: center; font-size: 12px;\">{$valueToDisplay}</td>";
+                    $html .= "<td style=\"text-align: center; font-size: 15px;\">{$valueToDisplay}</td>";
                 }
             }
 
