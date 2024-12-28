@@ -459,7 +459,7 @@
                 });
             }
 
-            else if(tabId=="#SAT"){
+            else if(tabId == "#SAT") {
                 let table = document.getElementById('SATTble');
                 
                 // Clear the table
@@ -471,7 +471,7 @@
                 const tableID = "#SATTble";
 
                 // Helper function to safely access data
-                const safeVal = (val) => val ? val : "";
+                const safeVal = (val) => val !== null && val !== undefined ? val : "";
 
                 $.ajax({
                     type: "GET",
@@ -505,7 +505,6 @@
                                 item_group: item_group,
                                 item_mm: item_gauge,
                                 item_name: item_name,
-                                // item_qty: item.opp_bal
                             };
                         });
 
@@ -523,28 +522,47 @@
 
                             return acc;
                         }, {});
-                        $.each(groupedByChunk3, function(k,v){
 
-                            var html="<tr>";
-                            html += "<td>"+ (k ? k : "") +"</td>";
+                        // Step 3: Determine which columns are completely empty
+                        const gaugeColumns = $('#TSAThead thead tr').children('th').map(function() {
+                            return $(this).attr('id');
+                        }).get(); // Get all column IDs
 
-                            $('#TSAThead thead tr').children('th').each(function(index) {
-                                // Skip the first column (index 0) by starting from 1
-                                if (index === 0) return;
+                        const nonEmptyColumns = gaugeColumns.filter(col_id => {
+                            // Check if any item in grouped data has data for this column
+                            return Object.values(groupedByChunk3).some(items => 
+                                items.some(item => item.item_mm === col_id && safeVal(item.opp_bal) !== "")
+                            );
+                        });
 
-                                const col_id = $(this).attr('id');  // Get the column ID (e.g., "12G")
+                        // Step 4: Build the table
+                        $.each(groupedByChunk3, function(k, v) {
+                            let html = "<tr>";
+                            html += "<td>" + (k ? k : "") + "</td>";
+
+                            nonEmptyColumns.forEach(col_id => {
                                 const item = v.find(i => i.item_mm === col_id); // Find the matching item
-
-                                // If item found, use its opp_bal, otherwise add a '-'
-                                // html += item ? `<td>${item.opp_bal || '0'}</td>` : '<td></td>';
-
-                                html +=item ? `<td style="text-align: center; font-size: 20px;">${item.opp_bal || '0'}</td>`
-                                : '<td style="text-align: center; font-size: 20px;"></td>';
-
+                                if (item) {
+                                    const oppBal = item.opp_bal || '0';
+                                    const textColor = oppBal < 0 ? 'color: red;' : '';
+                                    html += `<td style="text-align: center; font-size: 20px; ${textColor}">${oppBal}</td>`;
+                                } else {
+                                    html += '<td style="text-align: center; font-size: 20px;">0</td>';
+                                }
                             });
 
-                            html +="</tr>";
+                            html += "</tr>";
                             $(tableID).append(html);
+                        });
+
+                        // Step 5: Update the table header to only show non-empty columns
+                        $('#TSAThead thead tr').children('th').each(function() {
+                            const col_id = $(this).attr('id');
+                            if (!nonEmptyColumns.includes(col_id) && col_id) {
+                                $(this).hide(); // Hide empty column headers
+                            } else {
+                                $(this).show(); // Show non-empty column headers
+                            }
                         });
                     },
                     error: function () {
@@ -552,6 +570,7 @@
                     }
                 });
             }
+
         }
 
         function getReport() {
