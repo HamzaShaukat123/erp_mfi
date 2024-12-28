@@ -460,7 +460,7 @@ class RptGoDownItemGroupController extends Controller
         }
     
         // Generate the PDF
-        return $this->stockAllTabularStargeneratePDF($groupedByItemName, $request);
+        return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
     
     private function stockAllTabulargeneratePDF($groupedByItemName, $request)
