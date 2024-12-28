@@ -447,99 +447,108 @@
                 });
             }
             else if (tabId == "#SAT") {
-                const tableBody = document.getElementById('SATTble');
-                const tableHeader = document.getElementById('tableHeaderRow');
+    const tableBody = document.getElementById('SATTble');
+    const tableHeader = document.getElementById('tableHeaderRow');
 
-                // Clear existing rows and headers
-                tableBody.innerHTML = '';
-                tableHeader.innerHTML = '';
+    // Clear existing rows and headers
+    tableBody.innerHTML = '';
+    tableHeader.innerHTML = '';
 
-                const url = "/rep-godown-by-group-name/sat";
+    const url = "/rep-godown-by-group-name/sat";
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        acc_id: acc_id,
-                    },
-                    beforeSend: function () {
-                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
-                    },
-                    success: function (result) {
-                        $('#SAT_from').text(formattedfromDate);
-                        $('#SAT_to').text(formattedtoDate);
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            acc_id: acc_id,
+        },
+        beforeSend: function () {
+            tableBody.innerHTML = '<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>';
+        },
+        success: function (result) {
+            $('#SAT_from').text(formattedfromDate);
+            $('#SAT_to').text(formattedtoDate);
 
-                        const selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#SAT_acc').text(selectedAcc);
-                        // Clear loading message
-                        tableBody.innerHTML = '';
-                        tableHeader.innerHTML = '';
+            const selectedAcc = $('#acc_id').find("option:selected").text();
+            $('#SAT_acc').text(selectedAcc);
+            // Clear loading message
+            tableBody.innerHTML = '';
+            tableHeader.innerHTML = '';
 
-                        // Process the data
-                        const processedData = result.map(item => {
-                            const itemChunks = item.item_name.split(' ');
-                            return {
-                                ...item,
-                                item_group: itemChunks[0] || '',
-                                item_mm: itemChunks[1] || '',
-                                item_name: itemChunks.slice(2).join(' ') || '',
-                            };
-                        });
+            // Process the data
+            const processedData = result.map(item => {
+                const itemChunks = item.item_name.split(' ');
+                return {
+                    ...item,
+                    item_group: itemChunks[0] || '',
+                    item_mm: itemChunks[1] || '',
+                    item_name: itemChunks.slice(2).join(' ') || '',
+                };
+            });
 
-                        const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
+            // Separate the items into three groups: ROUND X, SQR, and others
+            const roundItems = processedData.filter(item => item.item_name.startsWith('ROUND X')).sort((a, b) => a.item_name.localeCompare(b.item_name));
+            const sqrItems = processedData.filter(item => item.item_name.endsWith('SQR')).sort((a, b) => a.item_name.localeCompare(b.item_name));
+            const otherItems = processedData.filter(item => !item.item_name.startsWith('ROUND X') && !item.item_name.endsWith('SQR')).sort((a, b) => a.item_name.localeCompare(b.item_name));
 
-                        // Sort the headers numerically (extract the numeric part and compare)
-                        uniqueHeaders.sort((a, b) => {
-                            const numA = parseInt(a, 10); // Extract numeric part of header
-                            const numB = parseInt(b, 10); // Extract numeric part of header
-                            return numA - numB; // Compare numerically
-                        });
+            // Merge the groups in the order: ROUND X, SQR, and others
+            const orderedData = [...roundItems, ...sqrItems, ...otherItems];
 
-                        // Append dynamic headers
-                        let headerHTML = '<th>Item Name</th>';
-                        uniqueHeaders.forEach(header => {
-                            headerHTML += `<th style="text-align: center;">${header}</th>`;
-                        });
-                        tableHeader.innerHTML = headerHTML;
+            // Get unique headers
+            const uniqueHeaders = [...new Set(orderedData.map(item => item.item_mm))].filter(Boolean);
 
-                        // Group items by `item_name`
-                        const groupedData = processedData.reduce((acc, item) => {
-                            if (!acc[item.item_name]) acc[item.item_name] = [];
-                            acc[item.item_name].push(item);
-                            return acc;
-                        }, {});
+            // Sort headers numerically
+            uniqueHeaders.sort((a, b) => {
+                const numA = parseInt(a, 10);
+                const numB = parseInt(b, 10);
+                return numA - numB;
+            });
 
-                        // Append rows dynamically
-                        Object.keys(groupedData).forEach(itemName => {
-                            let rowHTML = `<tr><td>${itemName}</td>`;
-                            uniqueHeaders.forEach(header => {
-                                const item = groupedData[itemName].find(i => i.item_mm === header);
-                                if (item && item.opp_bal !== null && item.opp_bal !== undefined && item.opp_bal !== '') {
-                                    const value = parseFloat(item.opp_bal); // Ensure opp_bal is treated as a number
-                                    if (value < 0) {
-                                        rowHTML += `<td style="text-align: center; color: red;">${value}</td>`;
-                                    } else if (value > 0) {
-                                        rowHTML += `<td style="text-align: center; color: red; font-weight: bold;">${value}</td>`;
-                                    } else {
-                                        rowHTML += `<td style="text-align: center;">${value}</td>`;
-                                    }
-                                } else {
-                                    rowHTML += '<td style="text-align: center;"></td>';
-                                }
-                            });
-                            rowHTML += '</tr>';
-                            tableBody.insertAdjacentHTML('beforeend', rowHTML);
-                        });
+            // Append dynamic headers
+            let headerHTML = '<th>Item Name</th>';
+            uniqueHeaders.forEach(header => {
+                headerHTML += `<th style="text-align: center;">${header}</th>`;
+            });
+            tableHeader.innerHTML = headerHTML;
 
+            // Group items by `item_name`
+            const groupedData = orderedData.reduce((acc, item) => {
+                if (!acc[item.item_name]) acc[item.item_name] = [];
+                acc[item.item_name].push(item);
+                return acc;
+            }, {});
 
-                    },
-                    error: function () {
-                        tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
+            // Append rows dynamically
+            Object.keys(groupedData).forEach(itemName => {
+                let rowHTML = `<tr><td>${itemName}</td>`;
+                uniqueHeaders.forEach(header => {
+                    const item = groupedData[itemName].find(i => i.item_mm === header);
+                    if (item && item.opp_bal !== null && item.opp_bal !== undefined && item.opp_bal !== '') {
+                        const value = parseFloat(item.opp_bal); // Ensure opp_bal is treated as a number
+                        if (value < 0) {
+                            rowHTML += `<td style="text-align: center; color: red;">${value}</td>`;
+                        } else if (value > 0) {
+                            rowHTML += `<td style="text-align: center; color: red; font-weight: bold;">${value}</td>`;
+                        } else {
+                            rowHTML += `<td style="text-align: center;">${value}</td>`;
+                        }
+                    } else {
+                        rowHTML += '<td style="text-align: center;"></td>';
                     }
                 });
-            }
+                rowHTML += '</tr>';
+                tableBody.insertAdjacentHTML('beforeend', rowHTML);
+            });
+
+        },
+        error: function () {
+            tableBody.innerHTML = '<tr><td colspan="13" class="text-center text-danger">Error loading data. Please try again.</td></tr>';
+        }
+    });
+}
+
 
         }
 
