@@ -414,28 +414,46 @@ class RptGoDownItemGroupController extends Controller
     {
         // Validate the request
         $request->validate([
-            'acc_id' => 'required',
+            'acc_id' => 'required|exists:pipe_stock_all_by_item_group,item_group_cod', // Ensure acc_id exists
             'outputType' => 'required|in:download,view',
         ]);
     
         // Retrieve data from the database
-        $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
-        ->get();
+        $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod', $request->acc_id)
+            ->get();
+    
+        // Process the data to break the item_name into chunks and group the items
+        $processedData = $pipe_stock_all_by_item_group->map(function ($item) {
+            $itemChunks = explode(' ', $item->item_name);
+            $item_group = $itemChunks[0] ?? '';   // First chunk (before the first space)
+            $item_gauge = $itemChunks[1] ?? '';   // Second chunk (between the first and second space)
+            $item_name = implode(' ', array_slice($itemChunks, 2)) ?? ''; // Everything after the second space
+    
+            return [
+                'item_group' => $item_group,
+                'item_mm' => $item_gauge,
+                'item_name' => $item_name,
+                'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
+            ];
+        });
+    
+        // Group the items by item_name
+        $groupedByItemName = $processedData->groupBy('item_name');
     
         // Check if data exists
-        if ($pipe_stock_all_by_item_group->isEmpty()) {
+        if ($groupedByItemName->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
     
         // Generate the PDF
-        return $this->stockAllTabulargeneratePDF($pipe_stock_all_by_item_group, $request);
+        return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
-
-    private function stockAllTabulargeneratePDF($pipe_stock_all_by_item_group, Request $request)
+    
+    private function stockAllTabulargeneratePDF($groupedByItemName, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
-    
+        
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
@@ -443,64 +461,47 @@ class RptGoDownItemGroupController extends Controller
         $pdf->SetSubject('Stock All Tabular');
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
-    
+        
         // Add a page and set padding
         $pdf->AddPage();
         $pdf->setCellPadding(1.2);
-    
+        
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
-    
-
+        
         // Table header for data
         $html = '
             <table border="1" style="border-collapse: collapse; text-align: center;">
-                <tr>
-                    <th style="width:12%;color:#17365D;font-weight:bold;">Item Name</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">12G/2.50mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">14G/2.00mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">16G/1.60mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">1.50mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">18G/1.20mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">1.10mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">19G/1.0mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">20G/0.9mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">21G/0.8mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">22G/0.7mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">23G/0.6mm</th>
-                    <th style="width:8%;color:#17365D;font-weight:bold;">24G/0.5mm</th>
-                </tr>';
+                <tr>';
+        
+        // Define column headers dynamically
+        $gauges = ['12G', '14G', '16G', '1.50mm', '18G', '1.10mm', '19G', '20G', '21G', '22G', '23G', '24G'];
+        foreach ($gauges as $gauge) {
+            $html .= "<th style=\"width:8%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
+        }
+        $html .= '</tr>';
     
-        // Iterate through items and add rows
-        $count = 1;
-        $totalAmount = 0;
-    
-        // foreach ($activite11_sales_pipe as $item) {
-        //     $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
-    
-        //     $html .= '
-        //         <tr style="background-color:' . $backgroundColor . ';">
-        //             <td style="width:7%;">' . $count . '</td>
-        //             <td style="width:10%;">' . Carbon::parse($item['sa_date'])->format('d-m-y') . '</td>
-        //             <td style="width:10%;">' . $item['Sal_inv_no']. '</td>
-        //             <td style="width:10%;">' . $item['pur_ord_no'] . '</td>
-        //             <td style="width:22%;">' . $item['acc_name'] . '</td>
-        //             <td style="width:15%;">' . $item['comp_name'] . '</td>
-        //             <td style="width:15%;">' . $item['Sales_Remarks'] . '</td>
-        //             <td style="width:12%;">' . $item['bill_amt'] . '</td>
-        //         </tr>';
-            
-        //     $totalAmount += $item['bill_amt']; // Accumulate total quantity
-        //     $count++;
-        // }
-    
+        // Iterate through the grouped data and create table rows
+        foreach ($groupedByItemName as $itemName => $items) {
+            $html .= '<tr>';
+            $html .= "<td>{$itemName}</td>";
+        
+            // Iterate through columns based on available item gauges (mm)
+            foreach ($gauges as $gauge) {
+                // Find the matching item for the gauge
+                $item = $items->firstWhere('item_mm', $gauge);
+                $html .= $item ? "<td style=\"text-align: center; font-size: 20px;\">{$item['opp_bal']}</td>" : "<td></td>";
+            }
+        
+            $html .= '</tr>';
+        }
+        
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
-    
-
+        
         $filename = "stock_all_tabular.pdf";
-
+        
         // Determine output type
         if ($request->outputType === 'download') {
             $pdf->Output($filename, 'D'); // For download
@@ -508,5 +509,6 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
+    
 
 }
