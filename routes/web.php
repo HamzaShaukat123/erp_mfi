@@ -566,7 +566,8 @@
         // RPT Godown By Item Group sat
         Route::get('/rep-godown-by-group-name/sat', [App\Http\Controllers\RptGoDownItemGroupController::class, 'stockAllT'])->name('sat-rep-godown-by-item-grp');
         Route::get('/rep-godown-by-group-name/sat/report', [App\Http\Controllers\RptGoDownItemGroupController::class, 'stockAllTabularReport'])->name('sat-rep-godown-by-item-grp-report');
-
+        Route::get('/rep-godown-by-group-name/sat/starreport', [App\Http\Controllers\RptGoDownItemGroupController::class, 'stockAllTabularStargeneratePDF'])->name('sat-rep-godown-by-item-grp-star-report');
+        
         // RPT Commissions 
         Route::get('/rep-commissions/comm', [App\Http\Controllers\RptCommissionsController::class, 'comm'])->name('comm-rep');
         Route::get('/rep-commissions/comm/excel', [App\Http\Controllers\RptCommissionsController::class, 'commExcel'])->name('comm-rep-excel');
