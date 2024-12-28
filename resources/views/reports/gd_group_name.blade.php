@@ -626,6 +626,10 @@
                 window.location.href = `/rep-godown-by-group-name/so/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
 
+            else if (tabName === "SAT") {
+                window.location.href = `/rep-godown-by-group-name/sat/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            }
+
         }
     </script>
 </html>
