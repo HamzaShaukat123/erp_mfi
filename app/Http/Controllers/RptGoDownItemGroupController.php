@@ -643,9 +643,9 @@ class RptGoDownItemGroupController extends Controller
                 $value = $item ? $item['opp_bal'] : null;
 
                 if ($value !== null && $value != 0) {
-                    $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">*</td>";
+                    $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
                 } else {
-                    $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
+                    $html .= "<td style=\"text-align: center; font-size: 12px;\"></td>";
                 }
             }
 
