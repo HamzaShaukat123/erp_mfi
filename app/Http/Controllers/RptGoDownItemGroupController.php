@@ -99,11 +99,10 @@ class RptGoDownItemGroupController extends Controller
         $html = '
             <table border="1" style="border-collapse: collapse; text-align: center;">
                 <tr>
-                    <th style="width:10%;color:#17365D;font-weight:bold;">S/No.</th>
-                    <th style="width:30%;color:#17365D;font-weight:bold;">Item Name</th>
-                    <th style="width:30%;color:#17365D;font-weight:bold;">Remarks</th>
-                    <th style="width:15%;color:#17365D;font-weight:bold;">Qty. in Hand</th>
-                    <th style="width:15%;color:#17365D;font-weight:bold;">Wg. in Hand</th>
+                    <th style="width:11%;color:#17365D;font-weight:bold;">S/No.</th>
+                    <th style="width:55%;color:#17365D;font-weight:bold;">Item Name</th>
+                    <th style="width:16%;color:#17365D;font-weight:bold;">Qty. in Hand</th>
+                    <th style="width:18%;color:#17365D;font-weight:bold;">Wg. in Hand</th>
                 </tr>';
 
         // Iterate through items and add rows
@@ -116,11 +115,10 @@ class RptGoDownItemGroupController extends Controller
 
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
-                    <td style="width:10%;">' . $count . '</td>
-                    <td style="width:30%;">' . $item['item_name'] . '</td>
-                    <td style="width:30%;">' . $item['item_remark'] . '</td>
-                    <td style="width:15%;">' . $item['opp_bal'] . '</td>
-                    <td style="width:15%;">' . $item['wt'] . '</td>
+                    <td style="width:11%;">' . $count . '</td>
+                    <td style="width:55%;">' . $item['item_name'] . '</td>
+                    <td style="width:16%;">' . $item['opp_bal'] . '</td>
+                    <td style="width:18%;">' . $item['wt'] . '</td>
                 </tr>';
 
             $totalQty += $item['opp_bal'];
@@ -131,7 +129,7 @@ class RptGoDownItemGroupController extends Controller
         // Add total row
         $html .= '
             <tr style="font-weight:bold; background-color:#d9edf7;">
-                <td colspan="3" style="text-align:right;">Total:</td>
+                <td colspan="2" style="text-align:right;">Total:</td>
                 <td>' . $totalQty . '</td>
                 <td>' . $totalWeight . '</td>
             </tr>';
