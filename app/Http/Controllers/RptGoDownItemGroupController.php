@@ -66,7 +66,7 @@ class RptGoDownItemGroupController extends Controller
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
-    
+
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
@@ -74,15 +74,14 @@ class RptGoDownItemGroupController extends Controller
         $pdf->SetSubject('Stock All Report');
         $pdf->SetKeywords('Stock All Report, TCPDF, PDF');
         $pdf->setPageOrientation('P');
-    
+
         // Add a page and set padding
         $pdf->AddPage();
         $pdf->setCellPadding(1.2);
-    
+
         // Report heading
         $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
-
 
         // Header details
         $html = '
@@ -95,7 +94,6 @@ class RptGoDownItemGroupController extends Controller
         </table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
-    
 
         // Table header for data
         $html = '
@@ -107,14 +105,15 @@ class RptGoDownItemGroupController extends Controller
                     <th style="width:15%;color:#17365D;font-weight:bold;">Qty. in Hand</th>
                     <th style="width:15%;color:#17365D;font-weight:bold;">Wg. in Hand</th>
                 </tr>';
-    
+
         // Iterate through items and add rows
         $count = 1;
-        $totalAmount = 0;
-    
+        $totalQty = 0;
+        $totalWeight = 0;
+
         foreach ($pipe_stock_all_by_item_group as $item) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
-    
+
             $html .= '
                 <tr style="background-color:' . $backgroundColor . ';">
                     <td style="width:10%;">' . $count . '</td>
@@ -123,14 +122,22 @@ class RptGoDownItemGroupController extends Controller
                     <td style="width:15%;">' . $item['opp_bal'] . '</td>
                     <td style="width:15%;">' . $item['wt'] . '</td>
                 </tr>';
-            
-            $totalAmount += $item['bill_amt']; // Accumulate total quantity
+
+            $totalQty += $item['opp_bal'];
+            $totalWeight += $item['wt'];
             $count++;
         }
-    
+
+        // Add total row
+        $html .= '
+            <tr style="font-weight:bold; background-color:#e3e3e3;">
+                <td colspan="3" style="text-align:right;">Total:</td>
+                <td>' . $totalQty . '</td>
+                <td>' . $totalWeight . '</td>
+            </tr>';
+
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
-    
 
         $filename = "stock_all_report.pdf";
 
