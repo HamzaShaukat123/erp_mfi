@@ -536,7 +536,10 @@ class RptGoDownItemGroupController extends Controller
 
         // Generate table rows
         foreach ($groupedByItemName as $itemName => $items) {
-            $html .= '<tr>';
+
+            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
+    
+            $html .= '<tr style="background-color:' . $backgroundColor . ';">';
             $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
 
             foreach ($availableGauges as $gauge) {
