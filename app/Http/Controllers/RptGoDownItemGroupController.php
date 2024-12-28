@@ -471,8 +471,8 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group  - {$pipe_stock_all_by_item_group[0]['group_name']}");
-        $pdf->SetSubject("Stock All Report - {$pipe_stock_all_by_item_group[0]['group_name']}");
+        $pdf->SetTitle("Stock All Report Item Group  - {$groupedByItemName[0]['group_name']}");
+        $pdf->SetSubject("Stock All Report - {$groupedByItemName[0]['group_name']}");
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
     
@@ -481,7 +481,7 @@ class RptGoDownItemGroupController extends Controller
         $pdf->setCellPadding(1.2);
     
         // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular- ' . $pipe_stock_all_by_item_group[0]['group_name'] . '</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Stock All Tabular- ' . $groupedByItemName[0]['group_name'] . '</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
     
         // Table header for data
