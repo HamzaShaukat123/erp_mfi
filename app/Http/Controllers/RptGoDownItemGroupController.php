@@ -454,7 +454,21 @@ class RptGoDownItemGroupController extends Controller
         $groupedByItemName = $processedData->groupBy('item_name');
     
         // Sort the grouped data by item_name
-        $groupedByItemName = $groupedByItemName->sortKeys(); // Sort alphabetically by item_name
+        $roundItems = $groupedByItemName->filter(function ($item) {
+            return strpos($item['item_name'], 'ROUND X') === 0; // Items starting with "ROUND X"
+        });
+        
+        $sqrItems = $groupedByItemName->filter(function ($item) {
+            return substr($item['item_name'], -3) === 'SQR'; // Items ending with "SQR"
+        });
+        
+        $otherItems = $groupedByItemName->filter(function ($item) {
+            return strpos($item['item_name'], 'ROUND X') !== 0 && substr($item['item_name'], -3) !== 'SQR'; // Other items
+        });
+        
+        // Merge the results in the desired order
+        $sortedItems = $roundItems->merge($sqrItems)->merge($otherItems);
+        
     
         // Check if data exists
         if ($groupedByItemName->isEmpty()) {
