@@ -478,19 +478,19 @@ class RptGoDownItemGroupController extends Controller
 
     // Column headers (12 columns including Item Name and 11 gauges)
     $html .= '<tr>';
-    $html .= '<th style="width: 6%;color:#17365D;font-weight:bold;">Item Name</th>';
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">12G<br>2.50mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">14G<br>2.00mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">16G<br>1.60mm</th>";
+    $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">12G/<br>2.50mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">14G/<br>2.00mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">16G/<br>1.60mm</th>";
     $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.50mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">18G<br>1.20mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">18G/<br>1.20mm</th>";
     $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">1.10</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">19G<br>1.0mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">20G<br>0.9mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">21G<br>0.8mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">22G<br>0.7mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">23G<br>0.6mm</th>";
-    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">24G<br>0.5mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">19G/<br>1.0mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">20G/<br>0.9mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">21G/<br>0.8mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">22G/<br>0.7mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">23G/<br>0.6mm</th>";
+    $html .= "<th style=\"width: 6%;color:#17365D;font-weight:bold;\">24G/<br>0.5mm</th>";
     $html .= '</tr>';
 
     // Iterate through the grouped data and create table rows
