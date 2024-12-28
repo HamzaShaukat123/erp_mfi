@@ -477,98 +477,116 @@ class RptGoDownItemGroupController extends Controller
     }
 
     private function stockAllTabulargeneratePDF($groupedByItemName, $request)
-    {
-        $currentDate = Carbon::now();
-        $formattedDate = $currentDate->format('d-m-y');
+    {// Get current date for PDF generation
+$currentDate = Carbon::now();
+$formattedDate = $currentDate->format('d-m-y');
 
-        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
+// Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
+$groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
 
-        // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
-        $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
-        $pdf->SetSubject("Stock All Report - {$groupName}");
-        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-        $pdf->setPageOrientation('L');
+// Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
+$pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('MFI');
+$pdf->SetTitle("Stock All Report Item Group - {$groupName}");
+$pdf->SetSubject("Stock All Report - {$groupName}");
+$pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+$pdf->setPageOrientation('L');
 
-        // Add a page and set padding
-        $pdf->AddPage();
-        $pdf->setCellPadding(1.2);
+// Add a page and set padding
+$pdf->AddPage();
+$pdf->setCellPadding(1.2);
 
-        // Dynamic heading
-        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
-        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
-        $pdf->writeHTML($heading, true, false, true, false, '');
+// Dynamic heading
+$headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
+$heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
+$pdf->writeHTML($heading, true, false, true, false, '');
 
-        // Table header for data
-        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-        $html .= '<tr>';
-        $html .= '<th style="width: 18%;color:#17365D;font-weight:bold;">Item Name</th>';
+// Initialize an array to hold the maximum content lengths for each gauge
+$maxLengths = [];
 
-        // Dynamically determine the available gauges
-        $allGauges = [];
-        foreach ($groupedByItemName as $items) {
-            foreach ($items as $item) {
-                if (isset($item['item_mm'])) {
-                    $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
-                }
-            }
-        }
-        $availableGauges = array_keys($allGauges); // Extract unique gauges
-
-        // Sort gauges in natural order
-        natsort($availableGauges);
-        $availableGauges = array_values($availableGauges); // Reindex after sorting
-
-        $remainingWidth = 82; // Remaining width for the other columns
-        $numColumns = count($availableGauges); // Count dynamically available gauges
-
-        // Calculate the width for the remaining columns
-        $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
-
-        foreach ($availableGauges as $gauge) {
-            $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
-        }
-        $html .= '</tr>';
-
-        // Generate table rows
-            $count = 0;
-            foreach ($groupedByItemName as $itemName => $items) {
-            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-            $count++;
-
-            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
-    
-            $html .= '<tr style="background-color:' . $backgroundColor . ';">';
-            $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
-
-            foreach ($availableGauges as $gauge) {
-                $item = $items->firstWhere('item_mm', $gauge);
-                $value = $item ? $item['opp_bal'] : null;
-
-                if ($value !== null && $value != 0) {
-                    $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
-                } else {
-                    $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
-                }
-            }
-
-            $html .= '</tr>';
-        }
-        $html .= '</table>';
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        $filename = "stock_all_tabular_{$groupName}.pdf";
-
-        // Determine output type
-        if ($request->outputType === 'download') {
-            $pdf->Output($filename, 'D'); // For download
-        } else {
-            $pdf->Output($filename, 'I'); // For inline view
+// Loop through the data to calculate the maximum length of the values for each gauge
+foreach ($groupedByItemName as $items) {
+    foreach ($items as $item) {
+        if (isset($item['item_mm'])) {
+            $gauge = $item['item_mm'];
+            $value = isset($item['opp_bal']) ? (string) $item['opp_bal'] : '';
+            $maxLengths[$gauge] = max(strlen($value), isset($maxLengths[$gauge]) ? $maxLengths[$gauge] : 0);
         }
     }
+}
+
+// Dynamically determine the available gauges
+$allGauges = [];
+foreach ($groupedByItemName as $items) {
+    foreach ($items as $item) {
+        if (isset($item['item_mm'])) {
+            $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+        }
+    }
+}
+$availableGauges = array_keys($allGauges); // Extract unique gauges
+
+// Sort gauges in natural order
+natsort($availableGauges);
+$availableGauges = array_values($availableGauges); // Reindex after sorting
+
+// Determine the total length of all columns
+$totalLength = array_sum($maxLengths);
+
+// Define the total available width for all columns
+$availableWidth = 82; // Remaining width for the other columns
+
+// Calculate the width for each column based on the content length
+$columnWidths = [];
+foreach ($maxLengths as $gauge => $length) {
+    $columnWidths[$gauge] = ($length / $totalLength) * $availableWidth;
+}
+
+// Table header for data
+$html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+$html .= '<tr>';
+$html .= '<th style="width: 18%;color:#17365D;font-weight:bold;">Item Name</th>';
+
+// Loop through the gauges and assign dynamic widths
+foreach ($availableGauges as $gauge) {
+    $width = isset($columnWidths[$gauge]) ? $columnWidths[$gauge] : 0;
+    $html .= "<th style=\"width: {$width}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
+}
+$html .= '</tr>';
+
+// Generate table rows
+$count = 0;
+foreach ($groupedByItemName as $itemName => $items) {
+    $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+    $count++;
+
+    $html .= '<tr style="background-color:' . $backgroundColor . ';">';
+    $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+
+    foreach ($availableGauges as $gauge) {
+        $item = $items->firstWhere('item_mm', $gauge);
+        $value = $item ? $item['opp_bal'] : null;
+
+        if ($value !== null && $value != 0) {
+            $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
+        } else {
+            $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
+        }
+    }
+
+    $html .= '</tr>';
+}
+$html .= '</table>';
+$pdf->writeHTML($html, true, false, true, false, '');
+
+// Output the PDF as per the desired output type
+$filename = "stock_all_tabular_{$groupName}.pdf";
+if ($request->outputType === 'download') {
+    $pdf->Output($filename, 'D'); // For download
+} else {
+    $pdf->Output($filename, 'I'); // For inline view
+}}
                 
     private function stockAllTabularStargeneratePDF($groupedByItemName, $request)
     {
