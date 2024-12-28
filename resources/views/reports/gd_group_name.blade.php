@@ -490,8 +490,12 @@
 
             const uniqueHeaders = [...new Set(processedData.map(item => item.item_mm))].filter(Boolean);
 
-            // Sort the headers in ascending order
-            uniqueHeaders.sort((a, b) => a.localeCompare(b));  // Sort alphabetically in ascending order
+            // Sort the headers numerically (extract the numeric part and compare)
+            uniqueHeaders.sort((a, b) => {
+                const numA = parseInt(a, 10); // Extract numeric part of header
+                const numB = parseInt(b, 10); // Extract numeric part of header
+                return numA - numB; // Compare numerically
+            });
 
             // Append dynamic headers
             let headerHTML = '<th>Item Name</th>';
