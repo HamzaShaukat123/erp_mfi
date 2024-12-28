@@ -482,8 +482,8 @@ class RptGoDownItemGroupController extends Controller
         // Iterate through gauges to check if each column has non-empty values
         foreach ($gauges as $gauge) {
             $hasData = $groupedByItemName->pluck('item_name')->map(function ($items) use ($gauge) {
-                // Check if $items is null or not before calling firstWhere
-                if (is_null($items)) {
+                // Ensure $items is not null before attempting to call firstWhere
+                if (!$items || $items->isEmpty()) {
                     return null;
                 }
     
@@ -517,8 +517,8 @@ class RptGoDownItemGroupController extends Controller
     
             // Iterate through columns based on available item gauges (mm)
             foreach ($columnsToShow as $gauge) {
-                // Check if $items is null before proceeding
-                if (is_null($items)) {
+                // Check if $items is null or empty before proceeding
+                if (is_null($items) || $items->isEmpty()) {
                     $html .= "<td></td>";
                     continue;
                 }
@@ -543,6 +543,8 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
+
+    
     
 
 }
