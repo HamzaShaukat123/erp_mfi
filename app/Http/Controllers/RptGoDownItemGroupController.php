@@ -34,9 +34,7 @@ class RptGoDownItemGroupController extends Controller
             'outputType' => 'required|in:download,view',
         ]);
     
-        // Retrieve data from the database
-        // $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('item_group_cod',$request->acc_id)
-        // ->get();
+       
 
         $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
         ->where('pipe_stock_all_by_item_group.opp_bal', '<>', 0)
@@ -384,18 +382,17 @@ class RptGoDownItemGroupController extends Controller
             $count++;
         }
 
-          // Add total row
-          $html .= '
-          <tr style="font-weight:bold; background-color:#d9edf7;">
-              <td colspan="4" style="text-align:right;">Total:</td>
-              <td>' . $totalQty . '</td>
-              <td>' . $totalWeight . '</td>
-          </tr>';
+        // Add total row
+        $html .= '
+        <tr style="font-weight:bold; background-color:#d9edf7;">
+            <td colspan="4" style="text-align:right;">Total:</td>
+            <td>' . $totalQty . '</td>
+            <td>' . $totalWeight . '</td>
+        </tr>';
     
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
-
         $filename = "stock_out_report_{$gd_pipe_sales_by_item_group[0]['group_name']}.pdf";
 
         // Determine output type
@@ -413,7 +410,7 @@ class RptGoDownItemGroupController extends Controller
         return $pipe_stock_all_by_item_group;
     }
 
-    public function stockAllTReport(Request $request)
+    public function stockAllTabularReport(Request $request)
     {
         // Validate the request
         $request->validate([
@@ -431,10 +428,10 @@ class RptGoDownItemGroupController extends Controller
         }
     
         // Generate the PDF
-        return $this->stockAllTgeneratePDF($pipe_stock_all_by_item_group, $request);
+        return $this->stockAllTabulargeneratePDF($pipe_stock_all_by_item_group, $request);
     }
 
-    private function stockAllTgeneratePDF($pipe_stock_all_by_item_group, Request $request)
+    private function stockAllTabulargeneratePDF($pipe_stock_all_by_item_group, Request $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');

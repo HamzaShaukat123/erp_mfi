@@ -600,6 +600,10 @@
             else if (tabName === "SO") {
                 window.open(`/rep-godown-by-group-name/so/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
+
+            else if (tabName === "SAT") {
+                window.open(`/rep-godown-by-group-name/sat/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+            }
         }
 
         function downloadPDF(tabName) {
