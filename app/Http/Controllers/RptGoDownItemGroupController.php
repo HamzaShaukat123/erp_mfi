@@ -472,8 +472,14 @@ class RptGoDownItemGroupController extends Controller
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
 
-        // Generate the PDF
-        return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
+         // Determine if this is a 'star' or 'non-star' report based on the route or parameter
+        if (strpos($request->path(), 'star') !== false) {
+            // For star report, call the star PDF generation method
+            return $this->stockAllTabularStargeneratePDF($groupedByItemName, $request);
+        } else {
+            // For non-star report, call the non-star PDF generation method
+            return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
+        }
     }
 
     private function stockAllTabulargeneratePDF($groupedByItemName, $request)
