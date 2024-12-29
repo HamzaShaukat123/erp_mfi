@@ -418,7 +418,7 @@ class RptGoDownItemGroupController extends Controller
             'acc_id' => 'required|exists:pipe_stock_all_by_item_group,item_group_cod', // Ensure acc_id exists
             'outputType' => 'required|in:download,view',
         ]);
-
+    
         // Retrieve data from the database
         $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
             ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
@@ -429,68 +429,73 @@ class RptGoDownItemGroupController extends Controller
                 'pipe_stock_all_by_item_group.item_remark',
                 'pipe_stock_all_by_item_group.opp_bal',
                 'pipe_stock_all_by_item_group.wt',
-                'item_group.group_name'
+                'item_group.group_name' // Include group_name in the select
             )
             ->get();
-
+    
+        // If no records are found
+        if ($pipe_stock_all_by_item_group->isEmpty()) {
+            return response()->json(['message' => 'No records found.'], 404);
+        }
+    
+        // Extract group_name from the first item of the dataset
+        $groupName = $pipe_stock_all_by_item_group->first()->group_name ?? 'Unknown Group';
+    
         // Process the data to break the item_name into chunks and group the items
         $processedData = $pipe_stock_all_by_item_group->map(function ($item) {
             $itemChunks = explode(' ', $item->item_name);
             $item_group = $itemChunks[0] ?? '';   // First chunk (before the first space)
             $item_gauge = $itemChunks[1] ?? '';   // Second chunk (between the first and second space)
             $item_name = implode(' ', array_slice($itemChunks, 2)) ?? ''; // Everything after the second space
-
+    
             return [
                 'item_group' => $item_group,
                 'item_mm' => $item_gauge,
                 'item_name' => $item_name,
-                'group_name' => $item->group_name,
+                'group_name' => $item->group_name, // Keep the group_name in the processed data
                 'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
             ];
         });
-
+    
         // Separate the items into three groups: ROUND X (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
         $roundItems = $processedData->filter(function ($item) {
             return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
         })->sortBy('item_name'); // Sort ROUND X items in ascending order
-
+    
         $sqrItems = $processedData->filter(function ($item) {
             return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
         })->sortBy('item_name'); // Sort SQR items in ascending order
-
+    
         $otherItems = $processedData->filter(function ($item) {
             return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
         })->sortBy('item_name'); // Sort other items in ascending order
-
+    
         // Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
         $orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
-
+    
         // Group the items by item_name (maintains the separate groups in order)
         $groupedByItemName = $orderedData->groupBy('item_name');
-
+    
         // Check if data exists
         if ($groupedByItemName->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
-
-         // Determine if this is a 'star' or 'non-star' report based on the route or parameter
+    
+        // Determine if this is a 'star' or 'non-star' report based on the route or parameter
         if (strpos($request->path(), 'star') !== false) {
             // For star report, call the star PDF generation method
-            return $this->stockAllTabularStargeneratePDF($groupedByItemName, $request);
+            return $this->stockAllTabularStargeneratePDF($groupedByItemName, $groupName, $request);
         } else {
             // For non-star report, call the non-star PDF generation method
-            return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
+            return $this->stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request);
         }
     }
-
-    private function stockAllTabulargeneratePDF($groupedByItemName, $request)
+    
+    private function stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
-
-        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
-
+    
         // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
@@ -499,21 +504,21 @@ class RptGoDownItemGroupController extends Controller
         $pdf->SetSubject("Stock All Report - {$groupName}");
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
-
+    
         // Add a page and set padding
         $pdf->AddPage();
         $pdf->setCellPadding(1.2);
-
+    
         // Dynamic heading
         $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
         $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
         $pdf->writeHTML($heading, true, false, true, false, '');
-
+    
         // Table header for data
         $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
         $html .= '<tr>';
         $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-
+    
         // Dynamically determine the available gauges
         $allGauges = [];
         foreach ($groupedByItemName as $items) {
@@ -524,51 +529,49 @@ class RptGoDownItemGroupController extends Controller
             }
         }
         $availableGauges = array_keys($allGauges); // Extract unique gauges
-
+    
         // Sort gauges in natural order
         natsort($availableGauges);
         $availableGauges = array_values($availableGauges); // Reindex after sorting
-
+    
         $remainingWidth = 72; // Remaining width for the other columns
         $numColumns = count($availableGauges); // Count dynamically available gauges
-
+    
         // Calculate the width for the remaining columns
         $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
-
+    
         foreach ($availableGauges as $gauge) {
             $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
         }
         $html .= '</tr>';
-
+    
         // Generate table rows
-            $count = 0;
-            foreach ($groupedByItemName as $itemName => $items) {
+        $count = 0;
+        foreach ($groupedByItemName as $itemName => $items) {
             $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
             $count++;
-
-            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff'; // Alternating row colors
     
             $html .= '<tr style="background-color:' . $backgroundColor . ';">';
             $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
-
+    
             foreach ($availableGauges as $gauge) {
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
-
+    
                 if ($value !== null && $value != 0) {
                     $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
                 } else {
                     $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
                 }
             }
-
+    
             $html .= '</tr>';
         }
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
-
+    
         $filename = "stock_all_tabular_{$groupName}.pdf";
-
+    
         // Determine output type
         if ($request->outputType === 'download') {
             $pdf->Output($filename, 'D'); // For download
@@ -576,19 +579,16 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I'); // For inline view
         }
     }
+    
                 
     public function stockAllTabularStargeneratePDF($groupedByItemName, $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
 
-        // // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        // $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
-
-        // Assuming the first group and the first item within that group has the group_name
-$firstItem = $groupedByItemName->first()->first(); // Get the first item in the first group
-$groupName = $firstItem->group_name ?? 'Unknown Group'; // Retrieve group_name from the first item
-
+        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
+        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
+        
 
         // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
