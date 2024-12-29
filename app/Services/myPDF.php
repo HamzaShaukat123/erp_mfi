@@ -4,7 +4,7 @@ namespace App\Services;
 
 use TCPDF;
 
-class MyPDF extends TCPDF
+class myPDF extends TCPDF
 {
 
    
@@ -76,39 +76,7 @@ class MyPDF extends TCPDF
     }
     
     
-    /////////////////////////////////////////////////
-
-    public $tableHeaders = []; // Store table headers
-    public $header2 = ''; // Store the text for Header2
-
-    // Set table headers
-    public function setTableHeaders($headers)
-    {
-        $this->tableHeaders = $headers;
-    }
-
-    // Set Header2 text
-    public function setHeader2($headerText)
-    {
-        $this->header2 = $headerText;
-    }
-
-    // Add a custom header method for secondary headers
-    public function CustomHeader2()
-    {
-        if (!empty($this->header2)) {
-            $this->SetY(15); // Adjust position for the second header
-            $this->SetFont('helvetica', 'I', 10); // Italic font style
-            $this->SetTextColor(50, 50, 50); // Gray text color
-            $this->Cell(0, 10, $this->header2, 0, 1, 'C', false); // Center align
-        }
-    }
-
-    ////////////////////////////////////////
-
-
-
-
+    
     function convertCurrencyToWords($number) {
         $Thousand = 1000;
         $Million = $Thousand * $Thousand;
