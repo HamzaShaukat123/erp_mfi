@@ -412,73 +412,69 @@ class RptGoDownItemGroupController extends Controller
     }
 
     public function stockAllTabularReport(Request $request)
-{
-    // Validate the request
-    $request->validate([
-        'acc_id' => 'required|exists:pipe_stock_all_by_item_group,item_group_cod', // Ensure acc_id exists
-        'outputType' => 'required|in:download,view',
-    ]);
+    {
+        // Validate the request
+        $request->validate([
+            'acc_id' => 'required|exists:pipe_stock_all_by_item_group,item_group_cod', // Ensure acc_id exists
+            'outputType' => 'required|in:download,view',
+        ]);
 
-    // Retrieve data from the database
-    $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
-        ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
-        ->select(
-            'pipe_stock_all_by_item_group.item_group_cod',
-            'pipe_stock_all_by_item_group.it_cod',
-            'pipe_stock_all_by_item_group.item_name',
-            'pipe_stock_all_by_item_group.item_remark',
-            'pipe_stock_all_by_item_group.opp_bal',
-            'pipe_stock_all_by_item_group.wt',
-            'item_group.group_name'
-        )
-        ->get();
+        // Retrieve data from the database
+        $pipe_stock_all_by_item_group = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
+            ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
+            ->select(
+                'pipe_stock_all_by_item_group.item_group_cod',
+                'pipe_stock_all_by_item_group.it_cod',
+                'pipe_stock_all_by_item_group.item_name',
+                'pipe_stock_all_by_item_group.item_remark',
+                'pipe_stock_all_by_item_group.opp_bal',
+                'pipe_stock_all_by_item_group.wt',
+                'item_group.group_name'
+            )
+            ->get();
 
-    // Process the data to break the item_name into chunks and group the items
-    $processedData = $pipe_stock_all_by_item_group->map(function ($item) {
-        $itemChunks = explode(' ', $item->item_name);
-        $item_group = $itemChunks[0] ?? '';   // First chunk (before the first space)
-        $item_gauge = $itemChunks[1] ?? '';   // Second chunk (between the first and second space)
-        $item_name = implode(' ', array_slice($itemChunks, 2)) ?? ''; // Everything after the second space
+        // Process the data to break the item_name into chunks and group the items
+        $processedData = $pipe_stock_all_by_item_group->map(function ($item) {
+            $itemChunks = explode(' ', $item->item_name);
+            $item_group = $itemChunks[0] ?? '';   // First chunk (before the first space)
+            $item_gauge = $itemChunks[1] ?? '';   // Second chunk (between the first and second space)
+            $item_name = implode(' ', array_slice($itemChunks, 2)) ?? ''; // Everything after the second space
 
-        return [
-            'item_group' => $item_group,
-            'item_mm' => $item_gauge,
-            'item_name' => $item_name,
-            'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
-        ];
-    });
+            return [
+                'item_group' => $item_group,
+                'item_mm' => $item_gauge,
+                'item_name' => $item_name,
+                'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
+            ];
+        });
 
-    // Separate the items into groups: ROUND X, SQR, and others
-    $roundItems = $processedData->filter(function ($item) {
-        return strpos($item['item_name'], 'ROUND X') === 0;
-    })->sortBy('item_name');
+        // Separate the items into three groups: ROUND X (start with 'ROUND X'), SQR (end with 'SQR'), and others (neither ROUND X nor SQR)
+        $roundItems = $processedData->filter(function ($item) {
+            return strpos($item['item_name'], 'ROUND X') === 0; // Check if it starts with 'ROUND X'
+        })->sortBy('item_name'); // Sort ROUND X items in ascending order
 
-    $sqrItems = $processedData->filter(function ($item) {
-        return substr($item['item_name'], -3) === 'SQR';
-    })->sortBy('item_name');
+        $sqrItems = $processedData->filter(function ($item) {
+            return substr($item['item_name'], -3) === 'SQR'; // Check if it ends with 'SQR'
+        })->sortBy('item_name'); // Sort SQR items in ascending order
 
-    $otherItems = $processedData->filter(function ($item) {
-        return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR');
-    })->sortBy('item_name');
+        $otherItems = $processedData->filter(function ($item) {
+            return !(strpos($item['item_name'], 'ROUND X') === 0 || substr($item['item_name'], -3) === 'SQR'); // Exclude ROUND X and SQR
+        })->sortBy('item_name'); // Sort other items in ascending order
 
-    // Merge the groups in the order: ROUND, SQR, others
-    $orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
+        // Merge the groups in the order: ROUND, SQR, others (ensure there is no mixing)
+        $orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
 
-    // Group the items by item_name
-    $groupedByItemName = $orderedData->groupBy('item_name');
+        // Group the items by item_name (maintains the separate groups in order)
+        $groupedByItemName = $orderedData->groupBy('item_name');
 
-    // Check if data exists
-    if ($groupedByItemName->isEmpty()) {
-        return response()->json(['message' => 'No records found for the selected date range.'], 404);
-    }
+        // Check if data exists
+        if ($groupedByItemName->isEmpty()) {
+            return response()->json(['message' => 'No records found for the selected date range.'], 404);
+        }
 
-    // Generate the PDF based on format
-    if ($request->route()->defaults('format') === 'star') {
-        return $this->stockAllTabularStargeneratePDF($groupedByItemName, $request);
-    } else {
+        // Generate the PDF
         return $this->stockAllTabulargeneratePDF($groupedByItemName, $request);
     }
-}
 
     private function stockAllTabulargeneratePDF($groupedByItemName, $request)
     {
