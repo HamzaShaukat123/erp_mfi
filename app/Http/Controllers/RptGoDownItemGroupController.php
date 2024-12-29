@@ -532,7 +532,7 @@ class RptGoDownItemGroupController extends Controller
                 }
             }
     
-            if ($format === 'star' && empty($rowValues)) {
+            if ($format === 'star' && empty(array_filter($rowValues))) {
                 continue; // Skip the row if no "AV" values are present in the "star" format
             }
     
@@ -544,7 +544,7 @@ class RptGoDownItemGroupController extends Controller
                 $value = $rowValues[$gauge] ?? null;
                 $htmlRow .= $value 
                     ? "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>" 
-                    : "<td style=\"text-align: center; font-size: 12px;\">x</td>";
+                    : "<td style=\"text-align: center; font-size: 12px;\"></td>";
             }
     
             $html .= "<tr style=\"background-color: {$backgroundColor};\">{$htmlRow}</tr>";
@@ -561,5 +561,6 @@ class RptGoDownItemGroupController extends Controller
             $pdf->Output($filename, 'I');
         }
     }
+    
         
 }
