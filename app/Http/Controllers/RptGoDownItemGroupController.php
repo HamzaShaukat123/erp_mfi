@@ -581,7 +581,7 @@ class RptGoDownItemGroupController extends Controller
     }
     
                 
-    public function stockAllTabularStargeneratePDF($groupedByItemName, $request)
+    public function stockAllTabularStargeneratePDF($groupedByItemName, $groupName, $request)
     {
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
