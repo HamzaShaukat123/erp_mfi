@@ -548,7 +548,7 @@ class RptGoDownItemGroupController extends Controller
         // Generate table rows
         $count = 0;
         foreach ($groupedByItemName as $itemName => $items) {
-            $backgroundColor = ($count % 1 == 0) ? '#f1f1f1' : '#ffffff';
+            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
             $count++;
     
             $html .= '<tr style="background-color:' . $backgroundColor . ';">';
