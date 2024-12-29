@@ -579,112 +579,112 @@ class RptGoDownItemGroupController extends Controller
     public function stockAllTabularStargeneratePDF($groupedByItemName, $request)
     {
         $currentDate = Carbon::now();
-$formattedDate = $currentDate->format('d-m-y');
+        $formattedDate = $currentDate->format('d-m-y');
 
-// Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-$groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
+        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
+        $groupName = $groupedByItemName->get()['group_name'] ?? 'Unknown Group';
 
-// Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
-$pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('MFI');
-$pdf->SetTitle("Stock All Report Item Group - {$groupName}");
-$pdf->SetSubject("Stock All Report - {$groupName}");
-$pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-$pdf->setPageOrientation('L');
+        // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
+        $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
+        $pdf->SetSubject("Stock All Report - {$groupName}");
+        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+        $pdf->setPageOrientation('L');
 
-// Add a page and set padding
-$pdf->AddPage();
-$pdf->setCellPadding(1.2);
+        // Add a page and set padding
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
 
-// Dynamic heading
-$headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
-$heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
-$pdf->writeHTML($heading, true, false, true, false, '');
+        // Dynamic heading
+        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
+        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
+        $pdf->writeHTML($heading, true, false, true, false, '');
 
-// Table header for data
-$html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-$html .= '<tr>';
-$html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+        // Table header for data
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $html .= '<tr>';
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
 
-// Dynamically determine the available gauges
-$allGauges = [];
-foreach ($groupedByItemName as $items) {
-    foreach ($items as $item) {
-        if (isset($item['item_mm'])) {
-            $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+        // Dynamically determine the available gauges
+        $allGauges = [];
+        foreach ($groupedByItemName as $items) {
+            foreach ($items as $item) {
+                if (isset($item['item_mm'])) {
+                    $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+                }
+            }
         }
-    }
-}
-$availableGauges = array_keys($allGauges); // Extract unique gauges
+        $availableGauges = array_keys($allGauges); // Extract unique gauges
 
-// Sort gauges in natural order
-natsort($availableGauges);
-$availableGauges = array_values($availableGauges); // Reindex after sorting
+        // Sort gauges in natural order
+        natsort($availableGauges);
+        $availableGauges = array_values($availableGauges); // Reindex after sorting
 
-// Determine which gauges have non-zero, non-null data
-$validGauges = [];
-foreach ($availableGauges as $gauge) {
-    $hasValidData = false;
-    foreach ($groupedByItemName as $items) {
-        $item = $items->firstWhere('item_mm', $gauge);
-        if ($item && $item['opp_bal'] > 0) {
-            $hasValidData = true;
-            break;
+        // Determine which gauges have non-zero, non-null data
+        $validGauges = [];
+        foreach ($availableGauges as $gauge) {
+            $hasValidData = false;
+            foreach ($groupedByItemName as $items) {
+                $item = $items->firstWhere('item_mm', $gauge);
+                if ($item && $item['opp_bal'] > 0) {
+                    $hasValidData = true;
+                    break;
+                }
+            }
+            if ($hasValidData) {
+                $validGauges[] = $gauge; // Add to valid gauges if it has data
+            }
         }
-    }
-    if ($hasValidData) {
-        $validGauges[] = $gauge; // Add to valid gauges if it has data
-    }
-}
 
-// Remaining columns width calculation
-$remainingWidth = 72;
-$numColumns = count($validGauges);
-$columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
+        // Remaining columns width calculation
+        $remainingWidth = 72;
+        $numColumns = count($validGauges);
+        $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
 
-$html .= '<th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">' . implode('</th><th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">', $validGauges) . '</th>';
-$html .= '</tr>';
+        $html .= '<th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">' . implode('</th><th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">', $validGauges) . '</th>';
+        $html .= '</tr>';
 
-// Generate table rows
-$count = 0;
-foreach ($groupedByItemName as $itemName => $items) {
-    $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-    $count++;
+        // Generate table rows
+        $count = 0;
+        foreach ($groupedByItemName as $itemName => $items) {
+            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+            $count++;
 
-    $htmlRow = "<td style=\"font-size: 12px;\">{$itemName}</td>";
-    $hasData = false; // Initialize flag to check if there's any data for the row
+            $htmlRow = "<td style=\"font-size: 12px;\">{$itemName}</td>";
+            $hasData = false; // Initialize flag to check if there's any data for the row
 
-    // Only iterate through valid gauges
-    foreach ($validGauges as $gauge) {
-        $item = $items->firstWhere('item_mm', $gauge);
-        $value = $item ? $item['opp_bal'] : null;
+            // Only iterate through valid gauges
+            foreach ($validGauges as $gauge) {
+                $item = $items->firstWhere('item_mm', $gauge);
+                $value = $item ? $item['opp_bal'] : null;
 
-        // Only add the gauge column if the value is not null or zero
-        if ($value !== null && $value > 0) {
-            $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
-            $hasData = true;
+                // Only add the gauge column if the value is not null or zero
+                if ($value !== null && $value > 0) {
+                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
+                    $hasData = true;
+                } else {
+                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">x</td>";
+                }
+            }
+
+            // Only add row if it has data
+            if ($hasData) {
+                $html .= "<tr style=\"background-color: {$backgroundColor};\">{$htmlRow}</tr>";
+            }
+        }
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $filename = "stock_all_tabular_{$groupName}.pdf";
+
+        // Determine output type
+        if ($request->outputType === 'download') {
+            $pdf->Output($filename, 'D'); // For download
         } else {
-            $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">x</td>";
+            $pdf->Output($filename, 'I'); // For inline view
         }
-    }
-
-    // Only add row if it has data
-    if ($hasData) {
-        $html .= "<tr style=\"background-color: {$backgroundColor};\">{$htmlRow}</tr>";
-    }
-}
-$html .= '</table>';
-$pdf->writeHTML($html, true, false, true, false, '');
-
-$filename = "stock_all_tabular_{$groupName}.pdf";
-
-// Determine output type
-if ($request->outputType === 'download') {
-    $pdf->Output($filename, 'D'); // For download
-} else {
-    $pdf->Output($filename, 'I'); // For inline view
-}
 
     }
     
