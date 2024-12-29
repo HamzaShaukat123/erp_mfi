@@ -444,6 +444,7 @@ class RptGoDownItemGroupController extends Controller
                 'item_group' => $item_group,
                 'item_mm' => $item_gauge,
                 'item_name' => $item_name,
+                'group_name' => $item->group_name,
                 'opp_bal' => $item->opp_bal ?? 0, // Default to 0 if opp_bal is null
             ];
         });
@@ -582,7 +583,7 @@ class RptGoDownItemGroupController extends Controller
         $formattedDate = $currentDate->format('d-m-y');
 
         // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        $groupName = $groupedByItemName->get()['group_name'] ?? 'Unknown Group';
+        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
 
         // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
