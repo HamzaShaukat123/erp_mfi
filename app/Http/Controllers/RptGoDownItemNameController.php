@@ -108,7 +108,7 @@ class RptGoDownItemNameController extends Controller
             ->join('item_entry2', 'gd_pipe_pur_by_item_name.item_cod', '=', 'item_entry2.it_cod')
             ->whereBetween('pur_date', [$request->fromDate, $request->toDate])
             ->select('gd_pipe_pur_by_item_name.*', 'item_entry2.item_name', 'ac.ac_name', 'item_entry2.item_remark')
-            ->orderBy('sa_date', 'asc')
+            ->orderBy('pur_date', 'asc')
             ->get();
     
         // Check if data exists
