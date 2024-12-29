@@ -500,7 +500,7 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
+        $pdf->SetTitle("Stock All Report - {$groupName}");
         $pdf->SetSubject("Stock All Report - {$groupName}");
         $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
@@ -590,9 +590,9 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Stock All Report Item Group - {$groupName}");
-        $pdf->SetSubject("Stock All Report - {$groupName}");
-        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+        $pdf->SetTitle("Star Stock All Report - {$groupName}");
+        $pdf->SetSubject("Star  Stock All Report - {$groupName}");
+        $pdf->SetKeywords('Star Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
 
         // Add a page and set padding
@@ -679,7 +679,7 @@ class RptGoDownItemGroupController extends Controller
         $html .= '</table>';
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        $filename = "stock_all_tabular_{$groupName}.pdf";
+        $filename = "star_stock_all_tabular_{$groupName}.pdf";
 
         // Determine output type
         if ($request->outputType === 'download') {
