@@ -491,103 +491,105 @@ class RptGoDownItemGroupController extends Controller
         }
     }
     
-    private function stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request)
+  
+
+    // Define a custom header
+    public function Header()
+    {
+        global $availableGauges; // Use global to access dynamically calculated gauges
+
+        // Table header HTML
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $html .= '<tr>';
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+
+        $remainingWidth = 72; // Remaining width for the other columns
+        $numColumns = count($availableGauges);
+        $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
+
+        foreach ($availableGauges as $gauge) {
+            $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
+        }
+        $html .= '</tr>';
+        $html .= '</table>';
+
+        // Write the table header to the PDF
+        $this->writeHTMLCell(0, 0, '', '', $html, 0, 1, false, true, 'C', true);
+    }
+
+
+    public function stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request)
     {
         $currentDate = Carbon::now();
-$formattedDate = $currentDate->format('d-m-y');
+        $formattedDate = $currentDate->format('d-m-y');
 
-// Initialize PDF
-$pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('MFI');
-$pdf->SetTitle("Stock All Report - {$groupName}");
-$pdf->SetSubject("Stock All Report - {$groupName}");
-$pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
-$pdf->setPageOrientation('L');
+        // Initialize PDF
+        $pdf = new MyPDF();
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle("Stock All Report - {$groupName}");
+        $pdf->SetSubject("Stock All Report - {$groupName}");
+        $pdf->SetKeywords('Stock All Tabular, TCPDF, PDF');
+        $pdf->setPageOrientation('L');
 
-// Add a page and set padding
-$pdf->AddPage();
-$pdf->setCellPadding(1.2);
+        // Add a page and set padding
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
 
-// Dynamic heading
-$headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
-$heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
-$pdf->writeHTML($heading, true, false, true, false, '');
+        // Dynamic heading
+        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
+        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
+        $pdf->writeHTML($heading, true, false, true, false, '');
 
-// Dynamically determine the available gauges
-$allGauges = [];
-foreach ($groupedByItemName as $items) {
-    foreach ($items as $item) {
-        if (isset($item['item_mm'])) {
-            $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+        // Dynamically determine the available gauges
+        $allGauges = [];
+        foreach ($groupedByItemName as $items) {
+            foreach ($items as $item) {
+                if (isset($item['item_mm'])) {
+                    $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+                }
+            }
         }
-    }
-}
-global $availableGauges;
-$availableGauges = array_keys($allGauges); // Extract unique gauges
-natsort($availableGauges);
-$availableGauges = array_values($availableGauges); // Reindex after sorting
+        global $availableGauges;
+        $availableGauges = array_keys($allGauges); // Extract unique gauges
+        natsort($availableGauges);
+        $availableGauges = array_values($availableGauges); // Reindex after sorting
 
-// Table rows
-$html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-$count = 0;
-foreach ($groupedByItemName as $itemName => $items) {
-    $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-    $count++;
+        // Table rows
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $count = 0;
+        foreach ($groupedByItemName as $itemName => $items) {
+            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+            $count++;
 
-    $html .= '<tr style="background-color:' . $backgroundColor . ';">';
-    $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
+            $html .= '<tr style="background-color:' . $backgroundColor . ';">';
+            $html .= "<td style=\"font-size: 12px;\">{$itemName}</td>";
 
-    foreach ($availableGauges as $gauge) {
-        $item = $items->firstWhere('item_mm', $gauge);
-        $value = $item ? $item['opp_bal'] : null;
+            foreach ($availableGauges as $gauge) {
+                $item = $items->firstWhere('item_mm', $gauge);
+                $value = $item ? $item['opp_bal'] : null;
 
-        if ($value !== null && $value != 0) {
-            $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
+                if ($value !== null && $value != 0) {
+                    $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
+                } else {
+                    $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
+                }
+            }
+
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Output the PDF
+        $filename = "stock_all_tabular_{$groupName}.pdf";
+        if ($request->outputType === 'download') {
+            $pdf->Output($filename, 'D'); // For download
         } else {
-            $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
+            $pdf->Output($filename, 'I'); // For inline view
         }
     }
-
-    $html .= '</tr>';
-}
-$html .= '</table>';
-$pdf->writeHTML($html, true, false, true, false, '');
-
-// Output the PDF
-$filename = "stock_all_tabular_{$groupName}.pdf";
-if ($request->outputType === 'download') {
-    $pdf->Output($filename, 'D'); // For download
-} else {
-    $pdf->Output($filename, 'I'); // For inline view
-}
-    }
-
-       // Define a custom header
-       public function Header()
-       {
-           global $availableGauges; // Use global to access dynamically calculated gauges
-   
-           // Table header HTML
-           $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
-           $html .= '<tr>';
-           $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
-   
-           $remainingWidth = 72; // Remaining width for the other columns
-           $numColumns = count($availableGauges);
-           $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
-   
-           foreach ($availableGauges as $gauge) {
-               $html .= "<th style=\"width: {$columnWidth}%;color:#17365D;font-weight:bold;\">{$gauge}</th>";
-           }
-           $html .= '</tr>';
-           $html .= '</table>';
-   
-           // Write the table header to the PDF
-           $this->writeHTMLCell(0, 0, '', '', $html, 0, 1, false, true, 'C', true);
-       }
-   
-    
+  
                 
     public function stockAllTabularStargeneratePDF($groupedByItemName, $groupName, $request)
     {
