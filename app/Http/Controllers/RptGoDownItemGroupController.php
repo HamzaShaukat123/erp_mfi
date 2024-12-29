@@ -582,8 +582,13 @@ class RptGoDownItemGroupController extends Controller
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
 
-        // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
-        $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
+        // // Assuming 'group_name' is available in $groupedByItemName (we will take it from the first item of the first group)
+        // $groupName = $groupedByItemName->first()['group_name'] ?? 'Unknown Group';
+
+        // Assuming the first group and the first item within that group has the group_name
+$firstItem = $groupedByItemName->first()->first(); // Get the first item in the first group
+$groupName = $firstItem->group_name ?? 'Unknown Group'; // Retrieve group_name from the first item
+
 
         // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
