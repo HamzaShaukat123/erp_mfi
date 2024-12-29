@@ -4,7 +4,7 @@ namespace App\Services;
 
 use TCPDF;
 
-class myPDF extends TCPDF
+class MyPDF extends TCPDF
 {
 
    
