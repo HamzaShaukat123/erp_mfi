@@ -65,7 +65,7 @@ class RptGoDownItemGroupController extends Controller
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
 
-        $pdf = new MyPDF();
+        $pdf = new myPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
         $pdf->SetTitle("Stock All Report Item Group  - {$pipe_stock_all_by_item_group[0]['group_name']}");
@@ -191,7 +191,7 @@ class RptGoDownItemGroupController extends Controller
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
     
-        $pdf = new MyPDF();
+        $pdf = new myPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
         $pdf->SetTitle("Stock In Report Item Group  - {$gd_pipe_pur_by_item_group[0]['group_name']}");
@@ -317,7 +317,7 @@ class RptGoDownItemGroupController extends Controller
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
     
-        $pdf = new MyPDF();
+        $pdf = new myPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
         $pdf->SetTitle("Stock Out Report Item Group  - {$gd_pipe_sales_by_item_group[0]['group_name']}");
@@ -497,7 +497,7 @@ class RptGoDownItemGroupController extends Controller
     $formattedDate = $currentDate->format('d-m-y');
 
     // Initialize PDF
-    $pdf = new \App\Services\MyPDF();
+    $pdf = new \App\Services\myPDF();
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('MFI');
     $pdf->SetTitle("Stock All Report - {$groupName}");
@@ -571,8 +571,8 @@ class RptGoDownItemGroupController extends Controller
         $currentDate = Carbon::now();
         $formattedDate = $currentDate->format('d-m-y');
 
-        // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
-        $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
+        // Initialize PDF (ensure myPDF or TCPDF is correctly included and loaded)
+        $pdf = new myPDF(); // Replace myPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
         $pdf->SetTitle("Star Stock All Report - {$groupName}");
