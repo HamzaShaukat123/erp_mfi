@@ -38,7 +38,7 @@
 								<section class="card">
 									<div class="card-body" style="height: 450px;overflow-y: auto;padding:0px !important">
 										<table class="table table-bordered table-striped mb-0" id="myTable">
-											<thead style="position: sticky;top: 0;background-color: white; ">
+											{{-- <thead style="position: sticky;top: 0;background-color: white; ">
 												<tr>
 													<th>Module Name</th>
 													<th>Create</th>
@@ -50,8 +50,39 @@
 													<th>Print</th>
 													<th>Report</th>
 												</tr>
+											</thead> --}}
+
+											<thead style="position: sticky;top: 0;background-color: white; >
+												<tr>
+													<th>Module Name</th>
+													<th>
+														Create (<input type="checkbox" data-column-class="create-checkbox"> All)
+													</th>
+													<th>
+														View (<input type="checkbox" data-column-class="view-checkbox"> All)
+													</th>
+													<th>
+														Update (<input type="checkbox" data-column-class="update-checkbox"> All)
+													</th>
+													<th>
+														Delete (<input type="checkbox" data-column-class="delete-checkbox"> All)
+													</th>
+													<th>
+														Att. Add (<input type="checkbox" data-column-class="attadd-checkbox"> All)
+													</th>
+													<th>
+														Att. Delete (<input type="checkbox" data-column-class="attdelete-checkbox"> All)
+													</th>
+													<th>
+														Print (<input type="checkbox" data-column-class="print-checkbox"> All)
+													</th>
+													<th>
+														Report (<input type="checkbox" data-column-class="report-checkbox"> All)
+													</th>
+												</tr>
 											</thead>
-											<tbody id="UserRoleTable">
+											
+											{{-- <tbody id="UserRoleTable">
                                                 @foreach ($role_access as $key => $row)
                                                     <tr>
                                                         <td><input type="hidden"   value="{{$row->module_id}}" name="module[{{$row->module_id}}]">{{$row->module_name}}</td>	
@@ -65,7 +96,27 @@
 														<td><input type="checkbox" name="report[{{$row->module_id}}]" {{ $row->report == 1 ? 'checked' : '' }}></td>
                                                     </tr>
                                                 @endforeach
+											</tbody> --}}
+
+											<tbody id="UserRoleTable">
+												@foreach ($role_access as $key => $row)
+												<tr>
+													<td>
+														<input type="hidden" value="{{ $row->module_id }}" name="module[{{ $row->module_id }}]">
+														<input type="checkbox" class="row-check-all"> {{ $row->module_name }}
+													</td>
+													<td><input type="checkbox" class="create-checkbox" name="create[{{ $row->module_id }}]" {{ $row->add == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="view-checkbox" name="view[{{ $row->module_id }}]" {{ $row->view == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="update-checkbox" name="update[{{ $row->module_id }}]" {{ $row->edit == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="delete-checkbox" name="delete[{{ $row->module_id }}]" {{ $row->delete == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="attadd-checkbox" name="att_add[{{ $row->module_id }}]" {{ $row->att_add == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="attdelete-checkbox" name="att_delete[{{ $row->module_id }}]" {{ $row->att_delete == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="print-checkbox" name="print[{{ $row->module_id }}]" {{ $row->print == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="report-checkbox" name="report[{{ $row->module_id }}]" {{ $row->report == 1 ? 'checked' : '' }}></td>
+												</tr>
+												@endforeach
 											</tbody>
+											
 										</table>
 									</div>
 
@@ -91,13 +142,50 @@
  
 <script>
 	
-	$(document).ready(function() {
-		$(window).keydown(function(event){
-			if(event.keyCode == 13) {
+	// $(document).ready(function() {
+	// 	$(window).keydown(function(event){
+	// 		if(event.keyCode == 13) {
+	// 			event.preventDefault();
+	// 			return false;
+	// 		}
+	// 	});
+	// });
+
+
+
+	$(document).ready(function () {
+		// Prevent form submission on Enter key press
+		$(window).keydown(function (event) {
+			if (event.keyCode === 13) {
 				event.preventDefault();
 				return false;
 			}
 		});
+
+		// Check All Columns
+		function checkAllColumn(columnClass, isChecked) {
+			$(`.${columnClass}`).prop('checked', isChecked);
+		}
+
+		// Check All Rows
+		function checkAllRow(rowElement, isChecked) {
+			$(rowElement).find('input[type="checkbox"]').prop('checked', isChecked);
+		}
+
+		// Add event listeners for column "check all"
+		$('thead th input[type="checkbox"]').on('change', function () {
+			const columnClass = $(this).data('column-class');
+			checkAllColumn(columnClass, $(this).is(':checked'));
+		});
+
+		// Add event listeners for row "check all"
+		$('tbody tr').each(function () {
+			const rowCheckbox = $(this).find('.row-check-all');
+			rowCheckbox.on('change', function () {
+				checkAllRow($(this).closest('tr'), $(this).is(':checked'));
+			});
+		});
 	});
+
 
 </script>
