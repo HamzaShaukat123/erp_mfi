@@ -157,14 +157,15 @@
 
 
 	function checkAll(index, type) {
-		const selectAllCheckbox = document.getElementById(`checkAll${type}${index}`);
-		const checkboxes = document.querySelectorAll(`.${type}-checkbox-0`);
+    const selectAllCheckbox = document.getElementById(`checkAll${type}${index}`);
+    const checkboxes = document.querySelectorAll(`.${type}-checkbox-0`);
 
-		// Check or uncheck all checkboxes based on the "Select All" checkbox
-		checkboxes.forEach(checkbox => {
-			checkbox.checked = selectAllCheckbox.checked;
-		});
-	}
+    // Check or uncheck all checkboxes based on the "Select All" checkbox
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
+
 
 
 	function checkRow(rowId) {
