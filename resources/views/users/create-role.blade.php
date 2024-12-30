@@ -37,7 +37,7 @@
 								<section class="card">
 									<div class="card-body" style="height: 450px;overflow-y: auto;padding:0px !important">
 										<table class="table table-bordered table-striped mb-0" id="myTable">
-											<thead style="position: sticky;top: 0;background-color: white; ">
+											{{-- <thead style="position: sticky;top: 0;background-color: white; ">
 												<tr>
 													<th>Module Name</th>
 													<th>Create (<label for="checkAllcreate0"><input type="checkbox" onclick="checkAll(0, 'create')" id="checkAllcreate0"> All</label>)</th>
@@ -49,7 +49,38 @@
 													<th>Print (<label for="checkAllprint0"><input type="checkbox" onclick="checkAll(0, 'print')" id="checkAllprint0"> All</label>)</th></th>
 													<th>Report (<label for="checkAllreport0"><input type="checkbox" onclick="checkAll(0, 'report')" id="checkAllreport0"> All</label>)</th></th>
 												</tr>
+											</thead> --}}
+
+											<thead style="position: sticky; top: 0; background-color: white;">
+												<tr>
+													<th>Module Name</th>
+													<th>
+														Create (<label for="checkAllcreate0"><input type="checkbox" onclick="checkAll(0, 'create')" id="checkAllcreate0"> All</label>)
+													</th>
+													<th>
+														View (<label for="checkAllview0"><input type="checkbox" onclick="checkAll(0, 'view')" id="checkAllview0"> All</label>)
+													</th>
+													<th>
+														Update (<label for="checkAllupdate0"><input type="checkbox" onclick="checkAll(0, 'update')" id="checkAllupdate0"> All</label>)
+													</th>
+													<th>
+														Delete (<label for="checkAlldelete0"><input type="checkbox" onclick="checkAll(0, 'delete')" id="checkAlldelete0"> All</label>)
+													</th>
+													<th>
+														Att. Add (<label for="checkAllattadd0"><input type="checkbox" onclick="checkAll(0, 'attadd')" id="checkAllattadd0"> All</label>)
+													</th>
+													<th>
+														Att. Delete (<label for="checkAllattdelete0"><input type="checkbox" onclick="checkAll(0, 'attdelete')" id="checkAllattdelete0"> All</label>)
+													</th>
+													<th>
+														Print (<label for="checkAllprint0"><input type="checkbox" onclick="checkAll(0, 'print')" id="checkAllprint0"> All</label>)
+													</th>
+													<th>
+														Report (<label for="checkAllreport0"><input type="checkbox" onclick="checkAll(0, 'report')" id="checkAllreport0"> All</label>)
+													</th>
+												</tr>
 											</thead>
+											
 											{{-- <tbody id="UserRoleTable" >
                                                 @foreach ($modules as $key => $row)
                                                     <tr>
@@ -126,24 +157,25 @@
 
 
 	function checkAll(index, type) {
-        const selectAllCheckbox = document.getElementById(`checkAll${type}${index}`);
-        const checkboxes = document.querySelectorAll(`.${type}-checkbox-${index}`);
+		const selectAllCheckbox = document.getElementById(`checkAll${type}${index}`);
+		const checkboxes = document.querySelectorAll(`.${type}-checkbox-0`);
 
-        // Check or uncheck all checkboxes based on the "Select All" checkbox
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-    }
+		// Check or uncheck all checkboxes based on the "Select All" checkbox
+		checkboxes.forEach(checkbox => {
+			checkbox.checked = selectAllCheckbox.checked;
+		});
+	}
+
 
 	function checkRow(rowId) {
-    const selectRowCheckbox = document.getElementById(`checkRow${rowId}`);
-    const rowCheckboxes = document.querySelectorAll(`input[class*="-checkbox-${rowId}"]`);
+    	const selectRowCheckbox = document.getElementById(`checkRow${rowId}`);
+    	const rowCheckboxes = document.querySelectorAll(`input[class*="-checkbox-${rowId}"]`);
 
-    // Check or uncheck all checkboxes in the row based on the "Row Check All" checkbox
-    rowCheckboxes.forEach(checkbox => {
-        checkbox.checked = selectRowCheckbox.checked;
-    });
-}
+    	// Check or uncheck all checkboxes in the row based on the "Row Check All" checkbox
+    	rowCheckboxes.forEach(checkbox => {
+        	checkbox.checked = selectRowCheckbox.checked;
+    	});
+	}
 
 
 </script>
