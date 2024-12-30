@@ -52,7 +52,7 @@
 												</tr>
 											</thead> --}}
 
-											<thead>
+											<thead style="position: sticky;top: 0;background-color: white; ">
 												<tr>
 													<th>Module Name</th>
 													<th>Create (<input type="checkbox" data-column-class="create-checkbox"> All)</th>
