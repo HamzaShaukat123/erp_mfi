@@ -154,38 +154,40 @@
 
 
 	$(document).ready(function () {
-		// Prevent form submission on Enter key press
-		$(window).keydown(function (event) {
-			if (event.keyCode === 13) {
-				event.preventDefault();
-				return false;
-			}
-		});
+    // Prevent form submission on Enter key press
+    $(window).keydown(function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
 
-		// Check All Columns
-		function checkAllColumn(columnClass, isChecked) {
-			$(`.${columnClass}`).prop('checked', isChecked);
-		}
+    // Check All Columns
+    function checkAllColumn(columnClass, isChecked) {
+        $(`.${columnClass}`).prop('checked', isChecked);
+    }
 
-		// Check All Rows
-		function checkAllRow(rowElement, isChecked) {
-			$(rowElement).find('input[type="checkbox"]').prop('checked', isChecked);
-		}
+    // Check All Rows
+    function checkAllRow(rowElement, isChecked) {
+        $(rowElement).find('input[type="checkbox"]').prop('checked', isChecked);
+    }
 
-		// Add event listeners for column "check all"
-		$('thead th input[type="checkbox"]').on('change', function () {
-			const columnClass = $(this).data('column-class');
-			checkAllColumn(columnClass, $(this).is(':checked'));
-		});
+    // Add event listeners for column "check all"
+    $('thead th input[type="checkbox"]').on('change', function () {
+        const columnClass = $(this).data('column-class');
+        if (columnClass) {
+            checkAllColumn(columnClass, $(this).is(':checked'));
+        }
+    });
 
-		// Add event listeners for row "check all"
-		$('tbody tr').each(function () {
-			const rowCheckbox = $(this).find('.row-check-all');
-			rowCheckbox.on('change', function () {
-				checkAllRow($(this).closest('tr'), $(this).is(':checked'));
-			});
-		});
-	});
+    // Add event listeners for row "check all"
+    $('tbody tr').each(function () {
+        const rowCheckbox = $(this).find('.row-check-all');
+        rowCheckbox.on('change', function () {
+            checkAllRow($(this).closest('tr'), $(this).is(':checked'));
+        });
+    });
+});
 
 
 </script>
