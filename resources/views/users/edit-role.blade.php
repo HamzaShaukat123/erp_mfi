@@ -98,18 +98,12 @@
                                                     </tr>
                                                 @endforeach
 											</tbody> --}}
-
-
-
 											<tbody>
 												@foreach ($role_access as $key => $row)
 												<tr>
 													<td>
 														<input type="hidden" value="{{ $row->module_id }}" name="module[{{ $row->module_id }}]">
-														{{ $row->module_name }}
-													</td>
-													<td>
-														<input type="checkbox" class="row-check-all"> All
+														<input type="checkbox" class="row-check-all"> {{ $row->module_name }}
 													</td>
 													<td><input type="checkbox" class="create-checkbox" name="create[{{ $row->module_id }}]" {{ $row->add == 1 ? 'checked' : '' }}></td>
 													<td><input type="checkbox" class="view-checkbox" name="view[{{ $row->module_id }}]" {{ $row->view == 1 ? 'checked' : '' }}></td>
@@ -122,7 +116,6 @@
 												</tr>
 												@endforeach
 											</tbody>
-											
 										</table>
 									</div>
 
