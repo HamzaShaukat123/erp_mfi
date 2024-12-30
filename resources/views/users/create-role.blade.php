@@ -37,19 +37,6 @@
 								<section class="card">
 									<div class="card-body" style="height: 450px;overflow-y: auto;padding:0px !important">
 										<table class="table table-bordered table-striped mb-0" id="myTable">
-											{{-- <thead style="position: sticky;top: 0;background-color: white; ">
-												<tr>
-													<th>Module Name</th>
-													<th>Create (<label for="checkAllcreate0"><input type="checkbox" onclick="checkAll(0, 'create')" id="checkAllcreate0"> All</label>)</th>
-													<th>View (<label for="checkAllview0"><input type="checkbox" onclick="checkAll(0, 'view')" id="checkAllview0"> All</label>)</th>
-													<th>Update (<label for="checkAllupdate0"><input type="checkbox" onclick="checkAll(0, 'update')" id="checkAllupdate0"> All</label>)</th>
-													<th>Delete (<label for="checkAlldelete0"><input type="checkbox" onclick="checkAll(0, 'delete')" id="checkAlldelete0"> All</label>)</th>
-													<th>Att. Add (<label for="checkAllattadd0"><input type="checkbox" onclick="checkAll(0, 'attadd')" id="checkAllattadd0"> All</label>)</th>
-													<th>Att. Delete (<label for="checkAllattdelete0"><input type="checkbox" onclick="checkAll(0, 'attdelete')" id="checkAllattdelete0"> All</label>)</th>
-													<th>Print (<label for="checkAllprint0"><input type="checkbox" onclick="checkAll(0, 'print')" id="checkAllprint0"> All</label>)</th></th>
-													<th>Report (<label for="checkAllreport0"><input type="checkbox" onclick="checkAll(0, 'report')" id="checkAllreport0"> All</label>)</th></th>
-												</tr>
-											</thead> --}}
 
 											<thead style="position: sticky; top: 0; background-color: white;">
 												<tr>
@@ -80,22 +67,6 @@
 													</th>
 												</tr>
 											</thead>
-											{{-- <tbody id="UserRoleTable" >
-                                                @foreach ($modules as $key => $row)
-                                                    <tr>
-                                                        <td><input type="hidden" value="{{$row->id}}" name="module[{{$row->id}}]">{{$row->name}}</td>	
-                                                        <td><input type="checkbox" class="create-checkbox-0" name="create[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="view-checkbox-0" name="view[{{$row->id}}]"></td>
-                                                        <td><input type="checkbox" class="update-checkbox-0" name="update[{{$row->id}}]"></td>
-                                                        <td><input type="checkbox" class="delete-checkbox-0" name="delete[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attadd-checkbox-0" name="att_add[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attdelete-checkbox-0" name="att_delete[{{$row->id}}]"></td>
-                                                        <td><input type="checkbox" class="print-checkbox-0" name="print[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="report-checkbox-0" name="report[{{$row->id}}]"></td>
-                                                    </tr>
-                                                @endforeach
-											</tbody> --}}
-
 
 											<tbody id="UserRoleTable">
 												@foreach ($modules as $key => $row)
@@ -154,65 +125,65 @@
 
 
 	// Check All for a Column
-function checkAllColumn(type) {
-    const selectAllCheckbox = document.getElementById(`checkAll${type}`);
-    const checkboxes = document.querySelectorAll(`.${type}-checkbox`);
+	function checkAllColumn(type) {
+		const selectAllCheckbox = document.getElementById(`checkAll${type}`);
+		const checkboxes = document.querySelectorAll(`.${type}-checkbox`);
 
-    // Check or uncheck all checkboxes in the column
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = selectAllCheckbox.checked;
-    });
+		// Check or uncheck all checkboxes in the column
+		checkboxes.forEach(checkbox => {
+			checkbox.checked = selectAllCheckbox.checked;
+		});
 
-    // Update row-level "Check All" checkboxes
-    updateRowChecks();
-}
+		// Update row-level "Check All" checkboxes
+		updateRowChecks();
+	}
 
-// Check All for a Row
-function checkAllRow(rowCheckbox, rowIndex) {
-    const checkboxes = document.querySelectorAll(`.row-${rowIndex}`);
+	// Check All for a Row
+	function checkAllRow(rowCheckbox, rowIndex) {
+		const checkboxes = document.querySelectorAll(`.row-${rowIndex}`);
 
-    // Check or uncheck all checkboxes in the row
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = rowCheckbox.checked;
-    });
+		// Check or uncheck all checkboxes in the row
+		checkboxes.forEach(checkbox => {
+			checkbox.checked = rowCheckbox.checked;
+		});
 
-    // Update column-level "Check All" checkboxes
-    updateColumnChecks();
-}
+		// Update column-level "Check All" checkboxes
+		updateColumnChecks();
+	}
 
-// Update Column-Level "Check All" States
-function updateColumnChecks() {
-    const columnTypes = ['create', 'view', 'update', 'delete', 'attadd', 'attdelete', 'print', 'report'];
+	// Update Column-Level "Check All" States
+	function updateColumnChecks() {
+		const columnTypes = ['create', 'view', 'update', 'delete', 'attadd', 'attdelete', 'print', 'report'];
 
-    columnTypes.forEach(type => {
-        const allCheckboxes = document.querySelectorAll(`.${type}-checkbox`);
-        const selectAllCheckbox = document.getElementById(`checkAll${type}`);
+		columnTypes.forEach(type => {
+			const allCheckboxes = document.querySelectorAll(`.${type}-checkbox`);
+			const selectAllCheckbox = document.getElementById(`checkAll${type}`);
 
-        // Set "Check All" checkbox state
-        selectAllCheckbox.checked = [...allCheckboxes].every(checkbox => checkbox.checked);
-    });
-}
+			// Set "Check All" checkbox state
+			selectAllCheckbox.checked = [...allCheckboxes].every(checkbox => checkbox.checked);
+		});
+	}
 
-// Update Row-Level "Check All" States
-function updateRowChecks() {
-    const rows = document.querySelectorAll('#UserRoleTable tr');
+	// Update Row-Level "Check All" States
+	function updateRowChecks() {
+		const rows = document.querySelectorAll('#UserRoleTable tr');
 
-    rows.forEach((row, index) => {
-        const rowCheckboxes = row.querySelectorAll(`.row-${index}`);
-        const rowSelectAll = document.getElementById(`checkAllRow${index}`);
+		rows.forEach((row, index) => {
+			const rowCheckboxes = row.querySelectorAll(`.row-${index}`);
+			const rowSelectAll = document.getElementById(`checkAllRow${index}`);
 
-        // Set "Check All" checkbox state for the row
-        rowSelectAll.checked = [...rowCheckboxes].every(checkbox => checkbox.checked);
-    });
-}
+			// Set "Check All" checkbox state for the row
+			rowSelectAll.checked = [...rowCheckboxes].every(checkbox => checkbox.checked);
+		});
+	}
 
-// Attach Event Listeners to Individual Checkboxes
-document.addEventListener('change', event => {
-    if (event.target.matches('.create-checkbox, .view-checkbox, .update-checkbox, .delete-checkbox, .attadd-checkbox, .attdelete-checkbox, .print-checkbox, .report-checkbox')) {
-        updateColumnChecks();
-        updateRowChecks();
-    }
-});
+	// Attach Event Listeners to Individual Checkboxes
+	document.addEventListener('change', event => {
+		if (event.target.matches('.create-checkbox, .view-checkbox, .update-checkbox, .delete-checkbox, .attadd-checkbox, .attdelete-checkbox, .print-checkbox, .report-checkbox')) {
+			updateColumnChecks();
+			updateRowChecks();
+		}
+	});
 
 
 
