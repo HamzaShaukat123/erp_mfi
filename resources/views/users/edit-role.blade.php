@@ -52,35 +52,37 @@
 												</tr>
 											</thead> --}}
 
-											<thead style="position: sticky;top: 0;background-color: white; >
+											<thead>
 												<tr>
 													<th>Module Name</th>
-													<th>
-														Create (<input type="checkbox" data-column-class="create-checkbox"> All)
-													</th>
-													<th>
-														View (<input type="checkbox" data-column-class="view-checkbox"> All)
-													</th>
-													<th>
-														Update (<input type="checkbox" data-column-class="update-checkbox"> All)
-													</th>
-													<th>
-														Delete (<input type="checkbox" data-column-class="delete-checkbox"> All)
-													</th>
-													<th>
-														Att. Add (<input type="checkbox" data-column-class="attadd-checkbox"> All)
-													</th>
-													<th>
-														Att. Delete (<input type="checkbox" data-column-class="attdelete-checkbox"> All)
-													</th>
-													<th>
-														Print (<input type="checkbox" data-column-class="print-checkbox"> All)
-													</th>
-													<th>
-														Report (<input type="checkbox" data-column-class="report-checkbox"> All)
-													</th>
+													<th>Create (<input type="checkbox" data-column-class="create-checkbox"> All)</th>
+													<th>View (<input type="checkbox" data-column-class="view-checkbox"> All)</th>
+													<th>Update (<input type="checkbox" data-column-class="update-checkbox"> All)</th>
+													<th>Delete (<input type="checkbox" data-column-class="delete-checkbox"> All)</th>
+													<th>Att. Add (<input type="checkbox" data-column-class="attadd-checkbox"> All)</th>
+													<th>Att. Delete (<input type="checkbox" data-column-class="attdelete-checkbox"> All)</th>
+													<th>Print (<input type="checkbox" data-column-class="print-checkbox"> All)</th>
+													<th>Report (<input type="checkbox" data-column-class="report-checkbox"> All)</th>
 												</tr>
 											</thead>
+											<tbody id="UserRoleTable">
+												@foreach ($role_access as $key => $row)
+												<tr>
+													<td>
+														<input type="hidden" value="{{ $row->module_id }}" name="module[{{ $row->module_id }}]">
+														{{ $row->module_name }}
+													</td>
+													<td><input type="checkbox" class="create-checkbox" name="create[{{ $row->module_id }}]" {{ $row->add == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="view-checkbox" name="view[{{ $row->module_id }}]" {{ $row->view == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="update-checkbox" name="update[{{ $row->module_id }}]" {{ $row->edit == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="delete-checkbox" name="delete[{{ $row->module_id }}]" {{ $row->delete == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="attadd-checkbox" name="att_add[{{ $row->module_id }}]" {{ $row->att_add == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="attdelete-checkbox" name="att_delete[{{ $row->module_id }}]" {{ $row->att_delete == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="print-checkbox" name="print[{{ $row->module_id }}]" {{ $row->print == 1 ? 'checked' : '' }}></td>
+													<td><input type="checkbox" class="report-checkbox" name="report[{{ $row->module_id }}]" {{ $row->report == 1 ? 'checked' : '' }}></td>
+												</tr>
+												@endforeach
+											</tbody>
 											
 											{{-- <tbody id="UserRoleTable">
                                                 @foreach ($role_access as $key => $row)
@@ -98,24 +100,7 @@
                                                 @endforeach
 											</tbody> --}}
 
-											<tbody id="UserRoleTable">
-												@foreach ($role_access as $key => $row)
-												<tr>
-													<td>
-														<input type="hidden" value="{{ $row->module_id }}" name="module[{{ $row->module_id }}]">
-														<input type="checkbox" class="row-check-all"> {{ $row->module_name }}
-													</td>
-													<td><input type="checkbox" class="create-checkbox" name="create[{{ $row->module_id }}]" {{ $row->add == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="view-checkbox" name="view[{{ $row->module_id }}]" {{ $row->view == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="update-checkbox" name="update[{{ $row->module_id }}]" {{ $row->edit == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="delete-checkbox" name="delete[{{ $row->module_id }}]" {{ $row->delete == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="attadd-checkbox" name="att_add[{{ $row->module_id }}]" {{ $row->att_add == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="attdelete-checkbox" name="att_delete[{{ $row->module_id }}]" {{ $row->att_delete == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="print-checkbox" name="print[{{ $row->module_id }}]" {{ $row->print == 1 ? 'checked' : '' }}></td>
-													<td><input type="checkbox" class="report-checkbox" name="report[{{ $row->module_id }}]" {{ $row->report == 1 ? 'checked' : '' }}></td>
-												</tr>
-												@endforeach
-											</tbody>
+											
 											
 										</table>
 									</div>
