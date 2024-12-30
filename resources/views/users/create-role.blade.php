@@ -100,15 +100,19 @@
 											<tbody id="UserRoleTable">
 												@foreach ($modules as $key => $row)
 													<tr>
-														<td><input type="hidden" value="{{$row->id}}" name="module[{{$row->id}}]">{{$row->name}}</td>
-														<td><input type="checkbox" class="create-checkbox" name="create[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="view-checkbox" name="view[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="update-checkbox" name="update[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="delete-checkbox" name="delete[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attadd-checkbox" name="att_add[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attdelete-checkbox" name="att_delete[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="print-checkbox" name="print[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="report-checkbox" name="report[{{$row->id}}]"></td>
+														<td>
+															<input type="hidden" value="{{$row->id}}" name="module[{{$row->id}}]">
+															{{$row->name}}
+															(<input type="checkbox" onclick="checkAllRow(this, {{ $key }})" id="checkAllRow{{ $key }}"> Row All)
+														</td>
+														<td><input type="checkbox" class="create-checkbox row-{{ $key }}" name="create[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="view-checkbox row-{{ $key }}" name="view[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="update-checkbox row-{{ $key }}" name="update[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="delete-checkbox row-{{ $key }}" name="delete[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="attadd-checkbox row-{{ $key }}" name="att_add[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="attdelete-checkbox row-{{ $key }}" name="att_delete[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="print-checkbox row-{{ $key }}" name="print[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="report-checkbox row-{{ $key }}" name="report[{{$row->id}}]"></td>
 													</tr>
 												@endforeach
 											</tbody>
@@ -149,18 +153,66 @@
 
 
 
-	function checkAllColumn(type) {
-    // Get the "Check All" checkbox for the column
+	// Check All for a Column
+function checkAllColumn(type) {
     const selectAllCheckbox = document.getElementById(`checkAll${type}`);
-
-    // Select all checkboxes in the column based on the class name
     const checkboxes = document.querySelectorAll(`.${type}-checkbox`);
 
-    // Check or uncheck all checkboxes based on the "Select All" checkbox
+    // Check or uncheck all checkboxes in the column
     checkboxes.forEach(checkbox => {
         checkbox.checked = selectAllCheckbox.checked;
     });
+
+    // Update row-level "Check All" checkboxes
+    updateRowChecks();
 }
+
+// Check All for a Row
+function checkAllRow(rowCheckbox, rowIndex) {
+    const checkboxes = document.querySelectorAll(`.row-${rowIndex}`);
+
+    // Check or uncheck all checkboxes in the row
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = rowCheckbox.checked;
+    });
+
+    // Update column-level "Check All" checkboxes
+    updateColumnChecks();
+}
+
+// Update Column-Level "Check All" States
+function updateColumnChecks() {
+    const columnTypes = ['create', 'view', 'update', 'delete', 'attadd', 'attdelete', 'print', 'report'];
+
+    columnTypes.forEach(type => {
+        const allCheckboxes = document.querySelectorAll(`.${type}-checkbox`);
+        const selectAllCheckbox = document.getElementById(`checkAll${type}`);
+
+        // Set "Check All" checkbox state
+        selectAllCheckbox.checked = [...allCheckboxes].every(checkbox => checkbox.checked);
+    });
+}
+
+// Update Row-Level "Check All" States
+function updateRowChecks() {
+    const rows = document.querySelectorAll('#UserRoleTable tr');
+
+    rows.forEach((row, index) => {
+        const rowCheckboxes = row.querySelectorAll(`.row-${index}`);
+        const rowSelectAll = document.getElementById(`checkAllRow${index}`);
+
+        // Set "Check All" checkbox state for the row
+        rowSelectAll.checked = [...rowCheckboxes].every(checkbox => checkbox.checked);
+    });
+}
+
+// Attach Event Listeners to Individual Checkboxes
+document.addEventListener('change', event => {
+    if (event.target.matches('.create-checkbox, .view-checkbox, .update-checkbox, .delete-checkbox, .attadd-checkbox, .attdelete-checkbox, .print-checkbox, .report-checkbox')) {
+        updateColumnChecks();
+        updateRowChecks();
+    }
+});
 
 
 
