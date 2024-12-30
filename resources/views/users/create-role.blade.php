@@ -55,32 +55,31 @@
 												<tr>
 													<th>Module Name</th>
 													<th>
-														Create (<label for="checkAllcreate0"><input type="checkbox" onclick="checkAll(0, 'create')" id="checkAllcreate0"> All</label>)
+														Create (<input type="checkbox" onclick="checkAllColumn('create')" id="checkAllcreate"> All)
 													</th>
 													<th>
-														View (<label for="checkAllview0"><input type="checkbox" onclick="checkAll(0, 'view')" id="checkAllview0"> All</label>)
+														View (<input type="checkbox" onclick="checkAllColumn('view')" id="checkAllview"> All)
 													</th>
 													<th>
-														Update (<label for="checkAllupdate0"><input type="checkbox" onclick="checkAll(0, 'update')" id="checkAllupdate0"> All</label>)
+														Update (<input type="checkbox" onclick="checkAllColumn('update')" id="checkAllupdate"> All)
 													</th>
 													<th>
-														Delete (<label for="checkAlldelete0"><input type="checkbox" onclick="checkAll(0, 'delete')" id="checkAlldelete0"> All</label>)
+														Delete (<input type="checkbox" onclick="checkAllColumn('delete')" id="checkAlldelete"> All)
 													</th>
 													<th>
-														Att. Add (<label for="checkAllattadd0"><input type="checkbox" onclick="checkAll(0, 'attadd')" id="checkAllattadd0"> All</label>)
+														Att. Add (<input type="checkbox" onclick="checkAllColumn('attadd')" id="checkAllattadd"> All)
 													</th>
 													<th>
-														Att. Delete (<label for="checkAllattdelete0"><input type="checkbox" onclick="checkAll(0, 'attdelete')" id="checkAllattdelete0"> All</label>)
+														Att. Delete (<input type="checkbox" onclick="checkAllColumn('attdelete')" id="checkAllattdelete"> All)
 													</th>
 													<th>
-														Print (<label for="checkAllprint0"><input type="checkbox" onclick="checkAll(0, 'print')" id="checkAllprint0"> All</label>)
+														Print (<input type="checkbox" onclick="checkAllColumn('print')" id="checkAllprint"> All)
 													</th>
 													<th>
-														Report (<label for="checkAllreport0"><input type="checkbox" onclick="checkAll(0, 'report')" id="checkAllreport0"> All</label>)
+														Report (<input type="checkbox" onclick="checkAllColumn('report')" id="checkAllreport"> All)
 													</th>
 												</tr>
 											</thead>
-											
 											{{-- <tbody id="UserRoleTable" >
                                                 @foreach ($modules as $key => $row)
                                                     <tr>
@@ -101,21 +100,15 @@
 											<tbody id="UserRoleTable">
 												@foreach ($modules as $key => $row)
 													<tr>
-														<td>
-															<input type="hidden" value="{{$row->id}}" name="module[{{$row->id}}]">
-															{{$row->name}}
-															<label>
-																(<input type="checkbox" onclick="checkRow({{ $row->id }})" id="checkRow{{$row->id}}"> All)
-															</label>
-														</td>    
-														<td><input type="checkbox" class="create-checkbox-{{$row->id}}" name="create[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="view-checkbox-{{$row->id}}" name="view[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="update-checkbox-{{$row->id}}" name="update[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="delete-checkbox-{{$row->id}}" name="delete[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attadd-checkbox-{{$row->id}}" name="att_add[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="attdelete-checkbox-{{$row->id}}" name="att_delete[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="print-checkbox-{{$row->id}}" name="print[{{$row->id}}]"></td>
-														<td><input type="checkbox" class="report-checkbox-{{$row->id}}" name="report[{{$row->id}}]"></td>
+														<td><input type="hidden" value="{{$row->id}}" name="module[{{$row->id}}]">{{$row->name}}</td>
+														<td><input type="checkbox" class="create-checkbox" name="create[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="view-checkbox" name="view[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="update-checkbox" name="update[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="delete-checkbox" name="delete[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="attadd-checkbox" name="att_add[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="attdelete-checkbox" name="att_delete[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="print-checkbox" name="print[{{$row->id}}]"></td>
+														<td><input type="checkbox" class="report-checkbox" name="report[{{$row->id}}]"></td>
 													</tr>
 												@endforeach
 											</tbody>
@@ -156,9 +149,12 @@
 
 
 
-	function checkAll(index, type) {
-    const selectAllCheckbox = document.getElementById(`checkAll${type}${index}`);
-    const checkboxes = document.querySelectorAll(`.${type}-checkbox-0`);
+	function checkAllColumn(type) {
+    // Get the "Check All" checkbox for the column
+    const selectAllCheckbox = document.getElementById(`checkAll${type}`);
+
+    // Select all checkboxes in the column based on the class name
+    const checkboxes = document.querySelectorAll(`.${type}-checkbox`);
 
     // Check or uncheck all checkboxes based on the "Select All" checkbox
     checkboxes.forEach(checkbox => {
@@ -166,17 +162,6 @@
     });
 }
 
-
-
-	function checkRow(rowId) {
-    	const selectRowCheckbox = document.getElementById(`checkRow${rowId}`);
-    	const rowCheckboxes = document.querySelectorAll(`input[class*="-checkbox-${rowId}"]`);
-
-    	// Check or uncheck all checkboxes in the row based on the "Row Check All" checkbox
-    	rowCheckboxes.forEach(checkbox => {
-        	checkbox.checked = selectRowCheckbox.checked;
-    	});
-	}
 
 
 </script>
