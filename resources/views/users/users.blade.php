@@ -271,7 +271,7 @@
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Phone No.</label>
-                                <input type="text" class="form-control"  placeholder="Phone No." name="phone_no" required >
+                                <input type="text" class="form-control"  placeholder="Phone No." name="phone_no"  >
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Email Address</label>
@@ -279,7 +279,7 @@
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>CNIC No.</label>
-                                <input type="text" class="form-control" placeholder="CNIC No." name="cnic_no" required>
+                                <input type="text" class="form-control" placeholder="CNIC No." name="cnic_no" >
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label>Address</label>
@@ -353,7 +353,7 @@
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Phone No.</label>
-                                <input type="text" class="form-control"  placeholder="Phone No." id="update_phone_no" name="update_phone_no" required >
+                                <input type="text" class="form-control"  placeholder="Phone No." id="update_phone_no" name="update_phone_no"  >
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Email Address</label>
@@ -361,7 +361,7 @@
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>CNIC No.</label>
-                                <input type="text" class="form-control" placeholder="CNIC No." id="update_cnic_no" name="update_cnic_no" required>
+                                <input type="text" class="form-control" placeholder="CNIC No." id="update_cnic_no" name="update_cnic_no" >
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label>Address</label>
