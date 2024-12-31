@@ -44,7 +44,7 @@ class UsersController extends Controller
             'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'username' => 'required|string|max:255|unique:users',
-            'cnic_no' => 'required|string|max:255|unique:users',
+            'cnic_no' => 'nullable|string|max:255|unique:users',
             'phone_no' => 'nullable|string|max:255|unique:users',
         ]);
     
