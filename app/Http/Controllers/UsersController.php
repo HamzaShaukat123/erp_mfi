@@ -168,16 +168,16 @@ class UsersController extends Controller
         if ($request->has('update_emp_name') && $request->update_emp_name) {
             $user->name=$request->update_emp_name;
         }
-        if ($request->has('update_phone_no') && $request->update_phone_no) {
+        if ($request->has('update_phone_no') && $request->update_phone_no OR empty($request->update_phone_no)) {
             $user->phone_no=$request->update_phone_no;
         }
-        if ($request->has('update_email_add') && $request->update_email_add) {
+        if ($request->has('update_email_add') && $request->update_email_add OR empty($request->update_email_add)) {
             $user->email=$request->update_email_add;
         }
-        if ($request->has('update_cnic_no') && $request->update_cnic_no ) {
+        if ($request->has('update_cnic_no') && $request->update_cnic_no OR empty($request->update_cnic_no)) {
             $user->cnic_no=$request->update_cnic_no;
         }
-        if ($request->has('update_add') && $request->update_add) {
+        if ($request->has('update_add') && $request->update_add OR empty($request->update_add)) {
             $user->address=$request->update_add;
         }
 
