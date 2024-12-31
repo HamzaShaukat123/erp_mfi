@@ -169,11 +169,11 @@
     // Add event listeners for row "check all"
     $('tbody tr').each(function () {
         const rowCheckbox = $(this).find('.row-check-all');
-        rowCheckbox.on('change', function () {
-            checkAllRow($(this).closest('tr'), $(this).is(':checked'));
-        });
-    });
-});
+			rowCheckbox.on('change', function () {
+				checkAllRow($(this).closest('tr'), $(this).is(':checked'));
+			});
+    	});
+	});
 
 
 </script>
