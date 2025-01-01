@@ -38,7 +38,7 @@ class HomeController extends Controller
             $receivables = dash_sub_head::where('sub',1)->first();
             $payables  = dash_sub_head::where('sub',7)->first();
             $short_term_loan = dash_sub_head::where('sub',23)->first();
-            $long_term_loan = dash_sub_head::where('sub',18)->first();
+            $long_term_loan = dash_sub_head::where('sub',24)->first();
     
             $pdc = dash_acc_group::where('group_cod',1)->first();
             $banks = dash_acc_group::where('group_cod',2)->first();
