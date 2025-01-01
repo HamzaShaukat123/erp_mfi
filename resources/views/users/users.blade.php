@@ -703,7 +703,7 @@
                     var html="<tr>";
                     html+= "<td>"+(k+1)+"</td>"
                     html+= "<td>"+v['user']+"</td>"
-                    html+= "<td></td>"
+                    html+= "<td>"+v['system_name']+"</td>"
                     html+= "<td>"+v['browser']+"</td>"
                     html+= "<td>"+v['date']+"</td>"
                     html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-danger' href='#' onclick='deleteDevice("+v['id']+")'><i class='fas fa-trash'></i></a></td>"
