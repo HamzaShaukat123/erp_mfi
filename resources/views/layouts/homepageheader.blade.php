@@ -84,9 +84,14 @@
 							<button style="background: transparent;border: none;font-size: 14px;" type="submit" role="menuitem" tabindex="-1"><i class="bx bx-power-off"></i> Logout</button>
 						</form>
 					</li>
+					@if(session('user_role')==1 || session('user_role')==2)
 					<li>
 						<a role="menuitem" tabindex="-1" href="{{ route('backup.database') }}"><i class="bx bx-cloud-download"></i> DB Backup</a>
 					</li>
+					<li>
+						<a role="menuitem" tabindex="-1" href="{{ route('backup.files') }}"><i class="bx bx-files"></i> Files Backup</a>
+					</li>
+					@endif
 				</ul>
 			</div>
 		</div>
