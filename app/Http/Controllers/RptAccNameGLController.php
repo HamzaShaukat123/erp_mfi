@@ -323,6 +323,8 @@ class RptAccNameGLController extends Controller
         $lager_much_all = lager_much_all::where('account_cod', $request->acc_id)
         ->whereBetween('jv_date', [$request->fromDate, $request->toDate])
         ->orderBy('jv_date','asc')
+        ->orderBy('prefix','asc')
+        ->orderBy('auto_lager','asc')
         ->get();
     
         $response = [
