@@ -499,34 +499,34 @@
         Route::get('/rep-by-acc-grp/tb', [App\Http\Controllers\RptAccGrpTBController::class, 'tb'])->name('tb-rep-by-acc-grp');
 
         // RPT by Daily Register Sale 1
-        Route::get('/rep-by-daily-reg/sale1', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1'])->name('sale1-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/sale1/excel', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1Excel'])->name('sale1-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/sale1/report', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1Report'])->name('sale1-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/sale1', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1'])->name('sale1-rep-by-daily-reg');
+        Route::get('/rep-daily-register/sale1/excel', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1Excel'])->name('sale1-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/sale1/report', [App\Http\Controllers\RptDailyRegSale1Controller::class, 'sale1Report'])->name('sale1-rep-by-daily-reg-report');
 
         // RPT by Daily Register Sale 2
-        Route::get('/rep-by-daily-reg/sale2', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2'])->name('sale2-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/sale2/excel', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2Excel'])->name('sale2-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/sale2/report', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2Report'])->name('sale2-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/sale2', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2'])->name('sale2-rep-by-daily-reg');
+        Route::get('/rep-daily-register/sale2/excel', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2Excel'])->name('sale2-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/sale2/report', [App\Http\Controllers\RptDailyRegSale2Controller::class, 'sale2Report'])->name('sale2-rep-by-daily-reg-report');
 
         // RPT by Daily Register Purchase 1
-        Route::get('/rep-by-daily-reg/pur1', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1'])->name('pur1-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/pur1/excel', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1Excel'])->name('pur1-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/pur1/report', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1Report'])->name('pur1-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/pur1', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1'])->name('pur1-rep-by-daily-reg');
+        Route::get('/rep-daily-register/pur1/excel', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1Excel'])->name('pur1-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/pur1/report', [App\Http\Controllers\RptDailyRegPur1Controller::class, 'pur1Report'])->name('pur1-rep-by-daily-reg-report');
 
         // RPT by Daily Register Purchase 2
-        Route::get('/rep-by-daily-reg/pur2', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2'])->name('pur2-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/pur2/excel', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2Excel'])->name('pur2-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/pur2/report', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2Report'])->name('pur2-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/pur2', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2'])->name('pur2-rep-by-daily-reg');
+        Route::get('/rep-daily-register/pur2/excel', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2Excel'])->name('pur2-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/pur2/report', [App\Http\Controllers\RptDailyRegPur2Controller::class, 'pur2Report'])->name('pur2-rep-by-daily-reg-report');
 
         // RPT by Daily Register JV1
-        Route::get('/rep-by-daily-reg/jv1', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1'])->name('jv1-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/jv1/excel', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1Excel'])->name('jv1-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/jv1/report', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1Report'])->name('jv1-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/jv1', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1'])->name('jv1-rep-by-daily-reg');
+        Route::get('/rep-daily-register/jv1/excel', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1Excel'])->name('jv1-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/jv1/report', [App\Http\Controllers\RptDailyRegJV1Controller::class, 'jv1Report'])->name('jv1-rep-by-daily-reg-report');
         
         // RPT by Daily Register JV2
-        Route::get('/rep-by-daily-reg/jv2', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2'])->name('jv2-rep-by-daily-reg');
-        Route::get('/rep-by-daily-reg/jv2/excel', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2Excel'])->name('jv2-rep-by-daily-reg-excel');
-        Route::get('/rep-by-daily-reg/jv2/report', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2Report'])->name('jv2-rep-by-daily-reg-report');
+        Route::get('/rep-daily-register/jv2', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2'])->name('jv2-rep-by-daily-reg');
+        Route::get('/rep-daily-register/jv2/excel', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2Excel'])->name('jv2-rep-by-daily-reg-excel');
+        Route::get('/rep-daily-register/jv2/report', [App\Http\Controllers\RptDailyRegJV2Controller::class, 'jv2Report'])->name('jv2-rep-by-daily-reg-report');
 
         // RPT Godown By Item Name IL
         Route::get('/rep-godown-by-item-name/IL', [App\Http\Controllers\RptGoDownItemNameController::class, 'IL'])->name('IL-rep-godown-by-item-name');
