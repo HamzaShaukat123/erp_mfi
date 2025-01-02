@@ -423,12 +423,12 @@ class RptAccNameGLController extends Controller
         // Table Headers
         $html = '<table border="1" style="border-collapse: collapse;text-align:center">
         <tr>
-            <th style="width:13%;color:#17365D;">R/No</th>
-            <th style="width:12%;color:#17365D;">Date</th>
-            <th style="width:32%;color:#17365D;">Details</th>
-            <th style="width:13%;color:#17365D;">Debit</th>
-            <th style="width:13%;color:#17365D;">Credit</th>
-            <th style="width:17%;color:#17365D;">Balance</th>
+            <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
+            <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
+            <th style="width:32%;color:#17365D;font-weight:bold;">Details</th>
+            <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
+            <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
+            <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
         
         <tr>
@@ -439,8 +439,6 @@ class RptAccNameGLController extends Controller
             <th></th>
             <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
         </tr>';
-
-        $pdf->setTableHtml($html);
         
     
         $count = 1;
