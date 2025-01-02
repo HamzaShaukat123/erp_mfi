@@ -438,6 +438,7 @@ class RptAccNameGLController extends Controller
             <th></th>
             <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
         </tr>';
+        $pdf->setTableHtml($html);
     
         $count = 1;
         foreach ($lager_much_all as $items) {
