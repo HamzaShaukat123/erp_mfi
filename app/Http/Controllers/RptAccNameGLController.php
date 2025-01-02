@@ -430,6 +430,9 @@ class RptAccNameGLController extends Controller
             <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
             <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
+
+        $pdf->setTableHtml($html);
+        
         <tr>
             <th></th>
             <th></th>
@@ -438,7 +441,7 @@ class RptAccNameGLController extends Controller
             <th></th>
             <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
         </tr>';
-        $pdf->setTableHtml($html);
+        
     
         $count = 1;
         foreach ($lager_much_all as $items) {
