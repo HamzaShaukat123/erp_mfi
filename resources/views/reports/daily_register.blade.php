@@ -544,7 +544,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/sale1";
+                url="/rep-daily-register/sale1";
                 tableID="#Sale1TbleBody";
 
                 $.ajax({
@@ -598,7 +598,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/sale2";
+                url="/rep-daily-register/sale2";
                 tableID="#SalePipeTbleBody";
 
                 $.ajax({
@@ -651,7 +651,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/pur1";
+                url="/rep-daily-register/pur1";
                 tableID="#P1TbleBody";
 
                 $.ajax({
@@ -701,7 +701,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/pur2";
+                url="/rep-daily-register/pur2";
                 tableID="#P2TbleBody";
 
                 $.ajax({
@@ -752,7 +752,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/jv1";
+                url="/rep-daily-register/jv1";
                 tableID="#JV1TbleBody";
 
                 $.ajax({
@@ -807,7 +807,7 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-daily-reg/jv2";
+                url="/rep-daily-register/jv2";
                 tableID="#JV2TbleBody";
 
                 $.ajax({
@@ -1069,27 +1069,27 @@
             }
 
             if (tabName === "sale_1") {
-                window.location.href = `/rep-by-daily-reg/sale1/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/sale1/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "sale_pipe") {
-                window.location.href = `/rep-by-daily-reg/sale2/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/sale2/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "purchase1") {
-                window.location.href = `/rep-by-daily-reg/pur1/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/pur1/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "pp") {
-                window.location.href = `/rep-by-daily-reg/pur2/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/pur2/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv1") {
-                window.location.href = `/rep-by-daily-reg/jv1/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/jv1/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv2") {
-                window.location.href = `/rep-by-daily-reg/jv2/excel?fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/jv2/excel?fromDate=${fromDate}&toDate=${toDate}`;
             }
         }
 
@@ -1104,27 +1104,27 @@
             let url = '';
 
             if (tabName === "sale_1") {
-                url = `/rep-by-daily-reg/sale1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/sale1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "sale_pipe") {
-                url = `/rep-by-daily-reg/sale2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/sale2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "purchase1") {
-                url = `/rep-by-daily-reg/pur1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/pur1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "pp") {
-                url = `/rep-by-daily-reg/pur2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/pur2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv1") {
-                url = `/rep-by-daily-reg/jv1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/jv1/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv2") {
-                url = `/rep-by-daily-reg/jv2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
+                url = `/rep-daily-register/jv2/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             // Open the URL in a new tab
@@ -1141,27 +1141,27 @@
             }
 
             if (tabName === "sale_1") {
-                window.location.href = `/rep-by-daily-reg/sale1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/sale1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "sale_pipe") {
-                window.location.href = `/rep-by-daily-reg/sale2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/sale2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "purchase1") {
-                window.location.href = `/rep-by-daily-reg/pur1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/pur1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "pp") {
-                window.location.href = `/rep-by-daily-reg/pur2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/pur2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv1") {
-                window.location.href = `/rep-by-daily-reg/jv1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/jv1/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
 
             else if (tabName === "jv2") {
-                window.location.href = `/rep-by-daily-reg/jv2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
+                window.location.href = `/rep-daily-register/jv2/report?outputType=download&fromDate=${fromDate}&toDate=${toDate}`;
             }
         }
         
