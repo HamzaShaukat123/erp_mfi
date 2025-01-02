@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-9">
-                                        <div class="card-body" style="overflow-x:auto;min-height:250px;max-height:450px;overflow-y:auto">
+                                        <div class="card-body" style="overflow-x:auto;max-height:450px;overflow-y:auto">
                                             <form method="post" id="myForm" enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                                                 @csrf
                                                 <table class="table table-bordered table-striped mb-0" id="myTable" >

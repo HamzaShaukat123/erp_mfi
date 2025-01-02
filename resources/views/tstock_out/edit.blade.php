@@ -83,7 +83,7 @@
 									  </div>
 									</div>
 						
-									<div class="card-body" style="overflow-x:auto;min-height:250px;max-height:450px;overflow-y:auto">
+									<div class="card-body" style="overflow-x:auto;max-height:450px;overflow-y:auto">
 										<table class="table table-bordered table-striped mb-0" id="myTable" >
 											<thead>
 												<tr>
