@@ -56,11 +56,13 @@
                                                         <a href="{{ route('edit-bad-dabs-entry', $row->bad_dabs_id) }}" class="">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
-                                                        
+                                                        @if(session('user_role')==1)
                                                         <span class="separator"> | </span>
                                                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal" onclick="setId({{$row->bad_dabs_id}})" href="#deleteModal">
                                                             <i class="far fa-trash-alt" style="color:red"></i>
                                                         </a>
+                                                        @endif
+
                                                     </td>
 
                                                 </tr>
