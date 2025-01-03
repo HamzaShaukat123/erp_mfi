@@ -68,10 +68,12 @@
                                                         <a href="{{ route('edit-stock-out-invoice',$row->Sal_inv_no) }}" class="">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </a>
+                                                        @if(session('user_role')==1)
                                                         <span class="separator"> | </span>
                                                         <a class="me-1 modal-with-zoom-anim ws-normal" onclick="setId({{$row->Sal_inv_no}})" href="#deleteModal">
                                                             <i class="far fa-trash-alt" style="color:red"></i>
                                                         </a>
+                                                        @endif
                                                     </td>
 
                                                 </tr>

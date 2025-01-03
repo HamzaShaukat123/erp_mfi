@@ -72,10 +72,12 @@
                                                             <a class="mb-1 mt-1 me-1" href="{{ route('edit-jv2', $row->jv_no) }}">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </a>
+                                                            @if(session('user_role')==1)
                                                             <span class="separator"> | </span>
                                                             <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal" onclick="setId({{$row->jv_no}})" href="#deleteModal">
                                                                 <i class="far fa-trash-alt" style="color:red"></i>
                                                             </a>
+                                                            @endif
                                                         </td>
 
                                                     </tr>
