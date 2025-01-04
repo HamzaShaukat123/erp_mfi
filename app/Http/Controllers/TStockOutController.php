@@ -324,7 +324,8 @@ class TStockOutController extends Controller
         $unclosed_inv = tstock_out::where(function ($query) {
             $query->where('pur_inv', '')
                   ->orWhereNull('pur_inv')
-                  ->where('tstock_out.status',1);
+                  ->where('tstock_out.status',1)
+                  ->where('tstock_out.item_type',1);
         })
         ->join('ac', 'ac.ac_code', '=', 'tstock_out.account_name')
         ->select('tstock_out.*', 'ac.ac_name as acc_name')  // Select fields from both tables as needed
