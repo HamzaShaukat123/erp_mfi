@@ -731,15 +731,15 @@
                             var words = convertCurrencyToWords(netAmount);
                             var totalHtml = "<tr><td style='color:#17365D' colspan='4'><strong>" + words + "</strong></td>";
                             totalHtml += "<td style='text-align: right;'><strong>Total</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toFixed(0) : balance) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</strong></td>";
+                         $(tableID).append(totalHtml);
 
-                            $(tableID).append(totalHtml);
 
-
-                    },
-                    error: function(){
+                        },
+                        
+                        error: function(){
                         $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
                     }
                 });
