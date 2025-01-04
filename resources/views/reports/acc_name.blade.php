@@ -792,7 +792,7 @@
                             html += "<th></th>";
                             html += "<th></th>"; 
                             html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
-                            html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toFixed(0) : opening_bal) + "</th>";// Display opening quantity in the last column, right-aligned
+                            html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : opening_bal) + "</th>";
 
                             html += "</tr>";
                             $(tableID).append(html);
@@ -822,8 +822,8 @@
                                 html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
                                 html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                                 html += "<td>" + (v['Narration'] ? v['Narration'] : "") + "</td>";
-                                html += "<td>" + (v['Debit'] ? v['Debit'].toFixed(0) : "0") + "</td>";
-                                html += "<td>" + (v['Credit'] ? v['Credit'].toFixed(0) : "0") + "</td>";
+                                html += "<td>" + (v['Debit'] ? v['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+                                html += "<td>" + (v['Credit'] ? v['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
 
                                 // Add to totals (check for valid numbers)
                                 if (v['Debit'] && !isNaN(v['Debit'])) {
@@ -837,7 +837,7 @@
                                     totalCredit += v['Credit']; // Accumulate total credit
                                 }
 
-                                html += "<td>" + (typeof balance === 'number' ? balance.toFixed(0) : balance) + "</td>";
+                                html += "<td>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</td>";
                                 html += "</tr>";
                                 $(tableID).append(html);
                             });
@@ -847,15 +847,15 @@
                             var words = convertCurrencyToWords(netAmount);
                             var totalHtml = "<tr><td style='color:#17365D' colspan='5'><strong>" + words + "</strong></td>";
                             totalHtml += "<td style='text-align: right;'><strong>Total</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-                            totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toFixed(0) : balance) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                            totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</strong></td>";
 
                             $(tableID).append(totalHtml);
 
 
-                    },
-                    error: function(){
+                        },
+                        error: function(){
                         $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
                     }
                 });
