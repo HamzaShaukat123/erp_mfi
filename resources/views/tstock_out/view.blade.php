@@ -167,7 +167,7 @@
 						<div class="modal-body">
 							<div class="mb-3">
 								<label for="billNumberInput" class="form-label">Bill Number</label>
-								<input type="text" class="form-control" id="billNumberInput" name="pur_inv" value="{{ $tstock_out->pur_inv }}" required>
+								<input type="text" class="form-control" id="billNumberInput" name="pur_inv" value="{{ $tstock_out->pur_inv }}" >
 							</div>
 							<input type="hidden" name="pur3_id" value="{{ $tstock_out->Sal_inv_no }}">
 						</div>
