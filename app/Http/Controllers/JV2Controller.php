@@ -345,7 +345,7 @@ class JV2Controller extends Controller
     public function addAtt(Request $request)
     {
 
-        exit(session('user_id'));
+        dd(session('user_id')); // Laravel's dump and die function
         $jv2_id=$request->att_id;
 
         if($request->hasFile('addAtt')){
