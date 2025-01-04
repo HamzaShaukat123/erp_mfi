@@ -592,7 +592,7 @@
 																<th>Balance Amount</th>
 															</tr>
 														</thead>
-														<tbody id="SaleNotRECVDTable" class="table-body-scroll">
+														<tbody id="BillNotRECVDTable" class="table-body-scroll">
 															<!-- Table rows will be populated dynamically -->
 														</tbody>
 													</table>
@@ -2017,7 +2017,7 @@
 			}
 			else if (tabId === "#BILL_NOT_RECVD") {
 
-				var table = document.getElementById('SaleNotRECVDTable');
+				var table = document.getElementById('BillNotRECVDTable');
 				while (table.rows.length > 0) {
 					table.deleteRow(0);
 				}
@@ -2040,7 +2040,7 @@
 							</tr>`;
 						});
 
-						$('#SaleNotRECVDTable').html(rows);
+						$('#BillNotRECVDTable').html(rows);
 
 					
 
@@ -2050,7 +2050,7 @@
 					}
 				});
 
-				}
+			}
 			else if(tabId=="#HR"){
 				var table = document.getElementById('SteelexSaleTable');
 				while (table.rows.length > 0) {
