@@ -67,12 +67,20 @@
 														<span style="font-weight:400;color:black" class="value">Unknown</span>
 													@endif
 												</h4>
-												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
-													<a href="#" style="color:#53b21c" data-bs-toggle="modal" data-bs-target="#editBillModal">
-														Sale Invoice# &nbsp;
-													</a>
-													<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $tstock_out->pur_inv }}</span>
-												</h4>
+												@if ($tstock_out->item_type == 2)
+													<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
+														<a href="#" style="color:#53b21c" data-bs-toggle="modal" data-bs-target="#editBillModal">
+															Sale Invoice# &nbsp;
+														</a>
+														<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $tstock_out->pur_inv }}</span>
+													</h4>
+												@else
+													<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
+														<span style="color:#17365D">Sale Invoice# &nbsp</span>
+														<span style="font-weight:400;color:black" class="value">{{ $tstock_out->pur_inv }}</span>
+													</h4>
+												@endif
+
 												
 												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
 													<span style="color:#17365D">Transporte: &nbsp </span>
