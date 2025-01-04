@@ -32,8 +32,9 @@ class DashboardBillNotRecievedTabController extends Controller
         })
         ->where('bill_not_recvd.remaining_amount', '<>', 0)
         ->where('bill_not_recvd.account_name', '=', 19)
-        ->get();
-    
+        ->toSql();  // This will output the SQL query
+       dd($bill_not_recvd);
+       
 
 
 
