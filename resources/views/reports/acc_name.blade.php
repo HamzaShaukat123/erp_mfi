@@ -720,7 +720,7 @@
                                     totalCredit += v['Credit']; // Accumulate total credit
                                 }
 
-                                html += "<td>" + (typeof balance === 'number' ? balance..toLocaleString() : balance) + "</td>";
+                                html += "<td>" + (typeof balance === 'number' ? balance.toLocaleString() : balance) + "</td>";
                                 html += "</tr>";
                                 $(tableID).append(html);
                             });
