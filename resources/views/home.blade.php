@@ -2032,8 +2032,8 @@
 							rows += `<tr>
 								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
 								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
-								<td>${value['pur_ord_no'] ? value['pur_ord_no'] : ''}</td>
-								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''}</td>
+								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
+								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''} ${value['Cash_name'] ? value['Cash_name'] : ''}</td>
 								<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
 								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
 								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>

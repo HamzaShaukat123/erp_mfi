@@ -17,10 +17,10 @@ class DashboardBillNotRecievedTabController extends Controller
             'bill_not_recvd.bill_amount',
             'bill_not_recvd.ttl_jv_amt',
             'bill_not_recvd.remaining_amount',
-            'sales.pur_ord_no', 
+            'sales.pur_ord_no as sales_pur_ord_no', 
             'sales.Cash_pur_name',
             'tsales.Cash_name',
-            'tsales.pur_ord_no'
+            'tsales.pur_ord_no as tsales_pur_ord_no'
         )
         ->leftJoin('sales', function($join) {
             $join->on('bill_not_recvd.sale_prefix', '=', 'sales.prefix')
