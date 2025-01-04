@@ -284,7 +284,7 @@
 									<th>Date</th>
 									<th>Gate Pass #</th>
 									<th>Person Name</th>
-									<th>Item Type</th>
+									{{-- <th>Item Type</th> --}}
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -566,13 +566,13 @@
 							html+= "<td>"+moment(v['sa_date']).format('DD-MM-YY')+"</td>"
 							html+= "<td>"+v['mill_gate']+"</td>"
 							html+= "<td>"+v['cash_pur_name']+"</td>"
-							html += "<td>";
-							if (v['item_type'] == 1) {
-								html += "<strong>Pipes</strong>";
-							} else if (v['item_type'] == 2) {
-								html += "<strong>Garder / TR</strong>";
-							}
-							html += "</td>";
+							// html += "<td>";
+							// if (v['item_type'] == 1) {
+							// 	html += "<strong>Pipes</strong>";
+							// } else if (v['item_type'] == 2) {
+							// 	html += "<strong>Garder / TR</strong>";
+							// }
+							// html += "</td>";
 
 							html+= "<td class='text-center'><a class='btn btn-danger mb-1 mt-1 me-1' href='#' onclick='inducedStockOutItems("+v['Sal_inv_no']+")'><i class='fas fa-check text-light'></i></a></td>"
 							html+="</tr>";
