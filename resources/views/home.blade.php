@@ -2033,6 +2033,7 @@
 								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
 								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
 								<td></td>
+								<td></td>
 								<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
 								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
 								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
