@@ -163,15 +163,16 @@ class TStockOutController extends Controller
         // Get the new bill number
         $pur_inv = $request->pur_inv;
     
-        // Update the record in tsales table
+        // Update the record in the tstock_out table
         tstock_out::where('Sal_inv_no', $request->pur3_id)
-              ->update([
-                  'pur_inv' => $pur_inv,
-              ]);
+                  ->update([
+                      'pur_inv' => $pur_inv,
+                  ]);
     
         // Redirect to the appropriate route
         return redirect()->route('all-tstock-out');
     }
+    
 
     public function show(string $id)
     {

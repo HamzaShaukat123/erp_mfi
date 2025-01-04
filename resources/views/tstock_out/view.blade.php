@@ -146,13 +146,14 @@
 			</div>
 		</section>
 
+		
 		<!-- Edit Bill Modal -->
 		<div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<header class="card-header">
-                        <h2 class="card-title">Edit Bill Number</h2>
-                    </header>
+						<h2 class="card-title">Edit Bill Number</h2>
+					</header>
 					<form action="{{ route('update-tstock-out-bill-number') }}" method="POST">
 						@csrf
 						<div class="modal-body">
@@ -167,7 +168,6 @@
 							<button type="submit" class="btn btn-primary">Save Changes</button>
 						</div>
 					</form>
-					
 				</div>
 			</div>
 		</div>
