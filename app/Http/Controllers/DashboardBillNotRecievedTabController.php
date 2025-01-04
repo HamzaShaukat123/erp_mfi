@@ -10,9 +10,8 @@ class DashboardBillNotRecievedTabController extends Controller
 {
     public function BillNotRecvd(Request $request)
     {
-        $bill_not_recvd = bill_not_recvd::where('sub', '=', 1)
+        $bill_not_recvd = bill_not_recvd::where('account_name', '=', '19')
         ->where('remaining_amount', '<>', 0)
-        ->where('account_name', '=', '19')
         ->get();
 
 
