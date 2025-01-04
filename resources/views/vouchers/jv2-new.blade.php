@@ -138,13 +138,13 @@
 												<input type="number" id="sales_unadjusted_amount" name="sales_unadjusted_amount" value="0" class="form-control" disabled step="any">
 											</div>
 
-											<div class="col-4 mb-2">
+											<div class="col-4 mb-1">
 												<label class="col-form-label">Total Amount</label>
 												<input type="number" id="total_reci_amount" class="form-control" value="0" disabled step="any">
 											</div>
 
-											<div class="col-4 mb-2">
-												<label class="col-form-label">Total Amount</label>
+											<div class="col-4 mb-1">
+												<label class="col-form-label">Remaining Amount</label>
 												<input type="number" id="total_rem_amount" class="form-control" value="0" disabled step="any">
 											</div>
 
