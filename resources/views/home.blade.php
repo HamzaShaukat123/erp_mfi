@@ -577,7 +577,7 @@
 													<div class="card-actions">
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
-													<h2 class="card-title">Sale 1 Not Received</h2>
+													<h2 class="card-title">Bill Not Received</h2>
 												</header>
 												<div class="card-body scrollable-div">
 													<table class="table table-responsive-md table-striped mb-0">
@@ -586,49 +586,20 @@
 																<th>Invoice#</th>
 																<th class="text-center">Date</th>
 																<th>Bill#</th>
-																<th>Account Name</th>
 																<th>Name Of Person</th>
 																<th>Bill Amount</th>
 																<th>Received Amount</th>
 																<th>Balance Amount</th>
 															</tr>
 														</thead>
-														<tbody id="Sale1NotRECVDTable" class="table-body-scroll">
+														<tbody id="SaleNotRECVDTable" class="table-body-scroll">
 															<!-- Table rows will be populated dynamically -->
 														</tbody>
 													</table>
 												</div>
 											</section>
 										</div>
-										<div class="col-12 col-md-6 mb-3 d-flex">
-											<section class="card flex-fill">
-												<header class="card-header">
-													<div class="card-actions">
-														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-													</div>
-													<h2 class="card-title">Sale 2 Not Received</h2>
-												</header>
-												<div class="card-body scrollable-div">
-													<table class="table table-responsive-md table-striped mb-0">
-														<thead class="sticky-tbl-header">															<tr>
-																<th>Invoice#</th>
-																<th class="text-center">Date</th>
-																<th>Bill#</th>
-																<th>Account Name</th>
-																<th>Name Of Person</th>
-																<th>Bill Amount</th>
-																<th>Received Amount</th>
-																<th>Balance Amount</th>
-															</tr>
-														</thead>
-														<tbody id="Sale2NotRECVDTable" class="table-body-scroll">
-															<!-- Table rows will be populated dynamically -->
-														</tbody>
-													</table>
-												</div>
-											</section>
-										</div>
-									</div>
+										
 								</div>
 								
 								<div id="HR" class="tab-pane">
@@ -2044,6 +2015,41 @@
 				});
 
 			}
+			else if (tabId === "#BILL_NOT_RECVD") {
+
+				var table = document.getElementById('SaleNotRECVDTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				$.ajax({
+					type: "GET",
+					url: '/dashboard-tabs/bill-not',
+					success: function(result) {
+						var rows = '';
+
+						$.each(result['bill_not_recvd'], function (index, value) {
+							rows += `<tr>
+								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
+								<td></td>
+								<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
+								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
+								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
+							</tr>`;
+						});
+
+						$('#SaleNotRECVDTable').html(rows);
+
+					
+
+						},
+					error: function() {
+						alert("Error loading BILL NOT RECVD data");
+					}
+				});
+
+				}
 			else if(tabId=="#HR"){
 				var table = document.getElementById('SteelexSaleTable');
 				while (table.rows.length > 0) {

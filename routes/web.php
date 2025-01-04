@@ -374,6 +374,10 @@
         // Pending Invoices Tab
         Route::get('/dashboard-tabs/pending-invoices', [App\Http\Controllers\DashboardPendingInvoicesTabController::class, 'PENDING_INVOICES']);
 
+
+        // Bill Not Recvd Tab
+        Route::get('/dashboard-tabs/bill-not', [App\Http\Controllers\DashboardBillNotRecievedTabController::class, 'BillNotRecvd']);
+
         // HR Tab
         Route::get('/dashboard-tabs/hr', [App\Http\Controllers\DashboardHRTabController::class, 'HR']);
         Route::get('/dashboard-tabs/hr/monthlyTonage', [App\Http\Controllers\DashboardHRTabController::class, 'monthlyTonage']);
