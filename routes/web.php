@@ -55,6 +55,7 @@
         Route::get('/tbad_dabs/show/{id}', [App\Http\Controllers\TBadDabsController::class, 'show'])->name('show-tbad-dabs');
         Route::get('/tstock_in/tstock_in_invoice/view/{id}', [App\Http\Controllers\TStockInController::class, 'show'])->name('show-tstock-in-invoice');
         Route::get('/tstock_out/tstock_out/view/{id}', [App\Http\Controllers\TStockOutController::class, 'show'])->name('show-tstock-out-invoice');
+        Route::post('/tstock_out/show/update', [App\Http\Controllers\TStockOutController::class, 'updatebill'])->name('update-tstock-out-bill-number');
         Route::get('/bad_dabs/show/{id}', [App\Http\Controllers\BadDabsController::class, 'show'])->name('show-bad-dabs');
         Route::get('/stock_out/stock_out_invoice/view/{id}', [App\Http\Controllers\StockOutController::class, 'show'])->name('show-stock-out-invoice');
         Route::get('/coa/download/{id}', [App\Http\Controllers\COAController::class, 'downloadAtt'])->name('coa-att-download');

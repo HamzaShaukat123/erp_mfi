@@ -71,7 +71,7 @@
 													<a href="#" style="color:#53b21c" data-bs-toggle="modal" data-bs-target="#editBillModal">
 														Sale Invoice# &nbsp;
 													</a>
-													<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $pur->pur_ord_no }}</span>
+													<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $pur->pur_inv }}</span>
 												</h4>
 												
 												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
@@ -145,6 +145,33 @@
 			</div>
 			</div>
 		</section>
+
+		<!-- Edit Bill Modal -->
+		<div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<header class="card-header">
+                        <h2 class="card-title">Edit Bill Number</h2>
+                    </header>
+					<form action="{{ route('update-tstock-out-bill-number') }}" method="POST">
+						@csrf
+						<div class="modal-body">
+							<div class="mb-3">
+								<label for="billNumberInput" class="form-label">Bill Number</label>
+								<input type="text" class="form-control" id="billNumberInput" name="pur_inv" value="{{ $pur->pur_inv }}" required>
+							</div>
+							<input type="hidden" name="pur3_id" value="{{ $pur->Sal_inv_no }}">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Save Changes</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+
         @include('../layouts.footerlinks')
 	</body>
 

@@ -151,6 +151,28 @@ class TStockOutController extends Controller
         return redirect()->route('all-tstock-out');
     }
 
+
+    public function updatebill(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'pur_inv' => 'required|string', // Ensure it's a string if it's a text input
+            'pur3_id' => 'required|integer',   // Validate pur3_id to be a valid integer
+        ]);
+    
+        // Get the new bill number
+        $pur_inv = $request->pur_inv;
+    
+        // Update the record in tsales table
+        tstock_out::where('Sal_inv_no', $request->pur3_id)
+              ->update([
+                  'pur_inv' => $pur_inv,
+              ]);
+    
+        // Redirect to the appropriate route
+        return redirect()->route('all-tstock-out');
+    }
+
     public function show(string $id)
     {
         $tstock_out = tstock_out::where('Sal_inv_no',$id)
