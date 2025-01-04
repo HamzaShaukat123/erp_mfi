@@ -68,8 +68,10 @@
 													@endif
 												</h4>
 												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
-													<span style="color:#17365D">Sale Invoice#: &nbsp </span>
-													<span style="font-weight:400;color:black" class="value"> {{$tstock_out->pur_inv}}</span>
+													<a href="#" style="color:#53b21c" data-bs-toggle="modal" data-bs-target="#editBillModal">
+														Sale Invoice# &nbsp;
+													</a>
+													<span style="font-weight:400;color:black" class="value" id="billNoDisplay">{{ $pur->pur_ord_no }}</span>
 												</h4>
 												
 												<h4 class="mb-0 h6 mb-1 text-dark font-weight-semibold">
