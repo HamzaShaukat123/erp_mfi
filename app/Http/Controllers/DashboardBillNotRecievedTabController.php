@@ -25,6 +25,7 @@ class DashboardBillNotRecievedTabController extends Controller
                  ->on('bill_not_recvd.Sal_inv_no', '=', 'sales.Sal_inv_no');
         })
         ->where('bill_not_recvd.remaining_amount', '<>', 0)
+        ->where('bill_not_recvd.account_name', '=', 19)
         ->get();
     
 
