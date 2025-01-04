@@ -345,7 +345,7 @@ class JV2Controller extends Controller
     public function addAtt(Request $request)
     {
 
-        dd(session('user_id')); // Laravel's dump and die function
+        
         $jv2_id=$request->att_id;
 
         if($request->hasFile('addAtt')){
@@ -353,7 +353,7 @@ class JV2Controller extends Controller
             foreach ($files as $file)
             {
                 $jv2_att = new jv2_att();
-                $jv1_att->created_by = session('user_id');
+                $jv2_att->created_by = session('user_id');
                 $jv2_att->jv2_id = $jv2_id;
                 $extension = $file->getClientOriginalExtension();
                 $jv2_att->att_path = $this->jv2Doc($file,$extension);
