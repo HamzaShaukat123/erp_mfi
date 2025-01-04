@@ -676,7 +676,7 @@
                             html += "<th></th>"; 
                             html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
                             // html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toFixed(0) : opening_bal) + "</th>";// Display opening quantity in the last column, right-aligned
-                            html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString() : opening_bal) + "</th>";
+                            html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US') : opening_bal) + "</th>";
 
                             html += "</tr>";
                             $(tableID).append(html);
