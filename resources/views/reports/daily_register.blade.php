@@ -298,13 +298,10 @@
                                             <thead>
                                                 <tr>
                                                     <th>S/No</th>
-                                                    <th>JV No.</th>
-                                                    <th>Date</th>
                                                     <th>Account Name</th>
                                                     <th>Debit</th>
                                                     <th>Credit</th>
                                                     <th>Remarks</th>
-                                                    <th>Narration</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="JV2TbleBody">
