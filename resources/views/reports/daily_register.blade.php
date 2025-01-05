@@ -853,8 +853,8 @@
                 // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
                 headerHtml += "<td colspan='5'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
-                headerHtml += " | <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
-                headerHtml += " | <strong>Narration:</strong> " + groupHeader.narration + "</td>";
+                headerHtml += " -- <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
+                headerHtml += " -- <strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
