@@ -833,9 +833,8 @@
                 if (!groupedData[groupKey]) {
                     groupedData[groupKey] = {
                         header: {
-                            prefix: v['prefix'],
-                            jv_no: v['jv_no'],
-                            jv_date: v['jv_date'],
+                            v['prefix'] v['jv_no'],
+                            v['jv_date'],
                             narration: v['Narration']
                         },
                         rows: []
