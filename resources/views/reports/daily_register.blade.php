@@ -827,15 +827,16 @@
             var totalDebit = 0;
             var totalCredit = 0;
 
-            // Group data by `prefix` and `jv_no`
+            // Group data by `prefix + jv_no`
             $.each(result, function (k, v) {
-                var groupKey = (v['prefix'] ? v['prefix'] : "") + (v['jv_no'] ? v['jv_no'] : "");
+                var groupKey = (v['prefix'] || "") + (v['jv_no'] || "");
                 if (!groupedData[groupKey]) {
                     groupedData[groupKey] = {
                         header: {
-                            jv_identifier: `${v['prefix']}${v['jv_no']}`, // Merging prefix and jv_no
-                            jv_date: v['jv_date'], // Assigning jv_date
-                            narration: v['Narration'] // Assigning narration
+                            jv_identifier: (v['prefix'] || "") + (v['jv_no'] || ""), // Merged field
+                            jv_date: v['jv_date'] || "",
+                            narration: v['Narration'] || "",
+                        },
                         rows: []
                     };
                 }
@@ -848,15 +849,14 @@
 
                 // Add group header row
                 var headerHtml = "<tr class='table-primary'>";
-                headerHtml += "<td colspan='2'><strong>Prefix:</strong> " + (groupHeader.prefix || "") + "</td>";
-                headerHtml += "<td colspan='2'><strong>JV No:</strong> " + (groupHeader.jv_no || "") + "</td>";
+                headerHtml += "<td colspan='3'><strong>JV Identifier:</strong> " + groupHeader.jv_identifier + "</td>";
                 headerHtml += "<td colspan='2'><strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "") + "</td>";
-                headerHtml += "<td colspan='2'><strong>Narration:</strong> " + (groupHeader.narration || "") + "</td>";
+                headerHtml += "<td colspan='3'><strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
                 // Add rows for the group
-                $.each(group.rows, function (k, v) {
+                $.each(group.rows, function (index, v) {
                     var debit = v['debit'] ? parseFloat(v['debit']) : 0;
                     var credit = v['credit'] ? parseFloat(v['credit']) : 0;
 
@@ -864,11 +864,11 @@
                     totalCredit += credit;
 
                     var rowHtml = "<tr>";
-                    rowHtml += "<td>" + (k + 1) + "</td>";
-                    rowHtml += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
+                    rowHtml += "<td>" + (index + 1) + "</td>";
+                    rowHtml += "<td>" + (v['ac_name'] || "") + "</td>";
                     rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
                     rowHtml += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
-                    rowHtml += "<td>" + (v['Remark'] ? v['Remark'] : "") + "</td>";
+                    rowHtml += "<td>" + (v['Remark'] || "") + "</td>";
                     rowHtml += "<td colspan='3'></td>";
                     rowHtml += "</tr>";
 
@@ -877,20 +877,24 @@
             });
 
             // Add overall total row
-            var totalHtml = "<tr class='font-weight-bold bg-light'>";
-            totalHtml += "<td colspan='2' style='text-align: right;'>Total</td>";
-            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
-            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-            totalHtml += "<td colspan='4'></td>";
-            totalHtml += "</tr>";
-
-            $(tableID).append(totalHtml);
+            if (totalDebit === 0 && totalCredit === 0) {
+                $(tableID).append("<tr><td colspan='8' class='text-center'>No transactions found for the selected date range.</td></tr>");
+            } else {
+                var totalHtml = "<tr class='font-weight-bold bg-light'>";
+                totalHtml += "<td colspan='2' style='text-align: right;'>Total</td>";
+                totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
+                totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
+                totalHtml += "<td colspan='4'></td>";
+                totalHtml += "</tr>";
+                $(tableID).append(totalHtml);
+            }
         },
         error: function () {
             $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
         }
     });
 }
+
 
             else if(tabId=="#sale_1_return"){
                 var table = document.getElementById('Sale1TbleBody');
