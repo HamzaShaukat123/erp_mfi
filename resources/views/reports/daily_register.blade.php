@@ -300,9 +300,9 @@
                                                     
                                                     <th>S/No</th>
                                                     <th>Account Name</th>
+                                                    <th>Detail</th>
                                                     <th>Debit</th>
                                                     <th>Credit</th>
-                                                    <th>Remarks</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="JV2TbleBody">
@@ -851,8 +851,8 @@
                 // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
                 headerHtml += "<td colspan='6'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
-                headerHtml += " | <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
-                headerHtml += " | <strong>Narration:</strong> " + groupHeader.narration + "</td>";
+                headerHtml += " || <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
+                headerHtml += " || <strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
@@ -867,9 +867,10 @@
                     var rowHtml = "<tr>";
                     rowHtml += "<td>" + (index + 1) + "</td>";
                     rowHtml += "<td>" + (v['ac_name'] || "") + "</td>";
+                    rowHtml += "<td>" + (v['Remark'] || "") + "</td>";
                     rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
                     rowHtml += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
-                    rowHtml += "<td>" + (v['Remark'] || "") + "</td>";
+                    
                     rowHtml += "</tr>";
 
                     $(tableID).append(rowHtml);
