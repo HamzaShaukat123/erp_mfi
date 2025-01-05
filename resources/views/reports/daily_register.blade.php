@@ -297,6 +297,7 @@
                                         <table class="table table-bordered table-striped mb-0">
                                             <thead>
                                                 <tr>
+                                                    <th>Voucher</th>
                                                     <th>S/No</th>
                                                     <th>Account Name</th>
                                                     <th>Debit</th>
@@ -815,7 +816,7 @@
             toDate: toDate,
         },
         beforeSend: function () {
-            $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
+            $(tableID).html('<tr><td colspan="6" class="text-center">Loading Data Please Wait...</td></tr>');
         },
         success: function (result) {
             $('#jv2_from').text(formattedfromDate);
@@ -847,11 +848,11 @@
             $.each(groupedData, function (key, group) {
                 var groupHeader = group.header;
 
-                // Add group header row
+                // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
-                headerHtml += "<td colspan='3'><strong>JV Identifier:</strong> " + groupHeader.jv_identifier + "</td>";
-                headerHtml += "<td colspan='2'><strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "") + "</td>";
-                headerHtml += "<td colspan='3'><strong>Narration:</strong> " + groupHeader.narration + "</td>";
+                headerHtml += "<td colspan='6'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
+                headerHtml += " | <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
+                headerHtml += " | <strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
@@ -864,12 +865,12 @@
                     totalCredit += credit;
 
                     var rowHtml = "<tr>";
+                    rowHtml += "<td></td>"; // Empty cell under "Voucher"
                     rowHtml += "<td>" + (index + 1) + "</td>";
                     rowHtml += "<td>" + (v['ac_name'] || "") + "</td>";
                     rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
                     rowHtml += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
                     rowHtml += "<td>" + (v['Remark'] || "") + "</td>";
-                    rowHtml += "<td colspan='3'></td>";
                     rowHtml += "</tr>";
 
                     $(tableID).append(rowHtml);
@@ -878,19 +879,19 @@
 
             // Add overall total row
             if (totalDebit === 0 && totalCredit === 0) {
-                $(tableID).append("<tr><td colspan='8' class='text-center'>No transactions found for the selected date range.</td></tr>");
+                $(tableID).append("<tr><td colspan='6' class='text-center'>No transactions found for the selected date range.</td></tr>");
             } else {
                 var totalHtml = "<tr class='font-weight-bold bg-light'>";
-                totalHtml += "<td colspan='2' style='text-align: right;'>Total</td>";
+                totalHtml += "<td colspan='3' style='text-align: right;'>Total</td>";
                 totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
                 totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-                totalHtml += "<td colspan='4'></td>";
+                totalHtml += "<td></td>";
                 totalHtml += "</tr>";
                 $(tableID).append(totalHtml);
             }
         },
         error: function () {
-            $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+            $(tableID).html('<tr><td colspan="6" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
         }
     });
 }
