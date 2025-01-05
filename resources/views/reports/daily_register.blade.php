@@ -802,69 +802,101 @@
                     }
                 });
             }
-            else if(tabId=="#JV2"){
-                var table = document.getElementById('JV2TbleBody');
-                while (table.rows.length > 0) {
-                    table.deleteRow(0);
+            else if (tabId == "#JV2") {
+    var table = document.getElementById("JV2TbleBody");
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
+    url = "/rep-daily-register/jv2";
+    tableID = "#JV2TbleBody";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+        },
+        beforeSend: function () {
+            $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
+        },
+        success: function (result) {
+            $('#jv2_from').text(formattedfromDate);
+            $('#jv2_to').text(formattedtoDate);
+
+            $(tableID).empty(); // Clear the loading message
+
+            var groupedData = {};
+            var totalDebit = 0;
+            var totalCredit = 0;
+
+            // Group data by `prefix` and `jv_no`
+            $.each(result, function (k, v) {
+                var groupKey = (v['prefix'] ? v['prefix'] : "") + (v['jv_no'] ? v['jv_no'] : "");
+                if (!groupedData[groupKey]) {
+                    groupedData[groupKey] = {
+                        header: {
+                            prefix: v['prefix'],
+                            jv_no: v['jv_no'],
+                            jv_date: v['jv_date'],
+                            narration: v['Narration']
+                        },
+                        rows: []
+                    };
                 }
-                url="/rep-daily-register/jv2";
-                tableID="#JV2TbleBody";
+                groupedData[groupKey].rows.push(v);
+            });
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data:{
-                        fromDate: fromDate,
-                        toDate: toDate,
-                    }, 
-                    beforeSend: function() {
-                        $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
-                    },
-                    success: function(result){
-                        $('#jv2_from').text(formattedfromDate);
-                        $('#jv2_to').text(formattedtoDate);
+            // Process grouped data
+            $.each(groupedData, function (key, group) {
+                var groupHeader = group.header;
 
-                        $(tableID).empty(); // Clear the loading message
+                // Add group header row
+                var headerHtml = "<tr class='table-primary'>";
+                headerHtml += "<td colspan='2'><strong>Prefix:</strong> " + (groupHeader.prefix || "") + "</td>";
+                headerHtml += "<td colspan='2'><strong>JV No:</strong> " + (groupHeader.jv_no || "") + "</td>";
+                headerHtml += "<td colspan='2'><strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "") + "</td>";
+                headerHtml += "<td colspan='2'><strong>Narration:</strong> " + (groupHeader.narration || "") + "</td>";
+                headerHtml += "</tr>";
+                $(tableID).append(headerHtml);
 
-                            var totalDebit = 0;
-                            var totalCredit = 0;
+                // Add rows for the group
+                $.each(group.rows, function (k, v) {
+                    var debit = v['debit'] ? parseFloat(v['debit']) : 0;
+                    var credit = v['credit'] ? parseFloat(v['credit']) : 0;
 
-                            $.each(result, function (k, v) {
-                                var debit = v['debit'] ? parseFloat(v['debit']) : 0;
-                                var credit = v['credit'] ? parseFloat(v['credit']) : 0;
+                    totalDebit += debit;
+                    totalCredit += credit;
 
-                                totalDebit += debit;
-                                totalCredit += credit;
+                    var rowHtml = "<tr>";
+                    rowHtml += "<td>" + (k + 1) + "</td>";
+                    rowHtml += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
+                    rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
+                    rowHtml += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
+                    rowHtml += "<td>" + (v['Remark'] ? v['Remark'] : "") + "</td>";
+                    rowHtml += "<td colspan='3'></td>";
+                    rowHtml += "</tr>";
 
-                                var html = "<tr>";
-                                html += "<td>" + (k + 1) + "</td>";
-                                html += "<td>" + (v['prefix'] ? v['prefix'] : "") + (v['jv_no'] ? v['jv_no'] : "") +"</td>";
-                                html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
-                                html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
-                                html += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
-                                html += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
-                                html += "<td>" + (v['Remark'] ? v['Remark'] : "") + "</td>";
-                                html += "<td>" + (v['Narration'] ? v['Narration'] : "") + "</td>";
-                                html += "</tr>";
-
-                                $(tableID).append(html);
-                            });
-
-                            // Add a row for totals
-                                var totalHtml = "<tr class='font-weight-bold'>";
-                                totalHtml += "<td colspan='4'style='text-align: right;'>Total</td>";
-                                totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
-                                totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-                                totalHtml += "<td colspan='2'></td>";
-                                totalHtml += "</tr>";
-
-                                $(tableID).append(totalHtml);
-                            },
-                            error: function () {
-                            $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
-                        }
+                    $(tableID).append(rowHtml);
                 });
-            }
+            });
+
+            // Add overall total row
+            var totalHtml = "<tr class='font-weight-bold bg-light'>";
+            totalHtml += "<td colspan='2' style='text-align: right;'>Total</td>";
+            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
+            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
+            totalHtml += "<td colspan='4'></td>";
+            totalHtml += "</tr>";
+
+            $(tableID).append(totalHtml);
+        },
+        error: function () {
+            $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+        }
+    });
+}
+
             else if(tabId=="#sale_1_return"){
                 var table = document.getElementById('Sale1TbleBody');
                 while (table.rows.length > 0) {
