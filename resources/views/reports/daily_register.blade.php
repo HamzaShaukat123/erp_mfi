@@ -847,6 +847,8 @@
             // Process grouped data
             $.each(groupedData, function (key, group) {
                 var groupHeader = group.header;
+                var groupTotalDebit = 0; // Initialize subtotal for debit
+                var groupTotalCredit = 0; // Initialize subtotal for credit
 
                 // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
@@ -861,8 +863,11 @@
                     var debit = v['debit'] ? parseFloat(v['debit']) : 0;
                     var credit = v['credit'] ? parseFloat(v['credit']) : 0;
 
-                    totalDebit += debit;
-                    totalCredit += credit;
+                    groupTotalDebit += debit; // Add to group total debit
+                    groupTotalCredit += credit; // Add to group total credit
+
+                    totalDebit += debit; // Add to overall total debit
+                    totalCredit += credit; // Add to overall total credit
 
                     var rowHtml = "<tr>";
                     rowHtml += "<td>" + (index + 1) + "</td>";
@@ -874,6 +879,15 @@
 
                     $(tableID).append(rowHtml);
                 });
+
+                // Add group subtotal row
+                var subtotalHtml = "<tr class='font-weight-bold bg-light'>";
+                subtotalHtml += "<td colspan='3' style='text-align: right;'>Subtotal</td>";
+                subtotalHtml += "<td class='text-danger'><strong>" + groupTotalDebit.toFixed(0) + "</strong></td>";
+                subtotalHtml += "<td class='text-danger'><strong>" + groupTotalCredit.toFixed(0) + "</strong></td>";
+                subtotalHtml += "</tr>";
+
+                $(tableID).append(subtotalHtml);
             });
 
             // Add overall total row
