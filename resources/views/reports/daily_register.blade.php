@@ -851,8 +851,8 @@
                 // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
                 headerHtml += "<td colspan='5'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
-                headerHtml += " <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
-                headerHtml += " <strong>Narration:</strong> " + groupHeader.narration + "</td>";
+                headerHtml += " | <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
+                headerHtml += " | <strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
@@ -870,7 +870,6 @@
                     rowHtml += "<td>" + (v['Remark'] || "") + "</td>";
                     rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
                     rowHtml += "<td>" + (credit ? credit.toFixed(0) : "") + "</td>";
-                    
                     rowHtml += "</tr>";
 
                     $(tableID).append(rowHtml);
@@ -885,7 +884,6 @@
                 totalHtml += "<td colspan='3' style='text-align: right;'>Total</td>";
                 totalHtml += "<td class='text-danger'><strong>" + totalDebit.toFixed(0) + "</strong></td>";
                 totalHtml += "<td class='text-danger'><strong>" + totalCredit.toFixed(0) + "</strong></td>";
-                totalHtml += "<td></td>";
                 totalHtml += "</tr>";
                 $(tableID).append(totalHtml);
             }
