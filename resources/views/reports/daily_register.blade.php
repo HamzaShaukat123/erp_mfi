@@ -816,7 +816,7 @@
             toDate: toDate,
         },
         beforeSend: function () {
-            $(tableID).html('<tr><td colspan="6" class="text-center">Loading Data Please Wait...</td></tr>');
+            $(tableID).html('<tr><td colspan="5" class="text-center">Loading Data Please Wait...</td></tr>');
         },
         success: function (result) {
             $('#jv2_from').text(formattedfromDate);
@@ -850,9 +850,9 @@
 
                 // Add group header row inside the "Voucher" column
                 var headerHtml = "<tr class='table-primary'>";
-                headerHtml += "<td colspan='6'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
-                headerHtml += " || <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
-                headerHtml += " || <strong>Narration:</strong> " + groupHeader.narration + "</td>";
+                headerHtml += "<td colspan='5'><strong>Voucher:</strong> " + groupHeader.jv_identifier;
+                headerHtml += " <strong>Date:</strong> " + (groupHeader.jv_date ? moment(groupHeader.jv_date).format('DD-MM-YYYY') : "");
+                headerHtml += " <strong>Narration:</strong> " + groupHeader.narration + "</td>";
                 headerHtml += "</tr>";
                 $(tableID).append(headerHtml);
 
@@ -879,7 +879,7 @@
 
             // Add overall total row
             if (totalDebit === 0 && totalCredit === 0) {
-                $(tableID).append("<tr><td colspan='6' class='text-center'>No transactions found for the selected date range.</td></tr>");
+                $(tableID).append("<tr><td colspan='5' class='text-center'>No transactions found for the selected date range.</td></tr>");
             } else {
                 var totalHtml = "<tr class='font-weight-bold bg-light'>";
                 totalHtml += "<td colspan='3' style='text-align: right;'>Total</td>";
@@ -891,7 +891,7 @@
             }
         },
         error: function () {
-            $(tableID).html('<tr><td colspan="6" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+            $(tableID).html('<tr><td colspan="5" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
         }
     });
 }
