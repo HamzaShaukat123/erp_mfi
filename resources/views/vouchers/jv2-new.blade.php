@@ -120,7 +120,7 @@
 									<div class="card-body">
 										<div class="row form-group mb-2">
 
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Account Name</label>
 												<select data-plugin-selecttwo class="form-control select2-js" id="customer_name" name="customer_name"    onchange="getPendingInvoices()" required disabled>
 													<option value="0" selected>Select Account</option>
@@ -133,14 +133,19 @@
 
 											</div>
 
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Unadjusted Amount</label>
 												<input type="number" id="sales_unadjusted_amount" name="sales_unadjusted_amount" value="0" class="form-control" disabled step="any">
 											</div>
 
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Total Amount</label>
 												<input type="number" id="total_reci_amount" class="form-control" value="0" disabled step="any">
+											</div>
+
+											<div class="col-3 mb-2">
+												<label class="col-form-label">Remaining Amount</label>
+												<input type="number" id="sales_ageing_remaing_amt" class="form-control" value="0" disabled step="any">
 											</div>
 
 											<div class="col-12 mb-2" >
@@ -178,7 +183,7 @@
 									<div class="card-body">
 										<div class="row form-group mb-2">
 										
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Account Name</label>
 												<select data-plugin-selecttwo class="form-control select2-js" id="pur_customer_name" name="pur_customer_name" onchange="getPurPendingInvoices()" required disabled>
 													<option value="0" disabled selected>Select Account</option>
@@ -188,16 +193,21 @@
 												</select>
 											</div>
 
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Unadjusted Amount</label>
 												<input type="number" id="pur_unadjusted_amount" name="pur_unadjusted_amount" value="0" class="form-control" disabled step="any">
 											</div>
 
-											<div class="col-4 mb-2">
+											<div class="col-3 mb-2">
 												<label class="col-form-label">Total Amount</label>
 												<input type="number" id="total_pay_amount" value="0" class="form-control" disabled step="any">
 											</div>
 
+											<div class="col-3 mb-2">
+												<label class="col-form-label">Remaining Amount</label>
+												<input type="number" id="" class="form-control" value="0" disabled step="any">
+											</div>
+											
 											<div class="col-12 mb-2">
 												<table class="table table-bordered table-striped mb-0 mt-2">
 													<thead>
@@ -458,8 +468,11 @@
 				totalRec += isNaN(rec) ? 0 : rec; // Add to totalRec, handle NaN cases
 			}
 		}
-		
+
+		var unadjusted_amt = $('#sales_unadjusted_amount').val();
+		var RemainingRec = totalRec - unadjusted_amt;
 		$('#total_reci_amount').val(totalRec); // Set the total in the corresponding input field
+		$('#sales_ageing_remaing_amt').val(RemainingRec); // Set the total in the corresponding input field
 	}
 
 	function totalPay() {
