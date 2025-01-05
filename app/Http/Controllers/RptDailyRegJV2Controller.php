@@ -57,112 +57,143 @@ class RptDailyRegJV2Controller extends Controller
     }
 
     private function jv2generatePDF($activites9_gen_acas, Request $request)
-    {
-        $currentDate = Carbon::now();
-        $formattedDate = $currentDate->format('d-m-y');
-        $formattedFromDate = Carbon::parse($request->fromDate)->format('d-m-y');
-        $formattedToDate = Carbon::parse($request->toDate)->format('d-m-y');
-    
-        $pdf = new MyPDF();
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('Daily Register JV 2 ' . $request->acc_id);
-        $pdf->SetSubject('Daily Register JV 2');
-        $pdf->SetKeywords('Daily Register JV 2, TCPDF, PDF');
-        $pdf->setPageOrientation('P');
-    
-        // Add a page and set padding
-        $pdf->AddPage();
-        $pdf->setCellPadding(1.2);
-    
-        // Report heading
-        $heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Daily Register JV 2</h1>';
-        $pdf->writeHTML($heading, true, false, true, false, '');
-    
-        // Header details
-        $htmlHeaderDetails = '
-        <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
-            <tr>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:33%;">
-                    From Date: <span style="color:black;">' . $formattedFromDate . '</span>
-                </td>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left;border-left:1px solid #000; width:34%;">
-                    To Date: <span style="color:black;">' . $formattedToDate . '</span>
-                </td>
-                <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:33%;">
-                    Print Date: <span style="color:black;">' . $formattedDate . '</span>
-                </td>
-            </tr>
-        </table>';
-        $pdf->writeHTML($htmlHeaderDetails, true, false, true, false, '');
+ {
+    $currentDate = Carbon::now();
+$formattedDate = $currentDate->format('d-m-y');
+$formattedFromDate = Carbon::parse($request->fromDate)->format('d-m-y');
+$formattedToDate = Carbon::parse($request->toDate)->format('d-m-y');
 
-        // Table headers
-        $tableHeader = '<tr>
-                    <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">JV No</th>
-                    <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
-                    <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
-                    <th style="width:24%;color:#17365D;font-weight:bold;">Detail</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
-                    
-                </tr>';
+$pdf = new MyPDF();
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('MFI');
+$pdf->SetTitle('Daily Register JV 2 ' . $request->acc_id);
+$pdf->SetSubject('Daily Register JV 2');
+$pdf->SetKeywords('Daily Register JV 2, TCPDF, PDF');
+$pdf->setPageOrientation('P');
 
-        // Start the table
-        $html = '<table border="1" style="border-collapse: collapse;text-align:center">';
-        $html .= $tableHeader;
+// Add a page and set padding
+$pdf->AddPage();
+$pdf->setCellPadding(1.2);
 
-        $count = 1;
-        $totaldebit = 0;
-        $totalcredit = 0;
+// Report heading
+$heading = '<h1 style="font-size:20px;text-align:center; font-style:italic;text-decoration:underline;color:#17365D">Daily Register JV 2</h1>';
+$pdf->writeHTML($heading, true, false, true, false, '');
 
-        foreach ($activites9_gen_acas as $items) {
-            // Check if a new page is needed
-            if ($pdf->getY() > 250) { // Adjust 250 based on your page margins
-                $html .= '</table>'; // Close the current table
-                $pdf->writeHTML($html, true, false, true, false, '');
-                $pdf->AddPage(); // Add a new page
-                $html = '<table border="1" style="border-collapse: collapse;text-align:center">';
-                $html .= $tableHeader; // Re-add table header
-            }
+// Header details
+$htmlHeaderDetails = '
+<table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
+    <tr>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:33%;">
+            From Date: <span style="color:black;">' . $formattedFromDate . '</span>
+        </td>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left;border-left:1px solid #000; width:34%;">
+            To Date: <span style="color:black;">' . $formattedToDate . '</span>
+        </td>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; border-bottom:1px solid #000;border-left:1px solid #000; width:33%;">
+            Print Date: <span style="color:black;">' . $formattedDate . '</span>
+        </td>
+    </tr>
+</table>';
+$pdf->writeHTML($htmlHeaderDetails, true, false, true, false, '');
 
-            // Add table rows
-            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-            $html .= '<tr style="background-color:' . $bgColor . ';">
-                        <td>' . $count . '</td>
-                        <td>' . $items['prefix'] . '' . $items['jv_no'] . '</td>
-                        <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
-                        <td>' . $items['ac_name'] . '</td>
-                        <td>' . $items['remarks'] . ' ' . $items['Narration'] . '</td>
-                        <td>' . number_format($items['debit'], 0) . '</td>
-                        <td>' . number_format($items['credit'], 0) . '</td>
-                    </tr>';
+// Table headers
+$tableHeader = '<tr>
+                <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
+                <th style="width:13%;color:#17365D;font-weight:bold;">JV No</th>
+                <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
+                <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
+                <th style="width:24%;color:#17365D;font-weight:bold;">Detail</th>
+                <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
+                <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
+            </tr>';
 
-            $totaldebit += $items['debit'];
-            $totalcredit += $items['credit'];
-            $count++;
-        }
+$html = '<table border="1" style="border-collapse: collapse;text-align:center">';
+$html .= $tableHeader;
 
-        // Add totals row
-        $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-                    <td colspan="5" style="text-align:right;">Total:</td>
-                    <td style="width:13%;">' . number_format($totaldebit, 0) . '</td>
-                    <td style="width:13%;">' . number_format($totalcredit, 0) . '</td>
-                </tr>';
-        $html .= '</table>';
-        $pdf->writeHTML($html, true, false, true, false, '');
-    
-        // Prepare filename for the PDF
-        $fromDate = Carbon::parse($request->fromDate)->format('Y-m-d');
-        $toDate = Carbon::parse($request->toDate)->format('Y-m-d');
+$count = 1;
+$totalDebit = 0;
+$totalCredit = 0;
 
-        $filename = "daily_reg_jv2_report_from_{$fromDate}_to_{$toDate}.pdf";
-
-        // Determine output type
-        if ($request->outputType === 'download') {
-            $pdf->Output($filename, 'D'); // For download
-        } else {
-            $pdf->Output($filename, 'I'); // For inline view
-        }
+// Group the data by `prefix + jv_no`
+$groupedData = [];
+foreach ($activites9_gen_acas as $item) {
+    $groupKey = $item['prefix'] . $item['jv_no'];
+    if (!isset($groupedData[$groupKey])) {
+        $groupedData[$groupKey] = [
+            'header' => [
+                'jv_identifier' => $item['prefix'] . $item['jv_no'],
+                'jv_date' => $item['jv_date'],
+                'narration' => $item['Narration'],
+            ],
+            'rows' => [],
+        ];
     }
+    $groupedData[$groupKey]['rows'][] = $item;
+}
+
+// Process grouped data
+foreach ($groupedData as $group) {
+    $groupTotalDebit = 0;
+    $groupTotalCredit = 0;
+    
+    // Group header
+    $html .= '<tr style="background-color:#f1f1f1;">
+                <td colspan="7"><strong>Voucher:</strong> ' . $group['header']['jv_identifier'] . 
+                ' | <strong>Date:</strong> ' . Carbon::createFromFormat('Y-m-d', $group['header']['jv_date'])->format('d-m-y') . 
+                ' | <strong>Narration:</strong> ' . $group['header']['narration'] . '</td>
+              </tr>';
+
+    // Add rows for the group
+    foreach ($group['rows'] as $item) {
+        $debit = $item['debit'];
+        $credit = $item['credit'];
+
+        $groupTotalDebit += $debit;
+        $groupTotalCredit += $credit;
+
+        $totalDebit += $debit;
+        $totalCredit += $credit;
+
+        $html .= '<tr>
+                    <td>' . $count++ . '</td>
+                    <td>' . $item['prefix'] . $item['jv_no'] . '</td>
+                    <td>' . Carbon::createFromFormat('Y-m-d', $item['jv_date'])->format('d-m-y') . '</td>
+                    <td>' . $item['ac_name'] . '</td>
+                    <td>' . $item['remarks'] . ' ' . $item['Narration'] . '</td>
+                    <td>' . number_format($debit, 0) . '</td>
+                    <td>' . number_format($credit, 0) . '</td>
+                  </tr>';
+    }
+
+    // Add group subtotal row
+    $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+                <td colspan="5" style="text-align:right;">Group Total:</td>
+                <td>' . number_format($groupTotalDebit, 0) . '</td>
+                <td>' . number_format($groupTotalCredit, 0) . '</td>
+              </tr>';
+}
+
+// Add overall total row
+$html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+            <td colspan="5" style="text-align:right;">Total:</td>
+            <td>' . number_format($totalDebit, 0) . '</td>
+            <td>' . number_format($totalCredit, 0) . '</td>
+          </tr>';
+
+$html .= '</table>';
+$pdf->writeHTML($html, true, false, true, false, '');
+
+// Prepare filename for the PDF
+$fromDate = Carbon::parse($request->fromDate)->format('Y-m-d');
+$toDate = Carbon::parse($request->toDate)->format('Y-m-d');
+
+$filename = "daily_reg_jv2_report_from_{$fromDate}_to_{$toDate}.pdf";
+
+// Determine output type
+if ($request->outputType === 'download') {
+    $pdf->Output($filename, 'D'); // For download
+} else {
+    $pdf->Output($filename, 'I'); // For inline view
+}
+}
 }
