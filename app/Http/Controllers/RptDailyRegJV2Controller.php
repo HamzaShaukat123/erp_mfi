@@ -99,8 +99,6 @@ $pdf->writeHTML($htmlHeaderDetails, true, false, true, false, '');
 // Table headers
 $tableHeader = '<tr>
                 <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
-                <th style="width:13%;color:#17365D;font-weight:bold;">JV No</th>
-                <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
                 <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
                 <th style="width:24%;color:#17365D;font-weight:bold;">Detail</th>
                 <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
@@ -159,7 +157,7 @@ foreach ($groupedData as $group) {
                     <td>' . $item['prefix'] . $item['jv_no'] . '</td>
                     <td>' . Carbon::createFromFormat('Y-m-d', $item['jv_date'])->format('d-m-y') . '</td>
                     <td>' . $item['ac_name'] . '</td>
-                    <td>' . $item['remarks'] . ' ' . $item['Narration'] . '</td>
+                    <td>' . $item['remarks'] . '</td>
                     <td>' . number_format($debit, 0) . '</td>
                     <td>' . number_format($credit, 0) . '</td>
                   </tr>';
