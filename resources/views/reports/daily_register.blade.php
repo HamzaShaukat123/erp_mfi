@@ -833,7 +833,7 @@
                 if (!groupedData[groupKey]) {
                     groupedData[groupKey] = {
                         header: {
-                             `${v['prefix']}${v['jv_no']}`, // Merging prefix and jv_no
+                            : `${v['prefix']}${v['jv_no']}`, // Merging prefix and jv_no
                             jv_date: v['jv_date'], // Assigning jv_date
                             narration: v['Narration'] // Assigning narration
                         rows: []
