@@ -297,7 +297,7 @@
                                         <table class="table table-bordered table-striped mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Voucher</th>
+                                                    
                                                     <th>S/No</th>
                                                     <th>Account Name</th>
                                                     <th>Debit</th>
