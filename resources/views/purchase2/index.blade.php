@@ -59,8 +59,8 @@
                                                     <th>Labour Charges</th>
                                                     <th>Discount</th>
                                                     <th>Net Amount</th>
-                                                    <th>Status</th>
                                                     <th>Att.</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -89,16 +89,17 @@
                                                         <td><strong style="font-size:15px">{{ number_format(intval($net_amount))}}</strong></td>
                                                     @endif --}}
                                                     <td><strong style="font-size:15px">{{ number_format(round($net_amount), 0) }}</strong></td>
-                                                    @if($row->sales_against!=null) 
-                                                        <td> <i class="fas fa-circle" style="color:green;font-size:10px"></i> Closed </td>
-                                                    @else
-                                                        <td> <i class="fas fa-circle" style="color:red;font-size:10px"></i> Not Close </td>
-                                                    @endif
                                                     <td style="vertical-align: middle;">
                                                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->Sale_inv_no}})" href="#attModal"><i class="fa fa-eye"> </i></a>
                                                         <span class="separator"> | </span>
                                                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-danger" onclick="setAttId({{$row->Sale_inv_no}})" href="#addAttModal"> <i class="fas fa-paperclip"> </i></a>
                                                     </td>
+                                                    @if($row->sales_against!=null) 
+                                                        <td> <i class="fas fa-circle" style="color:green;font-size:10px"></i> Closed </td>
+                                                    @else
+                                                        <td> <i class="fas fa-circle" style="color:red;font-size:10px"></i> Not Close </td>
+                                                    @endif
+                                                   
                                                     <td class="actions">
                                                         <!-- <a href="{{ route('print-purc2-invoice', $row->Sale_inv_no) }}" class="text-danger"> <i class="fas fa-print"></i></a> -->
                                                         <a href="{{ route('show-purchases2',$row->Sale_inv_no) }}" class=""><i class="fas fa-eye"></i></a>
