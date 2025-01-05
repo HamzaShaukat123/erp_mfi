@@ -97,11 +97,11 @@ class RptDailyRegJV2Controller extends Controller
     
     // Table headers
     $tableHeader = '<tr>
-                    <th style="width:7%;color:#17365D;font-weight:bold;">S/No</th>
-                    <th style="width:18%;color:#17365D;font-weight:bold;">Account Name</th>
-                    <th style="width:24%;color:#17365D;font-weight:bold;">Detail</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
-                    <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
+                    <th style="width:7%;color:#17365D;font-weight:bold;text-align:center;">S/No</th>
+                    <th style="width:18%;color:#17365D;font-weight:bold;text-align:center;">Account Name</th>
+                    <th style="width:24%;color:#17365D;font-weight:bold;text-align:center;">Detail</th>
+                    <th style="width:13%;color:#17365D;font-weight:bold;text-align:center;">Debit</th>
+                    <th style="width:13%;color:#17365D;font-weight:bold;text-align:center;">Credit</th>
                 </tr>';
     
     $html = '<table border="1" style="border-collapse: collapse;text-align:center">';
@@ -135,9 +135,10 @@ class RptDailyRegJV2Controller extends Controller
         
         // Group header
         $html .= '<tr style="background-color:#f1f1f1;">
-                    <td colspan="7"><strong>Voucher:</strong> ' . $group['header']['jv_identifier'] . 
-                    ' | <strong>Date:</strong> ' . Carbon::createFromFormat('Y-m-d', $group['header']['jv_date'])->format('d-m-y') . 
-                    ' | <strong>Narration:</strong> ' . $group['header']['narration'] . '</td>
+                    <td colspan="5" style="text-align:left;font-weight:bold;">
+                        <strong>Voucher:</strong> ' . $group['header']['jv_identifier'] . 
+                        ' | <strong>Date:</strong> ' . Carbon::createFromFormat('Y-m-d', $group['header']['jv_date'])->format('d-m-y') . 
+                        ' | <strong>Narration:</strong> ' . $group['header']['narration'] . '</td>
                   </tr>';
     
         // Add rows for the group
@@ -162,7 +163,7 @@ class RptDailyRegJV2Controller extends Controller
     
         // Add group subtotal row
         $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-                    <td colspan="5" style="text-align:right;">Group Total:</td>
+                    <td colspan="3" style="text-align:right;">Group Total:</td>
                     <td>' . number_format($groupTotalDebit, 0) . '</td>
                     <td>' . number_format($groupTotalCredit, 0) . '</td>
                   </tr>';
@@ -170,7 +171,7 @@ class RptDailyRegJV2Controller extends Controller
     
     // Add overall total row
     $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-                <td colspan="5" style="text-align:right;">Total:</td>
+                <td colspan="3" style="text-align:right;">Total:</td>
                 <td>' . number_format($totalDebit, 0) . '</td>
                 <td>' . number_format($totalCredit, 0) . '</td>
               </tr>';
