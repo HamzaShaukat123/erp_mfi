@@ -865,7 +865,6 @@
                     totalCredit += credit;
 
                     var rowHtml = "<tr>";
-                    rowHtml += "<td></td>"; // Empty cell under "Voucher"
                     rowHtml += "<td>" + (index + 1) + "</td>";
                     rowHtml += "<td>" + (v['ac_name'] || "") + "</td>";
                     rowHtml += "<td>" + (debit ? debit.toFixed(0) : "") + "</td>";
