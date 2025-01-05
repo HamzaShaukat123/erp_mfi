@@ -156,7 +156,7 @@ class RptDailyRegJV2Controller extends Controller
                 $html .= '<tr>
                             <td>' . $count++ . '</td>
                             <td>' . $item['ac_name'] . '</td>
-                            <td>' . $item['remarks'] . '</td>
+                            <td>' . $item['Remark'] . '</td>
                             <td>' . number_format($debit, 0) . '</td>
                             <td>' . number_format($credit, 0) . '</td>
                         </tr>';
