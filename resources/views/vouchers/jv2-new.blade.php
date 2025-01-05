@@ -205,7 +205,7 @@
 
 											<div class="col-3 mb-2">
 												<label class="col-form-label">Remaining Amount</label>
-												<input type="number" id="" class="form-control" value="0" disabled step="any">
+												<input type="number" id="pur_ageing_remaing_amt" class="form-control" value="0" disabled step="any">
 											</div>
 											
 											<div class="col-12 mb-2">
@@ -489,7 +489,10 @@
 			}
 		}
 		
+		var pur_unadjusted_amt = $('#pur_unadjusted_amount').val();
+		var pur_Remaining = totalPay - pur_unadjusted_amt;
 		$('#total_pay_amount').val(totalPay); // Set the total in the corresponding input field
+		$('#pur_ageing_remaing_amt').val(pur_Remaining)
 	}
 
 	function getPurPendingInvoices(){
