@@ -135,7 +135,7 @@ class RptDailyRegJV2Controller extends Controller
             $groupTotalCredit = 0;
             
             // Group header
-            $html .= '<tr style="background-color:#f1f1f1;">
+            $html .= '<tr style="background-color:#d9edf7;">
                         <td colspan="5" style="text-align:left;font-weight:bold;">
                             <strong></strong> ' . $group['header']['jv_identifier'] . 
                             ' - <strong>Date:</strong> ' . Carbon::createFromFormat('Y-m-d', $group['header']['jv_date'])->format('d-m-y') . 
