@@ -1159,7 +1159,7 @@
                             html += "<td>" + (v['no'] ? v['no'] : "") + "</td>";
                             html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                             html += "<td>" + (v['remarks'] ? v['remarks'] : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
 
                             $(tableID).append(html);
@@ -1167,7 +1167,7 @@
 
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='6' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
                     error: function(){
@@ -1214,14 +1214,14 @@
                             html += "<td>" + (v['name_of'] ? v['name_of'] : "") + "</td>";
                             html += "<td>" + (v['sal_inv'] ? v['sal_inv'] : "") + "</td>";
                             html += "<td>" + (v['remarks'] ? v['remarks'] : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
                             $(tableID).append(html);
                         });
 
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='7' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
                     error: function(){
@@ -1268,14 +1268,14 @@
                             html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                             html += "<td>" + (v['sal_inv'] ? v['sal_inv'] : "") + "</td>";
                             html += "<td>" + (v['remarks'] ? v['remarks'] : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
                             $(tableID).append(html);
                         });
 
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='7' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
                     error: function(){
@@ -1322,14 +1322,14 @@
                             html += "<td>" + (v['no'] ? v['no'] : "") + "</td>";
                             html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                             html += "<td>" + (v['remarks'] ? v['remarks'] : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
 
                             $(tableID).append(html);
                         });
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='6' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
                     error: function(){
@@ -1378,8 +1378,8 @@
                             html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
                             html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                             html += "<td>" + (v['Narration'] ? v['Narration'] : "") + "</td>";
-                            html += "<td>" + (drAmt ? drAmt.toFixed(0) : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (drAmt ? drAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
 
                             $(tableID).append(html);
@@ -1388,7 +1388,7 @@
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='5' style='text-align: right;'><strong>Total:</strong></td>";
                         totalRow += "<td class='text-danger'><strong>" + totalDrAmt.toFixed(0) + "</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
                     error: function(){
