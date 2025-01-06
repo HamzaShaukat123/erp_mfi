@@ -20,17 +20,17 @@ class DashboardHRTabController extends Controller
 
         $steelex = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
-        ->where('company_code',187)
+        ->where('company_code',86)
         ->get();
 
         $spm = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
-        ->where('company_code',170)
+        ->where('company_code',82)
         ->get();
 
         $mehboob = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
-        ->where('company_code',133)
+        ->where('company_code',73)
         ->get();
 
         $godown = sale_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','sale_pipe_summary_of_party_by_mill.account_name')
