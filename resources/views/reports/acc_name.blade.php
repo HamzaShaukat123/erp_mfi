@@ -1046,14 +1046,14 @@
                             html += "<td>" + (v['bill'] ? v['bill'] : "") + "</td>";
                             html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
                             html += "<td>" + (v['remarks'] ? v['remarks'] : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
                             $(tableID).append(html);
                         });
 
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='6' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                            totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
 
                     },
