@@ -1387,7 +1387,7 @@
 
                         // Display the total in the last row or specific cell
                         var totalRow = "<tr><td colspan='5' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalDrAmt.toFixed(0) + "</strong></td>";
+                        totalRow += "<td class='text-danger'><strong>" + (totalDrAmt ? totalDrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td>";
                         totalRow += "<td class='text-danger'><strong>" + (totalCrAmt ? totalCrAmt.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</strong></td></tr>";
                         $(tableID).append(totalRow);
                     },
