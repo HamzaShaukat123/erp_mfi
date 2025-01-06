@@ -64,8 +64,11 @@ class ReportingController extends Controller
     // By Godown Group Name
     public function byGodownGroupName()
     {
-        $items = Item_Groups::orderBy('group_name', 'asc')->get();
-        return view('reports.gd_group_name',compact('items'));
+        $items = Item_Groups::whereIn('item_group_cod', [1, 2, 3, 4, 5, 6, 7, 8, 10, 11])
+        ->orderBy('group_name', 'asc')
+        ->get();
+        return view('reports.gd_group_name', compact('items'));
+
     }
 
     // Daily Register
