@@ -909,9 +909,9 @@
                             <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
                             <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
                             <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
-                            <td>${v['bill_amount'] ? v['bill_amount'] : '0'}</td>
-                            <td>${remainingAmount}.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0")</td>
-                            <td>${remainingAmount !== 0 ? daysFromBillDate : ''}.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0")</td>
+                            <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
+                            <td>${remainingAmount ? remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
+                            <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
                             <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
                             <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
                             <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
