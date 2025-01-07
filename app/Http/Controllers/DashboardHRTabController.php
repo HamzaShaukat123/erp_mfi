@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\dash_pur_2_summary_monthly_companywise;
 use App\Models\sale_pipe_summary_of_party_by_mill;
 use App\Models\pur_pipe_summary_of_party_by_mill;
+use App\Models\total_pur_pipe_summary_of_by_mill;
 use App\Models\AC;
 use App\Models\top_customers_of_sale2;
 use App\Models\top_customers_of_pur2;
@@ -18,17 +19,17 @@ class DashboardHRTabController extends Controller
 
         $dash_pur_2_summary_monthly_companywise = dash_pur_2_summary_monthly_companywise::get();
 
-        $steelex = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
+        $steelex = total_pur_pipe_summary_of_by_mill::leftjoin('ac','ac.ac_code','=','total_pur_pipe_summary_of_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',86)
         ->get();
 
-        $spm = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
+        $spm = total_pur_pipe_summary_of_by_mill::leftjoin('ac','ac.ac_code','=','total_pur_pipe_summary_of_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',82)
         ->get();
 
-        $mehboob = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
+        $mehboob = total_pur_pipe_summary_of_by_mill::leftjoin('ac','ac.ac_code','=','total_pur_pipe_summary_of_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',73)
         ->get();
