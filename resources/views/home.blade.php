@@ -1651,7 +1651,7 @@
 		];
 
 		function generateChartDatasets(data, mills, colors) {
-			// Group data by 'dat' field
+			// Group data by 'dat3' field
 			const groupedData = data.reduce((acc, item) => {
 				if (!acc[item.dat3]) acc[item.dat3] = [];
 				acc[item.dat3].push(item);
