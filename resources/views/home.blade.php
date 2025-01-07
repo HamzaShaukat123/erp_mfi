@@ -1585,318 +1585,115 @@
 	</body>
 	<script>
 
-		$(document).ready(function() {
-			// Get current date and day
-			const now = new Date();
-			const day = getDaySuffix(now.getDate());
-			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-			const currentDate = now.toLocaleDateString(undefined, options);
+$(document).ready(function () {
+    initializeDate();
+    initializeToggleSwitch();
+    initializeTabs();
+    setupMonthlyTonageOfCustomer();
+});
 
-			// Format the date as "Thursday, 5th December 2024"
-			const formattedDate = `${now.toLocaleString('en-GB', { weekday: 'long' })}, ${day} ${now.toLocaleString('en-GB', { month: 'long' })} ${now.getFullYear()}`;
+function initializeDate() {
+    const now = new Date();
+    const day = getDaySuffix(now.getDate());
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = `${now.toLocaleString('en-GB', { weekday: 'long' })}, ${day} ${now.toLocaleString('en-GB', { month: 'long' })} ${now.getFullYear()}`;
+    document.getElementById('currentDate').innerText = formattedDate;
+}
 
-			// Update UI
-			document.getElementById('currentDate').innerText = formattedDate;
+function initializeToggleSwitch() {
+    var toggleSwitch = document.getElementById('ShowDatatoggleSwitch');
+    toggleSwitch.checked = true;
+    handleToggleSwitch(toggleSwitch);
+}
 
-			var toggleSwitch = document.getElementById('ShowDatatoggleSwitch');
-            toggleSwitch.checked = true; // Set to "on" by default
-            handleToggleSwitch(toggleSwitch); // Trigger the function
-		});	
+function handleToggleSwitch(switchElement) {
+    var dataContainers = document.querySelectorAll('.data-container');
+    dataContainers.forEach(function (dataContainer) {
+        if (switchElement.checked) {
+            dataContainer.classList.add('switch-off');
+        } else {
+            dataContainer.classList.remove('switch-off');
+            animateDataCounters();
+        }
+    });
+}
 
-		function handleToggleSwitch(switchElement) {
-			var dataContainers = document.querySelectorAll('.data-container');
-			dataContainers.forEach(function(dataContainer) {
-				if (!switchElement.checked) {
-					dataContainer.classList.remove('switch-off');
-					const elements = document.querySelectorAll(".actual-data strong");
-					elements.forEach(element => {
-						const totalBalance = parseFloat(element.dataset.value || 0); // Get value from data-value attribute or default to 0
-						const duration = 2000; // Animation duration in milliseconds
-						const frameRate = 60; // Frames per second
-						const totalFrames = Math.round(duration / (1000 / frameRate));
-						let frame = 0;
-						
-						if (totalBalance !== 0) {
-							const counter = setInterval(() => {
-								frame++;
-								const progress = frame / totalFrames;
-								const currentValue = Math.floor(progress * totalBalance);
-								element.textContent = currentValue.toLocaleString();
+function animateDataCounters() {
+    const elements = document.querySelectorAll(".actual-data strong");
+    elements.forEach(element => {
+        const totalBalance = parseFloat(element.dataset.value || 0);
+        if (totalBalance !== 0) {
+            animateCounter(element, totalBalance);
+        } else {
+            element.textContent = "0";
+        }
+    });
+}
 
-								if (frame === totalFrames) {
-									clearInterval(counter);
-									element.textContent = totalBalance.toLocaleString();
-								}
-							}, 1000 / frameRate);
-						} else {
-							element.textContent = "0"; // Set to 0 if no value
-						}
-					});
-				} else {
-					dataContainer.classList.add('switch-off');
-				}
-			});
-		}
+function animateCounter(element, totalBalance) {
+    const duration = 2000;
+    const frameRate = 60;
+    const totalFrames = Math.round(duration / (1000 / frameRate));
+    let frame = 0;
+    const counter = setInterval(() => {
+        frame++;
+        const progress = frame / totalFrames;
+        const currentValue = Math.floor(progress * totalBalance);
+        element.textContent = currentValue.toLocaleString();
 
-		// Graph Chart for MILL WISE HR PIPE PURCHASE Started
-		const mills = ['86', '82', '73'];
-		const IILmills = ['1', '5', '6', '7', '8']; // Mill codes to include
+        if (frame === totalFrames) {
+            clearInterval(counter);
+            element.textContent = totalBalance.toLocaleString();
+        }
+    }, 1000 / frameRate);
+}
 
-		const colors = [
-			'rgba(220, 53, 69, 1)',
-			'rgba(0, 136, 204, 1)',
-			'rgba(25, 135, 84, 1)',
-			'rgba(43, 170, 177, 1)',
-			'rgba(219, 150, 81, 1)',
-		];
+function setupMonthlyTonageOfCustomer() {
+    $('#filterHR, #hr_monthly_tonage_of_coa').on('change', function () {
+        getMonthlyTonageOfCustomer();
+    });
+}
 
-		function generateChartDatasets(data, mills, colors) {
-			// Group data by 'dat3' field
-			const groupedData = data.reduce((acc, item) => {
-				if (!acc[item.dat3]) acc[item.dat3] = [];
-				acc[item.dat3].push(item);
-				return acc;
-			}, {});
+function getMonthlyTonageOfCustomer() {
+    var month = document.getElementById('filterHR').value;
+    var acc_name = document.getElementById('hr_monthly_tonage_of_coa').value;
+    var table = document.getElementById('HRMonthlyTonageOfCust');
+    table.innerHTML = '<tr><td colspan="2" class="text-center">Loading Data Please Wait...</td></tr>';
 
-			// Get unique 'dat' values for chart labels
-			const chartLabels = Object.keys(groupedData);
+    $.ajax({
+        type: "GET",
+        url: '/dashboard-tabs/hr/monthlyTonageOfCustomer',
+        data: { month, acc_name },
+        success: function (result) {
+            updateTonageTable(result);
+        },
+        error: function () {
+            alert("Error loading HR Monthly Tonage Of Customer Data");
+        }
+    });
+}
 
-			// Initialize datasets
-			const datasets = [];
+function updateTonageTable(result) {
+    var rows = '';
+    var totalWeight = 0;
+    $.each(result, function (index, value) {
+        var weight = parseFloat(value['weight']) || 0;
+        totalWeight += weight;
+        rows += `<tr><td>${value['company_name'] || ''}</td><td>${weight || ''}</td></tr>`;
+    });
+    rows += `<tr><td><strong>Total</strong></td><td class="text-danger"><strong>${totalWeight.toFixed(2)}</strong></td></tr>`;
+    $('#HRMonthlyTonageOfCust').html(rows);
+}
 
-			// Loop through each mill and create datasets
-			mills.forEach((mill, index) => {
-				const dataForMill = chartLabels.map(dat => {
-					const millData = groupedData[dat]?.find(item => item.mill_code.toString() === mill);
-					return millData ? millData.total_weight : 0;
-				});
-
-				// Get the mill name
-				const millName = chartLabels
-					.map(dat => groupedData[dat]?.find(item => item.mill_code.toString() === mill)?.mill_name)
-					.find(name => name) || `Mill ${mill}`; // Default if not found
-
-				// Add dataset for the mill
-				datasets.push({
-					label: millName,
-					data: dataForMill,
-					backgroundColor: colors[index] || 'rgba(0, 0, 0, 0.5)', // Default color if not enough colors provided
-					stack: `Stack ${index}`,
-				});
-			});
-
-			// Create dataset for "Others" (mills not in the mills array)
-			const othersData = chartLabels.map(dat => {
-				return groupedData[dat]?.reduce((acc, item) => {
-					if (!mills.includes(item.mill_code.toString())) acc += item.total_weight;
-					return acc;
-				}, 0) || 0; // Default to 0 if no matching items
-			});
-
-			datasets.push({
-				label: 'Others',
-				data: othersData,
-				backgroundColor: 'rgba(200, 200, 200, 1)', // Default color for "Others"
-				stack: 'Stack Others',
-			});
-
-			return { datasets, chartLabels };
-		}
-
-		function generateChartDatasetsforIIL(data, mills, colors) {
-			// Group data by 'dat' field
-			const groupedData = data.reduce((acc, item) => {
-				if (!acc[item.dat]) acc[item.dat] = [];
-				acc[item.dat].push(item);
-				return acc;
-			}, {});
-
-			// Get unique 'dat' values for chart labels
-			const chartLabels = Object.keys(groupedData);
-
-			// Initialize datasets
-			const datasets = [];
-
-			// Loop through each mill and create datasets
-			mills.forEach((mill, index) => {
-				const dataForMill = chartLabels.map(dat => {
-					const millData = groupedData[dat]?.find(item => item.item_group_name.toString() === mill);
-					return millData ? millData.total_weight : 0;
-				});
-
-				// Get the mill name
-				const millName = chartLabels
-					.map(dat => groupedData[dat]?.find(item => item.item_group_name.toString() === mill)?.mill_name)
-					.find(name => name) || `${mill}`; // Default if not found
-
-				// Add dataset for the mill
-				datasets.push({
-					label: millName,
-					data: dataForMill,
-					backgroundColor: colors[index] || 'rgba(0, 0, 0, 0.5)', // Default color if not enough colors provided
-					stack: `Stack ${index}`,
-				});
-			});
-
-			return { datasets, chartLabels };
-		}
-		// Graph Chart for MILL WISE HR PIPE PURCHASE Ended 
-
-		// donut graph for Monthly Tonage Started 
-		const MonthlyTonage = document.getElementById('MonthlyTonage');
-		const IILMonthlyTonage = document.getElementById('IILMonthlyTonage');
-		let monthlyTonageChart; // Declare a global variable to hold the chart instance
-		let top5CustomerPerformanceChart;
-		let IILmonthlyTonageChart; // Declare a global variable to hold the chart instance
-		let IILtop5CustomerPerformanceChart;
-
-		function groupByMillCode(mills, data) {
-			const result = {
-				labels: [], // To hold the labels for the chart
-				data: [], // To hold the total_weight for each mill
-				backgroundColor: [] // To hold the colors for the chart
-			};
-
-			// Initialize groups for each mill in mills array
-			mills.forEach(mill => {
-				result[mill] = { weight: 0, name: "", backgroundColor: "" };
-			});
-
-			// Add a group for "Others"
-			result['Others'] = { weight: 0, name: "Others" };
-
-			// Iterate through the data to group by mill_code and calculate total_weight
-			data.forEach(item => {
-				const millCode = item.mill_code.toString();
-				const millName = mills.includes(millCode) ? item.mill_name : 'Others';
-
-				// Aggregate the total_weight based on the mill_code or group it under "Others"
-				if (millName === 'Others') {
-					result['Others'].weight += item.total_weight;
-					result['Others'].backgroundColor = 'rgba(200, 200, 200, 1)';
-
-				} else {
-					result[millCode].weight += item.total_weight;
-					result[millCode].name = item.mill_name;
-					if(item.mill_name=="STEELEX"){
-						result[millCode].backgroundColor = 'rgba(220, 53, 69, 1)';
-					}
-					else if(item.mill_name=="S.P.M"){
-						result[millCode].backgroundColor = 'rgba(0, 136, 204, 1)';
-					}
-					else if(item.mill_name=="MEHBOOB PIPE"){
-						result[millCode].backgroundColor = 'rgba(25, 135, 84, 1)';
-					}
-				}
-			});
-			// Prepare the final chart data
-			for (const key in result) {
-				if (result[key].weight > 0) {
-					result.labels.push(result[key].name);
-					result.data.push(result[key].weight);
-					result.backgroundColor.push(result[key].backgroundColor);
-				}
-			}
-
-			return result;
-		}
-
-		function IILgroupByMillCode(itemGroups, colors, data) {
-			const result = {
-				labels: [], // To hold the labels for the chart
-				data: [], // To hold the total_weight for each mill
-				backgroundColor: [] // To hold the colors for the chart
-			};
-
-			// Initialize groups for each mill in mills array
-			const groups = {};
-			itemGroups.forEach(itemGroup => {
-				groups[itemGroup] = { weight: 0, name: "", backgroundColor: "" };
-			});
-
-			// Iterate through the data to group by mill_code and calculate total_weight
-			let index = 0;  // Initialize a counter for color assignment
-
-			data.forEach(item => {
-				const itemGroupName = item.item_group_name;
-				
-				groups[itemGroupName].weight += item.total_weight;
-				groups[itemGroupName].name = item.item_group_name;
-				groups[itemGroupName].backgroundColor = colors[index];  // Use the modulo operator to loop through the color array
-
-				index++;  // Increment the counter for the next iteration				
-			});
-
-			// Prepare the final chart data
-			for (const key in groups) {
-				if (groups[key].weight > 0) {
-					result.labels.push(groups[key].name);
-					result.data.push(groups[key].weight);
-					result.backgroundColor.push(groups[key].backgroundColor);
-				}
-			}
-
-			return result;
-		}
-
-		// donut graph for Monthly Tonage Ended 
-
-		// get Monthly Tonage Of Customer Started
-		function getMonthlyTonageOfCustomer(){
-			var month = document.getElementById('filterHR').value;
-			var acc_name = document.getElementById('hr_monthly_tonage_of_coa').value;
-			var table = document.getElementById('HRMonthlyTonageOfCust');
-
-			while (table.rows.length > 0) {
-                table.deleteRow(0);
-            }
-
-			$.ajax({
-				type: "GET",
-				url: '/dashboard-tabs/hr/monthlyTonageOfCustomer',
-				data: {
-					month: month,
-					acc_name:acc_name,
-				},
-				beforeSend: function () {
-                    $('#HRMonthlyTonageOfCust').html('<tr><td colspan="2" class="text-center">Loading Data Please Wait...</td></tr>');
-                },
-				success: function(result) {
-					var rows = '';
-					var totalWeight = 0; // Initialize total
-
-					$.each(result, function (index, value) {
-						var weight = value['weight'] ? parseFloat(value['weight']) : 0; // Convert to a number
-    					totalWeight += weight; // Add to total
-						rows += `<tr>
-							<td>${value['company_name'] ? value['company_name'] : ''}</td>
-                            <td>${weight ? weight : ''}</td>
- 						</tr>`;
-					});
-
-					// Append a row for the total
-					rows += `<tr>
-						<td><strong>Total</strong></td>
-						<td class="text-danger"><strong>${totalWeight.toFixed(2)}</strong></td> <!-- Format to 2 decimal places -->
-					</tr>`;
-
-					$('#HRMonthlyTonageOfCust').html(rows);
-				},
-				error: function() {
-					alert("Error loading HR Monthly Tonage Of Customer Data");
-				}
-			});
-		}
-
-		// get Monthly Tonage Of Customer Ended
-
-		// on tab changes flow
-		document.querySelectorAll('.nav-link-dashboard-tab').forEach(tabLink => {
-            tabLink.addEventListener('click', function() {
-                tabId = this.getAttribute('data-bs-target');
-                tabChanged(tabId);
-            });
+function initializeTabs() {
+    document.querySelectorAll('.nav-link-dashboard-tab').forEach(tabLink => {
+        tabLink.addEventListener('click', function () {
+            const tabId = this.getAttribute('data-bs-target');
+            tabChanged(tabId);
         });
+    });
+}
+
 
 		function tabChanged(tabId) {
 			if (tabId === "#PENDING_INVOICES") {
