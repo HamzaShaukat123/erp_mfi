@@ -1654,7 +1654,7 @@
 			// Group data by 'dat' field
 			const groupedData = data.reduce((acc, item) => {
 				if (!acc[item.dat]) acc[item.dat] = [];
-				acc[item.dat].push(item);
+				acc[item.dat3].push(item);
 				return acc;
 			}, {});
 
@@ -1666,14 +1666,14 @@
 
 			// Loop through each mill and create datasets
 			mills.forEach((mill, index) => {
-				const dataForMill = chartLabels.map(dat => {
-					const millData = groupedData[dat]?.find(item => item.mill_code.toString() === mill);
+				const dataForMill = chartLabels.map(dat3 => {
+					const millData = groupedData[dat3]?.find(item => item.mill_code.toString() === mill);
 					return millData ? millData.total_weight : 0;
 				});
 
 				// Get the mill name
 				const millName = chartLabels
-					.map(dat => groupedData[dat]?.find(item => item.mill_code.toString() === mill)?.mill_name)
+					.map(dat3 => groupedData[dat3]?.find(item => item.mill_code.toString() === mill)?.mill_name)
 					.find(name => name) || `Mill ${mill}`; // Default if not found
 
 				// Add dataset for the mill
