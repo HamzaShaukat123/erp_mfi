@@ -198,7 +198,7 @@
 									<footer class="card-footer">
 										<div class="row">
 											<div class="col-md-12 text-end">
-												<button type="submit" class="btn btn-danger">Print</button>
+												<button type="submit" class="btn btn-danger">Print Invoice</button>
 												<button type="button" class="btn btn-default modal-dismiss">Cancel</button>
 												<a href="{{ route('all-sale2invoices') }}" class="btn btn-primary mt-2 mb-2">
 													<i class="fas fa-arrow-left"></i> Back
