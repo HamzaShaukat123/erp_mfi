@@ -18,17 +18,17 @@ class DashboardHRTabController extends Controller
 
         $dash_pur_2_summary_monthly_companywise = dash_pur_2_summary_monthly_companywise::get();
 
-        $steelex = dash_pur_2_summary_monthly_companywise::leftjoin('ac','ac.ac_code','=','dash_pur_2_summary_monthly_companywise.account_name')
+        $steelex = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',86)
         ->get();
 
-        $spm = dash_pur_2_summary_monthly_companywise::leftjoin('ac','ac.ac_code','=','dash_pur_2_summary_monthly_companywise.account_name')
+        $spm = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',82)
         ->get();
 
-        $mehboob = dash_pur_2_summary_monthly_companywise::leftjoin('ac','ac.ac_code','=','dash_pur_2_summary_monthly_companywise.account_name')
+        $mehboob = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',73)
         ->get();
