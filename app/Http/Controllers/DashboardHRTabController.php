@@ -20,17 +20,15 @@ class DashboardHRTabController extends Controller
         $dash_pur_2_summary_monthly_companywise = dash_pur_2_summary_monthly_companywise::get();
 
         $steelex = total_pur_pipe_summary_of_by_mill::where('dat', $request->month)
-    ->where('company_code', 86)
-    ->get();
+        ->where('company_code', 86)
+        ->get();
 
 
-        $spm = total_pur_pipe_summary_of_by_mill::leftjoin('ac','ac.ac_code','=','total_pur_pipe_summary_of_by_mill.account_name')
-        ->where('dat',$request->month)
+        $spm = total_pur_pipe_summary_of_by_mill::where('dat',$request->month)
         ->where('company_code',82)
         ->get();
 
-        $mehboob = total_pur_pipe_summary_of_by_mill::leftjoin('ac','ac.ac_code','=','total_pur_pipe_summary_of_by_mill.account_name')
-        ->where('dat',$request->month)
+        $mehboob = total_pur_pipe_summary_of_by_mill::where('dat',$request->month)
         ->where('company_code',73)
         ->get();
 
