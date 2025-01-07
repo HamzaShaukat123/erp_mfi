@@ -1653,8 +1653,8 @@
 		function generateChartDatasets(data, mills, colors) {
 			// Group data by 'dat' field
 			const groupedData = data.reduce((acc, item) => {
-				if (!acc[item.dat]) acc[item.dat] = [];
-				acc[item.dat].push(item);
+				if (!acc[item.dat3]) acc[item.dat3] = [];
+				acc[item.dat3].push(item);
 				return acc;
 			}, {});
 
