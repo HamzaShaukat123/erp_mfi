@@ -138,7 +138,7 @@
 														<input type="text" class="form-control" id="remarks1" name="remarks[]">
 													</td>	
 													<td>
-														<input type="number" class="form-control" name="pur2_qty2[]" id="pur2_qty21" onchange="CalculateRowWeight(1)" value="0" step="any" required>
+														<input type="number" class="form-control" name="pur2_qty2[]" id="pur2_qty2_1" onchange="CalculateRowWeight(1)" value="0" step="any" required>
 													</td>
 													<td>
 														<input type="number" class="form-control" name="pur2_per_unit[]" onchange="rowTotal(1)" id="pur2_per_unit1" value="0" step="any" required>
@@ -369,7 +369,7 @@
 											'@endforeach'+
 										'</select>';
 					cell3.innerHTML  = '<input type="text" class="form-control" id="remarks'+index+'" name="remarks[]">';
-					cell4.innerHTML  = '<input type="text" class="form-control" onchange="rowTotal('+index+')" id="pur2_qty2'+index+'" value="0" name="pur2_qty2[]" step="any" required>';
+					cell4.innerHTML  = '<input type="number" class="form-control" onchange="rowTotal('+index+')" id="pur2_qty2_'+index+'" value="0" name="pur2_qty2[]" step="any" required>';
 					cell5.innerHTML  = '<input type="number" id="pur2_per_unit'+index+'" class="form-control" name="pur2_per_unit[]" value="0" step="any" required>';
 					cell6.innerHTML  = '<input type="number" id="pur2_len'+index+'" onchange="rowTotal('+index+')" class="form-control" name="pur2_len[]"  value="20" step="any" required>';
 					cell7.innerHTML  = '<input type="number" class="form-control" name="pur2_percentage[]" onchange="rowTotal('+index+')" id="pur2_percentage'+index+'" value="0" step="any" required> <input type="hidden" class="form-control" id="weight_per_piece'+index+'" name="weight_per_piece[]" onchange="CalculateRowWeight('+index+')" value="0" step="any" required>';
@@ -384,9 +384,6 @@
 					itemCount = itemCount+1;
 					$('#itemCount').val(itemCount);
 					$('#myTable select[data-plugin-selecttwo]').select2();
-
-					
-        
 
 				}
 			}
@@ -458,7 +455,7 @@
 
 			function rowTotal(index){
 
-				var pur2_qty2 = parseFloat($('#pur2_qty2'+index+'').val());
+				var pur2_qty2 = parseFloat($('#pur2_qty2_'+index+'').val());
 				var sales_price = parseFloat($('#pur2_per_unit'+index+'').val());   
 				var discount = parseFloat($('#pur2_percentage'+index+'').val());
 				var length = parseFloat($('#pur2_len'+index+'').val());
@@ -523,7 +520,7 @@
 			}
 
 			function CalculateRowWeight(index){
-				var pur2_qty = $('#pur2_qty2'+index+'').val();
+				var pur2_qty = $('#pur2_qty2_'+index+'').val();
 				var weight_per_piece = $('#weight_per_piece'+index+'').val();
 
 				rowWeight= pur2_qty*weight_per_piece;
@@ -646,7 +643,7 @@
 							newRow.append('<td><input type="number" id="item_cod'+index+'" value="'+v['item_cod']+'" name="item_cod[]" placeholder="Code" class="form-control" required onchange="getItemDetails(' + index + ', 1)"></td>');
 							newRow.append('<td><select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" name="item_name[]" onchange="getItemDetails('+index+',2)"><option>Select Item</option>@foreach($items as $key => $row)+<option value="{{$row->it_cod}}" >{{ $row->item_name }}</option>@endforeach</select></td>');
 							newRow.append('<td><input type="text" id="remarks'+index+'" value="'+v['remarks']+'" name="remarks[]" placeholder="Remarks" class="form-control"></td>');
-							newRow.append('<td><input type="number" id="pur2_qty2'+index+'" value="'+v['Sales_qty2']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
+							newRow.append('<td><input type="number" id="pur2_qty2_'+index+'" value="'+v['Sales_qty2']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
 							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" placeholder="Sales Price" step="any" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_len'+index+'" name="pur2_len[]" placeholder="Length" step="any" onchange="rowTotal('+index+')"  value="'+v['length']+'" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_percentage'+index+'" name="pur2_percentage[]" placeholder="%" step="any" onchange="rowTotal('+index+')" value="'+v['discount']+'"  required class="form-control" ><input type="hidden" id="weight_per_piece'+index+'"  name="weight_per_piece[]" placeholder="Weight" value="'+v['weight_pc']+'" step="any" required onchange="CalculateRowWeight('+index+')" class="form-control"></td>');
@@ -732,7 +729,7 @@
 							newRow.append('<td><input type="number" id="item_cod'+index+'" value="'+v['item_cod']+'" name="item_cod[]" placeholder="Code" class="form-control" required onchange="getItemDetails(' + index + ', 1)"></td>');
 							newRow.append('<td><select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" name="item_name[]" onchange="getItemDetails('+index+',2)"><option>Select Item</option>@foreach($items as $key => $row)+<option value="{{$row->it_cod}}" >{{ $row->item_name }}</option>@endforeach</select></td>');
 							newRow.append('<td><input type="text" id="remarks'+index+'" value="'+v['remarks']+'" name="remarks[]" placeholder="Remarks" class="form-control"></td>');
-							newRow.append('<td><input type="number" id="pur2_qty2'+index+'" value="'+v['sales_qty']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
+							newRow.append('<td><input type="number" id="pur2_qty2_'+index+'" value="'+v['sales_qty']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
 							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" placeholder="Sales Price" step="any" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_len'+index+'" name="pur2_len[]" placeholder="Length" step="any" onchange="rowTotal('+index+')" value="20" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_percentage'+index+'" name="pur2_percentage[]" placeholder="%" step="any" onchange="rowTotal('+index+')"  required class="form-control" ><input type="hidden" id="weight_per_piece'+index+'"  name="weight_per_piece[]" placeholder="Weight" value="'+v['weight_pc']+'" step="any" required onchange="CalculateRowWeight('+index+')" class="form-control"></td>');
