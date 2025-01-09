@@ -1388,6 +1388,62 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
+													<h2 class="card-title">Unadjusted Sales Ageing Voucher</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JV2-ID</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">JV2-Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="UVSaleTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Unadjusted Purchase Ageing Voucher</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JV2-ID</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">JV2-Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="UVPurTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
 													<h2 class="card-title">Wrong Sales Ageing Voucher</h2>
 												</header>
 												<div class="card-body scrollable-div">
@@ -1434,10 +1490,6 @@
 												</div>
 											</section>
 										</div>
-
-										
-										
-										
 									</div>
 								</div>
 
@@ -2607,6 +2659,15 @@
 			}
 			else if(tabId=="#UV"){
 
+				var table = document.getElementById('UVSaleTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				var table = document.getElementById('UVPurTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
 				var table = document.getElementById('WrongSaleTable');
 				while (table.rows.length > 0) {
 					table.deleteRow(0);
@@ -2621,7 +2682,30 @@
 					type: "GET",
 					url: '/dashboard-tabs/uv',
 					success: function(result) {
-						// For Sales Ageing
+						// For UV Sales Ageing
+						var UVsalesRows = '';
+						$.each(result['unadjusted_sales_ageing_jv2'], function (index, value) {
+							UVsalesRows += `<tr>
+								<td>${value['prefix'] ? value['prefix'] : ''} ${value['jv2_id'] ? value['jv2_id'] : ''}</td>
+								<td>${value['jv_date'] ? value['jv_date'] : ''}</td>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['Credit'] ? value['Credit'] : ''}</td>
+							</tr>`;
+						});
+						$('#UVSaleTable').html(UVsalesRows);
+
+						// For UV Purchase Ageing
+						var UVpurchaseRows = '';
+						$.each(result['unadjusted_purchase_ageing_jv2'], function (index, value) {
+							UVpurchaseRows += `<tr>
+								<td>${value['prefix'] ? value['prefix'] : ''} ${value['jv2_id'] ? value['jv2_id'] : ''}</td>
+								<td>${value['jv_date'] ? value['jv_date'] : ''}</td>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['Debit'] ? value['Debit'] : ''}</td>
+							</tr>`;
+						});
+						$('#UVPurTable').html(UVpurchaseRows);
+
 						var salesRows = '';
 						$.each(result['sales_ageing'], function (index, value) {
 							salesRows += `<tr>
