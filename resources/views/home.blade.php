@@ -1388,7 +1388,7 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
-													<h2 class="card-title">UnAdjusted Sales Ageing Voucher</h2>
+													<h2 class="card-title">Wrong Sales Ageing Voucher</h2>
 												</header>
 												<div class="card-body scrollable-div">
 													
@@ -1400,7 +1400,7 @@
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
 															</tr>
 														</thead>
-														<tbody id="UVSaleTable">
+														<tbody id="WrongSaleTable">
 															
 														</tbody>
 													</table>
@@ -1415,7 +1415,7 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
-													<h2 class="card-title">UnAdjusted Purchase Ageing Voucher</h2>
+													<h2 class="card-title">Wrong Purchase Ageing Voucher</h2>
 												</header>
 												<div class="card-body scrollable-div">
 													
@@ -1427,7 +1427,7 @@
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
 															</tr>
 														</thead>
-														<tbody id="UVPurTable">
+														<tbody id="WrongPurTable">
 															
 														</tbody>
 													</table>
@@ -2607,12 +2607,12 @@
 			}
 			else if(tabId=="#UV"){
 
-				var table = document.getElementById('UVSaleTable');
+				var table = document.getElementById('WrongSaleTable');
 				while (table.rows.length > 0) {
 					table.deleteRow(0);
 				}
 
-				var table = document.getElementById('UVPurTable');
+				var table = document.getElementById('WrongPurTable');
 				while (table.rows.length > 0) {
 					table.deleteRow(0);
 				}
@@ -2630,7 +2630,7 @@
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 							</tr>`;
 						});
-						$('#UVSaleTable').html(salesRows);
+						$('#WrongSaleTable').html(salesRows);
 
 						// For Purchase Ageing
 						var purchaseRows = '';
@@ -2641,7 +2641,7 @@
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 							</tr>`;
 						});
-						$('#UVPurTable').html(purchaseRows);
+						$('#WrongPurTable').html(purchaseRows);
 					},
 					error: function() {
 						alert("Error loading UV data");
