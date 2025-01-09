@@ -95,9 +95,7 @@
 												<div class="col-6 col-md-2 pb-sm-3 pb-md-0">
 													<label class="col-form-label">Total Debit</label>
 													<input type="number" id="total_debit" name="total_debit" placeholder="Total Debit" class="form-control" disabled>
-													<small id="formatted_total_debit" class="text-muted"></small>
 												</div>
-												
 												<div class="col-6 col-md-2 pb-sm-3 pb-md-0">
 													<label class="col-form-label">Total Credit</label>
 													<input type="number" id="total_credit" name="total_credit" placeholder="Total Credit" class="form-control" disabled>
@@ -395,30 +393,19 @@
 		}
 	}
 
-	function totalDebit() {
-    var totalDebit = 0;
-    var debit = 0;
-    var table = document.getElementById("JV2Table");
-    var rowCount = table.rows.length;
+	function totalDebit(){
+		var totalDebit=0;
+		var debit=0;
+		var table = document.getElementById("JV2Table"); // Get the table element
+        var rowCount = table.rows.length; // Get the total number of rows
 
-    for (var j = 0; j < rowCount; j++) {
-        debit = table.rows[j].cells[5].querySelector('input').value;
-        totalDebit += Number(debit);
-    }
+		for (var j=0;j<rowCount; j++){
+			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
+			totalDebit = totalDebit + Number(debit);
+		}
+		$('#total_debit').val(totalDebit);
 
-    // Set the raw value to the number input field
-    document.getElementById('total_debit').value = totalDebit;
-
-    // Format the total with commas and display it in the small element
-    var formattedTotal = new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(totalDebit);
-
-    document.getElementById('formatted_total_debit').innerText = `Formatted: ${formattedTotal}`;
-}
-
-
+	}
 
 	function totalCredit(){
 		var totalCredit=0;
@@ -430,14 +417,7 @@
 			credit = table.rows[i].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalCredit = totalCredit + Number(credit);
 		}
-
-		// Format the total as a number with commas and two decimal places
-		var formattedTotal = new Intl.NumberFormat('en-US', {
-        	minimumFractionDigits: 0,
-        	maximumFractionDigits: 0
-   		}).format(totalCredit);
-
-		$('#totalcredit').val(formattedTotal);
+		$('#total_credit').val(totalCredit);
 	}
 
 	function getPendingInvoices(){
