@@ -404,7 +404,7 @@
 			totalDebit = totalDebit + Number(debit);
 		}
 
-		 // Format the total as a number with commas and two decimal places
+		// Format the total as a number with commas and two decimal places
 		var formattedTotal = new Intl.NumberFormat('en-US', {
         	minimumFractionDigits: 0,
         	maximumFractionDigits: 0
@@ -424,7 +424,14 @@
 			credit = table.rows[i].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalCredit = totalCredit + Number(credit);
 		}
-		$('#total_credit').val(totalCredit);
+
+		// Format the total as a number with commas and two decimal places
+		var formattedTotal = new Intl.NumberFormat('en-US', {
+        	minimumFractionDigits: 0,
+        	maximumFractionDigits: 0
+   		}).format(totalCredit);
+
+		$('#total_credit').val(formattedTotal);
 	}
 
 	function getPendingInvoices(){
