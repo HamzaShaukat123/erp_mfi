@@ -329,9 +329,9 @@
 						$('#item_cod'+row_no).val(result[0]['it_cod']);
 						$('#item_name'+row_no).val(result[0]['it_cod']).select2();
 						$('#remarks'+row_no).val(result[0]['item_remark']);
-						$('#pur2_per_unit'+row_no).val(result[0]['OPP_qty_cost']);
-						$('#pur2_price_date'+row_no).val(result[0]['pur_rate_date']);
-						$('#pur2_price_date_show'+row_no).val(result[0]['pur_rate_date']);
+						$('#pur2_per_unit'+row_no).val(result[0]['sales_price']);
+						$('#pur2_price_date'+row_no).val(result[0]['sale_rate_date']);
+						$('#pur2_price_date_show'+row_no).val(result[0]['sale_rate_date']);
 						$('#weight_per_piece'+row_no).val(result[0]['weight']);
 						$('#weight_per_piece'+row_no+'').trigger('change');
 						getavailablestock(result[0]['it_cod'],row_no);
