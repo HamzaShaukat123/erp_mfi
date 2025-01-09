@@ -403,7 +403,14 @@
 			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalDebit = totalDebit + Number(debit);
 		}
-		$('#total_debit').val(totalDebit);
+
+		 // Format the total as a number with commas and two decimal places
+		var formattedTotal = new Intl.NumberFormat('en-US', {
+        	minimumFractionDigits: 0,
+        	maximumFractionDigits: 0
+   		}).format(totalDebit);
+
+		$('#total_debit').val(formattedTotal);
 
 	}
 
