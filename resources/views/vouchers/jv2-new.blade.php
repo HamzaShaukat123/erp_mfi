@@ -94,8 +94,10 @@
 											<div class="row" style="justify-content:end">
 												<div class="col-6 col-md-2 pb-sm-3 pb-md-0">
 													<label class="col-form-label">Total Debit</label>
-													<input type="text" id="total_debit" name="total_debit" placeholder="Total Debit" class="form-control" disabled>
+													<input type="number" id="total_debit" name="total_debit" placeholder="Total Debit" class="form-control" disabled>
+													<small id="formatted_total_debit" class="text-muted"></small>
 												</div>
+												
 												<div class="col-6 col-md-2 pb-sm-3 pb-md-0">
 													<label class="col-form-label">Total Credit</label>
 													<input type="number" id="total_credit" name="total_credit" placeholder="Total Credit" class="form-control" disabled>
@@ -396,24 +398,24 @@
 	function totalDebit() {
     var totalDebit = 0;
     var debit = 0;
-    var table = document.getElementById("JV2Table"); // Get the table element
-    var rowCount = table.rows.length; // Get the total number of rows
+    var table = document.getElementById("JV2Table");
+    var rowCount = table.rows.length;
 
     for (var j = 0; j < rowCount; j++) {
-        // Get the value of the input field in the specified cell
-        debit = table.rows[j].cells[5].querySelector('input').value; 
-        totalDebit += Number(debit); // Add to total
+        debit = table.rows[j].cells[5].querySelector('input').value;
+        totalDebit += Number(debit);
     }
 
-    // Remove formatting for the input field since it is of type "number"
+    // Set the raw value to the number input field
     document.getElementById('total_debit').value = totalDebit;
 
-    // Optionally, if you want a formatted value displayed elsewhere:
+    // Format the total with commas and display it in the small element
     var formattedTotal = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     }).format(totalDebit);
-    console.log("Formatted Total Debit:", formattedTotal); // Example output
+
+    document.getElementById('formatted_total_debit').innerText = `Formatted: ${formattedTotal}`;
 }
 
 
