@@ -393,26 +393,28 @@
 		}
 	}
 
-	function totalDebit(){
-		var totalDebit=0;
-		var debit=0;
+	function totalDebit() {
+		var totalDebit = 0;
+		var debit = 0;
 		var table = document.getElementById("JV2Table"); // Get the table element
-        var rowCount = table.rows.length; // Get the total number of rows
+		var rowCount = table.rows.length; // Get the total number of rows
 
-		for (var j=0;j<rowCount; j++){
-			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
-			totalDebit = totalDebit + Number(debit);
+		for (var j = 0; j < rowCount; j++) {
+			// Get the value of the input field in the specified cell
+			debit = table.rows[j].cells[5].querySelector('input').value; 
+			totalDebit += Number(debit); // Add to total
 		}
 
 		// Format the total as a number with commas and two decimal places
 		var formattedTotal = new Intl.NumberFormat('en-US', {
-        	minimumFractionDigits: 0,
-        	maximumFractionDigits: 0
-   		}).format(totalDebit);
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(totalDebit);
 
-		$('#totaldebit').val(formattedTotal);
-
+		// Update the value of the total debit input field
+		document.getElementById('total_debit').value = formattedTotal;
 	}
+
 
 	function totalCredit(){
 		var totalCredit=0;
