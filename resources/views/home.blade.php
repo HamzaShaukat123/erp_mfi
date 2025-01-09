@@ -2687,7 +2687,7 @@
 						$.each(result['unadjusted_sales_ageing_jv2'], function (index, value) {
 							UVsalesRows += `<tr>
 								<td>${value['prefix'] ? value['prefix'] : ''} ${value['jv2_id'] ? value['jv2_id'] : ''}</td>
-								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YY') : ''}</td>
+								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YYYY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['Credit'] ? value['Credit'] : ''}</td>
 							</tr>`;
@@ -2699,7 +2699,7 @@
 						$.each(result['unadjusted_purchase_ageing_jv2'], function (index, value) {
 							UVpurchaseRows += `<tr>
 								<td>${value['prefix'] ? value['prefix'] : ''} ${value['jv2_id'] ? value['jv2_id'] : ''}</td>
-								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YY') : ''}</td>
+								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YYYY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['Debit'] ? value['Debit'] : ''}</td>
 							</tr>`;
