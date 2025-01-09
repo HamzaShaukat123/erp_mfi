@@ -394,26 +394,28 @@
 	}
 
 	function totalDebit() {
-		var totalDebit = 0;
-		var debit = 0;
-		var table = document.getElementById("JV2Table"); // Get the table element
-		var rowCount = table.rows.length; // Get the total number of rows
+    var totalDebit = 0;
+    var debit = 0;
+    var table = document.getElementById("JV2Table"); // Get the table element
+    var rowCount = table.rows.length; // Get the total number of rows
 
-		for (var j = 0; j < rowCount; j++) {
-			// Get the value of the input field in the specified cell
-			debit = table.rows[j].cells[5].querySelector('input').value; 
-			totalDebit += Number(debit); // Add to total
-		}
+    for (var j = 0; j < rowCount; j++) {
+        // Get the value of the input field in the specified cell
+        debit = table.rows[j].cells[5].querySelector('input').value; 
+        totalDebit += Number(debit); // Add to total
+    }
 
-		// Format the total as a number with commas and two decimal places
-		var formattedTotal = new Intl.NumberFormat('en-US', {
-			minimumFractionDigits: 0,
-			maximumFractionDigits: 0
-		}).format(totalDebit);
+    // Remove formatting for the input field since it is of type "number"
+    document.getElementById('total_debit').value = totalDebit;
 
-		// Update the value of the total debit input field
-		document.getElementById('total_debit').value = formattedTotal;
-	}
+    // Optionally, if you want a formatted value displayed elsewhere:
+    var formattedTotal = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(totalDebit);
+    console.log("Formatted Total Debit:", formattedTotal); // Example output
+}
+
 
 
 	function totalCredit(){
