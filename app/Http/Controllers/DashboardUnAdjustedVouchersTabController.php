@@ -23,7 +23,7 @@ class DashboardUnAdjustedVouchersTabController extends Controller
         $unadjusted_sales_ageing_jv2 = unadjusted_sales_ageing_jv2::where('unadjusted_sales_ageing_jv2.AccountType', 1)
             ->get(['jv2_id', 'prefix', 'auto_lager', 'ac_name', 'Credit','jv_date']);
 
-        $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.AccountType', 1)
+        $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.AccountType', 7)
             ->get(['jv2_id', 'prefix', 'auto_lager', 'ac_name', 'Debit','jv_date']);
 
         return response()->json([
