@@ -410,7 +410,7 @@
         	maximumFractionDigits: 0
    		}).format(totalDebit);
 
-		$('#total_debit').val(formattedTotal);
+		$('#totaldebit').val(formattedTotal);
 
 	}
 
@@ -431,7 +431,7 @@
         	maximumFractionDigits: 0
    		}).format(totalCredit);
 
-		$('#total_credit').val(formattedTotal);
+		$('#totalcredit').val(formattedTotal);
 	}
 
 	function getPendingInvoices(){
