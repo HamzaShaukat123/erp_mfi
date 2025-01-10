@@ -650,7 +650,7 @@ class Sales2Controller extends Controller
         $pdf->SetFont('helvetica','', 10);
         
         // Close and output PDF
-        $pdf->Output('SaleInvoice_'.$purchase['ac_name'].$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
+        $pdf->Output('Sale Invoice_'.$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
     }
     
 
@@ -856,7 +856,7 @@ class Sales2Controller extends Controller
         $pdf->SetFont('helvetica','', 10);
         
         // Close and output PDF
-         $pdf->Output('SaleInvoice_'.$purchase['ac_name'].$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
+        $pdf->Output('Sale Invoice_'.$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
     }
 
     public function onlyPriceQtyPDF($id)
@@ -1059,7 +1059,7 @@ class Sales2Controller extends Controller
         $pdf->SetFont('helvetica','', 10);
         
         // Close and output PDF
-         $pdf->Output('SaleInvoice_'.$purchase['ac_name'].$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
+        $pdf->Output('Sale Invoice_'.$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
     }
 
     public function generatePDF(Request $request)
