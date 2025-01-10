@@ -24,9 +24,10 @@ class DashboardUnAdjustedVouchersTabController extends Controller
              ->orderBy('jv_date')
             ->get(['jv2_id', 'prefix', 'ac_name', 'Credit','jv_date']);
 
-        $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.AccountType', 7)
-             ->orderBy('jv_date')
+            $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.remaining_amount', '!=', 0)
+            ->orderBy('jv_date')
             ->get(['jv2_id', 'prefix','ac_name', 'SumDebit','jv_date','pur_age_amount','remaining_amount']);
+
 
         return response()->json([
             'sales_ageing' => $sales_ageing,
