@@ -370,7 +370,7 @@
 										'</select>';
 					cell3.innerHTML  = '<input type="text" class="form-control" id="remarks'+index+'" name="remarks[]">';
 					cell4.innerHTML  = '<input type="number" class="form-control" onchange="rowTotal('+index+')" id="pur2_qty2_'+index+'" value="0" name="pur2_qty2[]" step="any" required>';
-					cell5.innerHTML  = '<input type="number" id="pur2_per_unit'+index+'" class="form-control" name="pur2_per_unit[]" value="0" step="any" required>';
+					cell5.innerHTML  = '<input type="number" id="pur2_per_unit'+index+'" onchange="rowTotal('+index+')" class="form-control" name="pur2_per_unit[]" value="0" step="any" required>';
 					cell6.innerHTML  = '<input type="number" id="pur2_len'+index+'" onchange="rowTotal('+index+')" class="form-control" name="pur2_len[]"  value="20" step="any" required>';
 					cell7.innerHTML  = '<input type="number" class="form-control" name="pur2_percentage[]" onchange="rowTotal('+index+')" id="pur2_percentage'+index+'" value="0" step="any" required> <input type="hidden" class="form-control" id="weight_per_piece'+index+'" name="weight_per_piece[]" onchange="CalculateRowWeight('+index+')" value="0" step="any" required>';
 					cell8.innerHTML  = '<input type="number" class="form-control" id="pur2_qty'+index+'" value="0" step="any" required disabled>';
@@ -644,7 +644,7 @@
 							newRow.append('<td><select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" name="item_name[]" onchange="getItemDetails('+index+',2)"><option>Select Item</option>@foreach($items as $key => $row)+<option value="{{$row->it_cod}}" >{{ $row->item_name }}</option>@endforeach</select></td>');
 							newRow.append('<td><input type="text" id="remarks'+index+'" value="'+v['remarks']+'" name="remarks[]" placeholder="Remarks" class="form-control"></td>');
 							newRow.append('<td><input type="number" id="pur2_qty2_'+index+'" value="'+v['Sales_qty2']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
-							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" placeholder="Sales Price" step="any" required class="form-control" ></td>');
+							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" onchange="rowTotal('+index+')" placeholder="Sales Price" step="any" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_len'+index+'" name="pur2_len[]" placeholder="Length" step="any" onchange="rowTotal('+index+')"  value="'+v['length']+'" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_percentage'+index+'" name="pur2_percentage[]" placeholder="%" step="any" onchange="rowTotal('+index+')" value="'+v['discount']+'"  required class="form-control" ><input type="hidden" id="weight_per_piece'+index+'"  name="weight_per_piece[]" placeholder="Weight" value="'+v['weight_pc']+'" step="any" required onchange="CalculateRowWeight('+index+')" class="form-control"></td>');
 							newRow.append('<td><input type="number" id="pur2_qty'+index+'" disabled name="pur2_qty[]" placeholder="weight" value="0" step="any"  required class="form-control"></td>');
@@ -730,7 +730,7 @@
 							newRow.append('<td><select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" name="item_name[]" onchange="getItemDetails('+index+',2)"><option>Select Item</option>@foreach($items as $key => $row)+<option value="{{$row->it_cod}}" >{{ $row->item_name }}</option>@endforeach</select></td>');
 							newRow.append('<td><input type="text" id="remarks'+index+'" value="'+v['remarks']+'" name="remarks[]" placeholder="Remarks" class="form-control"></td>');
 							newRow.append('<td><input type="number" id="pur2_qty2_'+index+'" value="'+v['sales_qty']+'" name="pur2_qty2[]" placeholder="Qty" step="any" required class="form-control" onchange="rowTotal('+index+')"></td>');
-							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" placeholder="Sales Price" step="any" required class="form-control" ></td>');
+							newRow.append('<td><input type="number" id="pur2_per_unit'+index+'" value="'+v['sales_price']+'" name="pur2_per_unit[]" onchange="rowTotal('+index+')" placeholder="Sales Price" step="any" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_len'+index+'" name="pur2_len[]" placeholder="Length" step="any" onchange="rowTotal('+index+')" value="20" required class="form-control" ></td>');
 							newRow.append('<td><input type="number" id="pur2_percentage'+index+'" name="pur2_percentage[]" placeholder="%" step="any" onchange="rowTotal('+index+')"  required class="form-control" ><input type="hidden" id="weight_per_piece'+index+'"  name="weight_per_piece[]" placeholder="Weight" value="'+v['weight_pc']+'" step="any" required onchange="CalculateRowWeight('+index+')" class="form-control"></td>');
 							newRow.append('<td><input type="number" id="pur2_qty'+index+'" name="pur2_qty[]" placeholder="weight" value="0" step="any"  required class="form-control" disabled></td>');
