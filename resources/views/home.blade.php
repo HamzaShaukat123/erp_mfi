@@ -1398,7 +1398,9 @@
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">JV2-ID</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">JV2-Date</font></font></th>
 																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
-																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Voucher Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Adjusted Amount</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Unadjusted Amount</font></font></th>
 															</tr>
 														</thead>
 														<tbody id="UVSaleTable">
@@ -2691,7 +2693,9 @@
 								<td>${value['prefix'] ? value['prefix'] : ''} ${value['jv2_id'] ? value['jv2_id'] : ''}</td>
 								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YYYY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
-								<td>${value['Credit'] ? value['Credit'] : ''}</td>
+								<td>${value['SumCredit'] ? value['SumCredit'] : ''}</td>
+								<td>${value['pur_age_amount'] ? value['pur_age_amount'] : ''}</td>
+								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
 							</tr>`;
 						});
 						$('#UVSaleTable').html(UVsalesRows);

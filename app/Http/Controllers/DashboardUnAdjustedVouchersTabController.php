@@ -20,11 +20,13 @@ class DashboardUnAdjustedVouchersTabController extends Controller
             ->where('purchase_ageing.status', 0)
             ->get(['jv2_id', 'sales_prefix', 'sales_id', 'ac_name', 'amount']);
 
-        $unadjusted_sales_ageing_jv2 = unadjusted_sales_ageing_jv2::where('unadjusted_sales_ageing_jv2.AccountType', 1)
-             ->orderBy('jv_date')
-            ->get(['jv2_id', 'prefix', 'ac_name', 'Credit','jv_date']);
 
-            $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.remaining_amount', '!=', 0)
+        $unadjusted_sales_ageing_jv2 = unadjusted_sales_ageing_jv2::where('unadjusted_sales_ageing_jv2.remaining_amount', '!=', 0)
+            ->where('unadjusted_sales_ageing_jv2.SumCredit', '!=', 0)
+            ->orderBy('jv_date')
+            ->get(['jv2_id', 'prefix','ac_name', 'SumCredit','jv_date','pur_age_amount','remaining_amount']);
+
+        $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.remaining_amount', '!=', 0)
             ->whereNotIn('unadjusted_purchase_ageing_jv2.account_cod', [25, 11])
             ->where('unadjusted_purchase_ageing_jv2.SumDebit', '!=', 0)
             ->orderBy('jv_date')
