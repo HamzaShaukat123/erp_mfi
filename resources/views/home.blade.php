@@ -2704,7 +2704,7 @@
 								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YYYY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['SumDebit'] ? value['SumDebit'] : ''}</td>
-								<td>${value['pur_age_amount'] ? value['Sumpur_age_amountDebit'] : ''}</td>
+								<td>${value['pur_age_amount'] ? value['pur_age_amount'] : ''}</td>
 								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
 							</tr>`;
 						});
