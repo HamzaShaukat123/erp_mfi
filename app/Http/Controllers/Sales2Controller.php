@@ -856,7 +856,8 @@ class Sales2Controller extends Controller
         $pdf->SetFont('helvetica','', 10);
         
         // Close and output PDF
-        $pdf->Output('Sale Invoice_'.$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
+        $pdf->Output('Sale Invoice_'.$purchase['ac_name'].'_'.$purchase['prefix'].$purchase['Sal_inv_no'].'.pdf', 'I');
+
     }
 
     public function onlyPriceQtyPDF($id)
