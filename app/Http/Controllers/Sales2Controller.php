@@ -741,9 +741,9 @@ class Sales2Controller extends Controller
         $html .= '<tr>';
         $html .= '<th style="width:6%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">S/R</th>';
         $html .= '<th style="width:28%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Item Name</th>';
-        $html .= '<th style="width:23%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Description</th>';
-        $html .= '<th style="width:9%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Qty</th>';
-        $html .= '<th style="width:12%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">List Rate</th>';
+        $html .= '<th style="width:21%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Description</th>';
+        $html .= '<th style="width:10%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Qty</th>';
+        $html .= '<th style="width:13%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">List Rate</th>';
         $html .= '<th style="width:7%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">%</th>';
         $html .= '<th style="width:15%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Amount</th>';
         $html .= '</tr>';
@@ -764,12 +764,12 @@ class Sales2Controller extends Controller
             $html .= '<tr style="' . $bg_color . '">';
             $html .= '<td style="width:6%;border-right:1px dashed #000;border-left:1px dashed #000; text-align:center">' . $count . '</td>';
             $html .= '<td style="width:28%;border-right:1px dashed #000">' . $items['item_name'] . '</td>';
-            $html .= '<td style="width:23%;border-right:1px dashed #000">' . $items['remarks'] . '</td>';
-            $html .= '<td style="width:9%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
+            $html .= '<td style="width:21%;border-right:1px dashed #000">' . $items['remarks'] . '</td>';
+            $html .= '<td style="width:10%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
             $total_quantity += $items['Sales_qty2'];
              // Calculate the list price
              $price = $items['sales_price'] * $items['length'];
-            $html .= '<td style="width:12%;border-right:1px dashed #000; text-align:center">' . $price . '</td>';
+            $html .= '<td style="width:13%;border-right:1px dashed #000; text-align:center">' . $price . '</td>';
             $html .= '<td style="width:7%;border-right:1px dashed #000; text-align:center">' . $items['discount'] . '</td>';
 
             // Calculate the total weight and amount
