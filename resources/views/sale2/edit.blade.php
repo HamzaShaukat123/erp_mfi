@@ -282,6 +282,7 @@
 		var bill_discount = Number($('#bill_discount').val());
 
 		netAmount = totalAmount + convance_charges +  labour_charges - bill_discount;
+		netAmount = netAmount.toFixed(0);
 		FormattednetTotal = formatNumberWithCommas(netAmount);
 		document.getElementById("netTotal").innerHTML = '<span class="text-4 text-danger">'+FormattednetTotal+'</span>';
 
