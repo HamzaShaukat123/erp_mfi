@@ -19,6 +19,7 @@ class DashboardOverDaysTabController extends Controller
         ->get();
 
         $dash_over_days_pur = dash_over_days_pur::where('remaining_amount', '!=', 0)
+        ->whereNotIn('ac_code', [11, 25])
         ->where('acc_group', '!=', 13)
         ->where('acc_type', '=', 7)
         ->where('days_cross', '>', 0)
