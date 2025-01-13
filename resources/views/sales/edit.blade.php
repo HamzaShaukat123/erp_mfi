@@ -111,7 +111,7 @@
 														<input type="number" id="item_code{{$key1+1}}" name="item_code[]" placeholder="Code" class="form-control" value="{{$sale_item->item_cod}}" required onchange="getItemDetails({{$key1+1}},1)">
 													</td>
 													<td>
-														<input type="number" id="item_qty{{$key1+1}}" name="item_qty[]" placeholder="Qty" onchange="rowTotal({{$key1+1}})" class="form-control" required  step="any" value="{{$sale_item->Sales_qty2}}">
+														<input type="number" id="item_qty_{{$key1+1}}" name="item_qty[]" placeholder="Qty" onchange="rowTotal({{$key1+1}})" class="form-control" required  step="any" value="{{$sale_item->Sales_qty2}}">
 													</td>
 													<td>
 														<select data-plugin-selecttwo class="form-control select2-js" id="item_name{{$key1+1}}" onchange="getItemDetails({{$key1+1}},2)" required  name="item_name[]">
@@ -125,7 +125,7 @@
 														<input type="text" id="remarks{{$key1+1}}" name="item_remarks[]" placeholder="Remarks" class="form-control" value="{{$sale_item->remarks}}">
 													</td>
 													<td>
-														<input type="number" id="weight{{$key1+1}}" name="item_weight[]" onchange="rowTotal({{$key1+1}})" placeholder="Weight (kgs)" required step="any" class="form-control" value="{{$sale_item->Sales_qty}}">
+														<input type="number" id="weight_{{$key1+1}}" name="item_weight[]" onchange="rowTotal({{$key1+1}})" placeholder="Weight (kgs)" required step="any" class="form-control" value="{{$sale_item->Sales_qty}}">
 														@php  $total_weight=$total_weight + $sale_item->Sales_qty  @endphp
 
 													</td>
@@ -291,7 +291,7 @@
 			var cell8 = newRow.insertCell(7);
 
 			cell1.innerHTML = '<input type="text" id="item_code'+index+'" name="item_code[]" placeholder="Code" required onchange="getItemDetails('+index+','+1+')" class="form-control">';
-			cell2.innerHTML = '<input type="number" id="item_qty'+index+'" onchange="rowTotal('+index+')"  name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control">';
+			cell2.innerHTML = '<input type="number" id="item_qty_'+index+'" onchange="rowTotal('+index+')"  name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control">';
 			cell3.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" onchange="getItemDetails('+index+','+2+')" name="item_name">'+
 									'<option>Select Item</option>'+
 									@foreach($items as $key => $row)	
@@ -299,7 +299,7 @@
 									@endforeach
 								'</select>';
 			cell4.innerHTML = '<input type="text" id="remarks'+index+'" name="item_remarks[]" placeholder="Remarks" class="form-control">';
-			cell5.innerHTML = '<input type="number" id="weight'+index+'" onchange="rowTotal('+index+')" name="item_weight[]" placeholder="Weight (kgs)" value="0" step="any" required class="form-control">';
+			cell5.innerHTML = '<input type="number" id="weight_'+index+'" onchange="rowTotal('+index+')" name="item_weight[]" placeholder="Weight (kgs)" value="0" step="any" required class="form-control">';
 			cell6.innerHTML = '<input type="number" id="price'+index+'" onchange="rowTotal('+index+')" name="item_price[]" placeholder="Price" value="0" step="any" required class="form-control">';
 			cell7.innerHTML = '<input type="number" id="amount'+index+'" name="item_amount[]" placeholder="Amount" class="form-control" disabled>';
 			cell8.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
@@ -370,7 +370,7 @@
 	}
 
 	function rowTotal(index){
-		var weight = $('#weight'+index+'').val();
+		var weight = $('#weight_'+index+'').val();
 		var price = $('#price'+index+'').val();
 		var amount = weight * price;
 		$('#amount'+index+'').val(amount);

@@ -99,7 +99,7 @@
 														<input type="number" id="item_code1" name="item_code[]" placeholder="Code" class="form-control" required onchange="getItemDetails(1,1)">
 													</td>
 													<td>
-														<input type="number" id="item_qty1" name="item_qty[]" onchange="rowTotal(0)" placeholder="Qty" value="0" step="any" required class="form-control">
+														<input type="number" id="item_qty_1" name="item_qty[]" onchange="rowTotal(0)" placeholder="Qty" value="0" step="any" required class="form-control">
 													</td>
 													<td>
 														<select data-plugin-selecttwo class="form-control select2-js" id="item_name1" onchange="getItemDetails(1,2)" name="item_name[]" required>
@@ -113,7 +113,7 @@
 														<input type="text" id="remarks1" name="item_remarks[]" placeholder="Remarks" class="form-control">
 													</td>
 													<td>
-														<input type="number" id="weight1" name="item_weight[]" onchange="rowTotal(1)" placeholder="Weight (kgs)" value="0" step="any" required class="form-control">
+														<input type="number" id="weight_1" name="item_weight[]" onchange="rowTotal(1)" placeholder="Weight (kgs)" value="0" step="any" required class="form-control">
 													</td>
 													<td>
 														<input type="number" id="price1" name="item_price[]" onchange="rowTotal(1)" placeholder="Price" value="0" step="any" required class="form-control">
@@ -270,7 +270,7 @@ var index=2;
 			var cell8 = newRow.insertCell(7);
 
 			cell1.innerHTML = '<input type="text" id="item_code'+index+'" name="item_code[]" onchange="getItemDetails('+index+','+1+')" placeholder="Code" class="form-control" required>';
-			cell2.innerHTML = '<input type="number" id="item_qty'+index+'"  onchange="rowTotal('+index+')" name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control">';
+			cell2.innerHTML = '<input type="number" id="item_qty_'+index+'"  onchange="rowTotal('+index+')" name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control">';
 			cell3.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" required onchange="getItemDetails('+index+','+2+')" name="item_name">'+
 									'<option>Select Item</option>'+
 									@foreach($items as $key => $row)	
@@ -278,7 +278,7 @@ var index=2;
 									@endforeach
 								'</select>';
 			cell4.innerHTML = '<input type="text" id="remarks'+index+'" name="item_remarks[]" placeholder="Remarks" class="form-control">';
-			cell5.innerHTML = '<input type="number" id="weight'+index+'" onchange="rowTotal('+index+')" name="item_weight[]"  placeholder="Weight (kgs)" value="0" step="any" required class="form-control">';
+			cell5.innerHTML = '<input type="number" id="weight_'+index+'" onchange="rowTotal('+index+')" name="item_weight[]"  placeholder="Weight (kgs)" value="0" step="any" required class="form-control">';
 			cell6.innerHTML = '<input type="number" id="price'+index+'" onchange="rowTotal('+index+')" name="item_price[]"  placeholder="Price" value="0" step="any" required class="form-control">';
 			cell7.innerHTML = '<input type="number" id="amount'+index+'" name="item_amount[]" placeholder="Amount" class="form-control" value="0" step="any" required disabled>';
 			cell8.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
@@ -294,12 +294,9 @@ var index=2;
 	}
 
 	function addNewRow_btn() {
-
-	addNewRow(); // Call the same function
-	// Set focus on the new item_code input field
-	document.getElementById('item_code' + (index - 1)).focus();
-
-
+		addNewRow(); // Call the same function
+		// Set focus on the new item_code input field
+		document.getElementById('item_code' + (index - 1)).focus();
 	}
 
 
@@ -349,7 +346,7 @@ var index=2;
 	}
 
 	function rowTotal(index){
-		var weight = $('#weight'+index+'').val();
+		var weight = $('#weight_'+index+'').val();
 		var price = $('#price'+index+'').val();
 		var amount = weight * price;
 		$('#amount'+index+'').val(amount);
