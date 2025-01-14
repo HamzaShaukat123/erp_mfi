@@ -35,7 +35,7 @@ class RptAccNameGLController extends Controller
 
     public function glExcel(Request $request)
     {
-        // Validate request
+        
     $request->validate([
         'fromDate' => 'required|date',
         'toDate' => 'required|date',
@@ -97,9 +97,8 @@ class RptAccNameGLController extends Controller
     }
 
     // Add totals row
-    $num_to_words = $this->convertCurrencyToWords($balance);
     $rows[] = [
-        $num_to_words,
+        'Total',
         '',
         '',
         number_format($totalDebit, 0),
@@ -108,7 +107,6 @@ class RptAccNameGLController extends Controller
     ];
 
     // Filename
-    $currentDate = now()->format('d-m-y');
     $filename = "general_ledger_{$request->acc_id}_from_{$request->fromDate}_to_{$request->toDate}.xlsx";
 
     // Return Excel download

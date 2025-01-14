@@ -20,10 +20,4 @@ class ACNameGLExport implements FromCollection
     {
         return $this->rows;
     }
-
-    public function headings(): array
-    {
-        // Custom heading or leave empty to use the first row of the array as headings
-        return [];
-    }
 }
