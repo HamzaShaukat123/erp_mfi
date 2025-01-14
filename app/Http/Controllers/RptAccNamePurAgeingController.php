@@ -15,6 +15,7 @@ class RptAccNamePurAgeingController extends Controller
         $pur_days = pur_days::where('account_name',$request->acc_id)
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->orderBy('bill_date','asc')
+        ->orderBy('sale_prefix','asc')
         ->get();
 
         return $pur_days;
