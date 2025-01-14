@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AC;
 use App\Models\comm_pipe_rpt;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CommissionExport;
 use App\Services\myPDF;
 use Carbon\Carbon;
 use Illuminate\Validation\Validator;
@@ -23,33 +24,134 @@ class RptCommissionsController extends Controller
 
         return $comm_pipe_rpt;
     }
-        
+
+
     public function commReport(Request $request)
     {
         // Validate the request
         $request->validate([
             'fromDate' => 'required|date',
             'toDate' => 'required|date',
-            'outputType' => 'required|in:download,view',
+            'outputType' => 'required|in:download,view,excel', // Add 'excel' option
         ]);
-    
-        $comm_pipe_rpt = comm_pipe_rpt::where('item', $request->acc_id)
-        ->join('item_group', 'comm_pipe_rpt.item', '=', 'item_group.item_group_cod')
-        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
-        ->select('comm_pipe_rpt.*', 'item_group.group_name', 'item_group.group_remarks')
-        ->orderBy('ac_name', 'asc')
-        ->orderBy('sa_date', 'asc')
-        ->get();
 
-    
+        $comm_pipe_rpt = comm_pipe_rpt::where('item', $request->acc_id)
+            ->join('item_group', 'comm_pipe_rpt.item', '=', 'item_group.item_group_cod')
+            ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+            ->select('comm_pipe_rpt.*', 'item_group.group_name', 'item_group.group_remarks')
+            ->orderBy('ac_name', 'asc')
+            ->orderBy('sa_date', 'asc')
+            ->get();
+
         // Check if data exists
         if ($comm_pipe_rpt->isEmpty()) {
             return response()->json(['message' => 'No records found for the selected date range.'], 404);
         }
-    
-        // Generate the PDF
-        return $this->commgeneratePDF($comm_pipe_rpt, $request);
+
+        // Generate PDF if required
+        if ($request->outputType === 'view' || $request->outputType === 'download') {
+            return $this->commgeneratePDF($comm_pipe_rpt, $request);
+        }
+
+        // Export to Excel if requested
+        if ($request->outputType === 'excel') {
+            $excelData = $this->prepareExcelData($comm_pipe_rpt); // Prepare data for export
+            return Excel::download(new CommissionExport($excelData), 'commission_report.xlsx'); // Export as Excel
+        }
     }
+
+    private function prepareExcelData($comm_pipe_rpt)
+    {
+        $data = [];
+        $lastAccountName = '';
+        $subtotalBAmount = 0;
+        $subtotalCommDisc = 0;
+        $subtotalCdDisc = 0;
+
+        // Prepare the header row
+        $data[] = ['S/No', 'Date', 'Inv #', 'Ord #', 'B-Amount', 'GST / I-Tax', 'Comm %', 'Comm Amt', 'C.d %', 'C.d Amt'];
+
+        foreach ($comm_pipe_rpt as $index => $dataRow) {
+            $bAmount = $dataRow['B_amount'] ?? 0;
+            $commDisc = ($bAmount * ($dataRow['comm_disc'] ?? 0)) / 100;
+            $totalTax = 1 + (((($dataRow['gst'] ?? 0) + ($dataRow['income_tax'] ?? 0)) / 100));
+            $cdDisc = ($bAmount && $totalTax !== 0) 
+                ? ($bAmount * $totalTax * ($dataRow['cd_disc'] ?? 0) / 100) / $totalTax 
+                : 0;
+
+            // Add a row for each entry
+            $data[] = [
+                $index + 1,
+                \Carbon\Carbon::parse($dataRow['sa_date'])->format('d-m-y'),
+                $dataRow['Sale_inv_no'] ?? '',
+                $dataRow['pur_ord_no'] ?? '',
+                number_format($bAmount, 0),
+                (($dataRow['gst'] ?? '') . ($dataRow['gst'] && $dataRow['income_tax'] ? " / " : "") . ($dataRow['income_tax'] ?? '')),
+                $dataRow['comm_disc'] ?? '',
+                number_format($commDisc, 0),
+                $dataRow['cd_disc'] ?? '',
+                number_format($cdDisc, 0),
+            ];
+
+            // Accumulate subtotals
+            $subtotalBAmount += $bAmount;
+            $subtotalCommDisc += $commDisc;
+            $subtotalCdDisc += $cdDisc;
+
+            // Add subtotal row for each account change
+            if ($dataRow['ac_name'] !== $lastAccountName) {
+                if ($lastAccountName) {
+                    $data[] = [
+                        '', '', '', 'Subtotal for ' . $lastAccountName, 
+                        number_format($subtotalBAmount, 0), '', '', 
+                        number_format($subtotalCommDisc, 0), '', number_format($subtotalCdDisc, 0)
+                    ];
+                    // Reset subtotals
+                    $subtotalBAmount = $subtotalCommDisc = $subtotalCdDisc = 0;
+                }
+                $lastAccountName = $dataRow['ac_name'];
+            }
+        }
+
+        // Add final subtotal row
+        if ($lastAccountName) {
+            $data[] = [
+                '', '', '', 'Subtotal for ' . $lastAccountName, 
+                number_format($subtotalBAmount, 0), '', '', 
+                number_format($subtotalCommDisc, 0), '', number_format($subtotalCdDisc, 0)
+            ];
+        }
+
+        return $data;
+    }
+
+        
+    // public function commReport(Request $request)
+    // {
+    //     // Validate the request
+    //     $request->validate([
+    //         'fromDate' => 'required|date',
+    //         'toDate' => 'required|date',
+    //         'outputType' => 'required|in:download,view',
+    //     ]);
+    
+    //     $comm_pipe_rpt = comm_pipe_rpt::where('item', $request->acc_id)
+    //     ->join('item_group', 'comm_pipe_rpt.item', '=', 'item_group.item_group_cod')
+    //     ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+    //     ->select('comm_pipe_rpt.*', 'item_group.group_name', 'item_group.group_remarks')
+    //     ->orderBy('ac_name', 'asc')
+    //     ->orderBy('sa_date', 'asc')
+    //     ->get();
+
+    
+    //     // Check if data exists
+    //     if ($comm_pipe_rpt->isEmpty()) {
+    //         return response()->json(['message' => 'No records found for the selected date range.'], 404);
+    //     }
+    
+    //     // Generate the PDF
+    //     return $this->commgeneratePDF($comm_pipe_rpt, $request);
+    // }
 
     private function commgeneratePDF($comm_pipe_rpt, Request $request)
     {

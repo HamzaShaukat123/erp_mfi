@@ -575,7 +575,7 @@
         
         // RPT Commissions 
         Route::get('/rep-commissions/comm', [App\Http\Controllers\RptCommissionsController::class, 'comm'])->name('comm-rep');
-        Route::get('/rep-commissions/comm/excel', [App\Http\Controllers\RptCommissionsController::class, 'commExcel'])->name('comm-rep-excel');
+        Route::get('/rep-commissions/comm/excel', [App\Http\Controllers\RptCommissionsController::class, 'commReport'])->name('comm-rep-excel');
         Route::get('/rep-commissions/comm/report', [App\Http\Controllers\RptCommissionsController::class, 'commReport'])->name('comm-rep-report');
     });
 

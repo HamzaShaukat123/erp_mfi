@@ -230,8 +230,9 @@
                 return;
             }
 
-            if (tabName === "SI") {
-                window.location.href = `/rep-godown-by-item-name/si/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            if (tabName === "comm") {
+                window.open(`/rep-commissions/comm/report?outputType=excel&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+
             }
         }
 
