@@ -54,7 +54,8 @@ class RptAccNameGLController extends Controller
         $filename = "gl_report_{$accId}_from_{$fromDate}_to_{$toDate}.xlsx";
 
         // Return the download response with the dynamic filename
-        return Excel::download(new ACNameGLExport($lager_much_op_bal), $filename);
+        return Excel::download(new ACNameGLExport([$lager_much_op_bal, $lager_much_all]), $filename);
+
     }
 
     public function glPDF(Request $request){
