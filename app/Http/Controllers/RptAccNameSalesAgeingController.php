@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\sales_days;
+use App\Exports\ACNameSALESAGEINGExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
@@ -20,6 +21,58 @@ class RptAccNameSalesAgeingController extends Controller
 
         return $sales_days;
     }
+
+    public function salesAgeingExcel(Request $request)
+    {
+
+        // Fetch the sales data
+        $sales_days = sales_days::where('account_name', $request->acc_id)
+        ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
+        ->leftjoin('ac', 'ac.ac_code', '=', 'sales_days.account_name')
+        ->select('sales_days.*', 'ac.ac_name as ac_nam', 'ac.remarks as ac_remarks')
+        ->orderBy('bill_date', 'asc')
+        ->orderBy('sale_prefix', 'asc')
+        ->get();
+
+        // Prepare data for Excel
+        $salesData = [];
+        $salesData[] = [
+        'S/No', 'Date', 'Inv No.', 'Detail', 'Bill Amount', 'UnPaid Amount', 'Days', 
+        '1-20 Days', '21-35 Days', '36-50 Days', 'Over 50 Days', 'Cleared In Days'
+        ];
+
+        $count = 1;
+        foreach ($sales_days as $items) {
+        $status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';  // Determine the status here
+        $maxDaysStyle = $items['remaining_amount'] != 0 ? 'Over 50 Days' : '';  // Handle max days style
+
+        // Calculate the number of days from bill_date to today
+        $daysFromBillDate = $items['bill_date'] ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today()) : '';
+
+        $salesData[] = [
+            $count,
+            Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y'),
+            $items["sale_prefix"] . $items["Sal_inv_no"],
+            $items["ac2"] . $items["remarks"],
+            number_format($items['bill_amount'], 0),
+            number_format($items['remaining_amount'], 0),
+            $items['remaining_amount'] != 0 ? $daysFromBillDate : '',
+            number_format($items['1_20_Days'], 0),
+            number_format($items['21_35_Days'], 0),
+            number_format($items['36_50_Days'], 0),
+            number_format($items['over_50_Days'], 0),
+            $items['max_days'] . ' - ' . $status
+        ];
+
+        $count++;
+        }
+
+        // Filename
+        $filename = "Sales_Ageing_report_{$sales_days[0]['ac_nam']}_from_{$request->fromDate}_to_{$request->toDate}.xlsx";
+
+        // Return Excel download
+        return Excel::download(new ACNameSALESAGEINGExport($salesData), $filename);
+            }
 
     public function salesAgeingPDF(Request $request)
     {
