@@ -1428,6 +1428,9 @@
             if (tabName === "gl") {
                 window.location.href = `/rep-by-acc-name/gl/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
+            else if (tabName === "glr") {
+                window.location.href = `/rep-by-acc-name/glr/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            }
             else if (tabName === "purchase1") {
                 window.location.href = `/rep-by-acc-name/pur1/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
