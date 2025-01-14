@@ -245,7 +245,7 @@
                                     <div class="col-lg-12 text-end">
                                         <a class="mb-1 mt-1 me-1 btn btn-warning" aria-label="Download" onclick="downloadPDF('pur_ageing')"><i class="fa fa-download"></i> Download</a>
                                         <a class="mb-1 mt-1 me-1 btn btn-danger" aria-label="Print PDF" onclick="printPDF('pur_ageing')"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                                        <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('purs_ageing')"><i class="fa fa-file-excel"></i> Excel</a>      
+                                        <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('pur_ageing')"><i class="fa fa-file-excel"></i> Excel</a>      
                                     </div>
                                     <div class="col-12 mt-4">
                                         <table class="table table-bordered table-striped mb-0">
