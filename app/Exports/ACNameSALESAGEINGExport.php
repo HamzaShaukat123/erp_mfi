@@ -6,15 +6,15 @@ use Maatwebsite\Excel\Concerns\FromArray;
 
 class ACNameSALESAGEINGExport implements FromArray
 {
-    protected $rows;
+    protected $salesData;
 
-    public function __construct(array $rows)
+    public function __construct(array $salesData)
     {
-        $this->rows = $rows;
+        $this->salesData = $salesData;
     }
 
     public function array(): array
     {
-        return $this->rows;
+        return $this->salesData;
     }
 }
