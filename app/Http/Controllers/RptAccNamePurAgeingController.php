@@ -28,6 +28,7 @@ class RptAccNamePurAgeingController extends Controller
         ->leftjoin('ac', 'ac.ac_code', '=', 'pur_days.account_name')
         ->select('pur_days.*', 'ac.ac_name  as ac_nam', 'ac.remarks as ac_remarks')
         ->orderBy('bill_date','asc')
+        ->orderBy('sale_prefix','asc')
         ->get();
 
         
