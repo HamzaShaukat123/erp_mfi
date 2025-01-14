@@ -33,6 +33,30 @@ class RptAccNameGLController extends Controller
         return response()->json($response);
     }
 
+    public function glExcel(Request $request)
+    {
+        $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+        ->where('date', '<', $request->fromDate)
+        ->get();
+
+        $lager_much_all = lager_much_all::where('account_cod', $request->acc_id)
+        ->whereBetween('jv_date', [$request->fromDate, $request->toDate])
+        ->orderBy('jv_date','asc')
+        ->orderBy('prefix','asc')
+        ->orderBy('auto_lager','asc')
+        ->get();;
+
+        $accId = $request->acc_id;
+        $fromDate = \Carbon\Carbon::parse($request->fromDate)->format('Y-m-d');
+        $toDate = \Carbon\Carbon::parse($request->toDate)->format('Y-m-d');
+        
+        // Construct the filename
+        $filename = "gl_report_{$accId}_from_{$fromDate}_to_{$toDate}.xlsx";
+
+        // Return the download response with the dynamic filename
+        return Excel::download(new ACNameGLExport($lager_much_op_bal), $filename);
+    }
+
     public function glPDF(Request $request){
         // Fetch opening balance records
         $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
