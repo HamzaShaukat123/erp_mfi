@@ -35,26 +35,84 @@ class RptAccNameGLController extends Controller
 
     public function glExcel(Request $request)
     {
-        $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+        // Validate request
+    $request->validate([
+        'fromDate' => 'required|date',
+        'toDate' => 'required|date',
+        'acc_id' => 'required|integer',
+    ]);
+
+    // Fetch opening balance records
+    $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+        ->join('ac', 'ac.ac_code', '=', 'lager_much_op_bal.ac1')
         ->where('date', '<', $request->fromDate)
         ->get();
 
-        $lager_much_all = lager_much_all::where('account_cod', $request->acc_id)
+    // Fetch transactions within the date range
+    $lager_much_all = lager_much_all::where('account_cod', $request->acc_id)
         ->whereBetween('jv_date', [$request->fromDate, $request->toDate])
-        ->orderBy('jv_date','asc')
-        ->orderBy('prefix','asc')
-        ->orderBy('auto_lager','asc')
-        ->get();;
+        ->orderBy('jv_date', 'asc')
+        ->orderBy('prefix', 'asc')
+        ->orderBy('auto_lager', 'asc')
+        ->get();
 
-        $accId = $request->acc_id;
-        $fromDate = \Carbon\Carbon::parse($request->fromDate)->format('Y-m-d');
-        $toDate = \Carbon\Carbon::parse($request->toDate)->format('Y-m-d');
-        
-        // Construct the filename
-        $filename = "gl_report_{$accId}_from_{$fromDate}_to_{$toDate}.xlsx";
+    // Calculate opening balance
+    $SOD = $lager_much_op_bal->sum('SumOfDebit');
+    $SOC = $lager_much_op_bal->sum('SumOfrec_cr');
+    $opening_bal = $SOD - $SOC;
 
-        // Return the download response with the dynamic filename
-        return Excel::download(new ACNameGLExport([$lager_much_op_bal, $lager_much_all]), $filename);
+    // Initialize balance and totals
+    $balance = $opening_bal;
+    $totalDebit = 0;
+    $totalCredit = 0;
+
+    // Prepare data for Excel export
+    $rows = [];
+    $rows[] = [
+        'R/No', 'Date', 'Details', 'Debit', 'Credit', 'Balance',
+    ];
+    $rows[] = [
+        '', '', '+----Opening Balance----+', '', '', number_format($opening_bal, 0),
+    ];
+
+    foreach ($lager_much_all as $items) {
+        // Update running balance
+        $debit = $items->Debit ?? 0;
+        $credit = $items->Credit ?? 0;
+
+        $balance += $debit;
+        $balance -= $credit;
+
+        $totalDebit += $debit;
+        $totalCredit += $credit;
+
+        $rows[] = [
+            $items->prefix . $items->auto_lager,
+            Carbon::parse($items->jv_date)->format('d-m-y'),
+            $items->ac2,
+            number_format($debit, 0),
+            number_format($credit, 0),
+            number_format($balance, 0),
+        ];
+    }
+
+    // Add totals row
+    $num_to_words = $this->convertCurrencyToWords($balance);
+    $rows[] = [
+        $num_to_words,
+        '',
+        '',
+        number_format($totalDebit, 0),
+        number_format($totalCredit, 0),
+        number_format($balance, 0),
+    ];
+
+    // Filename
+    $currentDate = now()->format('d-m-y');
+    $filename = "general_ledger_{$request->acc_id}_from_{$request->fromDate}_to_{$request->toDate}.xlsx";
+
+    // Return Excel download
+    return Excel::download(new ACNameGLExport($rows), $filename);
 
     }
 

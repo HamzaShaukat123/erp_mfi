@@ -9,30 +9,21 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ACNameGLExport implements FromCollection
 {
-    protected $data;
+    protected $rows;
 
-    public function __construct($data)
+    public function __construct(array $rows)
     {
-        $this->data = $data;
+        $this->rows = $rows;
     }
 
-    public function collection()
+    public function array(): array
     {
-        return $this->data;
+        return $this->rows;
     }
 
     public function headings(): array
     {
-        return [
-            'Ac1',
-            'Ac2',
-            'Date',
-            'NO',
-            'remarks',
-            'cr amount',
-            'saler address',
-            'pur_bill_no',
-            'sal_inv',
-        ];
+        // Custom heading or leave empty to use the first row of the array as headings
+        return [];
     }
 }
