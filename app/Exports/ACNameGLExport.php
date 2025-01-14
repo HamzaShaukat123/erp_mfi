@@ -2,12 +2,9 @@
 
 namespace App\Exports;
 
-use App\Models\AC;
-use App\Models\lager_much_op_bal;
-use App\Models\lager_much_all;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class ACNameGLExport implements FromCollection
+class ACNameGLExport implements FromArray
 {
     protected $rows;
 
