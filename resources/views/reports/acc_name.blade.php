@@ -1425,7 +1425,7 @@
                 return;
             }
 
-            if (tabName === "GL") {
+            if (tabName === "gl") {
                 window.location.href = `/rep-by-acc-name/gl/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
             }
             else if (tabName === "purchase1") {
