@@ -22,9 +22,12 @@
                                                 <option value="0">by Vouch#</option>
                                                 <option value="1">by Date</option>
                                                 <option value="2">by Account Debit</option>
-                                                <option value="3">by Account Credti</option>
+                                                <option value="3">by Account Credit</option>
                                                 <option value="4">by Remarks</option>
-                                                <option value="5">by Amount</option>
+                                                <option value="5">by Bank</option>
+                                                <option value="6">by Instrument</option>
+                                                <option value="7">by Chq Date</option>
+                                                <option value="8">by Amount</option>
                                             </select>
                                             <input type="text" class="form-control" id="columnSearch" placeholder="Search By Column"/>
                                         </div>
@@ -37,7 +40,10 @@
                                                     <th width="8%">Date</th>
                                                     <th width="15%">Account Debit</th>
                                                     <th width="15%">Account Credit</th>
-                                                    <th width="30%">Detail</th>
+                                                    <th width="20%">Remarks</th>
+                                                    <th>Bank Name</th>
+                                                    <th>Instrument</th>
+                                                    <th>Chq Date</th>
                                                     <th>Amount</th>
                                                     <th>Att.</th>
                                                     <th>Action</th>
@@ -51,11 +57,10 @@
                                                         <td>{{$row->debit_account}}</td>
                                                         <td>{{$row->credit_account}}</td>
                                                         <td >{{$row->remarks}}</td>
-                                                        @if (strpos($row->amount, '.') !== false && substr($row->amount, strpos($row->amount, '.') + 1) > '0')
-                                                            <td><strong style="font-size:15px">{{ number_format($row->amount, 0, '.', ',') }}</strong></td>
-                                                        @else
-                                                            <td><strong style="font-size:15px">{{ number_format($row->amount, 0, '.', ',') }}</strong></td>
-                                                        @endif
+                                                        <td >{{$row->bankname}}</td>
+                                                        <td >{{$row->instrumentnumber}}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($row->chqdate)->format('d-m-y') }}</td>
+                                                        <td>{{ number_format($row->amount, 0) }}</td>
                                                         <td style="vertical-align: middle;">
                                                             <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->pdc_id}})" href="#attModal"><i class="fa fa-eye"> </i></a>
                                                             <span class="separator"> | </span>
