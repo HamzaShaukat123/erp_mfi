@@ -57,21 +57,21 @@
                                                             <td><strong style="font-size:15px">{{ number_format($row->amount, 0, '.', ',') }}</strong></td>
                                                         @endif
                                                         <td style="vertical-align: middle;">
-                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->auto_lager}})" href="#attModal"><i class="fa fa-eye"> </i></a>
+                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->pdc_id}})" href="#attModal"><i class="fa fa-eye"> </i></a>
                                                             <span class="separator"> | </span>
-                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-danger" onclick="setAttId({{$row->auto_lager}})" href="#addAttModal"> <i class="fas fa-paperclip"> </i></a>
+                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-danger" onclick="setAttId({{$row->pdc_id}})" href="#addAttModal"> <i class="fas fa-paperclip"> </i></a>
                                                         </td>
                                                         <td class="actions">
-                                                            <a class="mb-1 mt-1 me-1" href="{{ route('show-jv1', $row->auto_lager) }}">
+                                                            <a class="mb-1 mt-1 me-1" href="{{ route('show-pdc', $row->pdc_id) }}">
                                                                 <i class="fas fa-eye"></i>
                                                             </a>
                                                             <span class="separator"> | </span>
-                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal modal-with-form" onclick="getJVSDetails({{$row->auto_lager}})" href="#updateModal">
+                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal modal-with-form" onclick="getJVSDetails({{$row->pdc_id}})" href="#updateModal">
                                                                 <i class="fas fa-pencil-alt"></i>
                                                             </a>
                                                             @if(session('user_role')==1)
                                                             <span class="separator"> | </span>
-                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal" onclick="setId({{$row->auto_lager}})" href="#deleteModal">
+                                                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal" onclick="setId({{$row->pdc_id}})" href="#deleteModal">
                                                                 <i class="far fa-trash-alt" style="color:red"></i>
                                                             </a>
                                                             @endif
