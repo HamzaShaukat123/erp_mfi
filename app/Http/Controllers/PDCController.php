@@ -34,7 +34,7 @@ class PDCController extends Controller
     public function show(string $id)
     {
         // Retrieve the record with joined debit and credit account details
-        $jv1 = pdc::where('pdc.auto_lager', $id)
+        $jv1 = pdc::where('pdc.pdc_id ', $id)
                 ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
                 ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
                 ->select('pdc.*', 
@@ -43,7 +43,7 @@ class PDCController extends Controller
                 ->first();
     
         // Point to the correct Blade view file: show.blade.php
-        return view('vouchers.jv1-show', compact('jv1'));
+        return view('pdc_id .show', compact('jv1'));
     }
     
     public function store(Request $request)
