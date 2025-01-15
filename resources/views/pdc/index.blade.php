@@ -36,7 +36,7 @@
                                         <table class="table table-bordered table-striped mb-0" id="cust-datatable-default">
                                             <thead>
                                                 <tr>
-                                                    <th width="5%">Voch#</th>
+                                                    <th width="5%">ID#</th>
                                                     <th width="8%">Date</th>
                                                     <th width="15%">Account Debit</th>
                                                     <th width="15%">Account Credit</th>
