@@ -91,7 +91,7 @@
 														<input type="text" class="form-control" name="item_cod[]" autofocus id="item_cod{{$pur1_key+1}}" value="{{$pur_items->item_cod}}" onchange="getItemDetails({{$pur1_key+1}},1)">
 													</td>	
 													<td>
-														<input type="text" class="form-control" name="pur_qty2[]" id="pur_qty2{{$pur1_key+1}}" value="{{$pur_items->pur_qty2}}" required>
+														<input type="text" class="form-control" name="pur_qty2[]" id="pur_qty2_{{$pur1_key+1}}" value="{{$pur_items->pur_qty2}}" required>
 													</td>
 													<td>
 														<select data-plugin-selecttwo class="form-control select2-js"  name="item_name[]" id="item_name{{$pur1_key+1}}" onchange="getItemDetails({{$pur1_key+1}},2)" required>
@@ -267,7 +267,7 @@
 			var cell8 = newRow.insertCell(7);
 
 			cell1.innerHTML  = '<input type="text" class="form-control" name="item_cod[]" id="item_cod'+index+'" autofocus onchange="getItemDetails('+index+','+1+')" required>';
-			cell2.innerHTML  = '<input type="text" class="form-control" name="pur_qty2[]" step="any" value="0">';
+			cell2.innerHTML  = '<input type="text" class="form-control" name="pur_qty2[]" id="pur_qty2_'+index+'" step="any" value="0">';
 			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'"  onchange="getItemDetails('+index+','+2+')" name ="item_name[]" required>'+
 									'<option value="" disabled selected>Select Account</option>'+
 									@foreach($items as $key => $row)
