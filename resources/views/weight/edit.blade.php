@@ -109,7 +109,7 @@
 															<input type="text" class="form-control" id="remarks{{$pur2_key+1}}" value="{{$pur2_items->remarks}}" name="remarks[]">
 														</td>	
 														<td>
-															<input type="number" class="form-control" name="pur2_qty2[]" id="pur2_qty2{{$pur2_key+1}}" onchange="CalculateRowWeight(1)" value="{{$pur2_items->Sales_qty2}}" step="any" required>
+															<input type="number" class="form-control" name="pur2_qty2[]" id="pur2_qty2_{{$pur2_key+1}}" onchange="CalculateRowWeight(1)" value="{{$pur2_items->Sales_qty2}}" step="any" required>
 														</td>
 														<td>
 															<input type="number" class="form-control" name="pur2_per_unit[]" onchange="rowTotal({{$pur2_key+1}})" id="pur2_per_unit{{$pur2_key+1}}" value="{{$pur2_items->sales_price}}" step="any" required>
@@ -275,7 +275,7 @@
                                     '@endforeach'+
 								'</select>';
 			cell3.innerHTML  = '<input type="text" class="form-control" id="remarks'+index+'" name="remarks[]">';
-			cell4.innerHTML  = '<input type="text" class="form-control" onchange="rowTotal('+index+')" id="pur2_qty2'+index+'" value="0" name="pur2_qty2[]" step="any" required>';
+			cell4.innerHTML  = '<input type="text" class="form-control" onchange="rowTotal('+index+')" id="pur2_qty2_'+index+'" value="0" name="pur2_qty2[]" step="any" required>';
 			cell5.innerHTML  = '<input type="number" id="pur2_per_unit'+index+'" class="form-control" name="pur2_per_unit[]" value="0" step="any" required>';
 			cell6.innerHTML  = '<input type="number" id="pur2_len'+index+'" onchange="rowTotal('+index+')" class="form-control" name="pur2_len[]"  value="20" step="any" required>';
 			cell7.innerHTML  = '<input type="number" class="form-control" name="pur2_percentage[]" onchange="rowTotal('+index+')" id="pur2_percentage'+index+'" value="0" step="any" required> <input type="hidden" class="form-control" id="weight_per_piece'+index+'" name="weight_per_piece[]" onchange="CalculateRowWeight('+index+')" value="0" step="any" required>';
@@ -355,7 +355,7 @@
 
 	function rowTotal(index){
 
-		var pur2_qty2 = parseFloat($('#pur2_qty2'+index+'').val());
+		var pur2_qty2 = parseFloat($('#pur2_qty2_'+index+'').val());
 		var sales_price = parseFloat($('#pur2_per_unit'+index+'').val());   
 		var discount = parseFloat($('#pur2_percentage'+index+'').val());
 		var length = parseFloat($('#pur2_len'+index+'').val());
@@ -404,7 +404,7 @@
 	}
 
 	function CalculateRowWeight(index){
-		var pur2_qty = $('#pur2_qty2'+index+'').val();
+		var pur2_qty = $('#pur2_qty2_'+index+'').val();
 		var weight_per_piece = $('#weight_per_piece'+index+'').val();
 
 		rowWeight= pur2_qty*weight_per_piece;
