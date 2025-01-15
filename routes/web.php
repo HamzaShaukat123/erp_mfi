@@ -627,3 +627,8 @@
     // RPT by Item Group Purchase2 
     Route::get('/rep-by-item-group/pur2', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'purchase2'])->name('pur2-rep-by-item-group');
     Route::get('/rep-by-item-group/pur2/report', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'ItemGroupPur2Report'])->name('pur2-rep-by-item-group-report');
+
+
+
+    // PDC
+    Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
