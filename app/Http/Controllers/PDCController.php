@@ -72,25 +72,34 @@ class PDCController extends Controller
         if ($request->has('date') && $request->date) {
             $jv1->date=$request->date;
         }
+        if ($request->has('chq_date') && $request->chq_date) {
+            $jv1->date=$request->chq_date;
+        }
         if ($request->has('remarks') && $request->remarks  OR empty($request->remarks)) {
             $jv1->remarks=$request->remarks;
+        }
+        if ($request->has('bankname') && $request->bankname  OR empty($request->bankname)) {
+            $jv1->bankname=$request->bankname;
+        }
+        if ($request->has('instrumentnumber') && $request->instrumentnumber  OR empty($request->instrumentnumber)) {
+            $jv1->instrumentnumber=$request->instrumentnumber;
         }
         $jv1->save();
 
         $latest_jv1 = pdc::latest()->first();
 
-        if($request->hasFile('att')){
-            $files = $request->file('att');
-            foreach ($files as $file)
-            {
-                $jv1_att = new jv1_att();
-                $jv1_att->jv1_id = $latest_jv1['auto_lager'];
-                $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->jv1Doc($file,$extension);
-                $jv1_att->save();
-            }
-        }
-        return redirect()->route('all-jv1');
+        // if($request->hasFile('att')){
+        //     $files = $request->file('att');
+        //     foreach ($files as $file)
+        //     {
+        //         $jv1_att = new jv1_att();
+        //         $jv1_att->jv1_id = $latest_jv1['auto_lager'];
+        //         $extension = $file->getClientOriginalExtension();
+        //         $jv1_att->att_path = $this->jv1Doc($file,$extension);
+        //         $jv1_att->save();
+        //     }
+        // }
+        return redirect()->route('all-pdc');
     }
     
     public function update(Request $request)

@@ -236,15 +236,15 @@
                             </div>  
                             <div class="col-lg-4 mb-2">
                                 <label>Bank Name</label>
-                                <input type="text" class="form-control" placeholder="Bank Name"  step="any" name="bank_name" required>
+                                <input type="text" class="form-control" placeholder="Bank Name"  step="any" name="bankname" required>
                             </div>
                             <div class="col-lg-4 mb-2">
                                 <label>Instrument#</label>
-                                <input type="text" class="form-control" placeholder="Instrument#"  step="any" name="instrument_number" required>
+                                <input type="text" class="form-control" placeholder="Instrument#"  step="any" name="instrumentnumber" required>
                             </div>
                             <div class="col-lg-4 mb-2">
                                 <label>Chq Date</label>
-                                <input type="date" class="form-control" placeholder="Chq Date" name="chq_date" value="<?php echo date('Y-m-d'); ?>" required>
+                                <input type="date" class="form-control" placeholder="Chq Date" name="chqdate" value="<?php echo date('Y-m-d'); ?>" required>
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label>Remarks</label>
