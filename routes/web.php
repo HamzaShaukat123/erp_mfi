@@ -632,4 +632,5 @@
 
     // PDC
     Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
+    Route::post('/pdc/create', [App\Http\Controllers\PDCController::class, 'store'])->name('store-pdc');
     Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
