@@ -381,15 +381,18 @@
     function getJVSDetails(id){
         $.ajax({
             type: "GET",
-            url: "/vouchers/detail",
+            url: "/pdc/detail",
             data: {id:id},
             success: function(result){
-                $('#update_id').val(result['auto_lager']);
-                $('#update_id_view').val(result['auto_lager']);
+                $('#update_id').val(result['pdc_id ']);
+                $('#update_id_view').val(result['pdc_id ']);
                 $('#update_ac_cr_sid').val(result['ac_cr_sid']).trigger('change');
                 $('#update_ac_dr_sid').val(result['ac_dr_sid']).trigger('change');
                 $('#update_amount').val(result['amount']);
                 $('#update_date').val(result['date']);
+                $('#update_chqdate').val(result['chqdate']);
+                $('#update_bankname').val(result['bankname']);
+                $('#update_instrumentnumber').val(result['instrumentnumber']);
                 $('#update_remarks').val(result['remarks']);
             },
             error: function(){

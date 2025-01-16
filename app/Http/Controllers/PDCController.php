@@ -93,7 +93,7 @@ class PDCController extends Controller
         //     foreach ($files as $file)
         //     {
         //         $jv1_att = new jv1_att();
-        //         $jv1_att->jv1_id = $latest_jv1['auto_lager'];
+        //         $jv1_att->jv1_id = $latest_jv1['pdc_id'];
         //         $extension = $file->getClientOriginalExtension();
         //         $jv1_att->att_path = $this->jv1Doc($file,$extension);
         //         $jv1_att->save();
@@ -113,7 +113,7 @@ class PDCController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $jv1 = pdc::where('auto_lager', $request->update_auto_lager)->get()->first();
+        $jv1 = pdc::where('pdc_id', $request->update_pdc_id)->get()->first();
 
         if ($request->has('update_ac_dr_sid') && $request->update_ac_dr_sid) {
             $jv1->ac_dr_sid=$request->update_ac_dr_sid;
@@ -127,34 +127,46 @@ class PDCController extends Controller
         if ($request->has('update_date') && $request->update_date) {
             $jv1->date=$request->update_date;
         }
+        if ($request->has('update_chqdate') && $request->update_chqdate OR empty($request->update_chqdate))  {
+            $jv1->chqdate=$request->update_chqdate;
+        }
+        if ($request->has('update_bankname') && $request->update_bankname OR empty($request->update_bankname))  {
+            $jv1->bankname=$request->update_bankname;
+        }
+        if ($request->has('update_instrumentnumber') && $request->update_instrumentnumber OR empty($request->update_instrumentnumber))  {
+            $jv1->instrumentnumber=$request->update_instrumentnumber;
+        }
         if ($request->has('update_remarks') && $request->update_remarks OR empty($request->update_remarks))  {
             $jv1->remarks=$request->update_remarks;
         }
     
-        pdc::where('auto_lager', $request->update_auto_lager)->update([
+        pdc::where('pdc_id', $request->update_pdc_id)->update([
             'ac_dr_sid'=>$jv1->ac_dr_sid,
             'ac_cr_sid'=>$jv1->ac_cr_sid,
             'amount'=>$jv1->amount,
             'date'=>$jv1->date,
+            'chqdate'=>$jv1->chqdate,
+            'bankname'=>$jv1->bankname,
+            'instrumentnumber'=>$jv1->instrumentnumber,
             'remarks'=>$jv1->remarks,
             'updated_by' => session('user_id'),
         ]);
 
-        if($request->hasFile('update_att')){
+        // if($request->hasFile('update_att')){
             
-            // jv1_att::where('jv1_id', $request->update_auto_lager)->delete();
-            $files = $request->file('update_att');
-            foreach ($files as $file)
-            {
-                $jv1_att = new jv1_att();
-                $jv1_att->jv1_id =  $request->update_auto_lager;
-                $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->jv1Doc($file,$extension);
-                $jv1_att->save();
-            }
-        }
+        //     // jv1_att::where('jv1_id', $request->update_pdc_id)->delete();
+        //     $files = $request->file('update_att');
+        //     foreach ($files as $file)
+        //     {
+        //         $jv1_att = new jv1_att();
+        //         $jv1_att->jv1_id =  $request->update_pdc_id;
+        //         $extension = $file->getClientOriginalExtension();
+        //         $jv1_att->att_path = $this->jv1Doc($file,$extension);
+        //         $jv1_att->save();
+        //     }
+        // }
 
-        return redirect()->route('all-jv1');
+        return redirect()->route('all-pdc');
     }
 
     public function addAtt(Request $request)
@@ -179,7 +191,7 @@ class PDCController extends Controller
 
     public function destroy(Request $request)
     {
-        $jv1 = pdc::where('auto_lager', $request->delete_auto_lager)->update([
+        $jv1 = pdc::where('pdc_id', $request->delete_pdc_id)->update([
             'status' => '0',
             'updated_by' => session('user_id'),
         ]);
@@ -192,9 +204,9 @@ class PDCController extends Controller
         return $jv1_atts;
     }
 
-    public function getJVDetails(Request $request)
+    public function getPDCDetails(Request $request)
     {
-        $jv1_details = pdc::where('auto_lager', $request->id)->get()->first();
+        $jv1_details = pdc::where('pdc_id ', $request->id)->get()->first();
         return $jv1_details;
     }
 
@@ -233,7 +245,7 @@ class PDCController extends Controller
     public function print($id)
     {
 
-        $jv1 = pdc::where('pdc.auto_lager', $id)
+        $jv1 = pdc::where('pdc.pdc_id', $id)
         ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
         ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
         ->select('pdc.*', 
@@ -246,8 +258,8 @@ class PDCController extends Controller
         // Set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('JV1 # '.$jv1['auto_lager']);
-        $pdf->SetSubject('JV1 # '.$jv1['auto_lager']);
+        $pdf->SetTitle('JV1 # '.$jv1['pdc_id']);
+        $pdf->SetSubject('JV1 # '.$jv1['pdc_id']);
         $pdf->SetKeywords('Journal Voucher, TCPDF, PDF');
         $pdf->setPageOrientation('L');
                
@@ -274,7 +286,7 @@ class PDCController extends Controller
 
         $html = '<table style="margin-bottom:1rem">';
         $html .= '<tr>';
-        $html .= '<td style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins"> Voucher No: <span style="text-decoration: underline;color:black;">'.$jv1['auto_lager'].'</span></td>';
+        $html .= '<td style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins"> Voucher No: <span style="text-decoration: underline;color:black;">'.$jv1['pdc_id'].'</span></td>';
         $html .= '<td style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins;text-align:right"> Date: <span style="color:black;font-weight:normal;">' . \Carbon\Carbon::parse($jv1['date'])->format('d-m-y') . '</span></td>';
         $html .= '</tr>';
         $html .= '</table>';
@@ -349,7 +361,7 @@ class PDCController extends Controller
         $pdf->SetXY(200, $currentY+50);
         $pdf->Cell(50, 0, "Customer's Signature", $style, 1, 'C');
 
-        $pdf->Output('jv1_'.$jv1['auto_lager'].'.pdf', 'I');
+        $pdf->Output('jv1_'.$jv1['pdc_id'].'.pdf', 'I');
 
     }
 
