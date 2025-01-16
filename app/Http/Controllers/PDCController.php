@@ -72,8 +72,8 @@ class PDCController extends Controller
         if ($request->has('date') && $request->date) {
             $jv1->date=$request->date;
         }
-        if ($request->has('chq_date') && $request->chq_date) {
-            $jv1->date=$request->chq_date;
+        if ($request->has('chqdate') && $request->chqdate) {
+            $jv1->date=$request->chqdate;
         }
         if ($request->has('remarks') && $request->remarks  OR empty($request->remarks)) {
             $jv1->remarks=$request->remarks;
