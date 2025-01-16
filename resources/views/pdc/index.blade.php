@@ -107,7 +107,7 @@
                             <div class="col-lg-6">
                                 <label>JV1 Code</label>
                                 <input type="number" class="form-control" placeholder="PDC Code" id="update_pdc" required disabled>
-                                <input type="hidden" class="form-control" placeholder="PDC Code" name="update_pdc" id="update_id_view" required>
+                                <input type="number" class="form-control" placeholder="PDC Code" name="update_pdc" id="update_id_view" required>
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Date</label>
