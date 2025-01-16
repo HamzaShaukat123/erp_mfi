@@ -106,7 +106,7 @@
                         <div class="row form-group">
                             <div class="col-lg-6">
                                 <label>JV1 Code</label>
-                                <input type="number" class="form-control" placeholder="PDC Code" id="update_pdc_id" required disabled>
+                                <input type="number" class="form-control" placeholder="PDC Code" id="update_id" required disabled>
                                 <input type="hidden" class="form-control" placeholder="PDC Code" name="update_pdc_id" id="update_id_view" required>
                             </div>
                             <div class="col-lg-6 mb-2">
