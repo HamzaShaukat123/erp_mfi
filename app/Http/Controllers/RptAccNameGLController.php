@@ -150,7 +150,7 @@ class RptAccNameGLController extends Controller
         // Prepare data for Excel export
         $rows = [];
         $rows[] = [
-            'R/No', 'Date', 'Details', 'Debit', 'Credit', 'Balance',
+            'R/No', 'Date', 'Details','Narrations', 'Debit', 'Credit', 'Balance',
         ];
         $rows[] = [
             '', '', '+----Opening Balance----+', '', '', number_format($opening_bal, 0),
@@ -170,7 +170,8 @@ class RptAccNameGLController extends Controller
             $rows[] = [
                 $items->prefix . $items->auto_lager,
                 Carbon::parse($items->jv_date)->format('d-m-y'),
-                $items->ac2 . ' ' . $items->Narration,
+                $items->ac2,
+                $items->Narration,
                 number_format($debit, 0),
                 number_format($credit, 0),
                 number_format($balance, 0),
