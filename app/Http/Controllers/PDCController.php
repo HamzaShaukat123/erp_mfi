@@ -206,7 +206,7 @@ class PDCController extends Controller
 
     public function getPDCDetails(Request $request)
     {
-        $jv1_details = pdc::where('pdc_id ', $request->id)->get()->first();
+        $jv1_details = pdc::where('pdc_id', $request->id)->get()->first();
         return $jv1_details;
     }
 
