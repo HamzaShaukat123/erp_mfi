@@ -52,7 +52,7 @@
                                             <tbody>
                                                 @foreach ($jv1 as $key => $row)
                                                     <tr>
-                                                        <td>{{$row->pdc_id }}</td>
+                                                        <td>{{$row->pdc_id}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($row->date)->format('d-m-y') }}</td>
                                                         <td>{{$row->debit_account}}</td>
                                                         <td>{{$row->credit_account}}</td>
@@ -399,8 +399,8 @@
             url: "/pdc/detail",
             data: {id:id},
             success: function(result){
-                $('#update_id').val(result['pdc_id ']);
-                $('#update_id_view').val(result['pdc_id ']);
+                $('#update_id').val(result['pdc_id']);
+                $('#update_id_view').val(result['pdc_id']);
                 $('#update_ac_cr_sid').val(result['ac_cr_sid']).trigger('change');
                 $('#update_ac_dr_sid').val(result['ac_dr_sid']).trigger('change');
                 $('#update_amount').val(result['amount']);
