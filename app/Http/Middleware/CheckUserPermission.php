@@ -28,19 +28,33 @@ class CheckUserPermission
         $segments = explode('/', trim($parsedUrl['path'], '/'));
         $requestedSlug = !empty($segments) ? $segments[0] : null;
 
-        $module = modules::where('slug',$requestedSlug)->first();
-        $moduleID = $module['id'];
+        $userAccess = session('user_access');
 
-        $checkaccess = role_access::where('role_id',session('user_role'))
-        ->where('module_id',$moduleID)
-        ->select($requestType)
-        ->first();
+        // Find the module access based on the requested slug
+        $moduleAccess = collect($userAccess)->firstWhere('slug', $requestedSlug);
+
+        if ($moduleAccess) {
+            // Check if the user has the requested permission (add, edit, delete, etc.)
+            if (isset($moduleAccess[$requestType]) && $moduleAccess[$requestType] == 1) {
+                return $next($request);
+            }
+        }
+
+        // $module = modules::where('slug',$requestedSlug)->first();
+        // $moduleID = $module['id'];
+
+        // $checkaccess = role_access::where('role_id',session('user_role'))
+        // ->where('module_id',$moduleID)
+        // ->select($requestType)
+        // ->first();
         
-        if($checkaccess[$requestType]==1){
-            return $next($request);
-        }
-        else{
-            return redirect('/unauthorized');
-        }
+        // if($checkaccess[$requestType]==1){
+        //     return $next($request);
+        // }
+        // else{
+        //     return redirect('/unauthorized');
+        // }
+
+        return redirect('/unauthorized');
     }
 }

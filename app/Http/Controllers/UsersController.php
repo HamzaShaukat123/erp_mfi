@@ -312,11 +312,11 @@ class UsersController extends Controller
                 ->first();
     
             $user_permission = role_access::where('role_id', $user_roles->role_id)
-                ->select('module_id', 'view')
-                ->get();
+            ->leftjoin('modules','modules.id','=','role_access.module_id')
+            ->select('module_id','modules.slug as slug','add','edit','delete','view','att_add','att_delete','print','report')
+            ->get();
     
             $user_access = $user_permission->toArray();
-    
             // Store user session data
             session([
                 'user_id' => $user->id,
@@ -325,7 +325,7 @@ class UsersController extends Controller
                 'user_role' => $user_roles->role_id,
                 'user_access' => $user_access,
             ]);
-    
+
             // Redirect to intended page
             return redirect()->intended('/home');
         }
