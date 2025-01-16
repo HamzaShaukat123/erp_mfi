@@ -635,4 +635,4 @@
     Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
     Route::post('/pdc/create', [App\Http\Controllers\PDCController::class, 'store'])->name('store-pdc');
     Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
-    Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-jv1-details');
+    Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');
