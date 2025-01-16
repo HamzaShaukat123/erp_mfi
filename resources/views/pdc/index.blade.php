@@ -97,17 +97,17 @@
 
         <div id="updateModal" class="modal-block modal-block-primary mfp-hide" style="z-index: 1050">
             <section class="card">
-                <form method="post" action="{{ route('update-jv1') }}" enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
+                <form method="post" action="{{ route('update-pdc') }}" enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     @csrf
                     <header class="card-header">
-                        <h2 class="card-title">Update Journal Voucher</h2>
+                        <h2 class="card-title">Update PDC</h2>
                     </header>
                     <div class="card-body">
                         <div class="row form-group">
                             <div class="col-lg-6">
                                 <label>JV1 Code</label>
-                                <input type="number" class="form-control" placeholder="JV1 Code" id="update_id" required disabled>
-                                <input type="hidden" class="form-control" placeholder="JV1 Code" name="update_auto_lager" id="update_id_view" required>
+                                <input type="number" class="form-control" placeholder="PDC Code" id="update_id" required disabled>
+                                <input type="hidden" class="form-control" placeholder="PDC Code" name="update_pdc" id="update_id_view" required>
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Date</label>
@@ -139,7 +139,22 @@
                             <div class="col-lg-6 mb-2">
                                 <label>Attachments</label>
                                 <input type="file" class="form-control" name="update_att[]" multiple accept=".zip, appliation/zip, application/pdf, image/png, image/jpeg">
-                            </div>  
+                            </div> 
+                            <div class="col-lg-6 mb-2">
+                                <label>Bank Name</label>
+                                <input type="text" class="form-control" placeholder="Bank Name" id="update_bankname" name="update_bankname" required>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Instrument#</label>
+                                <input type="text" class="form-control" placeholder="Instrument#" id="update_instrumentnumber" name="update_instrumentnumber" required>
+                            </div>
+                            
+                            
+                            <div class="col-lg-6 mb-2">
+                                <label>Chq Date</label>
+                                <input type="date" class="form-control" placeholder="Chq Date" id="update_chqdate" name="update_chqdate" value="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            
                             <div class="col-lg-12 mb-2">
                                 <label>Remarks</label>
                                 <textarea rows="4" cols="50" class="form-control cust-textarea" placeholder="Remarks" id="update_remarks" name="update_remarks"> </textarea>                            </div>
