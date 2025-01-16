@@ -471,6 +471,21 @@ class Purchase2Controller extends Controller
         $unclosed_inv = tpurchase::where(function ($query) {
             $query->where('sales_against', '')
                   ->orWhereNull('sales_against')
+                  ->where('tpurchase.status',1);
+
+        })
+        ->join('ac', 'ac.ac_code', '=', 'tpurchase.account_name')
+        ->join('ac as dispt_acc', 'dispt_acc.ac_code', '=', 'tpurchase.Cash_pur_name_ac')
+        ->select('tpurchase.*', 'ac.ac_name as acc_name','dispt_acc.ac_name as disp_acc')  // Select fields from both tables as needed
+        ->get();
+        return $unclosed_inv;
+    }
+
+    public function getunclosedstockin()
+    {
+        $unclosed_inv = tpurchase::where(function ($query) {
+            $query->where('sales_against', '')
+                  ->orWhereNull('sales_against')
                   ->where('tpurchase.status',1)
                   ->where('tpurchase.Cash_pur_name_ac',24);
 

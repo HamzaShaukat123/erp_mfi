@@ -295,7 +295,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "/purchase2/getunclosed/",
+            url: "/purchase2/getunclosedstockin/",
             success: function(result){
                 $.each(result, function(k,v){
                     var html="<tr>";
