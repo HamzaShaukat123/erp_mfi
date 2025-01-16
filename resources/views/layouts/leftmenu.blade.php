@@ -148,6 +148,12 @@
                                 </a>
                             </li>	
                             @endif
+
+                            <li>
+                                <a class="nav-link"   href="{{ route('all-pdc')}}">
+                                    PDC
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @endif
