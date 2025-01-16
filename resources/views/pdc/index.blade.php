@@ -233,22 +233,22 @@
                             <div class="col-lg-6 mb-2">
                                 <label>Attachments</label>
                                 <input type="file" class="form-control" name="att[]" multiple accept=".zip, appliation/zip, application/pdf, image/png, image/jpeg">
-                            </div>  
+                            </div> 
+                            <div class="col-lg-12 mb-2">
+                                <label>Remarks</label>
+                                <textarea rows="4" cols="50" class="form-control cust-textarea" placeholder="Remarks" name="remarks"> </textarea>                            </div>
+                            </div> 
                             <div class="col-lg-4 mb-2">
                                 <label>Bank Name</label>
-                                <input type="text" class="form-control" placeholder="Bank Name" value="0" step="any" name="bank_name" required>
+                                <input type="text" class="form-control" placeholder="Bank Name"  step="any" name="bank_name" required>
                             </div>
                             <div class="col-lg-4 mb-2">
                                 <label>Instrument#</label>
-                                <input type="text" class="form-control" placeholder="Instrument#" value="0" step="any" name="instrument_number" required>
+                                <input type="text" class="form-control" placeholder="Instrument#"  step="any" name="instrument_number" required>
                             </div>
                             <div class="col-lg-4 mb-2">
                                 <label>Chq Date</label>
                                 <input type="date" class="form-control" placeholder="Chq Date" name="chq_date" value="<?php echo date('Y-m-d'); ?>" required>
-                            </div>
-                            <div class="col-lg-12 mb-2">
-                                <label>Remarks</label>
-                                <textarea rows="4" cols="50" class="form-control cust-textarea" placeholder="Remarks" name="remarks"> </textarea>                            </div>
                             </div>
                         </div>
                         <footer class="card-footer">
