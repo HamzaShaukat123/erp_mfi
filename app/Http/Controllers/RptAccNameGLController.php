@@ -583,9 +583,9 @@ class RptAccNameGLController extends Controller
             </table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
-      // Table Headers and Content
+      // Build the HTML for the table
 $html = '
-<table border="1" style="border-collapse: collapse;text-align:center">
+<table border="1" style="border-collapse: collapse; text-align:center; width:100%;">
     <thead>
         <tr>
             <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
@@ -595,16 +595,18 @@ $html = '
             <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
             <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
-        <tr>
-            <th></th>
-            <th></th>
-            <th style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
-            <th></th>
-            <th></th>
-            <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
-        </tr>
     </thead>
     <tbody>';
+
+$html .= '
+<tr>
+    <th></th>
+    <th></th>
+    <th style="text-align: center; font-weight: bold;">+----Opening Balance----+</th>
+    <th></th>
+    <th></th>
+    <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
+</tr>';
 
 // Loop through data and append rows
 $count = 1;
@@ -622,6 +624,7 @@ if (!empty($items['Credit']) && is_numeric($items['Credit'])) {
     $totalCredit += $items['Credit'];
 }
 
+// Add row to table
 $html .= '<tr style="background-color:' . $bgColor . ';">
     <td>' . $items['prefix'] . '' . $items['auto_lager'] . '</td>
     <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
@@ -636,14 +639,16 @@ $count++;
 // Add totals row
 $num_to_words = $pdf->convertCurrencyToWords($balance);
 $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-        <td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
-        <td style="width:13%;">' . number_format($totalDebit, 0) . '</td>
-        <td style="width:13%;">' . number_format($totalCredit, 0) . '</td>
-        <td style="width:17%;">' . number_format($balance, 0) . '</td>
-    </tr>
-    </tbody>
-</table>';
+<td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
+<td>' . number_format($totalDebit, 0) . '</td>
+<td>' . number_format($totalCredit, 0) . '</td>
+<td>' . number_format($balance, 0) . '</td>
+</tr>';
 
+// Close tbody and table
+$html .= '</tbody></table>';
+
+// Write HTML content to the PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
