@@ -584,68 +584,64 @@ class RptAccNameGLController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
 
      // Build the HTML for the table
-$html = '
-<table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
-    <thead>
+        $html = '
+        <table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
+            <thead>
+                <tr>
+                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">R/No</th>
+                    <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+                    <th style="width:32%; color:#17365D; font-weight:bold; text-align:left; padding:10px;">Details</th>
+                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Debit</th>
+                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Credit</th>
+                    <th style="width:17%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Balance</th>
+                </tr>
+            </thead>
+            <tbody>';
+
+        $html .= '
         <tr>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">R/No</th>
-            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
-            <th style="width:32%; color:#17365D; font-weight:bold; text-align:left; padding:10px;">Details</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Debit</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Credit</th>
-            <th style="width:17%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Balance</th>
-        </tr>
-    </thead>
-    <tbody>';
+            <td colspan="5" style="text-align:right; font-weight:bold; padding:10px;">Opening Balance</td>
+            <td style="text-align:right; padding:10px;">' . number_format($opening_bal, 0) . '</td>
+        </tr>';
 
-$html .= '
-<tr>
-    <td colspan="5" style="text-align:right; font-weight:bold; padding:10px;">Opening Balance</td>
-    <td style="text-align:right; padding:10px;">' . number_format($opening_bal, 0) . '</td>
+        // Loop through data and append rows
+        $count = 1;
+        foreach ($lager_much_all as $items) {
+            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+
+            // Update running balance
+            if (!empty($items->Debit) && is_numeric($items->Debit)) {
+                $balance += $items->Debit;
+                $totalDebit += $items->Debit;
+            }
+
+            if (!empty($items->Credit) && is_numeric($items->Credit)) {
+                $balance -= $items->Credit;
+                $totalCredit += $items->Credit;
+            }
+
+            // Add row to table
+$html .= '<tr style="background-color:' . $bgColor . ';">
+<td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
+<td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
+<td style="width:32%; padding:10px; text-align:left;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+<td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Debit, 0) . '</td>
+<td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Credit, 0) . '</td>
+<td style="width:17%; padding:10px; text-align:right;">' . number_format($balance, 0) . '</td>
 </tr>';
+        }
 
-// Loop through data and append rows
-$count = 1;
-foreach ($lager_much_all as $items) {
-    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+        // Add totals row
+        $num_to_words = $pdf->convertCurrencyToWords($balance);
+        $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+            <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
+            <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+            <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+            <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+        </tr>';
 
-    // Update running balance
-    if (!empty($items->Debit) && is_numeric($items->Debit)) {
-        $balance += $items->Debit;
-        $totalDebit += $items->Debit;
-    }
-
-    if (!empty($items->Credit) && is_numeric($items->Credit)) {
-        $balance -= $items->Credit;
-        $totalCredit += $items->Credit;
-    }
-
-    // Add row to table
-    $html .= '<tr style="background-color:' . $bgColor . ';">
-        <td style="padding:10px;">' . $items->prefix . $items->auto_lager . '</td>
-        <td style="padding:10px;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-        <td style="font-size: 10px; text-align:left; padding:10px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($items->Debit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($items->Credit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
-    </tr>';
-    $count++;
-}
-
-// Add totals row
-$num_to_words = $pdf->convertCurrencyToWords($balance);
-$html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-    <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-    <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-    <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-    <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
-</tr>';
-
-// Close tbody and table
-$html .= '</tbody></table>';
-
-
-
+        // Close tbody and table
+        $html .= '</tbody></table>';
 
         // Write HTML content to the PDF
         $pdf->writeHTML($html, true, false, true, false, '');
