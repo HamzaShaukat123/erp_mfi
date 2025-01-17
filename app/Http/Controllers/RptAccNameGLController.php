@@ -538,96 +538,115 @@ class RptAccNameGLController extends Controller
         $formattedFromDate = Carbon::createFromFormat('Y-m-d', $request->fromDate)->format('d-m-y');
         $formattedToDate = Carbon::createFromFormat('Y-m-d', $request->toDate)->format('d-m-y');
     
-       // Initialize PDF
-$pdf = new MyPDF();
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('MFI');
-$pdf->SetTitle('General Ledger R-' . $lager_much_op_bal[0]['ac_name']);
-$pdf->SetSubject("General Ledger R");
-$pdf->SetKeywords('General Ledger R, TCPDF, PDF');
-$pdf->setPageOrientation('P');
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM); // Enable automatic page breaks
-$pdf->AddPage();
-$pdf->setCellPadding(1.2);
-
-// Document header
-$heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger R</h1>';
-$pdf->writeHTML($heading, true, false, true, false, '');
-
-// Account Info Table
-$html = '
-    <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
-        <!-- Table Content -->
-    </table>';
-$pdf->writeHTML($html, true, false, true, false, '');
-
-// Table Headers and Rows
-$html = '<table border="1" style="border-collapse: collapse;text-align:center">
-<thead>
-<tr>
-    <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
-    <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
-    <th style="width:32%;color:#17365D;font-weight:bold;">Details</th>
-    <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
-    <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
-    <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <th></th>
-    <th></th>
-    <th style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
-    <th></th>
-    <th></th>
-    <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
-</tr>';
-$count = 1;
-
-foreach ($lager_much_all as $items) {
-    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-
-    // Update running balance
-    if (!empty($items['Debit']) && is_numeric($items['Debit'])) {
-        $balance += $items['Debit'];
-        $totalDebit += $items['Debit'];
-    }
-
-    if (!empty($items['Credit']) && is_numeric($items['Credit'])) {
-        $balance -= $items['Credit'];
-        $totalCredit += $items['Credit'];
-    }
-
-    // Add row
-    $html .= '<tr style="background-color:' . $bgColor . ';">
-        <td>' . $items['prefix'] . '' . $items['auto_lager'] . '</td>
-        <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
-        <td style="font-size: 10px;">' . $items['ac2'] . ' ' . $items['Narration'] . '</td>
-        <td>' . number_format($items['Debit'], 0) . '</td>
-        <td>' . number_format($items['Credit'], 0) . '</td>
-        <td>' . number_format($balance, 0) . '</td>
-    </tr>';
-    $count++;
-}
-
-// Add totals row
-$num_to_words = $pdf->convertCurrencyToWords($balance);
-$html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-            <td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
-            <td style="width:13%;">' . number_format($totalDebit, 0) . '</td>
-            <td style="width:13%;">' . number_format($totalCredit, 0) . '</td>
-            <td style="width:17%;">' . number_format($balance, 0) . '</td>
-        </tr>';
-$html .= '</tbody></table>';
-
-// Write table to PDF
-$pdf->writeHTML($html, true, false, true, false, '');
-
-// Output PDF
-$filename = "general_ledger_r_of_{$lager_much_op_bal[0]['ac_name']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
-$pdf->Output($filename, 'I');
-
+        // Initialize PDF
+        $pdf = new MyPDF();
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle('General Ledger R-' . $lager_much_op_bal[0]['ac_name']);
+        $pdf->SetSubject("General Ledger R");
+        $pdf->SetKeywords('General Ledger R, TCPDF, PDF');
+        $pdf->setPageOrientation('P');
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM); // Enable automatic page breaks
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
     
+        // Document header
+        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger R</h1>';
+        $pdf->writeHTML($heading, true, false, true, false, '');
+    
+        // Account Info Table
+        $html = '
+            <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
+                <tr>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
+                        Account Name: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal[0]['ac_name']) . '</span>
+                    </td>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000; width:30%;">
+                        Print Date: <span style="color:black;">' . htmlspecialchars($currentDate) . '</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
+                        Address: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal[0]['address']) . '</span>
+                    </td>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000;width:30%;">
+                        From Date: <span style="color:black;">' . htmlspecialchars($formattedFromDate) . '</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
+                        Remarks: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal[0]['remarks']) . '</span>
+                    </td>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000; width:30%;">
+                        To Date: <span style="color:black;">' . htmlspecialchars($formattedToDate) . '</span>
+                    </td>
+                </tr>
+            </table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+    
+        // Table Headers
+        $html = '<table border="1" style="border-collapse: collapse;text-align:center">
+        <tr>
+            <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
+            <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
+            <th style="width:32%;color:#17365D;font-weight:bold;">Details</th>
+            <th style="width:13%;color:#17365D;font-weight:bold;">Debit</th>
+            <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
+            <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
+        </tr>
+        
+        <tr>
+            <th></th>
+            <th></th>
+            <th  style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
+            <th></th>
+            <th></th>
+            <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
+        </tr>';
+        
+    
+        $count = 1;
+        foreach ($lager_much_all as $items) {
+            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+        
+            // Update running balance
+            if (!empty($items['Debit']) && is_numeric($items['Debit'])) {
+                $balance += $items['Debit'];
+                $totalDebit += $items['Debit'];
+            }
+        
+            if (!empty($items['Credit']) && is_numeric($items['Credit'])) {
+                $balance -= $items['Credit'];
+                $totalCredit += $items['Credit'];
+            }
+        
+            // Add row with merged Account Name & Remarks column
+            $html .= '<tr style="background-color:' . $bgColor . ';">
+                <td>' . $items['prefix'] . '' . $items['auto_lager'] . '</td>
+                <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
+                <td style="font-size: 10px;">' . $items['ac2'] . ' ' . $items['Narration'] . '</td>
+                <td>' . number_format($items['Debit'], 0) . '</td>
+                <td>' . number_format($items['Credit'], 0) . '</td>
+                <td>' . number_format($balance, 0) . '</td>
+            </tr>';
+            $count++;
+        }
+    
+        // Add totals row
+        $num_to_words = $pdf->convertCurrencyToWords($balance);
+        $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+                    <td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
+                    <td style="width:13%;">' . number_format($totalDebit, 0) . '</td>
+                    <td style="width:13%;">' . number_format($totalCredit, 0) . '</td>
+                    <td style="width:17%;">' . number_format($balance, 0) . '</td>
+                </tr>';
+        
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Filename and Output
+        $filename = "general_ledger_r_of_{$lager_much_op_bal[0]['ac_name']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
+        $pdf->Output($filename, 'I');
     }
     
 
