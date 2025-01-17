@@ -600,12 +600,13 @@ class RptAccNameGLController extends Controller
 
         $html .= '
         <tr>
-        <td style="text-align:center; font-weight:bold; padding:10px; width:32%;">+----Opening Balance----+</td>
+            <td style="width:13%;"></td>
+            <td style="width:13%;"></td>
+            <td style="text-align:center; font-weight:bold; padding:10px; width:32%;">+----Opening Balance----+</td>
             <td style="width:13%;"></td>
             <td style="width:13%;"></td>
             <td style="text-align:center; padding:10px;; width:17%;">' . number_format($opening_bal, 0) . '</td>
-            <td style="width:13%;"></td>
-            <td style="width:13%;"></td>
+            
         </tr>';
 
         // Loop through data and append rows
