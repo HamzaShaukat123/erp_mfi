@@ -609,7 +609,7 @@ class RptAccNameGLController extends Controller
         </tr>';
 
         // Set a predefined height for the content (adjust based on your content size)
-        $tableContentHeight = 1; // Adjust this value based on the row height
+        $tableContentHeight = 20000; // Adjust this value based on the row height
 
         // Loop through data and append rows
         $count = 1;
