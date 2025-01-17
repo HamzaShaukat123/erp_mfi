@@ -557,7 +557,6 @@ class RptAccNameGLController extends Controller
         // Account Info Table
         $html = '
             <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
-            <thead>
                 <tr>
                     <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
                         Account Name: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal[0]['ac_name']) . '</span>
@@ -582,12 +581,12 @@ class RptAccNameGLController extends Controller
                         To Date: <span style="color:black;">' . htmlspecialchars($formattedToDate) . '</span>
                     </td>
                 </tr>
-            </thead>
             </table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
         // Table Headers
         $html = '<table border="1" style="border-collapse: collapse;text-align:center">
+        <thead>
         <tr>
             <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
             <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
@@ -596,7 +595,8 @@ class RptAccNameGLController extends Controller
             <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
             <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
-        
+        </thead>
+        <tbody>
         <tr>
             <th></th>
             <th></th>
@@ -607,7 +607,7 @@ class RptAccNameGLController extends Controller
         </tr>';
         
         $pdf->setTableHtml($html);
-
+        
         $count = 1;
         foreach ($lager_much_all as $items) {
             $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
