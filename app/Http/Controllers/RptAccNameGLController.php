@@ -600,10 +600,12 @@ class RptAccNameGLController extends Controller
 
         $html .= '
         <tr>
-        <td colspan="3" style="text-align:center; font-weight:bold; padding:10px;">+----Opening Balance----+</td>
+        <td style="text-align:center; font-weight:bold; padding:10px; width:32%;">+----Opening Balance----+</td>
             <td style="width:13%;"></td>
             <td style="width:13%;"></td>
-            <td style="text-align:right; padding:10px;">' . number_format($opening_bal, 0) . '</td>
+            <td style="text-align:center; padding:10px;; width:17%;">' . number_format($opening_bal, 0) . '</td>
+            <td style="width:13%;"></td>
+            <td style="width:13%;"></td>
         </tr>';
 
         // Loop through data and append rows
@@ -626,10 +628,10 @@ class RptAccNameGLController extends Controller
             $html .= '<tr style="background-color:' . $bgColor . ';">
             <td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
             <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-            <td style="width:32%; padding:10px; text-align:left;">' . $items->ac2 . ' ' . $items->Narration . '</td>
-            <td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Debit, 0) . '</td>
-            <td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Credit, 0) . '</td>
-            <td style="width:17%; padding:10px; text-align:right;">' . number_format($balance, 0) . '</td>
+            <td style="width:32%; padding:10px; text-align:center;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+            <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Debit, 0) . '</td>
+            <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Credit, 0) . '</td>
+            <td style="width:17%; padding:10px; text-align:center;">' . number_format($balance, 0) . '</td>
             </tr>';
         }
 
