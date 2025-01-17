@@ -601,7 +601,7 @@ class RptAccNameGLController extends Controller
         $html .= '
         <tr>
             <td style="width:13%;"></td>
-            <td style="width:13%;"></td>
+            <td style="width:12%;"></td>
             <td style="text-align:center; font-weight:bold; padding:10px; width:32%;">+----Opening Balance----+</td>
             <td style="width:13%;"></td>
             <td style="width:13%;"></td>
