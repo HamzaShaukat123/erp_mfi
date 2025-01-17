@@ -302,15 +302,28 @@ class RptAccNameGLController extends Controller
         </tr>';
 
         // Set a predefined height for the content (adjust based on your content size)
-        $tableContentHeight = 20; // Adjust this value based on the row height
+        $currentY = $pdf->GetY();
 
-        // Loop through data and append rows
-        $count = 1;
-        foreach ($lager_much_all as $items) {
-        // Check if we need to add a new page (based on current position and content height)
-        if ($pdf->getY() + $tableContentHeight > $pdf->getPageHeight()) {
-            $pdf->AddPage();  // Start a new page
-        }
+// Define the row height and the margin to trigger a new page
+$rowHeight = 20;  // Adjust this based on the row height
+$remainingHeight = $pdf->getPageHeight() - $currentY;
+
+// Check if there is enough space for the next row
+if ($remainingHeight < $rowHeight) {
+    $pdf->AddPage();  // Start a new page
+    $currentY = $pdf->GetY() + 15;  // Adjust starting Y position after adding a new page
+}
+
+// Loop through the data and append rows
+foreach ($lager_much_all as $items) {
+    // Update current Y position after adding the row
+    $currentY += $rowHeight;
+
+    // If necessary, you can check if a new page is needed inside the loop too
+    if ($currentY + $rowHeight > $pdf->getPageHeight()) {
+        $pdf->AddPage();  // Start a new page if needed
+        $currentY = $pdf->GetY() + 15;  // Reset Y position after adding the new page
+    }
 
         // Alternate background color between white and light gray
         $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
