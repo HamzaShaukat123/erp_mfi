@@ -644,8 +644,7 @@ class RptAccNameGLController extends Controller
         <td style="text-align:center; padding:10px;; width:17%;">' . number_format($opening_bal, 0) . '</td>
         </tr>';
 
-      
-
+        
         // Loop through data and append rows
         $count = 1;
         $currentY = $pdf->GetY();
@@ -670,7 +669,6 @@ foreach ($lager_much_all as $items) {
         $pdf->AddPage();  // Start a new page if needed
         $currentY = $pdf->GetY() + 15;  // Reset Y position after adding the new page
     }
-        }
 
         // Alternate background color between white and light gray
         $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
