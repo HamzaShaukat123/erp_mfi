@@ -636,7 +636,7 @@ class RptAccNameGLController extends Controller
         $html .= '<tr style="background-color:' . $bgColor . ';">
             <td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
             <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-            <td style="width:32%; padding:10px; text-align:center; font-size:10px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+            <td style="width:32%; padding:10px; text-align:center; font-size:9px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
             <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Debit, 0) . '</td>
             <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Credit, 0) . '</td>
             <td style="width:17%; padding:10px; text-align:center;">' . number_format($balance, 0) . '</td>
