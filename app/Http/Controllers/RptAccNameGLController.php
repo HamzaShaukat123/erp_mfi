@@ -504,6 +504,40 @@ class RptAccNameGLController extends Controller
 
 
     public function glrPDF(Request $request) {
+        // Fetch opening balance records
+        $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+            ->join('ac', 'ac.ac_code', '=', 'lager_much_op_bal.ac1')
+            ->where('date', '<', $request->fromDate)
+            ->get();
+    
+        // Fetch transactions within the date range
+        $lager_much_all = lager_much_all::where('account_cod', $request->acc_id)
+            ->whereBetween('jv_date', [$request->fromDate, $request->toDate])
+            ->orderBy('jv_date','asc')
+            ->orderBy('prefix','asc')
+            ->orderBy('auto_lager','asc')
+            ->get();
+    
+        $SOD = 0;
+        $SOC = 0;
+    
+        // Calculate SumOfDebit and SumOfrec_cr for opening balance
+        foreach ($lager_much_op_bal as $record) {
+            $SOD += $record->SumOfDebit ?? 0;
+            $SOC += $record->SumOfrec_cr ?? 0;
+        }
+    
+        $opening_bal = $SOD - $SOC;
+    
+        $balance = $opening_bal; // Start with opening balance
+        $totalDebit = 0;
+        $totalCredit = 0;
+    
+        // Get and format current and report dates
+        $currentDate = Carbon::now()->format('d-m-y');
+        $formattedFromDate = Carbon::createFromFormat('Y-m-d', $request->fromDate)->format('d-m-y');
+        $formattedToDate = Carbon::createFromFormat('Y-m-d', $request->toDate)->format('d-m-y');
+    
        // Initialize PDF
 $pdf = new MyPDF();
 $pdf->SetCreator(PDF_CREATOR);
