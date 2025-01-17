@@ -583,8 +583,10 @@ class RptAccNameGLController extends Controller
             </table>';
         $pdf->writeHTML($html, true, false, true, false, '');
     
-        // Table Headers
-        $html = '<table border="1" style="border-collapse: collapse;text-align:center">
+      // Table Headers and Content
+$html = '
+<table border="1" style="border-collapse: collapse;text-align:center">
+    <thead>
         <tr>
             <th style="width:13%;color:#17365D;font-weight:bold;">R/No</th>
             <th style="width:12%;color:#17365D;font-weight:bold;">Date</th>
@@ -593,55 +595,57 @@ class RptAccNameGLController extends Controller
             <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
             <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
-        
         <tr>
             <th></th>
             <th></th>
-            <th  style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
+            <th style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
             <th></th>
             <th></th>
             <th style="text-align: center">' . number_format($opening_bal, 0) . '</th>
-        </tr>';
-        
-    
-        $count = 1;
-        foreach ($lager_much_all as $items) {
-            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-        
-            // Update running balance
-            if (!empty($items['Debit']) && is_numeric($items['Debit'])) {
-                $balance += $items['Debit'];
-                $totalDebit += $items['Debit'];
-            }
-        
-            if (!empty($items['Credit']) && is_numeric($items['Credit'])) {
-                $balance -= $items['Credit'];
-                $totalCredit += $items['Credit'];
-            }
-        
-            // Add row with merged Account Name & Remarks column
-            $html .= '<tr style="background-color:' . $bgColor . ';">
-                <td>' . $items['prefix'] . '' . $items['auto_lager'] . '</td>
-                <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
-                <td style="font-size: 10px;">' . $items['ac2'] . ' ' . $items['Narration'] . '</td>
-                <td>' . number_format($items['Debit'], 0) . '</td>
-                <td>' . number_format($items['Credit'], 0) . '</td>
-                <td>' . number_format($balance, 0) . '</td>
-            </tr>';
-            $count++;
-        }
-    
-        // Add totals row
-        $num_to_words = $pdf->convertCurrencyToWords($balance);
-        $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-                    <td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
-                    <td style="width:13%;">' . number_format($totalDebit, 0) . '</td>
-                    <td style="width:13%;">' . number_format($totalCredit, 0) . '</td>
-                    <td style="width:17%;">' . number_format($balance, 0) . '</td>
-                </tr>';
-        
-        $html .= '</table>';
-        $pdf->writeHTML($html, true, false, true, false, '');
+        </tr>
+    </thead>
+    <tbody>';
+
+// Loop through data and append rows
+$count = 1;
+foreach ($lager_much_all as $items) {
+$bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+
+// Update running balance
+if (!empty($items['Debit']) && is_numeric($items['Debit'])) {
+    $balance += $items['Debit'];
+    $totalDebit += $items['Debit'];
+}
+
+if (!empty($items['Credit']) && is_numeric($items['Credit'])) {
+    $balance -= $items['Credit'];
+    $totalCredit += $items['Credit'];
+}
+
+$html .= '<tr style="background-color:' . $bgColor . ';">
+    <td>' . $items['prefix'] . '' . $items['auto_lager'] . '</td>
+    <td>' . Carbon::createFromFormat('Y-m-d', $items['jv_date'])->format('d-m-y') . '</td>
+    <td style="font-size: 10px;">' . $items['ac2'] . ' ' . $items['Narration'] . '</td>
+    <td>' . number_format($items['Debit'], 0) . '</td>
+    <td>' . number_format($items['Credit'], 0) . '</td>
+    <td>' . number_format($balance, 0) . '</td>
+</tr>';
+$count++;
+}
+
+// Add totals row
+$num_to_words = $pdf->convertCurrencyToWords($balance);
+$html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+        <td colspan="3" style="text-align:center; font-style:italic;"> ' . htmlspecialchars($num_to_words) . '</td>
+        <td style="width:13%;">' . number_format($totalDebit, 0) . '</td>
+        <td style="width:13%;">' . number_format($totalCredit, 0) . '</td>
+        <td style="width:17%;">' . number_format($balance, 0) . '</td>
+    </tr>
+    </tbody>
+</table>';
+
+$pdf->writeHTML($html, true, false, true, false, '');
+
 
         // Filename and Output
         $filename = "general_ledger_r_of_{$lager_much_op_bal[0]['ac_name']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
