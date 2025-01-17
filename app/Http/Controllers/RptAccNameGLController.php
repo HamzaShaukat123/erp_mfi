@@ -600,7 +600,7 @@ class RptAccNameGLController extends Controller
 
         $html .= '
         <tr>
-            <td colspan="5" style="text-align:right; font-weight:bold; padding:10px;">Opening Balance</td>
+            <td colspan="5" style="text-align:center; font-weight:bold; padding:10px;">+----Opening Balance----+</td>
             <td style="text-align:right; padding:10px;">' . number_format($opening_bal, 0) . '</td>
         </tr>';
 
