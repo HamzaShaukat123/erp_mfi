@@ -593,7 +593,7 @@ class RptAccNameGLController extends Controller
             <th style="width:13%;color:#17365D;font-weight:bold;">Credit</th>
             <th style="width:17%;color:#17365D;font-weight:bold;">Balance</th>
         </tr>
-        
+        $pdf->setTableHtml($html);
         <tr>
             <th></th>
             <th></th>
