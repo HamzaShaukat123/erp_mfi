@@ -590,10 +590,10 @@ class RptAccNameGLController extends Controller
                 <tr>
                     <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">R/No</th>
                     <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
-                    <th style="width:32%; color:#17365D; font-weight:bold; text-align:left; padding:10px;">Details</th>
-                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Debit</th>
-                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Credit</th>
-                    <th style="width:17%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Balance</th>
+                    <th style="width:32%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Details</th>
+                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
+                    <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
+                    <th style="width:17%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Balance</th>
                 </tr>
             </thead>
             <tbody>';
@@ -621,14 +621,14 @@ class RptAccNameGLController extends Controller
             }
 
             // Add row to table
-$html .= '<tr style="background-color:' . $bgColor . ';">
-<td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
-<td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-<td style="width:32%; padding:10px; text-align:left;">' . $items->ac2 . ' ' . $items->Narration . '</td>
-<td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Debit, 0) . '</td>
-<td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Credit, 0) . '</td>
-<td style="width:17%; padding:10px; text-align:right;">' . number_format($balance, 0) . '</td>
-</tr>';
+            $html .= '<tr style="background-color:' . $bgColor . ';">
+            <td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
+            <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
+            <td style="width:32%; padding:10px; text-align:left;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+            <td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Debit, 0) . '</td>
+            <td style="width:13%; padding:10px; text-align:right;">' . number_format($items->Credit, 0) . '</td>
+            <td style="width:17%; padding:10px; text-align:right;">' . number_format($balance, 0) . '</td>
+            </tr>';
         }
 
         // Add totals row
