@@ -644,72 +644,72 @@ class RptAccNameGLController extends Controller
         <td style="text-align:center; padding:10px;; width:17%;">' . number_format($opening_bal, 0) . '</td>
         </tr>';
 
-        
-        // Loop through data and append rows
-        $count = 1;
-        $currentY = $pdf->GetY();
+       // Loop through the data and append rows
+$count = 1;
+$currentY = $pdf->GetY();
 
-// Define the row height and the margin to trigger a new page
+// Define the row height and margin to trigger a new page
 $rowHeight = 20;  // Adjust this based on the row height
-$remainingHeight = $pdf->getPageHeight() - $currentY;
 
 // Check if there is enough space for the next row
+$remainingHeight = $pdf->getPageHeight() - $currentY;
 if ($remainingHeight < $rowHeight) {
     $pdf->AddPage();  // Start a new page
     $currentY = $pdf->GetY() + 15;  // Adjust starting Y position after adding a new page
 }
 
-// Loop through the data and append rows
+// Loop through the transactions and append rows
 foreach ($lager_much_all as $items) {
     // Update current Y position after adding the row
     $currentY += $rowHeight;
 
-    // If necessary, you can check if a new page is needed inside the loop too
+    // If necessary, check if a new page is needed inside the loop too
     if ($currentY + $rowHeight > $pdf->getPageHeight()) {
         $pdf->AddPage();  // Start a new page if needed
         $currentY = $pdf->GetY() + 15;  // Reset Y position after adding the new page
     }
 
-        // Alternate background color between white and light gray
-        $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+    // Alternate background color between white and light gray
+    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
 
-        // Update running balance
-        if (!empty($items->Debit) && is_numeric($items->Debit)) {
-            $balance += $items->Debit;
-            $totalDebit += $items->Debit;
-        }
+    // Update running balance
+    if (!empty($items->Debit) && is_numeric($items->Debit)) {
+        $balance += $items->Debit;
+        $totalDebit += $items->Debit;
+    }
 
-        if (!empty($items->Credit) && is_numeric($items->Credit)) {
-            $balance -= $items->Credit;
-            $totalCredit += $items->Credit;
-        }
+    if (!empty($items->Credit) && is_numeric($items->Credit)) {
+        $balance -= $items->Credit;
+        $totalCredit += $items->Credit;
+    }
 
-        // Add row to table with alternating colors
-        $html .= '<tr style="background-color:' . $bgColor . ';">
-            <td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
-            <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-            <td style="width:32%; padding:10px; text-align:center; font-size:9px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
-            <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Debit, 0) . '</td>
-            <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Credit, 0) . '</td>
-            <td style="width:17%; padding:10px; text-align:center;">' . number_format($balance, 0) . '</td>
-        </tr>';
-        $count++;
-        }
+    // Add row to table with alternating colors
+    $html .= '<tr style="background-color:' . $bgColor . ';">
+        <td style="width:13%; padding:10px; text-align:center;">' . $items->prefix . $items->auto_lager . '</td>
+        <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
+        <td style="width:32%; padding:10px; text-align:center; font-size:9px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+        <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Debit, 0) . '</td>
+        <td style="width:13%; padding:10px; text-align:center;">' . number_format($items->Credit, 0) . '</td>
+        <td style="width:17%; padding:10px; text-align:center;">' . number_format($balance, 0) . '</td>
+    </tr>';
 
-        // Add totals row
-        $num_to_words = $pdf->convertCurrencyToWords($balance);
-        $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-        <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
-        </tr>';
+    $count++;
+}
 
-        // Close tbody and table
-        $html .= '</tbody></table>';
+// Add totals row
+$num_to_words = $pdf->convertCurrencyToWords($balance);
+$html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+    <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+</tr>';
 
-        // Write HTML content to the PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
+// Close tbody and table
+$html .= '</tbody></table>';
+
+// Write HTML content to the PDF
+$pdf->writeHTML($html, true, false, true, false, '');
 
         // Filename and Output
         $filename = "general_ledger_r_of_{$lager_much_op_bal->first()->ac_name}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
