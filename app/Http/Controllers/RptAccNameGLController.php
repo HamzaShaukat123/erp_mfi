@@ -583,25 +583,25 @@ class RptAccNameGLController extends Controller
         </table>';
         $pdf->writeHTML($html, true, false, true, false, '');
 
-       // Build the HTML for the table
+     // Build the HTML for the table
 $html = '
 <table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
     <thead>
         <tr>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center;">R/No</th>
-            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center;">Date</th>
-            <th style="width:32%; color:#17365D; font-weight:bold; text-align:left; padding-left:10px;">Details</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding-right:10px;">Debit</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding-right:10px;">Credit</th>
-            <th style="width:17%; color:#17365D; font-weight:bold; text-align:right; padding-right:10px;">Balance</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">R/No</th>
+            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+            <th style="width:32%; color:#17365D; font-weight:bold; text-align:left; padding:10px;">Details</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Debit</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Credit</th>
+            <th style="width:17%; color:#17365D; font-weight:bold; text-align:right; padding:10px;">Balance</th>
         </tr>
     </thead>
     <tbody>';
 
 $html .= '
 <tr>
-    <td colspan="5" style="text-align:right; font-weight:bold;">Opening Balance</td>
-    <td style="text-align:right;">' . number_format($opening_bal, 0) . '</td>
+    <td colspan="5" style="text-align:right; font-weight:bold; padding:10px;">Opening Balance</td>
+    <td style="text-align:right; padding:10px;">' . number_format($opening_bal, 0) . '</td>
 </tr>';
 
 // Loop through data and append rows
@@ -622,12 +622,12 @@ foreach ($lager_much_all as $items) {
 
     // Add row to table
     $html .= '<tr style="background-color:' . $bgColor . ';">
-        <td>' . $items->prefix . $items->auto_lager . '</td>
-        <td>' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
-        <td style="font-size: 10px; text-align:left; padding-left:10px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
-        <td style="text-align:right; padding-right:10px;">' . number_format($items->Debit, 0) . '</td>
-        <td style="text-align:right; padding-right:10px;">' . number_format($items->Credit, 0) . '</td>
-        <td style="text-align:right; padding-right:10px;">' . number_format($balance, 0) . '</td>
+        <td style="padding:10px;">' . $items->prefix . $items->auto_lager . '</td>
+        <td style="padding:10px;">' . Carbon::createFromFormat('Y-m-d', $items->jv_date)->format('d-m-y') . '</td>
+        <td style="font-size: 10px; text-align:left; padding:10px;">' . $items->ac2 . ' ' . $items->Narration . '</td>
+        <td style="text-align:right; padding:10px;">' . number_format($items->Debit, 0) . '</td>
+        <td style="text-align:right; padding:10px;">' . number_format($items->Credit, 0) . '</td>
+        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
     </tr>';
     $count++;
 }
@@ -635,14 +635,15 @@ foreach ($lager_much_all as $items) {
 // Add totals row
 $num_to_words = $pdf->convertCurrencyToWords($balance);
 $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
-    <td colspan="3" style="text-align:center; font-style:italic;">' . htmlspecialchars($num_to_words) . '</td>
-    <td style="text-align:right; padding-right:10px;">' . number_format($totalDebit, 0) . '</td>
-    <td style="text-align:right; padding-right:10px;">' . number_format($totalCredit, 0) . '</td>
-    <td style="text-align:right; padding-right:10px;">' . number_format($balance, 0) . '</td>
+    <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+    <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
 </tr>';
 
 // Close tbody and table
 $html .= '</tbody></table>';
+
 
 
 
