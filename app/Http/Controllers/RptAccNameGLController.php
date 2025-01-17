@@ -600,12 +600,12 @@ class RptAccNameGLController extends Controller
 
         $html .= '
         <tr>
-            <th></th>
-            <th></th>
-            <th  style="text-align: center;font-weight:bold;">+----Opening Balance----+</th>
-            <th></th>
-            <th></th>
-            <th style="text-align:right;">' . number_format($opening_bal, 0) . '</th>
+            <th style="width:13%;></th>
+            <th style="width:12%;></th>
+            <th  style="width:32%; text-align: center;font-weight:bold;">+----Opening Balance----+</th>
+            <th style="width:13%></th>
+            <th style="width:13%></th>
+            <th style="width:17%; text-align:right;">' . number_format($opening_bal, 0) . '</th>
             
         </tr>';
 
