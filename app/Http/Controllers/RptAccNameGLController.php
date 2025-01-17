@@ -547,7 +547,7 @@ class RptAccNameGLController extends Controller
         $pdf->SetKeywords('General Ledger R, TCPDF, PDF');
         $pdf->setPageOrientation('P');
         $pdf->AddPage();
-        $pdf->setCellPadding(1);
+        $pdf->setCellPadding(1.2);
 
         // Document header
         $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger R</h1>';
