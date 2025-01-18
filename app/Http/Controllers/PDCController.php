@@ -221,7 +221,7 @@ class PDCController extends Controller
 
     public function downloadAtt($id)
     {
-        $doc=jpdc_att::where('att_id', $id)->select('att_path')->first();
+        $doc=pdc_att::where('att_id', $id)->select('att_path')->first();
         $filePath = public_path($doc['att_path']);
         if (file_exists($filePath)) {
             return Response::download($filePath);
