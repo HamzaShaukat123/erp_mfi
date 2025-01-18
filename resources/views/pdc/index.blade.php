@@ -296,7 +296,7 @@
                                     <th>Delete</th>
                                 </tr>
                             </thead>
-                            <tbody id="jv1_attachements">
+                            <tbody id="pdc_attachements">
 
                             </tbody>
                         </table>
@@ -366,7 +366,7 @@
 
     function getAttachements(id){
 
-        var table = document.getElementById('jv1_attachements');
+        var table = document.getElementById('pdc_attachements');
         while (table.rows.length > 0) {
             table.deleteRow(0);
         }
@@ -383,7 +383,7 @@
                     html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-primary' href='/pdc/view/"+v['att_id']+"' target='_blank'><i class='fas fa-eye'></i></a></td>"
                     html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-primary' href='#' onclick='deleteFile("+v['att_id']+")'><i class='fas fa-trash'></i></a></td>"
                     html+="</tr>";
-                    $('#jv1_attachements').append(html);
+                    $('#pdc_attachements').append(html);
                 });
                 $('#download_id').val(result[0]['ac_code']);
             },

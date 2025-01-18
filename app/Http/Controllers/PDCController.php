@@ -92,11 +92,11 @@ class PDCController extends Controller
             $files = $request->file('att');
             foreach ($files as $file)
             {
-                $jv1_att = new pdc_att();
-                $jv1_att->pdc_id = $latest_jv1['pdc_id'];
+                $pdc_att = new pdc_att();
+                $pdc_att->pdc_id = $latest_jv1['pdc_id'];
                 $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->pdcDoc($file,$extension);
-                $jv1_att->save();
+                $pdc_att->att_path = $this->pdcDoc($file,$extension);
+                $pdc_att->save();
             }
         }
         return redirect()->route('all-pdc');
@@ -154,15 +154,15 @@ class PDCController extends Controller
 
         if($request->hasFile('update_att')){
             
-            // jv1_att::where('jv1_id', $request->update_pdc_id)->delete();
+            // pdc_att::where('jv1_id', $request->update_pdc_id)->delete();
             $files = $request->file('update_att');
             foreach ($files as $file)
             {
-                $jv1_att = new pdc_att();
-                $jv1_att->pdc_id =  $request->update_pdc_id;
+                $pdc_att = new pdc_att();
+                $pdc_att->pdc_id =  $request->update_pdc_id;
                 $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->pdcDoc($file,$extension);
-                $jv1_att->save();
+                $pdc_att->att_path = $this->pdcDoc($file,$extension);
+                $pdc_att->save();
             }
         }
 
@@ -177,12 +177,12 @@ class PDCController extends Controller
             $files = $request->file('addAtt');
             foreach ($files as $file)
             {
-                $jv1_att = new pdc_att();
-                $jv1_att->created_by = session('user_id');                
-                $jv1_att->pdc_id = $pdc_id;
+                $pdc_att = new pdc_att();
+                $pdc_att->created_by = session('user_id');                
+                $pdc_att->pdc_id = $pdc_id;
                 $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->pdcDoc($file,$extension);
-                $jv1_att->save();
+                $pdc_att->att_path = $this->pdcDoc($file,$extension);
+                $pdc_att->save();
             }
         }
         return redirect()->route('all-pdc');
@@ -200,8 +200,8 @@ class PDCController extends Controller
 
     public function getAttachements(Request $request)
     {
-        $jv1_atts = pdc_att::where('pdc_id', $request->id)->get();
-        return $jv1_atts;
+        $pdc_atts = pdc_att::where('pdc_id', $request->id)->get();
+        return $pdc_atts;
     }
 
     public function getPDCDetails(Request $request)
@@ -235,7 +235,7 @@ class PDCController extends Controller
 
         if (File::exists($filePath)) {
             File::delete($filePath);
-            $jv1_att = jv1_att::where('att_id', $id)->delete();
+            $pdc_att = pdc_att::where('att_id', $id)->delete();
             return response()->json(['message' => 'File deleted successfully.']);
         } else {
             return response()->json(['message' => 'File not found.'], 404);
