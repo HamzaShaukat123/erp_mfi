@@ -637,5 +637,10 @@
     Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
     Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');
     Route::post('/pdc/update', [App\Http\Controllers\PDCController::class, 'update'])->name('update-pdc');
+    Route::post('/pdc/delete', [App\Http\Controllers\PDCController::class, 'destroy'])->name('delete-pdc');
     Route::get('/pdc/attachements', [App\Http\Controllers\PDCController::class, 'getAttachements'])->name('get-pdc-att');
     Route::post('/pdc/addAtt/', [App\Http\Controllers\PDCController::class, 'addAtt'])->name('pdc-att-add');
+    Route::get('/pdc/download/{id}', [App\Http\Controllers\PDCController::class, 'downloadAtt'])->name('pdc-att-download');
+    Route::get('/pdc/view/{id}', [App\Http\Controllers\PDCController::class, 'view'])->name('pdc-att-view');
+    Route::delete('/pdc/deleteAttachment/{id}', [App\Http\Controllers\PDCController::class, 'deleteAtt'])->name('pdc-att-delete');
+    Route::get('/pdc/print/{id}', [App\Http\Controllers\PDCController::class, 'print'])->name('print-pdc');
