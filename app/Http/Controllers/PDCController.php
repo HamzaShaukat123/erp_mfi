@@ -171,7 +171,7 @@ class PDCController extends Controller
 
     public function addAtt(Request $request)
     {
-        $jv1_id=$request->att_id;
+        $pdc_id=$request->att_id;
 
         if($request->hasFile('addAtt')){
             $files = $request->file('addAtt');
