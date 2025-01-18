@@ -88,17 +88,17 @@ class PDCController extends Controller
 
         $latest_jv1 = pdc::latest()->first();
 
-        // if($request->hasFile('att')){
-        //     $files = $request->file('att');
-        //     foreach ($files as $file)
-        //     {
-        //         $jv1_att = new jv1_att();
-        //         $jv1_att->jv1_id = $latest_jv1['pdc_id'];
-        //         $extension = $file->getClientOriginalExtension();
-        //         $jv1_att->att_path = $this->jv1Doc($file,$extension);
-        //         $jv1_att->save();
-        //     }
-        // }
+        if($request->hasFile('att')){
+            $files = $request->file('att');
+            foreach ($files as $file)
+            {
+                $jv1_att = new pdc_att();
+                $jv1_att->pdc_id = $latest_jv1['pdc_id'];
+                $extension = $file->getClientOriginalExtension();
+                $jv1_att->att_path = $this->pdcDoc($file,$extension);
+                $jv1_att->save();
+            }
+        }
         return redirect()->route('all-pdc');
     }
     
@@ -152,19 +152,19 @@ class PDCController extends Controller
             'updated_by' => session('user_id'),
         ]);
 
-        // if($request->hasFile('update_att')){
+        if($request->hasFile('update_att')){
             
-        //     // jv1_att::where('jv1_id', $request->update_pdc_id)->delete();
-        //     $files = $request->file('update_att');
-        //     foreach ($files as $file)
-        //     {
-        //         $jv1_att = new jv1_att();
-        //         $jv1_att->jv1_id =  $request->update_pdc_id;
-        //         $extension = $file->getClientOriginalExtension();
-        //         $jv1_att->att_path = $this->jv1Doc($file,$extension);
-        //         $jv1_att->save();
-        //     }
-        // }
+            // jv1_att::where('jv1_id', $request->update_pdc_id)->delete();
+            $files = $request->file('update_att');
+            foreach ($files as $file)
+            {
+                $jv1_att = new pdc_att();
+                $jv1_att->pdc_id =  $request->update_pdc_id;
+                $extension = $file->getClientOriginalExtension();
+                $jv1_att->att_path = $this->pdcDoc($file,$extension);
+                $jv1_att->save();
+            }
+        }
 
         return redirect()->route('all-pdc');
     }
@@ -177,15 +177,15 @@ class PDCController extends Controller
             $files = $request->file('addAtt');
             foreach ($files as $file)
             {
-                $jv1_att = new jv1_att();
+                $jv1_att = new pdc_att();
                 $jv1_att->created_by = session('user_id');                
-                $jv1_att->jv1_id = $jv1_id;
+                $jv1_att->pdc_id = $pdc_id;
                 $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->jv1Doc($file,$extension);
+                $jv1_att->att_path = $this->pdcDoc($file,$extension);
                 $jv1_att->save();
             }
         }
-        return redirect()->route('all-jv1');
+        return redirect()->route('all-pdc');
 
     }
 
@@ -195,12 +195,12 @@ class PDCController extends Controller
             'status' => '0',
             'updated_by' => session('user_id'),
         ]);
-        return redirect()->route('all-jv1');
+        return redirect()->route('all-pdc');
     }
 
     public function getAttachements(Request $request)
     {
-        $jv1_atts = jv1_att::where('jv1_id', $request->id)->get();
+        $jv1_atts = pdc_att::where('pdc_id', $request->id)->get();
         return $jv1_atts;
     }
 

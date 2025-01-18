@@ -39,6 +39,17 @@ trait SaveImage{
         return $filenamepath;
     }
 
+    public function pdcDoc($file,$extension)
+    {
+        $img = $file;
+        $number = rand(1,999);
+        $numb = $number / 7 ;
+        $filenamenew    = date('Y-m-d')."_.".$numb."_.".$extension;
+        $filenamepath   = 'uploads/pdc/'.$filenamenew;
+        $filename       = $img->move(public_path('uploads/pdc/'),$filenamenew);
+        return $filenamepath;
+    }
+
     public function jv2Doc($file,$extension)
     {
         $img = $file;
