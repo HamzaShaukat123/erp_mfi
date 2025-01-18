@@ -637,3 +637,4 @@
     Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
     Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');
     Route::post('/pdc/update', [App\Http\Controllers\PDCController::class, 'update'])->name('update-pdc');
+    Route::get('/pdc/attachements', [App\Http\Controllers\PDCController::class, 'getAttachements'])->name('get-pdc-att');
