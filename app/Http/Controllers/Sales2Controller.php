@@ -764,7 +764,7 @@ class Sales2Controller extends Controller
             $html .= '<tr style="' . $bg_color . '">';
             $html .= '<td style="width:6%;border-right:1px dashed #000;border-left:1px dashed #000; text-align:center">' . $count . '</td>';
             $html .= '<td style="width:28%;border-right:1px dashed #000">' . $items['item_name'] . '</td>';
-            $html .= '<td style="width:21%;border-right:1px dashed #000; font-size:10px;">' . $items['remarks'] . '</td>';
+            $html .= '<td style="width:21%;border-right:1px dashed #000; font-size:9px;">' . $items['remarks'] . '</td>';
             $html .= '<td style="width:10%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
             $total_quantity += $items['Sales_qty2'];
              // Calculate the list price
@@ -969,7 +969,7 @@ class Sales2Controller extends Controller
             $html .= '<tr style="' . $bg_color . '">';
             $html .= '<td style="width:6%;border-right:1px dashed #000;border-left:1px dashed #000; text-align:center">' . $count . '</td>';
             $html .= '<td style="width:29%;border-right:1px dashed #000">' . $items['item_name'] . '</td>';
-            $html .= '<td style="width:25%;border-right:1px dashed #000">' . $items['remarks'] . '</td>';
+            $html .= '<td style="width:25%;border-right:1px dashed #000; font-size:9px;">' . $items['remarks'] . '</td>';
             $html .= '<td style="width:10%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
             $total_quantity += $items['Sales_qty2'];
              // Calculate the list price
