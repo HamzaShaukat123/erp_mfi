@@ -152,6 +152,8 @@ class RptAccNamePurAgeingController extends Controller
                 <th style="width:8%;color:#17365D; font-weight:bold;">Over 50 Days</th>
                 <th style="width:8%;color:#17365D; font-weight:bold;">Cleared In Days</th>
             </tr>';
+
+            $pdf->setTableHtml($html);
         
         // Table Rows
         $count = 1;
