@@ -559,7 +559,7 @@ class Sales2Controller extends Controller
             $html .= '<tr style="' . $bg_color . '">';
             $html .= '<td style="width:6%;border-right:1px dashed #000;border-left:1px dashed #000; text-align:center">' . $count . '</td>';
             $html .= '<td style="width:26%;border-right:1px dashed #000">' . $items['item_name'] . '</td>';
-            $html .= '<td style="width:20%;border-right:1px dashed #000">' . $items['remarks'] . '</td>';
+            $html .= '<td style="width:20%;border-right:1px dashed #000; font-size:9px;">' . $items['remarks'] . '</td>';
             $html .= '<td style="width:10%;border-right:1px dashed #000; text-align:center">' . $items['Sales_qty2'] . '</td>';
             $total_quantity += $items['Sales_qty2'];
             $html .= '<td style="width:11%;border-right:1px dashed #000; text-align:center">' . $items['sales_price'] . '</td>';
