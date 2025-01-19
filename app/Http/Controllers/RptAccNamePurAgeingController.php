@@ -99,7 +99,8 @@ class RptAccNamePurAgeingController extends Controller
             $pdf->SetKeywords('Purchase Ageing Report, TCPDF, PDF');
             $pdf->setPageOrientation('L');
             $pdf->AddPage();  // Add the first page
-
+            
+            // Initialize $cellspacingx (for example, setting a value for cellspacing between table cells)
             $cellspacingx = 5;  // Adjust this value as needed
             
             // Document header
@@ -135,7 +136,7 @@ class RptAccNamePurAgeingController extends Controller
             $pdf->writeHTML($html, true, false, true, false, '');
             
             // Table Headers
-            $tableHeader = '<table border="1" style="border-collapse: collapse; text-align:center; width:100%;">
+            $tableHeader = '<table border="1" style="border-collapse: collapse; text-align:center; width:100%; cellspacing:' . $cellspacingx . 'px;">
                                 <tr>
                                     <th style="width:4%;color:#17365D; font-weight:bold;">S/No</th>
                                     <th style="width:9%;color:#17365D; font-weight:bold;">Date</th>
@@ -195,7 +196,7 @@ class RptAccNamePurAgeingController extends Controller
             // Output PDF
             $filename = "Sales_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
             $pdf->Output($filename, 'I');
-            
+                
     }
 
     public function purAgeingDownload(Request $request)
