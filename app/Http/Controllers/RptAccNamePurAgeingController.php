@@ -91,7 +91,7 @@ class RptAccNamePurAgeingController extends Controller
             $formattedFromDate = Carbon::createFromFormat('Y-m-d', $request->fromDate)->format('d-m-y');
             $formattedToDate = Carbon::createFromFormat('Y-m-d', $request->toDate)->format('d-m-y');
     
-            $pdf = new TCPDF();  // Create new TCPDF instance
+            $pdf = new MyPDF();
             $pdf->SetCreator(PDF_CREATOR);
             $pdf->SetAuthor('MFI');
             $pdf->SetTitle("Purchase Ageing Report Of Account - {$pur_days[0]['ac_nam']}");
