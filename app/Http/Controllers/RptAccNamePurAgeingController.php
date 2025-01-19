@@ -90,7 +90,6 @@ class RptAccNamePurAgeingController extends Controller
             $currentDate = Carbon::now()->format('d-m-y');
             $formattedFromDate = Carbon::createFromFormat('Y-m-d', $request->fromDate)->format('d-m-y');
             $formattedToDate = Carbon::createFromFormat('Y-m-d', $request->toDate)->format('d-m-y');
-    
             $pdf = new MyPDF();
             $pdf->SetCreator(PDF_CREATOR);
             $pdf->SetAuthor('MFI');
@@ -193,6 +192,7 @@ class RptAccNamePurAgeingController extends Controller
             // Output PDF
             $filename = "Sales_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
             $pdf->Output($filename, 'I');
+            
                             
     }
 
