@@ -18,6 +18,15 @@ class DatabaseBackupController extends Controller
         $dbUser = env('DB_USERNAME');
         $dbPassword = env('DB_PASSWORD');
     
+        // try {
+        //     $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
+        //     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //     die("Database connection successful.");
+        // } catch (PDOException $e) {
+        //     die("Database connection failed: " . $e->getMessage());
+        //     return response()->json(['error' => 'Database connection failed. ' . $e->getMessage()], 500);
+        // }
+
         $fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
         $headers = [
             'Content-Type' => 'application/octet-stream',

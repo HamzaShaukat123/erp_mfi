@@ -148,12 +148,13 @@
                                 </a>
                             </li>	
                             @endif
-
+                            @if(((session('user_access')[36]['module_id'])==37 && (session('user_access')[36]['view'])==1))
                             <li>
                                 <a class="nav-link"   href="{{ route('all-pdc')}}">
                                     PDC
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
