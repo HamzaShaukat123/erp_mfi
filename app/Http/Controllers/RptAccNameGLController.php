@@ -243,7 +243,7 @@ class RptAccNameGLController extends Controller
         $pdf->setCellPadding(1.2);
 
         // Document header
-        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger R</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
 
         // Account Info Table
@@ -342,9 +342,9 @@ class RptAccNameGLController extends Controller
         $num_to_words = $pdf->convertCurrencyToWords($balance);
         $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
         <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($balance, 0) . '</td>
         </tr>';
 
         // Close tbody and table
@@ -404,7 +404,7 @@ class RptAccNameGLController extends Controller
         $pdf->setCellPadding(1.2);
 
         // Document header
-        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger R</h1>';
+        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">General Ledger</h1>';
         $pdf->writeHTML($heading, true, false, true, false, '');
 
         // Account Info Table
@@ -503,9 +503,9 @@ class RptAccNameGLController extends Controller
         $num_to_words = $pdf->convertCurrencyToWords($balance);
         $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
         <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($balance, 0) . '</td>
         </tr>';
 
         // Close tbody and table
@@ -685,9 +685,9 @@ class RptAccNameGLController extends Controller
         $num_to_words = $pdf->convertCurrencyToWords($balance);
         $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
         <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($balance, 0) . '</td>
         </tr>';
 
         // Close tbody and table
@@ -848,9 +848,9 @@ class RptAccNameGLController extends Controller
         $num_to_words = $pdf->convertCurrencyToWords($balance);
         $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
         <td colspan="3" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalDebit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($totalCredit, 0) . '</td>
-        <td style="text-align:right; padding:10px;">' . number_format($balance, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalDebit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($totalCredit, 0) . '</td>
+        <td style="text-align:center; padding:10px;">' . number_format($balance, 0) . '</td>
         </tr>';
 
         // Close tbody and table
