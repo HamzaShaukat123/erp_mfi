@@ -176,7 +176,7 @@ class RptAccNamePurAgeingController extends Controller
                             <td style="width:4%;">' . $count . '</td>
                             <td style="width:9%;">' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
                             <td style="width:8%;">' . htmlspecialchars($items["sale_prefix"] . $items["Sal_inv_no"]) . '</td>
-                            <td style="width:14%;">' . $items["ac2"] . $items["remarks"] . '</td>
+                            <td style="width:14%;font-size:9px;">' . $items["ac2"] . '</td>
                             <td style="width:10%;">' . number_format($items['bill_amount'], 0) . '</td>
                             <td style="width:10%;">' . number_format($items['remaining_amount'], 0) . '</td>
                             <td style="width:5%;">' . ($items['remaining_amount'] != 0 ? $daysFromBillDate : '') . '</td>
