@@ -419,7 +419,49 @@
         Route::get('/rep-godown-by-group-name', [App\Http\Controllers\ReportingController::class, 'byGodownGroupName'])->name('rep-by-godown-group-name');
         Route::get('/rep-daily-register', [App\Http\Controllers\ReportingController::class, 'dailyRegister'])->name('rep-daily-register');
         Route::get('/rep-commissions', [App\Http\Controllers\ReportingController::class, 'commissions'])->name('rep-commissions');
+        Route::get('/rep-by-item-name1', [App\Http\Controllers\ReportingController::class, 'byItemName1'])->name('rep-by-item-name1');
+        Route::get('/rep-by-item-name2', [App\Http\Controllers\ReportingController::class, 'byItemName2'])->name('rep-by-item-name2');
+        Route::get('/rep-by-item-group', [App\Http\Controllers\ReportingController::class, 'byItemGroup'])->name('rep-by-item-group');
+    
+        // RPT by Item Name1 Sale 
+        Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
+        Route::get('/rep-by-item-name1/sale/report', [App\Http\Controllers\RptItemName1SaleController::class, 'ItemName1SaleReport'])->name('sale-rep-by-item-name1-report');
+        
+    
+        // RPT by Item Name1 Purchase 
+        Route::get('/rep-by-item-name1/pur', [App\Http\Controllers\RptItemName1PurController::class, 'purchase'])->name('pur-rep-by-item-name1');
+        Route::get('/rep-by-item-name1/pur/report', [App\Http\Controllers\RptItemName1PurController::class, 'ItemName1PurReport'])->name('pur-rep-by-item-name1-report');
+        
+        // RPT by Item Name2 Sale 
+        Route::get('/rep-by-item-name2/sale', [App\Http\Controllers\RptItemName2SaleController::class, 'sale'])->name('sale-rep-by-item-name2');
+        Route::get('/rep-by-item-name2/sale/report', [App\Http\Controllers\RptItemName2SaleController::class, 'ItemName2SaleReport'])->name('sale-rep-by-item-name2-report');
+    
+    
+        // RPT by Item Name2 Purchase 
+        Route::get('/rep-by-item-name2/pur', [App\Http\Controllers\RptItemName2PurController::class, 'purchase'])->name('pur-rep-by-item-name2');
+        Route::get('/rep-by-item-name2/pur/report', [App\Http\Controllers\RptItemName2PurController::class, 'ItemName2PurReport'])->name('pur-rep-by-item-name2-report');
+    
+    
+    
+        // RPT by Item Group Sale1 
+        Route::get('/rep-by-item-group/sale1', [App\Http\Controllers\RptItemGroupSale1Controller::class, 'sale1'])->name('sale1-rep-by-item-group');
+        Route::get('/rep-by-item-group/sale1/report', [App\Http\Controllers\RptItemGroupSale1Controller::class, 'ItemGroupSale1Report'])->name('sale1-rep-by-item-group-report');
+        
+    
+        // RPT by Item Group Purchase1 
+        Route::get('/rep-by-item-group/pur1', [App\Http\Controllers\RptItemGroupPur1Controller::class, 'purchase1'])->name('pur1-rep-by-item-group');
+        Route::get('/rep-by-item-group/pur1/report', [App\Http\Controllers\RptItemGroupPur1Controller::class, 'ItemGroupPur1Report'])->name('pur1-rep-by-item-group-report');
+    
+        // RPT by Item Group Sale2
+        Route::get('/rep-by-item-group/sale2', [App\Http\Controllers\RptItemGroupSale2Controller::class, 'sale2'])->name('sale2-rep-by-item-group');
+        Route::get('/rep-by-item-group/sale2/report', [App\Http\Controllers\RptItemGroupSale2Controller::class, 'ItemGroupSale2Report'])->name('sale2-rep-by-item-group-report');
+         
+     
+        // RPT by Item Group Purchase2 
+        Route::get('/rep-by-item-group/pur2', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'purchase2'])->name('pur2-rep-by-item-group');
+        Route::get('/rep-by-item-group/pur2/report', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'ItemGroupPur2Report'])->name('pur2-rep-by-item-group-report');
 
+        
         // RPT by Acc Name GL
         Route::get('/rep-by-acc-name/gl', [App\Http\Controllers\RptAccNameGLController::class, 'gl'])->name('gl-rep-by-acc-name');
         Route::get('/rep-by-acc-name/gl/excel', [App\Http\Controllers\RptAccNameGLController::class, 'glExcel'])->name('gl-rep-by-acc-name-excel');
@@ -586,48 +628,7 @@
     Route::get('/pos', [App\Http\Controllers\POSController::class, 'index'])->name('pos');
 
 
-    // Main Routes
-    Route::get('/rep-by-item-name1', [App\Http\Controllers\ReportingController::class, 'byItemName1'])->name('rep-by-item-name1');
-    Route::get('/rep-by-item-name2', [App\Http\Controllers\ReportingController::class, 'byItemName2'])->name('rep-by-item-name2');
-    Route::get('/rep-by-item-group', [App\Http\Controllers\ReportingController::class, 'byItemGroup'])->name('rep-by-item-group');
-
-    // RPT by Item Name1 Sale 
-    Route::get('/rep-by-item-name1/sale', [App\Http\Controllers\RptItemName1SaleController::class, 'sale'])->name('sale-rep-by-item-name1');
-    Route::get('/rep-by-item-name1/sale/report', [App\Http\Controllers\RptItemName1SaleController::class, 'ItemName1SaleReport'])->name('sale-rep-by-item-name1-report');
-    
-
-    // RPT by Item Name1 Purchase 
-    Route::get('/rep-by-item-name1/pur', [App\Http\Controllers\RptItemName1PurController::class, 'purchase'])->name('pur-rep-by-item-name1');
-    Route::get('/rep-by-item-name1/pur/report', [App\Http\Controllers\RptItemName1PurController::class, 'ItemName1PurReport'])->name('pur-rep-by-item-name1-report');
-    
-    // RPT by Item Name2 Sale 
-    Route::get('/rep-by-item-name2/sale', [App\Http\Controllers\RptItemName2SaleController::class, 'sale'])->name('sale-rep-by-item-name2');
-    Route::get('/rep-by-item-name2/sale/report', [App\Http\Controllers\RptItemName2SaleController::class, 'ItemName2SaleReport'])->name('sale-rep-by-item-name2-report');
-
-
-    // RPT by Item Name2 Purchase 
-    Route::get('/rep-by-item-name2/pur', [App\Http\Controllers\RptItemName2PurController::class, 'purchase'])->name('pur-rep-by-item-name2');
-    Route::get('/rep-by-item-name2/pur/report', [App\Http\Controllers\RptItemName2PurController::class, 'ItemName2PurReport'])->name('pur-rep-by-item-name2-report');
-
-
-
-    // RPT by Item Group Sale1 
-    Route::get('/rep-by-item-group/sale1', [App\Http\Controllers\RptItemGroupSale1Controller::class, 'sale1'])->name('sale1-rep-by-item-group');
-    Route::get('/rep-by-item-group/sale1/report', [App\Http\Controllers\RptItemGroupSale1Controller::class, 'ItemGroupSale1Report'])->name('sale1-rep-by-item-group-report');
-    
-
-    // RPT by Item Group Purchase1 
-    Route::get('/rep-by-item-group/pur1', [App\Http\Controllers\RptItemGroupPur1Controller::class, 'purchase1'])->name('pur1-rep-by-item-group');
-    Route::get('/rep-by-item-group/pur1/report', [App\Http\Controllers\RptItemGroupPur1Controller::class, 'ItemGroupPur1Report'])->name('pur1-rep-by-item-group-report');
-
-    // RPT by Item Group Sale2
-    Route::get('/rep-by-item-group/sale2', [App\Http\Controllers\RptItemGroupSale2Controller::class, 'sale2'])->name('sale2-rep-by-item-group');
-    Route::get('/rep-by-item-group/sale2/report', [App\Http\Controllers\RptItemGroupSale2Controller::class, 'ItemGroupSale2Report'])->name('sale2-rep-by-item-group-report');
-     
- 
-    // RPT by Item Group Purchase2 
-    Route::get('/rep-by-item-group/pur2', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'purchase2'])->name('pur2-rep-by-item-group');
-    Route::get('/rep-by-item-group/pur2/report', [App\Http\Controllers\RptItemGroupPur2Controller::class, 'ItemGroupPur2Report'])->name('pur2-rep-by-item-group-report');
+  
 
 
 
