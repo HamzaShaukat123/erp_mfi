@@ -426,7 +426,7 @@
                             </li>
                             @endif
 
-                            @if((session('user_access')[37]['module_id'])==38 && (session('user_access')[37]['view']) == 1 || (session('user_access')[38]['module_id'])==39 && (session('user_access')[38['view']) == 1 )
+                            @if((session('user_access')[37]['module_id'])==38 && (session('user_access')[37]['view']) == 1 || (session('user_access')[38]['module_id'])==39 && (session('user_access')[38]['view']) == 1 )
                             <li class="nav-parent">
                                 <a class="nav-link" href="#">
                                     <span>Item Name</span>
