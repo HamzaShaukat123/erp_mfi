@@ -324,6 +324,7 @@ class UsersController extends Controller
                 'role_name' => $user_roles->role_name,
                 'user_role' => $user_roles->role_id,
                 'user_access' => $user_access,
+                'login' => true,
             ]);
 
             // Redirect to intended page

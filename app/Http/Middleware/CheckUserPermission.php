@@ -19,8 +19,12 @@ class CheckUserPermission
     public function handle($request, Closure $next, $requestType, ...$permission)
     {
         // Check if user is authenticated
-        if (!Auth::check()) {
-            return redirect('/login'); // or wherever you want to redirect unauthenticated users
+        // if (!Auth::check()) {
+        //     return redirect('/login'); // or wherever you want to redirect unauthenticated users
+        // }
+
+        if (!session('login')) {
+            return redirect('/login');
         }
 
         // Get permissions from db
