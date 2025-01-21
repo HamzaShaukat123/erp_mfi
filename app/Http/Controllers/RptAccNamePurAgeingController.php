@@ -144,18 +144,18 @@ $html = '
 <table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
     <thead>
         <tr>
-            <th style="width:4%;color:#17365D; font-weight:bold;">S/No</th>
-            <th style="width:9%;color:#17365D; font-weight:bold;">Date</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">Inv No.</th>
-            <th style="width:14%; color:#17365D; font-weight:bold;">Detail</th>
-            <th style="width:10%;color:#17365D; font-weight:bold;">Bill Amount</th>
-            <th style="width:10%;color:#17365D; font-weight:bold;">UnPaid Amount</th>
-            <th style="width:5%;color:#17365D; font-weight:bold;">Days</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">1-20 Days</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">21-35 Days</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">36-50 Days</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">Over 50 Days</th>
-            <th style="width:8%;color:#17365D; font-weight:bold;">Cleared In Days</th>
+            <th style="width:4%;color:#17365D; font-weight:bold; border:1px solid #000;">S/No</th>
+            <th style="width:9%;color:#17365D; font-weight:bold; border:1px solid #000;">Date</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">Inv No.</th>
+            <th style="width:14%;color:#17365D; font-weight:bold; border:1px solid #000;">Detail</th>
+            <th style="width:10%;color:#17365D; font-weight:bold; border:1px solid #000;">Bill Amount</th>
+            <th style="width:10%;color:#17365D; font-weight:bold; border:1px solid #000;">UnPaid Amount</th>
+            <th style="width:5%;color:#17365D; font-weight:bold; border:1px solid #000;">Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">1-20 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">21-35 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">36-50 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">Over 50 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold; border:1px solid #000;">Cleared In Days</th>
         </tr>
     </thead>
     <tbody>';
@@ -182,23 +182,23 @@ foreach ($pur_days as $items) {
     checkPageBreak($pdf, $rowHeight);
 
     // Add the row
-    $html .= '<tr style="background-color:' . $bgColor . ';">
-                <td style="width:4%;">' . $count . '</td>
-                <td style="width:9%;">' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
-                <td style="width:8%;">' . htmlspecialchars($items["sale_prefix"] . $items["Sal_inv_no"]) . '</td>
-                <td style="width:14%;font-size:9px;">' . $items["ac2"] . $items["remarks"] . '</td>
-                <td style="width:10%;">' . number_format($items['bill_amount'], 0) . '</td>
-                <td style="width:10%;">' . number_format($items['remaining_amount'], 0) . '</td>
-                <td style="width:5%;">' . ($items['remaining_amount'] != 0 ? $daysFromBillDate : '') . '</td>
-                <td style="width:8%;">' . number_format($items['1_20_Days'], 0) . '</td>
-                <td style="width:8%;">' . number_format($items['21_35_Days'], 0) . '</td>
-                <td style="width:8%;">' . number_format($items['36_50_Days'], 0) . '</td>
-                <td style="width:8%;">' . number_format($items['over_50_Days'], 0) . '</td>
-                <td style="width:8%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
-                    ($items['remaining_amount'] == 0 ? $items['max_days'] : '') . 
-                    ' - ' . $status . 
-                '</td>
-            </tr>';
+    $html .= '<tr style="background-color:' . $bgColor . '; border:1px solid #000;">
+    <td style="width:4%; border:1px solid #000;">' . $count . '</td>
+    <td style="width:9%; border:1px solid #000;">' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
+    <td style="width:8%; border:1px solid #000;">' . htmlspecialchars($items["sale_prefix"] . $items["Sal_inv_no"]) . '</td>
+    <td style="width:14%;font-size:9px; border:1px solid #000;">' . $items["ac2"] . $items["remarks"] . '</td>
+    <td style="width:10%; border:1px solid #000;">' . number_format($items['bill_amount'], 0) . '</td>
+    <td style="width:10%; border:1px solid #000;">' . number_format($items['remaining_amount'], 0) . '</td>
+    <td style="width:5%; border:1px solid #000;">' . ($items['remaining_amount'] != 0 ? $daysFromBillDate : '') . '</td>
+    <td style="width:8%; border:1px solid #000;">' . number_format($items['1_20_Days'], 0) . '</td>
+    <td style="width:8%; border:1px solid #000;">' . number_format($items['21_35_Days'], 0) . '</td>
+    <td style="width:8%; border:1px solid #000;">' . number_format($items['36_50_Days'], 0) . '</td>
+    <td style="width:8%; border:1px solid #000;">' . number_format($items['over_50_Days'], 0) . '</td>
+    <td style="width:8%; border:1px solid #000;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
+        ($items['remaining_amount'] == 0 ? $items['max_days'] : '') . 
+        ' - ' . $status . 
+    '</td>
+</tr>';
     $count++;
 }
 
