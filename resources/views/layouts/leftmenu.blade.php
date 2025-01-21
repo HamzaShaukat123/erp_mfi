@@ -405,48 +405,57 @@
                         </a>
                         <ul class="nav nav-children">
                             @if((session('user_access')[30]['module_id'])==31 && (session('user_access')[30]['view']) == 1)
-                                <li>
-                                    <a class="nav-link" href="{{ route('rep-by-acc-name')}}">
-                                        Account Name
-                                    </a>
-                                </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('rep-by-acc-name')}}">
+                                    Account Name
+                                </a>
+                            </li>
                             @endif
                             @if((session('user_access')[31]['module_id'])==32 && (session('user_access')[31]['view']) == 1)
-                                <li>
-                                    <a class="nav-link" href="{{ route('rep-by-acc-grp')}}">
-                                        Account Group
-                                    </a>
-                                </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('rep-by-acc-grp')}}">
+                                    Account Group
+                                </a>
+                            </li>
                             @endif    
                             @if((session('user_access')[34]['module_id'])==35 && (session('user_access')[34]['view']) == 1)
-                                <li>
-                                    <a class="nav-link" href="{{ route('rep-daily-register')}}">
-                                        Daily Register
-                                    </a>
-                                </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('rep-daily-register')}}">
+                                    Daily Register
+                                </a>
+                            </li>
                             @endif
+
+                            @if((session('user_access')[37]['module_id'])==38 && (session('user_access')[37]['view']) == 1 || (session('user_access')[38]['module_id'])==39 && (session('user_access')[38['view']) == 1 )
                             <li class="nav-parent">
                                 <a class="nav-link" href="#">
                                     <span>Item Name</span>
                                 </a>
                                 <ul class="nav nav-children">
-                                    <li>
-                                        <a class="nav-link" href="{{ route('rep-by-item-name1')}}">
-                                            By Item Name 1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link" href="{{ route('rep-by-item-name2')}}">
-                                            By Item Name 2
-                                        </a>
-                                    </li>
+                                    @if((session('user_access')[37]['module_id'])==38 && (session('user_access')[37]['view']) == 1)
+                                        <li>
+                                            <a class="nav-link" href="{{ route('rep-by-item-name1')}}">
+                                                By Item Name 1
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if((session('user_access')[38]['module_id'])==39 && (session('user_access')[38]['view']) == 1)
+                                        <li>
+                                            <a class="nav-link" href="{{ route('rep-by-item-name2')}}">
+                                                By Item Name 2
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
-                            <li>
-                                <a class="nav-link" href="{{ route('rep-by-item-group')}}">
-                                    Item Group
-                                </a>
-                            </li>
+                            @endif
+                            @if((session('user_access')[39]['module_id'])==40 && (session('user_access')[39]['view']) == 1)
+                                <li>
+                                    <a class="nav-link" href="{{ route('rep-by-item-group')}}">
+                                        Item Group
+                                    </a>
+                                </li>
+                            @endif
                             @if((session('user_access')[35]['module_id'])==36 && (session('user_access')[35]['view']) == 1)
                                 <li>
                                     <a class="nav-link" href="{{ route('rep-commissions')}}">
