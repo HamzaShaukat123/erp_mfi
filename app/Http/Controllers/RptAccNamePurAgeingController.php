@@ -184,7 +184,7 @@ class RptAccNamePurAgeingController extends Controller
                             <td style="width:8%;">' . number_format($items['21_35_Days'], 0) . '</td>
                             <td style="width:8%;">' . number_format($items['36_50_Days'], 0) . '</td>
                             <td style="width:8%;">' . number_format($items['over_50_Days'], 0) . '</td>
-                            <td style="width:8%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
+                            <td style="width:7%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
                                 ($items['remaining_amount'] == 0 ? $items['max_days'] : '') . 
                                 ' - ' . $status . 
                             '</td>
