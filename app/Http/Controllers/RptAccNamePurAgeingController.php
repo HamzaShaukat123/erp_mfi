@@ -91,109 +91,121 @@ $currentDate = Carbon::now()->format('d-m-y');
 $formattedFromDate = Carbon::createFromFormat('Y-m-d', $request->fromDate)->format('d-m-y');
 $formattedToDate = Carbon::createFromFormat('Y-m-d', $request->toDate)->format('d-m-y');
 
-// Initialize PDF
 $pdf = new MyPDF();
+
+// Enable automatic page breaks
+$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('MFI');
-$pdf->SetTitle("Purchase Ageing Report Of Account - {$pur_days[0]['ac_nam']}");
-$pdf->SetSubject("Purchase Ageing Report Of Account - {$pur_days[0]['ac_nam']}");
+$pdf->SetTitle("Purchase Ageing Report");
+$pdf->SetSubject("Purchase Ageing Report");
 $pdf->SetKeywords('Purchase Ageing Report, TCPDF, PDF');
 $pdf->setPageOrientation('L');
 $pdf->AddPage();
 $pdf->setCellPadding(1);
 
-// Document Header
+// Header
 $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">
-Purchase Ageing Report Of Account
+    Purchase Ageing Report Of Account
 </h1>';
 $pdf->writeHTML($heading, true, false, true, false, '');
 
 // Account Info Table
-$html = <<<HTML
+$html = '
 <table style="border:1px solid #000; width:100%; padding:6px; border-collapse:collapse;">
-<tr>
-    <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
-        Account Name: <span style="color:black;">{$pur_days[0]['ac_nam']}</span>
-    </td>
-    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000; width:30%;">
-        Print Date: <span style="color:black;">$currentDate</span>
-    </td>
-</tr>
-<tr>
-    <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
-        Remarks: <span style="color:black;">{$pur_days[0]['ac_remarks']}</span>
-    </td>
-    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000; width:30%;">
-        From Date: <span style="color:black;">$formattedFromDate</span>
-    </td>
-</tr>
-<tr>
-    <td style="padding:5px 10px; border-bottom:1px solid #000; width:70%;"></td>
-    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000; width:30%;">
-        To Date: <span style="color:black;">$formattedToDate</span>
-    </td>
-</tr>
-</table>
-HTML;
-
+    <tr>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
+            Account Name: <span style="color:black;">' . htmlspecialchars($pur_days[0]['ac_nam']) . '</span>
+        </td>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
+            Print Date: <span style="color:black;">' . htmlspecialchars($currentDate) . '</span>
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;">
+            Remarks: <span style="color:black;">' . htmlspecialchars($pur_days[0]['ac_remarks']) . '</span>
+        </td>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000;width:30%;">
+            From Date: <span style="color:black;">' . htmlspecialchars($formattedFromDate) . '</span>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding:5px 10px; border-bottom:1px solid #000; width:70%;"></td>
+        <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000;border-left:1px solid #000; width:30%;">
+            To Date: <span style="color:black;">' . htmlspecialchars($formattedToDate) . '</span>
+        </td>
+    </tr>
+</table>';
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// Table Headers and Rows
-$html = <<<HTML
-<table border="1" style="border-collapse:collapse; width:100%; text-align:center;">
-<thead style="background-color:#f2f2f2;">
-    <tr>
-        <th style="width:4%; font-weight:bold; color:#17365D;">S/No</th>
-        <th style="width:9%; font-weight:bold; color:#17365D;">Date</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">Inv No.</th>
-        <th style="width:14%; font-weight:bold; color:#17365D;">Detail</th>
-        <th style="width:10%; font-weight:bold; color:#17365D;">Bill Amount</th>
-        <th style="width:10%; font-weight:bold; color:#17365D;">UnPaid Amount</th>
-        <th style="width:5%; font-weight:bold; color:#17365D;">Days</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">1-20 Days</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">21-35 Days</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">36-50 Days</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">Over 50 Days</th>
-        <th style="width:8%; font-weight:bold; color:#17365D;">Cleared In Days</th>
-    </tr>
-</thead>
-<tbody>
-HTML;
+// Table Headers
+$html = '
+<table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <th style="width:4%;color:#17365D; font-weight:bold;">S/No</th>
+            <th style="width:9%;color:#17365D; font-weight:bold;">Date</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">Inv No.</th>
+            <th style="width:14%; color:#17365D; font-weight:bold;">Detail</th>
+            <th style="width:10%;color:#17365D; font-weight:bold;">Bill Amount</th>
+            <th style="width:10%;color:#17365D; font-weight:bold;">UnPaid Amount</th>
+            <th style="width:5%;color:#17365D; font-weight:bold;">Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">1-20 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">21-35 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">36-50 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">Over 50 Days</th>
+            <th style="width:8%;color:#17365D; font-weight:bold;">Cleared In Days</th>
+        </tr>
+    </thead>
+    <tbody>';
 
+// Function to check for page breaks
+function checkPageBreak($pdf, $rowHeight) {
+    if ($pdf->GetY() + $rowHeight > $pdf->getPageHeight() - PDF_MARGIN_BOTTOM) {
+        $pdf->AddPage();
+    }
+}
+
+// Populate rows
 $count = 1;
+$rowHeight = 10; // Approximate row height
 foreach ($pur_days as $items) {
-$bgColor = $count % 2 == 0 ? '#f9f9f9' : '#ffffff';
-$status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';
-$maxDaysStyle = $items['remaining_amount'] != 0 ? 'color:red;' : '';
-$daysFromBillDate = $items['bill_date']
-    ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today())
-    : '';
+    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+    $status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';
+    $maxDaysStyle = $items['remaining_amount'] != 0 ? 'style="color:red;"' : '';
+    $daysFromBillDate = $items['bill_date'] 
+        ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today()) 
+        : '';
 
-$html .= <<<HTML
-<tr style="background-color:$bgColor;">
-    <td style="width:4%;">$count</td>
-    <td style="width:9%;">{$items['bill_date']}</td>
-    <td style="width:8%;">{$items['sale_prefix']}{$items['Sal_inv_no']}</td>
-    <td style="width:14%; font-size:9px;">{$items['ac2']} {$items['remarks']}</td>
-    <td style="width:10%; text-align:right;">{$items['bill_amount']}</td>
-    <td style="width:10%; text-align:right;">{$items['remaining_amount']}</td>
-    <td style="width:5%;">$daysFromBillDate</td>
-    <td style="width:8%;">{$items['1_20_Days']}</td>
-    <td style="width:8%;">{$items['21_35_Days']}</td>
-    <td style="width:8%;">{$items['36_50_Days']}</td>
-    <td style="width:8%;">{$items['over_50_Days']}</td>
-    <td style="width:8%; $maxDaysStyle">{$items['max_days']} - $status</td>
-</tr>
-HTML;
+    // Check if there's enough space for the row
+    checkPageBreak($pdf, $rowHeight);
 
-$count++;
+    // Add the row
+    $html .= '<tr style="background-color:' . $bgColor . ';">
+                <td style="width:4%;">' . $count . '</td>
+                <td style="width:9%;">' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
+                <td style="width:8%;">' . htmlspecialchars($items["sale_prefix"] . $items["Sal_inv_no"]) . '</td>
+                <td style="width:14%;font-size:9px;">' . $items["ac2"] . $items["remarks"] . '</td>
+                <td style="width:10%;">' . number_format($items['bill_amount'], 0) . '</td>
+                <td style="width:10%;">' . number_format($items['remaining_amount'], 0) . '</td>
+                <td style="width:5%;">' . ($items['remaining_amount'] != 0 ? $daysFromBillDate : '') . '</td>
+                <td style="width:8%;">' . number_format($items['1_20_Days'], 0) . '</td>
+                <td style="width:8%;">' . number_format($items['21_35_Days'], 0) . '</td>
+                <td style="width:8%;">' . number_format($items['36_50_Days'], 0) . '</td>
+                <td style="width:8%;">' . number_format($items['over_50_Days'], 0) . '</td>
+                <td style="width:8%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
+                    ($items['remaining_amount'] == 0 ? $items['max_days'] : '') . 
+                    ' - ' . $status . 
+                '</td>
+            </tr>';
+    $count++;
 }
 
 $html .= '</tbody></table>';
 $pdf->writeHTML($html, true, false, true, false, '');
 
-// Output PDF
-$filename = "Sales_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
+// Output the PDF
+$filename = "Purchase_Ageing_Report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
 $pdf->Output($filename, 'I');
 
     }
