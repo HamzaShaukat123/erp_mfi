@@ -25,18 +25,22 @@ class DashboardIILTabController extends Controller
 
         $crc = pur2_company_wise_item_group_wise::where('dat', $month)
             ->where('item_group_cod', 1)
+            ->orderBy('ttl_weight', 'desc')
             ->get(['company_name', 'ttl_weight']); // Only select the necessary fields
 
         $hrs = pur2_company_wise_item_group_wise::where('dat', $month)
             ->where('item_group_cod', 2)
+            ->orderBy('ttl_weight', 'desc')
             ->get(['company_name', 'ttl_weight']);
 
         $eco = pur2_company_wise_item_group_wise::where('dat', $month)
             ->where('item_group_cod', 5)
+            ->orderBy('ttl_weight', 'desc')
             ->get(['company_name', 'ttl_weight']);
 
         $cosmo = pur2_company_wise_item_group_wise::where('dat', $month)
             ->where('item_group_cod', 6)
+            ->orderBy('ttl_weight', 'desc')
             ->get(['company_name', 'ttl_weight']);
 
         return response()->json([
