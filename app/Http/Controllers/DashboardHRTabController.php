@@ -21,25 +21,25 @@ class DashboardHRTabController extends Controller
         $steelex = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',86)
-        ->orderBy('weight', 'asc')
+        ->orderBy('weight', 'desc')
         ->get();
 
         $spm = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',82)
-        ->orderBy('weight', 'asc')
+        ->orderBy('weight', 'desc')
         ->get();
 
         $mehboob = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',73)
-        ->orderBy('weight', 'asc')
+        ->orderBy('weight', 'desc')
         ->get();
 
         $godown = sale_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','sale_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
         ->where('company_code',24)
-        ->orderBy('weight', 'asc')
+        ->orderBy('weight', 'desc')
         ->get();
 
         $top_customers_of_pur2 = top_customers_of_pur2::leftjoin('ac','ac.ac_code','=','top_customers_of_pur2.account_name')
