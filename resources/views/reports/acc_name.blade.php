@@ -934,15 +934,15 @@
             });
 
             }
-            else if(tabId=="#pur_age"){
+            else if (tabId == "#pur_age") {
                 var table = document.getElementById('PurAgeTbleBody');
-                    while (table.rows.length > 0) {
-                        table.deleteRow(0);
-                    }
-                    url="/rep-by-acc-name/pur_age";
-                    tableID="#PurAgeTbleBody";
+                while (table.rows.length > 0) {
+                    table.deleteRow(0);
+                }
+                url = "/rep-by-acc-name/pur_age";
+                tableID = "#PurAgeTbleBody";
 
-                    $.ajax({
+                $.ajax({
                     type: "GET",
                     url: url,
                     data: {
@@ -954,30 +954,26 @@
                         $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
                     },
                     success: function (result) {
-                        // Update the header fields with the formatted dates and selected account name
                         $('#pur_age_from').text(formattedfromDate);
                         $('#pur_age_to').text(formattedtoDate);
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         $('#pur_age_acc').text(selectedAcc);
 
-                        // Check if the result has data
                         if (!result.length) {
                             $(tableID).html('<tr><td colspan="13" class="text-center">No data available for the selected criteria.</td></tr>');
                             return;
                         }
 
                         var rows = '';
+                        var totalRemainingAmount = 0; // Initialize total
+
                         $.each(result, function (k, v) {
-                            // Parse remaining amount and handle possible issues with null/undefined or invalid values
                             const remainingAmount = isNaN(parseFloat(v['remaining_amount'])) ? 0 : parseFloat(v['remaining_amount']);
-                            
-                            // Apply red color style if remaining amount is not 0
+                            totalRemainingAmount += remainingAmount; // Accumulate total
+
                             const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
-                            
-                            // Calculate the number of days from the bill date to today
                             const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
-                            
-                            // Generate row
+
                             rows += `<tr>
                                 <td>${k + 1}</td>
                                 <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
@@ -995,8 +991,13 @@
                             </tr>`;
                         });
 
+                        // Append total row
+                        rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
+                            <td colspan="5" class="text-right">Total:</td>
+                            <td>${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                            <td colspan="7"></td>
+                        </tr>`;
 
-                        // Replace table content with new rows
                         $(tableID).html(rows);
                     },
                     error: function (xhr, status, error) {
@@ -1006,6 +1007,7 @@
                     }
                 });
             }
+
             else if(tabId=="#sale_1"){
                 var table = document.getElementById('Sale1TbleBody');
                 while (table.rows.length > 0) {
