@@ -993,10 +993,11 @@
 
                         // Append total row
                         rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
-                            <td colspan="5"style='text-align: right;>Total:</td>
-                            <td class='text-danger'>${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                            <td colspan="5" style="text-align: right;">Total:</td>
+                            <td class="text-danger">${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                             <td colspan="7"></td>
                         </tr>`;
+
 
                         $(tableID).html(rows);
                     },
