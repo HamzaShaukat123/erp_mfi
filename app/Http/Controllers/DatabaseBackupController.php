@@ -23,7 +23,7 @@ class DatabaseBackupController extends Controller
         $dbUser = getenv('DB_USERNAME');
         $dbPassword = getenv('DB_PASSWORD');
         echo $dbUser; 
-echo $dbPassword; 
+        echo $dbPassword; 
 
             
         try {
