@@ -13,11 +13,16 @@ class DatabaseBackupController extends Controller
 {
     public function backupDatabase()
     {
-        $dbHost = env('DB_HOST');
-        $dbName = env('DB_DATABASE');
-        $dbUser = env('DB_USERNAME');
-        $dbPassword = env('DB_PASSWORD');
-    
+        // $dbHost = env('DB_HOST');
+        // $dbName = env('DB_DATABASE');
+        // $dbUser = env('DB_USERNAME');
+        // $dbPassword = env('DB_PASSWORD');
+
+        $dbHost = getenv('DB_HOST');
+        $dbName = getenv('DB_DATABASE');
+        $dbUser = getenv('DB_USERNAME');
+        $dbPassword = getenv('DB_PASSWORD');
+            
         try {
             $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
