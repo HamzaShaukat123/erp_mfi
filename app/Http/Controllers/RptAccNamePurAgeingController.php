@@ -157,6 +157,9 @@ class RptAccNamePurAgeingController extends Controller
                     </tr>
                 </thead>
                 <tbody>';
+
+                // Calculate the total remaining amount
+                $totalRemainingAmount = $pur_days->sum('remaining_amount');
             
             // Table Rows
             $count = 1;
@@ -193,6 +196,13 @@ class RptAccNamePurAgeingController extends Controller
             
                 $count++;
             }
+
+            // Add total row
+            $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+            <td colspan="5" style="text-align:right;">Total Remaining Amount:</td>
+            <td style="text-align:center;">' . number_format($totalRemainingAmount, 0) . '</td>
+            <td colspan="6"></td>
+            </tr>';
             
             $html .= '</tbody></table>';
             $pdf->writeHTML($html, true, false, true, false, '');
