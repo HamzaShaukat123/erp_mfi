@@ -155,19 +155,23 @@ class RptAccNameSalesAgeingController extends Controller
                     </tr>
                 </thead>
                 <tbody>';
+
+                // Calculate the total remaining amount
+                $totalRemainingAmount = $sales_days->sum('remaining_amount');
             
-            // Table Rows
-            $count = 1;
-            foreach ($sales_days as $items) {
-                $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-                $status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';  // Determine the status here
-                $maxDaysStyle = $items['remaining_amount'] != 0 ? 'style="color:red;"' : '';  // Apply red color if remaining_amount is not 0
-            
-                // Calculate the number of days from bill_date to today
-                $daysFromBillDate = $items['bill_date'] ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today()) : '';
-            
-                $html .= '<tr style="background-color:' . $bgColor . ';">
-                           
+                // Table Rows
+                $count = 1;
+                foreach ($sales_days as $items) {
+                    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+                    $status = $items['remaining_amount'] == 0 ? 'Cleared' : 'Not Cleared';  // Determine the status here
+                    $maxDaysStyle = $items['remaining_amount'] != 0 ? 'style="color:red;"' : '';  // Apply red color if remaining_amount is not 0
+                
+                    // Calculate the number of days from bill_date to today
+                    $daysFromBillDate = $items['bill_date'] ? Carbon::parse($items['bill_date'])->diffInDays(Carbon::today()) : '';
+                
+                    $html .= 
+                        '<tr style="background-color:' . $bgColor . ';">
+                            
                             <td style="width:4%;">' . $count . '</td>
                             <td style="width:9%;">' . Carbon::createFromFormat('Y-m-d', $items['bill_date'])->format('d-m-y') . '</td>
                             <td style="width:8%;">' . htmlspecialchars($items["sale_prefix"] . $items["Sal_inv_no"]) . '</td>
@@ -185,9 +189,16 @@ class RptAccNameSalesAgeingController extends Controller
                             '</td>
 
                         </tr>';
-            
-                $count++;
-            }
+                
+                    $count++;
+                }
+
+                // Add total row
+                $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
+                <td colspan="5" style="text-align:right;">Total Remaining Amount:</td>
+                <td style="text-align:center;">' . number_format($totalRemainingAmount, 0) . '</td>
+                <td colspan="6"></td>
+                </tr>';
             
             $html .= '</tbody></table>';
             $pdf->writeHTML($html, true, false, true, false, '');
