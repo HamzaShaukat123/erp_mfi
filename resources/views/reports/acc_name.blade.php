@@ -860,80 +860,88 @@
                     }
                 });
             }
-            else if(tabId=="#sale_age"){
+            else if (tabId == "#sale_age") {
                 var table = document.getElementById('SaleAgeTbleBody');
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
-                url="/rep-by-acc-name/sales_age";
-                tableID="#SaleAgeTbleBody";
+                url = "/rep-by-acc-name/sales_age";
+                tableID = "#SaleAgeTbleBody";
 
                 $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    acc_id: acc_id,
-                },
-                beforeSend: function () {
-                    $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
-                },
-                success: function (result) {
-                    // Update the header fields with the formatted dates and selected account name
-                    $('#sale_age_from').text(formattedfromDate);
-                    $('#sale_age_to').text(formattedtoDate);
-                    var selectedAcc = $('#acc_id').find("option:selected").text();
-                    $('#sale_age_acc').text(selectedAcc);
+                    type: "GET",
+                    url: url,
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        acc_id: acc_id,
+                    },
+                    beforeSend: function () {
+                        $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
+                    },
+                    success: function (result) {
+                        // Update the header fields with the formatted dates and selected account name
+                        $('#sale_age_from').text(formattedfromDate);
+                        $('#sale_age_to').text(formattedtoDate);
+                        var selectedAcc = $('#acc_id').find("option:selected").text();
+                        $('#sale_age_acc').text(selectedAcc);
 
-                    // Check if the result has data
-                    if (!result.length) {
-                        $(tableID).html('<tr><td colspan="13" class="text-center">No data available for the selected criteria.</td></tr>');
-                        return;
-                    }
+                        // Check if the result has data
+                        if (!result.length) {
+                            $(tableID).html('<tr><td colspan="13" class="text-center">No data available for the selected criteria.</td></tr>');
+                            return;
+                        }
 
-                    var rows = '';
-                    $.each(result, function (k, v) {
-                        // Parse remaining amount and handle possible issues with null/undefined or invalid values
-                        const remainingAmount = isNaN(parseFloat(v['remaining_amount'])) ? 0 : parseFloat(v['remaining_amount']);
-                        
-                        // Apply red color style if remaining amount is not 0
-                        const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
-                        
-                        // Calculate the number of days from the bill date to today
-                        const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
-                        
-                        // Generate row
-                        rows += `<tr>
-                            <td>${k + 1}</td>
-                            <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
-                            <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
-                            <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
-                            <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
-                            <td>${remainingAmount ? remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
-                            <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
-                            <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
-                            <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
-                            <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
-                            <td>${v['over_50_Days'] ? v['over_50_Days'] : ''}</td>
-                            <td style="${remainingAmount === 0 ? maxDaysStyle : ''}">${remainingAmount === 0 ? (v['max_days'] ? v['max_days'] : '') : ''}</td>
-                            <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
+                        var rows = '';
+                        var totalRemainingAmount = 0; // Initialize total
+
+                        $.each(result, function (k, v) {
+                            // Parse remaining amount and handle possible issues with null/undefined or invalid values
+                            const remainingAmount = isNaN(parseFloat(v['remaining_amount'])) ? 0 : parseFloat(v['remaining_amount']);
+                            totalRemainingAmount += remainingAmount; // Accumulate total
+
+                            // Apply red color style if remaining amount is not 0
+                            const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
+
+                            // Calculate the number of days from the bill date to today
+                            const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
+
+                            // Generate row
+                            rows += `<tr>
+                                <td>${k + 1}</td>
+                                <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
+                                <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
+                                <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
+                                <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
+                                <td>${remainingAmount ? remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
+                                <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
+                                <td>${v['1_20_Days'] ? v['1_20_Days'] : ''}</td>
+                                <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
+                                <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
+                                <td>${v['over_50_Days'] ? v['over_50_Days'] : ''}</td>
+                                <td style="${remainingAmount === 0 ? maxDaysStyle : ''}">${remainingAmount === 0 ? (v['max_days'] ? v['max_days'] : '') : ''}</td>
+                                <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
+                            </tr>`;
+                        });
+
+                        // Append total row
+                        rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
+                            <td colspan="5" style="text-align: right;">Balance:</td>
+                            <td class="text-danger">${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
+                            <td colspan="7"></td>
                         </tr>`;
-                    });
 
-
-
-                    // Replace table content with new rows
-                    $(tableID).html(rows);
-                },
-                error: function (xhr, status, error) {
-                    $(tableID).html(`<tr><td colspan="13" class="text-center text-danger">
-                        Error loading data: ${xhr.responseText || error}.
-                    </td></tr>`);
-                }
-            });
-
+                        // Replace table content with new rows
+                        $(tableID).html(rows);
+                    },
+                    error: function (xhr, status, error) {
+                        $(tableID).html(`<tr><td colspan="13" class="text-center text-danger">
+                            Error loading data: ${xhr.responseText || error}.
+                        </td></tr>`);
+                    }
+                });
             }
+
             else if (tabId == "#pur_age") {
                 var table = document.getElementById('PurAgeTbleBody');
                 while (table.rows.length > 0) {
@@ -993,7 +1001,7 @@
 
                         // Append total row
                         rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
-                            <td colspan="5" style="text-align: right;">Total:</td>
+                            <td colspan="5" style="text-align: right;">Balance:</td>
                             <td class="text-danger">${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                             <td colspan="7"></td>
                         </tr>`;
