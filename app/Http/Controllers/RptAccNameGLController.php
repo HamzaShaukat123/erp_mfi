@@ -704,7 +704,7 @@ class RptAccNameGLController extends Controller
             $html .= '<h2 style="font-size:16px; text-align:center; color:#17365D; margin-top:20px;">Unadjusted Post Dated Cheques</h2>';
 
             $html .= '
-            <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:10px;">
+            <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
             <thead>
             <tr>
             <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
