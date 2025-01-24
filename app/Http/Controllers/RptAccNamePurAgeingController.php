@@ -15,6 +15,7 @@ class RptAccNamePurAgeingController extends Controller
     public function purAgeing(Request $request){
         $pur_days = pur_days::where('account_name',$request->acc_id)
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->orderBy('sale_prefix','asc')
         ->get();
@@ -30,6 +31,7 @@ class RptAccNamePurAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'pur_days.account_name')
         ->select('pur_days.*', 'ac.ac_name as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date', 'asc')
         ->orderBy('sale_prefix', 'asc')
         ->get();
@@ -81,6 +83,7 @@ class RptAccNamePurAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'pur_days.account_name')
         ->select('pur_days.*', 'ac.ac_name  as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->orderBy('sale_prefix','asc')
         ->get();
@@ -219,6 +222,7 @@ class RptAccNamePurAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'pur_days.account_name')
         ->select('pur_days.*', 'ac.ac_name  as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->get();
 
