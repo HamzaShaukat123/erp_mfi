@@ -707,11 +707,14 @@ class RptAccNameGLController extends Controller
             <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:10px;">
             <thead>
             <tr>
-            <th style="width:10%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr#</th>
-            <th style="width:20%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Receiving Date</th>
-            <th style="width:40%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
-            <th style="width:15%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
-            <th style="width:15%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Amount</th>
+            <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
+            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+            <th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
+            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
             </tr>
             </thead>
             <tbody>';
@@ -720,12 +723,15 @@ class RptAccNameGLController extends Controller
             $count = 1;
             foreach ($lager_pdc as $cheque) {
             $html .= '
-            <tr>
-                <td style="padding:10px; text-align:center;">' . $count . '</td>
-                <td style="padding:10px; text-align:center;">' . htmlspecialchars(Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y')) . '</td>
-                <td style="padding:10px; text-align:center;">' . htmlspecialchars($cheque->remarks) . '</td>
-                <td style="padding:10px; text-align:center;">' . htmlspecialchars(Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y')) . '</td>
-                <td style="padding:10px; text-align:center;">' . number_format($cheque->amount, 0) . '</td>
+              <tr style="background-color:' . $bgColor . ';">
+                <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
+                <td style="width:13%; padding:10px; text-align:center;">' . $cheque->prefix . $cheque->pdc_id . '</td>
+                <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y') . '</td>
+                <td style="width:16%; padding:10px; text-align:center; font-size:9px;">' . $cheque->remarks . ' ' . $cheque->bankname . '</td>
+                <td style="width:13%; padding:10px; text-align:center; font-size:9px;">' . $cheque->instrumentnumber . '</td>
+                <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y') . '</td>
+                <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Debit, 0) . '</td>
+                <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Credit, 0) . '</td>
             </tr>';
             $count++;
             }
