@@ -19,7 +19,7 @@
                                         <div class="col-md-5" style="display:flex;">
                                             <select class="form-control" style="margin-right:10px" id="columnSelect">
                                                 <option selected disabled>Search by</option>
-                                                <option value="0">by Vouch#</option>
+                                                <option value="0">by ID</option>
                                                 <option value="1">by Date</option>
                                                 <option value="2">by Account Debit</option>
                                                 <option value="3">by Account Credit</option>
@@ -28,6 +28,7 @@
                                                 <option value="6">by Instrument</option>
                                                 <option value="7">by Chq Date</option>
                                                 <option value="8">by Amount</option>
+                                                <option value="8">by Vocher</option>
                                             </select>
                                             <input type="text" class="form-control" id="columnSearch" placeholder="Search By Column"/>
                                         </div>
@@ -45,6 +46,7 @@
                                                     <th>Instrument</th>
                                                     <th>Chq Date</th>
                                                     <th>Amount</th>
+                                                    <th>Voucher#</th>
                                                     <th>Att.</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -61,6 +63,7 @@
                                                         <td >{{$row->instrumentnumber}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($row->chqdate)->format('d-m-y') }}</td>
                                                         <td>{{ number_format($row->amount, 0) }}</td>
+                                                        <td>{{$row->voch_prefix . $row->voch_id}}</td>
                                                         <td style="vertical-align: middle;">
                                                             <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->pdc_id}})" href="#attModal"><i class="fa fa-eye"> </i></a>
                                                             <span class="separator"> | </span>
