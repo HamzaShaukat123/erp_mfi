@@ -83,79 +83,79 @@ class DatabaseBackupController extends Controller
 
 
       // Fetch environment variables
-$dbHost = getenv('DB_HOST');
-$dbName = getenv('DB_DATABASE');
-$dbUser = getenv('DB_USERNAME');
-$dbPassword = getenv('DB_PASSWORD');
+        $dbHost = getenv('DB_HOST');
+        $dbName = getenv('DB_DATABASE');
+        $dbUser = getenv('DB_USERNAME');
+        $dbPassword = getenv('DB_PASSWORD');
 
-// Debugging: Display database credentials (remove in production for security reasons)
-echo "DB User: {$dbUser}<br>";
-echo "DB Password: {$dbPassword}<br>";
+        // Debugging: Display database credentials (remove in production for security reasons)
+        echo "DB User: {$dbUser}<br>";
+        echo "DB Password: {$dbPassword}<br>";
 
-try {
-    // Establish database connection
-    $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Database connection successful.<br>";
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-
-// Backup file name
-$fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
-$headers = [
-    'Content-Type' => 'application/octet-stream',
-    'Content-Disposition' => "attachment; filename=\"{$fileName}\"",
-];
-
-try {
-    // Log database connection
-    \Log::info("Connecting to the database...");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Fetch all base tables
-    \Log::info("Fetching tables...");
-    $tables = $pdo->query("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'")->fetchAll(PDO::FETCH_COLUMN);
-
-    // Handle case where no tables are found
-    if (empty($tables)) {
-        \Log::error("No tables found in the database.");
-        return response()->json(['error' => 'No tables found in the database.'], 500);
-    }
-
-    // Generate SQL dump
-    $sqlDump = "-- Database Backup\n-- Generated on " . date('Y-m-d H:i:s') . "\n\n";
-
-    foreach ($tables as $table) {
-        \Log::info("Processing table: {$table}");
-        $escapedTable = "`" . str_replace("`", "``", $table) . "`";
-
-        // Get the CREATE TABLE statement
-        $createTableStmt = $pdo
-            ->query("SHOW CREATE TABLE {$escapedTable}")
-            ->fetch(PDO::FETCH_ASSOC)['Create Table'];
-
-        $sqlDump .= "-- Structure for table `{$table}`\n";
-        $sqlDump .= "{$createTableStmt};\n\n";
-
-        // Get the table rows
-        $rows = $pdo->query("SELECT * FROM {$escapedTable}");
-        while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
-            $values = array_map([$pdo, 'quote'], $row);
-            $sqlDump .= "INSERT INTO `{$table}` VALUES (" . implode(", ", $values) . ");\n";
+        try {
+            // Establish database connection
+            $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Database connection successful.<br>";
+        } catch (PDOException $e) {
+            die("Database connection failed: " . $e->getMessage());
         }
-        $sqlDump .= "\n";
-    }
 
-    // Stream the SQL dump as a downloadable file
-    return response()->stream(function () use ($sqlDump) {
-        echo $sqlDump;
-    }, 200, $headers);
+        // Backup file name
+        $fileName = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
+        $headers = [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => "attachment; filename=\"{$fileName}\"",
+        ];
 
-} catch (Exception $e) {
-    \Log::error("Database backup failed: " . $e->getMessage());
-    return response()->json(['error' => 'Database backup failed. ' . $e->getMessage()], 500);
-}
+        try {
+            // Log database connection
+            \Log::info("Connecting to the database...");
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Fetch all base tables
+            \Log::info("Fetching tables...");
+            $tables = $pdo->query("SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'")->fetchAll(PDO::FETCH_COLUMN);
+
+            // Handle case where no tables are found
+            if (empty($tables)) {
+                \Log::error("No tables found in the database.");
+                return response()->json(['error' => 'No tables found in the database.'], 500);
+            }
+
+            // Generate SQL dump
+            $sqlDump = "-- Database Backup\n-- Generated on " . date('Y-m-d H:i:s') . "\n\n";
+
+            foreach ($tables as $table) {
+                \Log::info("Processing table: {$table}");
+                $escapedTable = "`" . str_replace("`", "``", $table) . "`";
+
+                // Get the CREATE TABLE statement
+                $createTableStmt = $pdo
+                    ->query("SHOW CREATE TABLE {$escapedTable}")
+                    ->fetch(PDO::FETCH_ASSOC)['Create Table'];
+
+                $sqlDump .= "-- Structure for table `{$table}`\n";
+                $sqlDump .= "{$createTableStmt};\n\n";
+
+                // Get the table rows
+                $rows = $pdo->query("SELECT * FROM {$escapedTable}");
+                while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
+                    $values = array_map([$pdo, 'quote'], $row);
+                    $sqlDump .= "INSERT INTO `{$table}` VALUES (" . implode(", ", $values) . ");\n";
+                }
+                $sqlDump .= "\n";
+            }
+
+            // Stream the SQL dump as a downloadable file
+            return response()->stream(function () use ($sqlDump) {
+                echo $sqlDump;
+            }, 200, $headers);
+
+        } catch (Exception $e) {
+            \Log::error("Database backup failed: " . $e->getMessage());
+            return response()->json(['error' => 'Database backup failed. ' . $e->getMessage()], 500);
+        }
     }
     
     
