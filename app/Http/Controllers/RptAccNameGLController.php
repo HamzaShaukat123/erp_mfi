@@ -732,6 +732,11 @@ class RptAccNameGLController extends Controller
                 // Add debit and credit to the totals
                 $totalDebit += $cheque->Debit;
                 $totalCredit += $cheque->Credit;
+
+                $html .= '
+                    <tr style="background-color:#bfe3d0; font-weight:bold;">
+                        <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
+                    </tr>';
                 
                 $html .= '
                 <tr style="background-color:' . $bgColor . ';">
