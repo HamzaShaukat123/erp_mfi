@@ -28,7 +28,7 @@
                                                 <option value="6">by Instrument</option>
                                                 <option value="7">by Chq Date</option>
                                                 <option value="8">by Amount</option>
-                                                <option value="8">by Vocher</option>
+                                                <option value="9">by Vocher</option>
                                             </select>
                                             <input type="text" class="form-control" id="columnSearch" placeholder="Search By Column"/>
                                         </div>
