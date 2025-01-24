@@ -718,11 +718,14 @@ class RptAccNameGLController extends Controller
             </tr>
             </thead>
             <tbody>';
-// Alternate background color between white and light gray
-$bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+            
             // Loop through the unadjusted cheques data and append rows
             $count = 1;
             foreach ($lager_pdc as $cheque) {
+
+                // Alternate background color between white and light gray
+                $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+
             $html .= '
               <tr style="background-color:' . $bgColor . ';">
                 <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
