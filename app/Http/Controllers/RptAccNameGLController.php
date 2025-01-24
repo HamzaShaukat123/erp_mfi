@@ -751,7 +751,7 @@ class RptAccNameGLController extends Controller
             if ($count === 1) {
                 $html .= '
                 <tr>
-                    <td colspan="5" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
+                    <td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
                 </tr>';
             }
 
