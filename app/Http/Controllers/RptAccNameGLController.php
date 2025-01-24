@@ -693,6 +693,53 @@ class RptAccNameGLController extends Controller
         // Close tbody and table
         $html .= '</tbody></table>';
 
+
+        // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
+            $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
+            ->where('status', 1) 
+            ->get();
+
+            // Add the "Unadjusted Post Dated Cheques" section at the end
+            $html .= '<h2 style="font-size:16px; text-align:center; color:#17365D; margin-top:20px;">Unadjusted Post Dated Cheques</h2>';
+
+            $html .= '
+            <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:10px;">
+            <thead>
+            <tr>
+            <th style="width:10%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr#</th>
+            <th style="width:20%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Receiving Date</th>
+            <th style="width:40%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
+            <th style="width:15%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
+            <th style="width:15%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Amount</th>
+            </tr>
+            </thead>
+            <tbody>';
+
+            // Loop through the unadjusted cheques data and append rows
+            $count = 1;
+            foreach ($lager_pdc as $cheque) {
+            $html .= '
+            <tr>
+                <td style="padding:10px; text-align:center;">' . $count . '</td>
+                <td style="padding:10px; text-align:center;">' . htmlspecialchars(Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y')) . '</td>
+                <td style="padding:10px; text-align:center;">' . htmlspecialchars($cheque->remarks) . '</td>
+                <td style="padding:10px; text-align:center;">' . htmlspecialchars(Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y')) . '</td>
+                <td style="padding:10px; text-align:center;">' . number_format($cheque->amount, 0) . '</td>
+            </tr>';
+            $count++;
+            }
+
+            // If no records are found, display a message
+            if ($count === 1) {
+            $html .= '
+            <tr>
+                <td colspan="5" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
+            </tr>';
+            }
+
+            $html .= '</tbody></table>';
+
+
         // Write HTML content to the PDF
         $pdf->writeHTML($html, true, false, true, false, '');
 
