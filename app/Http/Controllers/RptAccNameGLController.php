@@ -694,10 +694,10 @@ class RptAccNameGLController extends Controller
         // Close tbody and table
         $html .= '</tbody></table>';
 
-         // Write HTML content to the PDF
-         $pdf->writeHTML($html, true, false, true, false, '');
+        // Add space between the tables
+        $html .= '<div style="height:20px;"></div>'; // Adds a 20px gap between tables
 
-
+        
         // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
             $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
             ->where('status', 1) 
