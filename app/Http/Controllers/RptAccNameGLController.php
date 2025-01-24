@@ -725,8 +725,8 @@ class RptAccNameGLController extends Controller
                 <tbody>';
                 
         // Initialize variables to store total debit and credit
-        $totalDebit = 0;
-        $totalCredit = 0;
+        $totalDebit2 = 0;
+        $totalCredit2 = 0;
         
         // Loop through the unadjusted cheques data and append rows
         $count = 1;
@@ -735,8 +735,8 @@ class RptAccNameGLController extends Controller
             $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
         
             // Add debit and credit to the totals
-            $totalDebit += $cheque->Debit;
-            $totalCredit += $cheque->Credit;
+            $totalDebit2 += $cheque->Debit;
+            $totalCredit2 += $cheque->Credit;
         
             $html .= '
                 <tr style="background-color:' . $bgColor . ';">
@@ -764,8 +764,8 @@ class RptAccNameGLController extends Controller
         $html .= '
             <tr style="background-color:#bfe3d0; font-weight:bold;">
                 <td colspan="6" style="text-align:right; padding:10px;">Total</td>
-                <td style="padding:10px; text-align:center;">' . number_format($totalDebit, 0) . '</td>
-                <td style="padding:10px; text-align:center;">' . number_format($totalCredit, 0) . '</td>
+                <td style="padding:10px; text-align:center;">' . number_format($totalDebit2, 0) . '</td>
+                <td style="padding:10px; text-align:center;">' . number_format($totalCredit2, 0) . '</td>
             </tr>';
         
         $html .= '</tbody></table>';
