@@ -15,6 +15,7 @@ class RptAccNameSalesAgeingController extends Controller
     public function salesAgeing(Request $request){
         $sales_days = sales_days::where('account_name',$request->acc_id)
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->orderBy('sale_prefix','asc')
         ->get();
@@ -30,6 +31,7 @@ class RptAccNameSalesAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'sales_days.account_name')
         ->select('sales_days.*', 'ac.ac_name as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date', 'asc')
         ->orderBy('sale_prefix', 'asc')
         ->get();
@@ -80,6 +82,7 @@ class RptAccNameSalesAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'sales_days.account_name')
         ->select('sales_days.*', 'ac.ac_name  as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->orderBy('sale_prefix','asc')
         ->get();
@@ -214,6 +217,7 @@ class RptAccNameSalesAgeingController extends Controller
         ->whereBetween('bill_date', [$request->fromDate, $request->toDate])
         ->leftjoin('ac', 'ac.ac_code', '=', 'sales_days.account_name')
         ->select('sales_days.*', 'ac.ac_name  as ac_nam', 'ac.remarks as ac_remarks')
+        ->where('bill_amount', '<>', 0)
         ->orderBy('bill_date','asc')
         ->get();
 
