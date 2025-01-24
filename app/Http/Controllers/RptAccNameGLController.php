@@ -700,45 +700,42 @@ class RptAccNameGLController extends Controller
             ->where('status', 1) 
             ->get();
 
-            // Add the "Unadjusted Post Dated Cheques" section at the end
-            $html .= '<h2 style="font-size:14px; text-align:center; color:#17365D; margin-top:20px;">Unadjusted Post Dated Cheques</h2>';
+            
 
             $html .= '
             <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
-            <thead>
-            <tr>
-            <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
-            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
-            <th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
-            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
-            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
-            </tr>
-            </thead>
-            <tbody>';
-            
-         // Initialize variables to store total debit and credit
-            $totalDebit = 0;
-            $totalCredit = 0;
-
-            // Loop through the unadjusted cheques data and append rows
-            $count = 1;
-            foreach ($lager_pdc as $cheque) {
-                // Alternate background color between white and light gray
-                $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+                <tr style="background-color:#bfe3d0; font-weight:bold;">
+                    <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
+                        <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
+                        <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+                        <th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
+                        <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
+                        <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
+                        <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
+                        <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>';
                 
-                // Add debit and credit to the totals
-                $totalDebit += $cheque->Debit;
-                $totalCredit += $cheque->Credit;
-
-                $html .= '
-                    <tr style="background-color:#bfe3d0; font-weight:bold;">
-                        <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
-                    </tr>';
-                
-                $html .= '
+        // Initialize variables to store total debit and credit
+        $totalDebit = 0;
+        $totalCredit = 0;
+        
+        // Loop through the unadjusted cheques data and append rows
+        $count = 1;
+        foreach ($lager_pdc as $cheque) {
+            // Alternate background color between white and light gray
+            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+        
+            // Add debit and credit to the totals
+            $totalDebit += $cheque->Debit;
+            $totalCredit += $cheque->Credit;
+        
+            $html .= '
                 <tr style="background-color:' . $bgColor . ';">
                     <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
                     <td style="width:13%; padding:10px; text-align:center;">' . $cheque->prefix . $cheque->pdc_id . '</td>
@@ -749,27 +746,26 @@ class RptAccNameGLController extends Controller
                     <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Debit, 0) . '</td>
                     <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Credit, 0) . '</td>
                 </tr>';
-                $count++;
-            }
-
-            // If no records are found, display a message
-            if ($count === 1) {
-                $html .= '
+            $count++;
+        }
+        
+        // If no records are found, display a message
+        if ($count === 1) {
+            $html .= '
                 <tr>
                     <td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
                 </tr>';
-            }
-
-            // Add the totals row
-            $html .= '
+        }
+        
+        // Add the totals row
+        $html .= '
             <tr style="background-color:#bfe3d0; font-weight:bold;">
                 <td colspan="6" style="text-align:right; padding:10px;">Total</td>
                 <td style="padding:10px; text-align:center;">' . number_format($totalDebit, 0) . '</td>
                 <td style="padding:10px; text-align:center;">' . number_format($totalCredit, 0) . '</td>
             </tr>';
-
-            $html .= '</tbody></table>';
-
+        
+        $html .= '</tbody></table>';
 
 
         // Write HTML content to the PDF
