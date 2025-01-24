@@ -697,7 +697,7 @@ class RptAccNameGLController extends Controller
         // Add space between the tables
         $html .= '<div style="height:20px;"></div>'; // Adds a 20px gap between tables
 
-        
+
         // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
             $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
             ->where('status', 1) 
@@ -756,7 +756,7 @@ class RptAccNameGLController extends Controller
         if ($count === 1) {
             $html .= '
                 <tr>
-                    <td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
+                    <td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No pending unadjusted post-dated cheques.</td>
                 </tr>';
         }
         
