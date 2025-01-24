@@ -719,51 +719,52 @@ class RptAccNameGLController extends Controller
             </thead>
             <tbody>';
             
-            // Initialize variables to store total debit and credit
-            $totalDebit = 0;
-            $totalCredit = 0;
+         // Initialize variables to store total debit and credit
+$totalDebit = 0;
+$totalCredit = 0;
 
-            // Loop through the unadjusted cheques data and append rows
-            $count = 1;
-            foreach ($lager_pdc as $cheque) {
-                // Alternate background color between white and light gray
-                $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
-                
-                // Add debit and credit to the totals
-                $totalDebit += $cheque->Debit;
-                $totalCredit += $cheque->Credit;
-                
-                $html .= '
-                <tr style="background-color:' . $bgColor . ';">
-                    <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
-                    <td style="width:13%; padding:10px; text-align:center;">' . $cheque->prefix . $cheque->pdc_id . '</td>
-                    <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y') . '</td>
-                    <td style="width:16%; padding:10px; text-align:center; font-size:9px;">' . $cheque->remarks . ' ' . $cheque->bankname . '</td>
-                    <td style="width:13%; padding:10px; text-align:center; font-size:9px;">' . $cheque->instrumentnumber . '</td>
-                    <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y') . '</td>
-                    <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Debit, 0) . '</td>
-                    <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Credit, 0) . '</td>
-                </tr>';
-                $count++;
-            }
+// Loop through the unadjusted cheques data and append rows
+$count = 1;
+foreach ($lager_pdc as $cheque) {
+    // Alternate background color between white and light gray
+    $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+    
+    // Add debit and credit to the totals
+    $totalDebit += $cheque->Debit;
+    $totalCredit += $cheque->Credit;
+    
+    $html .= '
+    <tr style="background-color:' . $bgColor . ';">
+        <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
+        <td style="width:13%; padding:10px; text-align:center;">' . $cheque->prefix . $cheque->pdc_id . '</td>
+        <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y') . '</td>
+        <td style="width:16%; padding:10px; text-align:center; font-size:9px;">' . $cheque->remarks . ' ' . $cheque->bankname . '</td>
+        <td style="width:13%; padding:10px; text-align:center; font-size:9px;">' . $cheque->instrumentnumber . '</td>
+        <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y') . '</td>
+        <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Debit, 0) . '</td>
+        <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Credit, 0) . '</td>
+    </tr>';
+    $count++;
+}
 
-            // If no records are found, display a message
-            if ($count === 1) {
-                $html .= '
-                <tr>
-                    <td colspan="5" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
-                </tr>';
-            }
+// If no records are found, display a message
+if ($count === 1) {
+    $html .= '
+    <tr>
+        <td colspan="5" style="padding:10px; text-align:center; font-style:italic; color:gray;">No unadjusted post-dated cheques found.</td>
+    </tr>';
+}
 
-            // Add the totals row
-            $html .= '
-            <tr style="style="background-color:#d9edf7; font-weight:bold;">
-                <td colspan="6" style="text-align:right;">Total</td>
-                <td style="padding:10px; text-align:center;">' . number_format($totalDebit, 0) . '</td>
-                <td style="padding:10px; text-align:center;">' . number_format($totalCredit, 0) . '</td>
-            </tr>';
+// Add the totals row
+$html .= '
+<tr style="background-color:green; font-weight:bold;">
+    <td colspan="6" style="text-align:right; padding:10px;">Total</td>
+    <td style="padding:10px; text-align:center;">' . number_format($totalDebit, 0) . '</td>
+    <td style="padding:10px; text-align:center;">' . number_format($totalCredit, 0) . '</td>
+</tr>';
 
-            $html .= '</tbody></table>';
+$html .= '</tbody></table>';
+
 
 
         // Write HTML content to the PDF
