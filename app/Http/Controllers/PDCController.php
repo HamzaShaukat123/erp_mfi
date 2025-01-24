@@ -19,8 +19,7 @@ class PDCController extends Controller
 
     public function index()
     {
-        $jv1 = pdc::where('pdc.status', 1)
-                ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+        $jv1 = pdc::leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
                 ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
                 ->select('pdc.*', 
                 'd_ac.ac_name as debit_account', 
