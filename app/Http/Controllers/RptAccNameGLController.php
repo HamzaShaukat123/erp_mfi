@@ -757,7 +757,7 @@ class RptAccNameGLController extends Controller
 
             // Add the totals row
             $html .= '
-            <tr style="background-color:#90d1af; font-weight:bold;">
+            <tr style="background-color:#bfe3d0; font-weight:bold;">
                 <td colspan="6" style="text-align:right; padding:10px;">Total</td>
                 <td style="padding:10px; text-align:center;">' . number_format($totalDebit, 0) . '</td>
                 <td style="padding:10px; text-align:center;">' . number_format($totalCredit, 0) . '</td>
