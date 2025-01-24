@@ -700,7 +700,7 @@ class RptAccNameGLController extends Controller
 
         // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
             $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
-            ->where('status', 1) 
+            ->whereNotNull('voch_id')
             ->get();
 
             
