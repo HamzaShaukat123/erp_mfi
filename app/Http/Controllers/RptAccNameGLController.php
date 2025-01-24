@@ -701,9 +701,9 @@ class RptAccNameGLController extends Controller
             ->get();
 
             // Add the "Unadjusted Post Dated Cheques" section at the end
-            $html .= '<h2 style="font-size:14px; text-align:center; color:#17365D; margin-top:20px; border-bottom: 1px double #17365D;">
-                Unadjusted Post Dated Cheques
-            </h2>';
+            $html .= '<h2 style="font-size:14px; text-align:center; color:#17365D; margin-top:20px; border-bottom: 1px solid #17365D;">
+            Unadjusted Post Dated Cheques
+          </h2>';
 
 
             $html .= '
