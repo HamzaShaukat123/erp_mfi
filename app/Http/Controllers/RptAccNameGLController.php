@@ -701,25 +701,23 @@ class RptAccNameGLController extends Controller
             ->get();
 
             // Add the "Unadjusted Post Dated Cheques" section at the end
-            $html .= '<h2 style="font-size:14px; text-align:center; color:#17365D; margin-top:20px; border-bottom: 1px solid #17365D; padding-bottom: 5px;">
-            Unadjusted Post Dated Cheques
-          </h2>';
+            $html .= '<h2 style="font-size:14px; text-align:center; color:#17365D; margin-top:20px;">Unadjusted Post Dated Cheques</h2>';
 
-$html .= '
-<table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
-<thead>
-<tr>
-<th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
-<th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
-<th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
-<th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
-<th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
-<th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
-<th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
-<th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
-</tr>
-</thead>
-<tbody>';
+            $html .= '
+            <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
+            <thead>
+            <tr>
+            <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
+            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+            <th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
+            <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
+            <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
+            </tr>
+            </thead>
+            <tbody>';
             
          // Initialize variables to store total debit and credit
             $totalDebit = 0;
