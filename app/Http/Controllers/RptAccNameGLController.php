@@ -694,6 +694,9 @@ class RptAccNameGLController extends Controller
         // Close tbody and table
         $html .= '</tbody></table>';
 
+         // Write HTML content to the PDF
+         $pdf->writeHTML($html, true, false, true, false, '');
+
 
         // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
             $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
