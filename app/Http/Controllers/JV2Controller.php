@@ -14,6 +14,7 @@ use App\Models\sales_ageing;
 use App\Models\purchase_ageing;
 use App\Models\vw_union_sale_1_2_opbal;
 use App\Models\vw_union_pur_1_2_opbal;
+use App\Models\pdc;
 use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -606,7 +607,7 @@ class JV2Controller extends Controller
         'd_ac.ac_name as debit_account', 
         'c_ac.ac_name as credit_account')
         ->get();
-        
+
         return $unclosed_inv;
 
 
