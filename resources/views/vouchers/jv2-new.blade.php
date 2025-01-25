@@ -646,13 +646,13 @@
 			// Correctly handle Debit and Credit Accounts based on condition
 			if (isDebit) {
 				row += `<td>
-							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
+							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'" required>
 								<option value="${account['ac_code']}" selected>${account['debit_account']}</option>
 							</select>
 						</td>`;
 			} else {
 				row += `<td>
-							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
+							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'"  required>
 								<option value="${account['ac_code']}" selected>${account['credit_account']}</option>
 							</select>
 						</td>`;
