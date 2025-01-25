@@ -643,13 +643,8 @@
     $('#itemCount').val(1); // Reset the item count
 
     // Helper function to generate HTML for rows
-    function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
+	function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
     var row = "<tr>";
-    row += `<td>
-                <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
-                    <option value="${account['ac_code']}" selected>${account['ac_name']}</option>
-                </select>
-            </td>`;
     
     // Correctly handle Debit and Credit Accounts based on condition
     if (isDebit) {
@@ -684,8 +679,10 @@
                 <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
             </td>`;
     row += "</tr>";
+    
     return row;
 }
+
 
 
     // Perform an AJAX GET request to fetch the data for the selected PDC
