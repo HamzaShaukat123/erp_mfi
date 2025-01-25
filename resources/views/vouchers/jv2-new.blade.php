@@ -645,7 +645,7 @@
         // Correctly handle Debit and Credit Accounts based on condition
         if (isDebit) {
             row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'" required>
                             <option value="${account['ac_dr_sid'] || ''}" selected>${account['debit_account'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -654,7 +654,7 @@
                     </td>`;
         } else {
             row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'" required>
                             <option value="${account['ac_cr_sid'] || ''}" selected>${account['credit_account'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -701,11 +701,11 @@
                     console.log(v);  // Log each object to check the data
 
                     // Generate the 1st row (Debit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
+                    $('#JV2Table').append(generateRow(v['ac_dr_sid'], v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
                     index++; // Increment index for the next row
 
                     // Generate the 2nd row (Credit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
+                    $('#JV2Table').append(generateRow(v['ac_cr_sid'], v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
                     index++; // Increment index for the next row
                 });
 
