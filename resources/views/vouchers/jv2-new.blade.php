@@ -663,8 +663,8 @@
 
 			// Include prefix and pdc_id as hidden fields along with remarks
 			row += `<td>
-						<input type="hidden" name="prefix[]" value="${account['prefix'] || ''}">
-						<input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
+						<input type="text" name="prefix[]" value="${account['prefix'] || ''}">
+						<input type="text" name="pdc_id[]" value="${account['pdc_id'] || ''}">
 						<input type="text" class="form-control" name="remarks[]" value="${remarks || ''}">
 					</td>`;
 			
