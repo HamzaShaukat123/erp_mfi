@@ -612,21 +612,26 @@ class JV2Controller extends Controller
 
     }
 
-    public function getItems($id){
-
-       
-
-        $pur2 = pdc::where('pdc_id',$id)
-        ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
-        ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
-        ->select('pdc.*', 
-        'd_ac.ac_name as debit_account', 
-        'c_ac.ac_name as credit_account')
-        ->get();
-
-        return response()->json([
-            
-            'pur2' => $pur2,
-        ]);
+    public function getItems($id)
+    {
+        // Validate if the ID exists
+        if (!pdc::where('pdc_id', $id)->exists()) {
+            return response()->json(['error' => 'PDC ID not found'], 404);
+        }
+    
+        // Fetch records with joins
+        $pur2 = pdc::where('pdc_id', $id)
+            ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+            ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+            ->select(
+                'pdc.*', 
+                'd_ac.ac_name as debit_account', 
+                'c_ac.ac_name as credit_account'
+            )
+            ->get();
+    
+        // Return as JSON
+        return response()->json($pur2);
     }
+    
 }
