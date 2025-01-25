@@ -633,91 +633,91 @@
     }
 
 	function inducedItems(id) {
-    // Get the JV2Table element and clear all its rows
-    var table = document.getElementById('JV2Table');
-    var index = 0; // Initialize index
-    $('#itemCount').val(1); // Reset the item count
+		// Get the JV2Table element and clear all its rows
+		var table = document.getElementById('JV2Table');
 
-    // Helper function to generate HTML for rows
-    function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
-    var row = "<tr>";
+		var index = 0; // Initialize index
+		$('#itemCount').val(1); // Reset the item count
 
-    // Ensure account['ac_code'] is not undefined, set to empty string if not available
-    var accountCode = account['ac_code'] || ''; // Default to empty string if undefined
+		// Helper function to generate HTML for rows
+		function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
+			var row = "<tr>";
 
-    // Correctly handle Debit and Credit Accounts based on condition
-    if (isDebit) {
-        row += `<td>
-                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                        <option value="${accountCode}" selected>${account['debit_account'] || 'No Debit Account'}</option>
-                    </select>
-                </td>`;
-    } else {
-        row += `<td>
-                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                        <option value="${accountCode}" selected>${account['credit_account'] || 'No Credit Account'}</option>
-                    </select>
-                </td>`;
-    }
+			// Correctly handle Debit and Credit Accounts based on condition
+			if (isDebit) {
+				row += `<td>
+							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
+								<option value="${account['ac_code']}" selected>${account['debit_account']}</option>
+							</select>
+						</td>`;
+			} else {
+				row += `<td>
+							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
+								<option value="${account['ac_code']}" selected>${account['credit_account']}</option>
+							</select>
+						</td>`;
+			}
 
-    // Continue with the rest of the row generation...
-    row += `<td>
-                <input type="text" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
-            </td>`;
+			// Include prefix and pdc_id as hidden fields along with remarks
+			row += `<td>
+						<input type="text" name="pdc_id[]" value="${account['pdc_id'] || ''}">
+						<input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
+					</td>`;
 
-    row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
-    row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
-    row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
+			row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
+			row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
+			row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
 
-    if (isDebit) {
-        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
-        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
-    } else {
-        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
-        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
-    }
+			// Debit or Credit based on condition
+			if (isDebit) {
+				row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
+				row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
+			} else {
+				row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
+				row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
+			}
 
-    row += `<td style="vertical-align: middle;">
-                <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
-            </td>`;
-    row += "</tr>";
+			row += `<td style="vertical-align: middle;">
+						<button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
+					</td>`;
+			row += "</tr>";
 
-    return row;
-}
+			return row;
+		}
 
-    // Perform an AJAX GET request to fetch the data for the selected PDC
-    $.ajax({
-        type: "GET",
-        url: "/vouchers2/getItems/" + id, // API endpoint with the ID
-        success: function(result) {
-            if (result.pur2 && result.pur2.length > 0) {
-                $.each(result.pur2, function(k, v) {
-                    // Generate the 1st row (Debit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
-                    index++; // Increment index for the next row
+		// Perform an AJAX GET request to fetch the data for the selected PDC
+		$.ajax({
+			type: "GET",
+			url: "/vouchers2/getItems/" + id, // API endpoint with the ID
+			success: function(result) {
+				if (result.pur2 && result.pur2.length > 0) {
+					$.each(result.pur2, function(k, v) {
+						// Generate the 1st row (Debit Account)
+						$('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
+						index++; // Increment index for the next row
 
-                    // Generate the 2nd row (Credit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
-                    index++; // Increment index for the next row
-                });
+						// Generate the 2nd row (Credit Account)
+						$('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
+						index++; // Increment index for the next row
+					});
 
-                // Update the item count
-                $('#itemCount').val(index);
+					// Update the item count
+					$('#itemCount').val(index);
 
-                // Re-initialize Select2 for newly added elements
-                $('.select2-js').select2();
+					// Re-initialize Select2 for newly added elements
+					$('.select2-js').select2();
 
-                // Close the modal (if applicable)
-                $("#closeModal").trigger('click');
-            } else {
-                alert("No items found for this PDC.");
-            }
-        },
-        error: function() {
-            alert("An error occurred while fetching data. Please try again.");
-        }
-    });
-}
+					// Close the modal (if applicable)
+					$("#closeModal").trigger('click');
+				} else {
+					alert("No items found for this PDC.");
+				}
+			},
+			error: function() {
+				alert("An error occurred while fetching data. Please try again.");
+			}
+		});
+	}
 
 
 
