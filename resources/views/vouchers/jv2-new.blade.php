@@ -248,7 +248,7 @@
 				</section>
 			</div>
 			{{-- Get PDC --}}
-			<div id="getpdc" class="zoom-anim-dialog modal-block modal-block-danger mfp-hide" style="max-width: 90%; width: 90%;">
+			<div id="getpdc" class="zoom-anim-dialog modal-block modal-block-danger mfp-hide" style="max-width: 70%; width: 70%;">
 				<section class="card" style="max-width: 100%;">
 					<header class="card-header">
 						<h2 class="card-title">All Unadjusted PDC</h2>
