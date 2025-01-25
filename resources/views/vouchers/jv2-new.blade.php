@@ -634,52 +634,44 @@
 
 	
 	function inducedItems(id) {
-    // Helper function to generate HTML for rows
+    // Helper function to safely access properties
+    function safeGet(obj, key, defaultValue = "") {
+        return obj && obj.hasOwnProperty(key) ? obj[key] : defaultValue;
+    }
+
+    // Generate rows with a fallback for missing keys
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
         var row = "<tr>";
 
         // Correctly handle Debit and Credit Accounts based on condition
-        if (isDebit) {
-            row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="" disabled>Select Account</option>
-                            @foreach($acc as $key => $row)
-                                <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
-                                    {{$row->ac_name}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </td>`;
-        } else {
-            row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="" disabled>Select Account</option>
-                            @foreach($acc as $key => $row)
-                                <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
-                                    {{$row->ac_name}}
-                                </option>
-                            @endforeach
-                        </select>
-                    </td>`;
-        }
+        row += `<td>
+                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <option value="" disabled>Select Account</option>
+                        @foreach($acc as $key => $row)
+                            <option value="{{$row->ac_code}}" ${safeGet(account, 'ac_code') == {{$row->ac_code}} ? 'selected' : ''}>
+                                {{$row->ac_name}}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>`;
 
         // Include prefix and pdc_id as hidden fields along with remarks
         row += `<td>
-                    <input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-                    <input type="text" class="form-control" name="remarks[]" value="${remarks || ''}">
+                    <input type="hidden" name="pdc_id[]" value="${safeGet(account, 'pdc_id')}">
+                    <input type="text" class="form-control" name="remarks[]" value="${safeGet(remarks)}">
                 </td>`;
 
-        row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
-        row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
-        row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
+        row += `<td><input type="text" class="form-control" name="bank_name[]" value="${safeGet(bankname)}"></td>`;
+        row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${safeGet(instrumentnumber)}"></td>`;
+        row += `<td><input type="date" class="form-control" name="chq_date[]" value="${safeGet(chqdate)}"></td>`;
 
         // Debit or Credit based on condition
         if (isDebit) {
-            row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
+            row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${safeGet(amount, null, 0)}" step="any"></td>`;
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
         } else {
             row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
-            row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
+            row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${safeGet(amount, null, 0)}" step="any"></td>`;
         }
 
         row += `<td style="vertical-align: middle;">
@@ -697,12 +689,20 @@
         success: function(result) {
             if (result.pur2 && result.pur2.length > 0) {
                 $.each(result.pur2, function(k, v) {
+                    // Ensure keys exist before accessing
+                    var account = v || {};
+                    var amount = safeGet(v, 'amount', 0);
+                    var remarks = safeGet(v, 'remarks');
+                    var bankname = safeGet(v, 'bankname');
+                    var instrumentnumber = safeGet(v, 'instrumentnumber');
+                    var chqdate = safeGet(v, 'chqdate');
+
                     // Generate the 1st row (Debit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
+                    $('#JV2Table').append(generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, true));
                     index++; // Increment index for the next row
 
                     // Generate the 2nd row (Credit Account)
-                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
+                    $('#JV2Table').append(generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, false));
                     index++; // Increment index for the next row
                 });
 
@@ -723,8 +723,6 @@
         }
     });
 }
-
-
 
 
 </script>
