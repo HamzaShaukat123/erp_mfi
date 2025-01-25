@@ -701,11 +701,11 @@
                     console.log(v);  // Log each object to check the data
 
                     // Generate the 1st row (Debit Account)
-                    $('#JV2Table').append(generateRow(v['ac_dr_sid'], v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
+                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
                     index++; // Increment index for the next row
 
                     // Generate the 2nd row (Credit Account)
-                    $('#JV2Table').append(generateRow(v['ac_cr_sid'], v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
+                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
                     index++; // Increment index for the next row
                 });
 
