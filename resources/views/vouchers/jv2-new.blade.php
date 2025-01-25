@@ -11,8 +11,8 @@
 								<header class="card-header" style="display: flex;justify-content: space-between;">
 									<h2 class="card-title">New Journal Voucher 2</h2>
 									<div class="card-actions">
-										{{-- <button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" onclick="getpdc()" href="#getpdc"> <i class="fas fa-plus"></i> Get PDC </button> --}}
-										<button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" onclick="getpdc()  href="#getpdc"> <i class="fas fa-plus"></i> Get PDC </button>
+										<button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" onclick="getpdc()" href="#getpdc"> <i class="fas fa-plus"></i> Get PDC </button>
+										
 										<button type="button" class="btn btn-primary" onclick="addNewRow()"> <i class="fas fa-plus"></i> Add New Row </button>
 									</div>
 								</header>
