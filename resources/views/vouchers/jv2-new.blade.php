@@ -633,12 +633,30 @@
     }
 
 	function inducedItems(id) {
-    // Get the JV2Table element and clear all its rows
+    // Get the JV2Table element
     var table = document.getElementById('JV2Table');
-    if (table.rows.length === 0) {
-    table.deleteRow(0); // This will do nothing if the table is empty, but you can handle the case as needed.
-}
+	
+    // Function to remove empty rows
+    function removeEmptyRows() {
+        for (var i = table.rows.length - 1; i >= 0; i--) {
+            var row = table.rows[i];
+            var isEmpty = true;
 
+            // Loop through each cell in the row and check if any input field has data
+            for (var j = 0; j < row.cells.length; j++) {
+                var cell = row.cells[j];
+                if (cell.querySelector('input') && cell.querySelector('input').value.trim() !== "") {
+                    isEmpty = false;
+                    break; // Exit loop if any input field has data
+                }
+            }
+
+            // If the row is empty, delete it
+            if (isEmpty) {
+                table.deleteRow(i);
+            }
+        }
+    }
 
     var index = 0; // Initialize index
     $('#itemCount').val(1); // Reset the item count
@@ -722,8 +740,10 @@
             alert("An error occurred while fetching data. Please try again.");
         }
     });
-}
 
+    // After populating rows, remove any empty rows
+    removeEmptyRows();
+}
 
 
 </script>
