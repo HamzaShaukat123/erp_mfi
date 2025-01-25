@@ -633,84 +633,61 @@
     }
 
 	function inducedItems(id) {
-    // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
-    var row = "<tr>";
-
-    // Account Dropdown with Conditional Header
-    var accountLabel = isDebit ? 'debit_account' : 'credit_account';
-    row += `<td>
-                <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                    <option value="" disabled>Select ${accountLabel}</option>
-                    @foreach($acc as $key => $row)
-                        <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
-                            {{$row->ac_name}}
-                        </option>
-                    @endforeach
-                </select>
-            </td>`;
-
-    // Hidden Fields and Remarks
-    row += `<td>
-                <input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-                <input type="text" class="form-control" name="remarks[]" value="${remarks || ''}" placeholder="Remarks">
-            </td>`;
-
-    // Bank Name, Instrument Number, and Cheque Date
-    row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}" placeholder="Bank Name"></td>`;
-    row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}" placeholder="Instrument #"></td>`;
-    row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
-
-    // Debit or Credit Input Fields
-    if (isDebit) {
-        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any" placeholder="Debit"></td>`;
-        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any" placeholder="Credit" readonly></td>`;
-    } else {
-        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any" placeholder="Debit" readonly></td>`;
-        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any" placeholder="Credit"></td>`;
+        var accountLabel = isDebit ? 'debit_account' : 'credit_account';
+        var row = `
+            <tr id="row_${index}">
+                <td>
+                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <option value="" disabled>Select ${accountLabel}</option>
+                        @foreach($acc as $key => $row)
+                            <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
+                                {{$row->ac_name}}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
+                    <input type="text" class="form-control" name="remarks[]" value="${remarks || ''}" placeholder="Remarks">
+                </td>
+                <td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}" placeholder="Bank Name"></td>
+                <td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}" placeholder="Instrument #"></td>
+                <td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>
+                ${isDebit 
+                    ? `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any" placeholder="Debit"></td>
+                       <td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any" readonly></td>`
+                    : `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any" readonly></td>
+                       <td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any" placeholder="Credit"></td>`}
+                <td style="vertical-align: middle;">
+                    <button type="button" onclick="removeRow(this)" class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            </tr>`;
+        return row;
     }
 
-    // Remove Row Button
-    row += `<td style="vertical-align: middle;">
-                <button type="button" onclick="removeRow(this)" class="btn btn-danger">
-                    <i class="fas fa-times"></i>
-                </button>
-            </td>`;
-    row += "</tr>";
-
-    return row;
-}
-
-
-    // Perform AJAX request to fetch data for the selected PDC
     $.ajax({
         type: "GET",
         url: `/vouchers2/getItems/${id}`,
         success: function (result) {
             if (result.pur2 && result.pur2.length > 0) {
                 $.each(result.pur2, function (k, v) {
-                    // Generate Debit Row
                     $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
-                    index++; // Increment index for next row
-
-                    // Generate Credit Row
+                    index++;
                     $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
-                    index++; // Increment index for next row
+                    index++;
                 });
-
-                // Update the item count
                 $('#itemCount').val(index);
-
-                // Re-initialize Select2 for newly added elements
                 $('.select2-js').select2();
-
-                // Close the modal (if applicable)
                 $("#closeModal").trigger('click');
             } else {
                 alert("No items found for this PDC.");
             }
         },
-        error: function () {
+        error: function (xhr, status, error) {
+            console.error(`Error: ${status} - ${error}`);
             alert("An error occurred while fetching data. Please try again.");
         }
     });
