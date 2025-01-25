@@ -644,6 +644,7 @@
 
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
+        console.log("Generating row for account: ", account); // Debugging the account
         var row = "<tr>";
         row += `<td>
                     <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
@@ -676,31 +677,37 @@
         type: "GET",
         url: "/vouchers2/getItems/" + id, // API endpoint with the ID
         success: function(result) {
-            // Loop through the result and populate the table
-            $.each(result.pur2, function(k, v) {
-                // Generate the 1st row (Debit Account)
-                $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
-                index++; // Increment index for the next row
+            console.log(result); // Debugging the result
+            if (result.pur2 && result.pur2.length > 0) {
+                $.each(result.pur2, function(k, v) {
+                    // Generate the 1st row (Debit Account)
+                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
+                    index++; // Increment index for the next row
 
-                // Generate the 2nd row (Credit Account)
-                $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
-                index++; // Increment index for the next row
-            });
+                    // Generate the 2nd row (Credit Account)
+                    $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
+                    index++; // Increment index for the next row
+                });
 
-            // Update the item count
-            $('#itemCount').val(index);
+                // Update the item count
+                $('#itemCount').val(index);
 
-            // Re-initialize Select2 for newly added elements
-            $('.select2-js').select2();
+                // Re-initialize Select2 for newly added elements
+                $('.select2-js').select2();
 
-            // Close the modal (if applicable)
-            $("#closeModal").trigger('click');
+                // Close the modal (if applicable)
+                $("#closeModal").trigger('click');
+            } else {
+                console.log("No items found for this PDC.");
+            }
         },
         error: function() {
             alert("An error occurred while fetching data. Please try again.");
         }
     });
 }
+
+
 
 
 
