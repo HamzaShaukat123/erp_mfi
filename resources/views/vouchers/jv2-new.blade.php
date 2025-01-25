@@ -635,30 +635,8 @@
 	function inducedItems(id) {
     // Get the JV2Table element and clear all its rows
     var table = document.getElementById('JV2Table');
-
-    // Function to remove rows that are empty
-    function removeEmptyRows() {
-        var table = document.getElementById('JV2Table');
-
-        // Loop through the rows in reverse order
-        for (var i = table.rows.length - 1; i >= 0; i--) {
-            var row = table.rows[i];
-            var isEmpty = true;
-
-            // Loop through all cells in the row to check if any have data
-            for (var j = 0; j < row.cells.length; j++) {
-                var cell = row.cells[j];
-                if (cell.querySelector('input') && cell.querySelector('input').value.trim() !== "") {
-                    isEmpty = false;
-                    break; // Exit loop if any cell has data
-                }
-            }
-
-            // If the row is empty, delete it
-            if (isEmpty) {
-                table.deleteRow(i);
-            }
-        }
+    while (table.rows.length = 0) {
+        table.deleteRow(0);
     }
 
     var index = 0; // Initialize index
@@ -735,9 +713,6 @@
 
                 // Close the modal (if applicable)
                 $("#closeModal").trigger('click');
-
-                // Call removeEmptyRows to clean up empty rows
-                removeEmptyRows();
             } else {
                 console.log("No items found for this PDC.");
             }
@@ -747,7 +722,6 @@
         }
     });
 }
-
 
 
 
