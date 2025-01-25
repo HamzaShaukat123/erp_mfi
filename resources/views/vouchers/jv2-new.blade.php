@@ -248,15 +248,14 @@
 				</section>
 			</div>
 			{{-- Get PDC --}}
-			<div id="getpdc" class="zoom-anim-dialog modal-block modal-block-danger mfp-hide">
-				<section class="card">
+			<div id="getpdc" class="zoom-anim-dialog modal-block modal-block-danger mfp-hide" style="max-width: 90%; width: 90%;">
+				<section class="card" style="max-width: 100%;">
 					<header class="card-header">
 						<h2 class="card-title">All Unadjusted PDC</h2>
 					</header>
 					<div class="card-body">
 						<div class="modal-wrapper">
-
-							<table class="table table-bordered table-striped mb-0" >
+							<table class="table table-bordered table-striped mb-0">
 								<thead>
 									<tr>
 										<th>PDC#</th>
@@ -265,13 +264,13 @@
 										<th>Account Name</th>
 										<th>Chq Date</th>
 										<th>Chq Number</th>
-										<th>Remakrs</th>
+										<th>Remarks</th>
 										<th>Amount</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody id="unclosed_pdc_list">
-
+									<!-- Data goes here -->
 								</tbody>
 							</table>
 						</div>
@@ -285,6 +284,7 @@
 					</footer>
 				</section>
 			</div>
+			
 		</section>
         @include('../layouts.footerlinks')
 	</body>
