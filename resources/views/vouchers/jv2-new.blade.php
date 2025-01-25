@@ -644,7 +644,6 @@
 
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
-        console.log("Generating row for account: ", account); // Debugging the account
         var row = "<tr>";
         row += `<td>
                     <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
@@ -706,11 +705,6 @@
         }
     });
 }
-
-
-
-
-
 
 
 </script>

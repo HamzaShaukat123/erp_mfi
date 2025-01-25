@@ -619,7 +619,7 @@ class JV2Controller extends Controller
             return response()->json(['error' => 'PDC ID not found'], 404);
         }
     
-        // Fetch records with joins
+        // Fetch the data for the given PDC ID
         $pur2 = pdc::where('pdc_id', $id)
             ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
             ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
@@ -630,8 +630,9 @@ class JV2Controller extends Controller
             )
             ->get();
     
-        // Return as JSON
-        return response()->json($pur2);
+        // Return as JSON with pur2 data
+        return response()->json(['pur2' => $pur2]);
     }
+    
     
 }
