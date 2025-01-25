@@ -635,9 +635,9 @@
 	function inducedItems(id) {
     // Get the JV2Table element and clear all its rows
     var table = document.getElementById('JV2Table');
-    while (table.rows.length > 0) {
-        table.deleteRow(0);
-    }
+    // while (table.rows.length > 0) {
+    //     table.deleteRow(0);
+    // }
 
     var index = 0; // Initialize index
     $('#itemCount').val(1); // Reset the item count
