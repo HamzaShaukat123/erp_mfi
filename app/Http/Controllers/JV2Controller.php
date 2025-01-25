@@ -625,7 +625,7 @@ class JV2Controller extends Controller
         ->get();
 
         return response()->json([
-            'pur1' => $pur1,
+            
             'pur2' => $pur2,
         ]);
     }
