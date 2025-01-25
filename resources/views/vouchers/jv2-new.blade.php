@@ -620,7 +620,7 @@
                     html+= "<td>"+v['instrumentnumber']+"</td>"
                     html += "<td>" + v['remarks'] + " " + v['bankname'] + "</td>";
 					html+= "<td>"+v['amount']+"</td>"
-                    html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-success' href='#' onclick='inducedItems("+v['Sale_inv_no']+")'><i class='fas fa-check'></i></a></td>"
+                    html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-success' href='#' onclick='inducedItems("+v['pdc_id']+")'><i class='fas fa-check'></i></a></td>"
                     html+="</tr>";
                     $('#unclosed_pdc_list').append(html);
                 });
@@ -631,5 +631,67 @@
             }
         });
     }
+
+	function inducedItems(id) {
+		// Get the JV2Table element and clear all its rows
+		var table = document.getElementById('JV2Table');
+		while (table.rows.length > 0) {
+			table.deleteRow(0);
+		}
+
+		var index = 0;
+		$('#itemCount').val(1); // Reset the item count
+
+		// Perform an AJAX GET request to fetch the data for the selected PDC
+		$.ajax({
+			type: "GET",
+			url: "/vouchers2/getItems/" + id, // API endpoint with the ID
+			success: function(result) {
+				// Loop through the result and populate the table
+				$.each(result, function(k, v) {
+					// Create a new table row
+					var html = "<tr>";
+
+					// Populate the row with fetched data
+					html += `<td>
+								<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
+									<option value="${v['ac_code']}" selected>${v['ac_name']}</option>
+									<!-- Additional options can be dynamically added here if needed -->
+								</select>
+							</td>`;
+					html += `<td><input type="text" class="form-control" name="remarks[]" value="${v['remarks'] || ''}"></td>`;
+					html += `<td><input type="text" class="form-control" name="bank_name[]" value="${v['bankname'] || ''}"></td>`;
+					html += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${v['instrumentnumber'] || ''}"></td>`;
+					html += `<td><input type="date" class="form-control" name="chq_date[]" value="${v['chqdate'] || ''}"></td>`;
+					html += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${v['debit'] || 0}" step="any"></td>`;
+					html += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${v['credit'] || 0}" step="any"></td>`;
+					html += `<td style="vertical-align: middle;">
+								<button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
+							</td>`;
+
+					html += "</tr>";
+
+					// Append the generated HTML to the table body
+					$('#JV2Table').append(html);
+
+					// Re-initialize Select2 (if necessary)
+					$('.select2-js').select2();
+
+					// Increment the index for unique IDs
+					index++;
+				});
+
+				// Update the item count
+				$('#itemCount').val(index);
+
+				// Close the modal (if applicable)
+				$("#closeModal").trigger('click');
+			},
+			error: function() {
+				alert("An error occurred while fetching data. Please try again.");
+			}
+		});
+	}
+
 
 </script>

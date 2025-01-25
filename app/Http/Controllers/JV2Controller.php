@@ -610,7 +610,23 @@ class JV2Controller extends Controller
 
         return $unclosed_inv;
 
+    }
 
-        
+    public function getItems($id){
+
+       
+
+        $pur2 = pdc::where('pdc_id',$id)
+        ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+        ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+        ->select('pdc.*', 
+        'd_ac.ac_name as debit_account', 
+        'c_ac.ac_name as credit_account')
+        ->get();
+
+        return response()->json([
+            'pur1' => $pur1,
+            'pur2' => $pur2,
+        ]);
     }
 }
