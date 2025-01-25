@@ -634,11 +634,6 @@
 
 	
 	function inducedItems(id) {
-    // Initialize table and index
-    var table = document.getElementById('JV2Table');
-    // var index = 0; // Initialize index
-    // $('#itemCount').val(1); // Reset the item count
-
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
         var row = "<tr>";
@@ -647,18 +642,22 @@
         if (isDebit) {
             row += `<td>
                         <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="${account['ac_code'] || ''}" selected>${account['debit_account'] || ''}</option>
+                            <option value="" disabled>Select Account</option>
                             @foreach($acc as $key => $row)
-                                <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+                                <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
+                                    {{$row->ac_name}}
+                                </option>
                             @endforeach
                         </select>
                     </td>`;
         } else {
             row += `<td>
                         <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="${account['ac_code'] || ''}" selected>${account['credit_account'] || ''}</option>
+                            <option value="" disabled>Select Account</option>
                             @foreach($acc as $key => $row)
-                                <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+                                <option value="{{$row->ac_code}}" ${account['ac_code'] == {{$row->ac_code}} ? 'selected' : ''}>
+                                    {{$row->ac_name}}
+                                </option>
                             @endforeach
                         </select>
                     </td>`;
@@ -666,8 +665,8 @@
 
         // Include prefix and pdc_id as hidden fields along with remarks
         row += `<td>
-                    <input type="text" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-                    <input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
+                    <input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
+                    <input type="text" class="form-control" name="remarks[]" value="${remarks || ''}">
                 </td>`;
 
         row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
@@ -698,9 +697,6 @@
         success: function(result) {
             if (result.pur2 && result.pur2.length > 0) {
                 $.each(result.pur2, function(k, v) {
-                    // Log data to verify the content
-                    console.log(v);  // Log each object to check the data
-
                     // Generate the 1st row (Debit Account)
                     $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
                     index++; // Increment index for the next row
@@ -727,7 +723,6 @@
         }
     });
 }
-
 
 
 
