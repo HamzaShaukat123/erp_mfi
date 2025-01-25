@@ -647,7 +647,7 @@
         if (isDebit) {
             row += `<td>
                         <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="${account['ac_code'] || ''}" selected>${account['debit_account'] || ''}</option>
+                            <option value="${account['ac_code'] || ''}" selected>${account['ac_dr_sid'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
                             @endforeach
@@ -656,7 +656,7 @@
         } else {
             row += `<td>
                         <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
-                            <option value="${account['ac_code'] || ''}" selected>${account['credit_account'] || ''}</option>
+                            <option value="${account['ac_code'] || ''}" selected>${account['ac_cr_sid'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
                             @endforeach
