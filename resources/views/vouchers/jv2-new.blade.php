@@ -11,6 +11,7 @@
 								<header class="card-header" style="display: flex;justify-content: space-between;">
 									<h2 class="card-title">New Journal Voucher 2</h2>
 									<div class="card-actions">
+										<button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" onclick="getpdc()" href="#getpdc"> Get PDC </button>
 										<button type="button" class="btn btn-primary" onclick="addNewRow()"> <i class="fas fa-plus"></i> Add New Row </button>
 									</div>
 								</header>
@@ -244,6 +245,44 @@
 							</section>
 						</div>
 					</form>
+				</section>
+			</div>
+			{{-- Get PDC --}}
+			<div id="getpdc" class="zoom-anim-dialog modal-block modal-block-danger mfp-hide">
+				<section class="card">
+					<header class="card-header">
+						<h2 class="card-title">All Unadjusted PDC</h2>
+					</header>
+					<div class="card-body">
+						<div class="modal-wrapper">
+
+							<table class="table table-bordered table-striped mb-0" >
+								<thead>
+									<tr>
+										<th>PDC#</th>
+										<th>Receiving Date</th>
+										<th>Account Name</th>
+										<th>Account Name</th>
+										<th>Chq Date</th>
+										<th>Chq Number</th>
+										<th>Remakrs</th>
+										<th>Amount</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody id="unclosed_pdc_list">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<footer class="card-footer">
+						<div class="row">
+							<div class="col-md-12 text-end">
+								<button class="btn btn-default modal-dismiss" id="closeModal">Cancel</button>
+							</div>
+						</div>
+					</footer>
 				</section>
 			</div>
 		</section>
@@ -558,6 +597,38 @@
             sales_unadjusted_amount.prop('disabled', true);
 			$('#prevInvoices').val(0);
         }
+    }
+
+
+	function getpdc(){
+        var table = document.getElementById('unclosed_pdc_list');
+        while (table.rows.length > 0) {
+            table.deleteRow(0);
+        }
+        $.ajax({
+            type: "GET",
+            url: "/vouchers2/getpdc/",
+            success: function(result){
+                $.each(result, function(k,v){
+                    var html="<tr>";
+                    html+= "<td>"+v['pdc_id ']+"</td>"
+					html+= "<td>"+v['date']+"</td>"
+                    html+= "<td>"+v['debit_account']+"</td>"
+					html+= "<td>"+v['credit_account']+"</td>"
+                    html+= "<td>"+v['chqdate']+"</td>"
+                    html+= "<td>"+v['instrumentnumber']+"</td>"
+                    html += "<td>" + v['remarks'] + " " + v['bankname'] + "</td>";
+					html+= "<td>"+v['amount']+"</td>"
+                    html+= "<td class='text-center'><a class='mb-1 mt-1 me-1 text-success' href='#' onclick='inducedItems("+v['Sale_inv_no']+")'><i class='fas fa-check'></i></a></td>"
+                    html+="</tr>";
+                    $('#unclosed_pdc_list').append(html);
+                });
+                        
+            },
+            error: function(){
+                alert("error");
+            }
+        });
     }
 
 </script>

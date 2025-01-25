@@ -595,4 +595,21 @@ class JV2Controller extends Controller
     
         return $results;
     }
+
+
+    public function getpdc()
+    {
+        $unclosed_inv = pdc::where('pdc.status', 1)
+        ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+        ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+        ->select('pdc.*', 
+        'd_ac.ac_name as debit_account', 
+        'c_ac.ac_name as credit_account')
+        ->get();
+        
+        return $unclosed_inv;
+
+
+        
+    }
 }

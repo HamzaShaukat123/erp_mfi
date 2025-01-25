@@ -112,6 +112,7 @@
         Route::post('/sales/create', [App\Http\Controllers\SalesController::class, 'store'])->name('store-sale-invoice');
         Route::get('/vouchers2/new', [App\Http\Controllers\JV2Controller::class, 'create'])->name('new-jv2');
         Route::post('/vouchers2/create', [App\Http\Controllers\JV2Controller::class, 'store'])->name('store-jv2');
+        Route::get('/vouchers2/getpdc/', [App\Http\Controllers\JV2Controller::class, 'getpdc'])->name('get-unajusted-pdc');
         Route::get('/purchase2/new', [App\Http\Controllers\Purchase2Controller::class, 'create'])->name('new-purchases2');
         Route::post('/purchase2/create', [App\Http\Controllers\Purchase2Controller::class, 'store'])->name('store-purchases2');
         Route::get('/tbad_dabs/new', [App\Http\Controllers\TBadDabsController::class, 'create'])->name('create-tbad-dabs'); 
