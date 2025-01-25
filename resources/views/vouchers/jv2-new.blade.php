@@ -640,52 +640,50 @@
 
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
-        var row = "<tr>";
+    var row = "<tr>";
 
-        // Ensure account['ac_code'] is not undefined
-        var accountCode = account['ac_code'] || ''; // Default to empty string if undefined
+    // Ensure account['ac_code'] is not undefined, set to empty string if not available
+    var accountCode = account['ac_code'] || ''; // Default to empty string if undefined
 
-        // Correctly handle Debit and Credit Accounts based on condition
-        if (isDebit) {
-            row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
-                            <option value="${accountCode}" selected>${account['debit_account'] || 'No Debit Account'}</option>
-                        </select>
-                    </td>`;
-        } else {
-            row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
-                            <option value="${accountCode}" selected>${account['credit_account'] || 'No Credit Account'}</option>
-                        </select>
-                    </td>`;
-        }
-
-        // Include prefix and pdc_id as hidden fields along with remarks
+    // Correctly handle Debit and Credit Accounts based on condition
+    if (isDebit) {
         row += `<td>
-                    <input type="text" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-                    <input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
+                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <option value="${accountCode}" selected>${account['debit_account'] || 'No Debit Account'}</option>
+                    </select>
                 </td>`;
-
-        row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
-        row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
-        row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
-
-        // Debit or Credit based on condition
-        if (isDebit) {
-            row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
-            row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
-        } else {
-            row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
-            row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
-        }
-
-        row += `<td style="vertical-align: middle;">
-                    <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
+    } else {
+        row += `<td>
+                    <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" required>
+                        <option value="${accountCode}" selected>${account['credit_account'] || 'No Credit Account'}</option>
+                    </select>
                 </td>`;
-        row += "</tr>";
-
-        return row;
     }
+
+    // Continue with the rest of the row generation...
+    row += `<td>
+                <input type="text" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
+            </td>`;
+
+    row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
+    row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
+    row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
+
+    if (isDebit) {
+        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
+        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
+    } else {
+        row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
+        row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
+    }
+
+    row += `<td style="vertical-align: middle;">
+                <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
+            </td>`;
+    row += "</tr>";
+
+    return row;
+}
 
     // Perform an AJAX GET request to fetch the data for the selected PDC
     $.ajax({
