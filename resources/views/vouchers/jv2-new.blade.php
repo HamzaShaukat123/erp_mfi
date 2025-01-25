@@ -655,7 +655,7 @@
 					// Populate the row with fetched data
 					html += `<td>
 								<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${index}" onchange="addNewRow()" required>
-									<option value="${v['ac_code']}" selected>${v['ac_name']}</option>
+									<option value="${v['ac_code']}" selected>${v['debit_account']}</option>
 									<!-- Additional options can be dynamically added here if needed -->
 								</select>
 							</td>`;
