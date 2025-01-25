@@ -13,7 +13,7 @@
 									<div class="card-actions">
 										<button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" onclick="getpdc()" href="#getpdc"> <i class="fas fa-plus"></i> Get PDC </button>
 										
-										<button type="button" class="btn btn-primary" onclick="addNewRow()"> <i class="fas fa-plus"></i> Add New Row </button>
+										<button type="button" class="btn btn-primary mb-2" onclick="addNewRow()"> <i class="fas fa-plus"></i> Add New Row </button>
 									</div>
 								</header>
 
