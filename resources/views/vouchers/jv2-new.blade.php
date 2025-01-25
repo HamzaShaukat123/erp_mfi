@@ -612,7 +612,7 @@
             success: function(result){
                 $.each(result, function(k,v){
                     var html="<tr>";
-                    html+= "<td>"+v['pdc_id ']+"</td>"
+                    html+= "<td>"+v['pdc_id']+"</td>"
 					html += "<td>" + moment(v['date']).format('DD-MM-YY') + "</td>";
                     html+= "<td>"+v['debit_account']+"</td>"
 					html+= "<td>"+v['credit_account']+"</td>"
