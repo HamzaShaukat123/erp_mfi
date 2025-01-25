@@ -632,7 +632,6 @@
         });
     }
 
-
 	function inducedItems(id) {
     // Initialize table and index
     var table = document.getElementById('JV2Table');
@@ -727,9 +726,5 @@
         }
     });
 }
-
-
-
-
 
 </script>
