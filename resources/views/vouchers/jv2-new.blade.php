@@ -654,6 +654,8 @@
         row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
         row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
         row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
+        
+        // Debit or Credit based on condition
         if (isDebit) {
             row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
@@ -661,6 +663,7 @@
             row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
         }
+
         row += `<td style="vertical-align: middle;">
                     <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
                 </td>`;
@@ -698,6 +701,7 @@
         }
     });
 }
+
 
 
 
