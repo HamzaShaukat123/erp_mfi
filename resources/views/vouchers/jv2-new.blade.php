@@ -261,8 +261,8 @@
 									<tr>
 										<th>PDC#</th>
 										<th>Receiving Date</th>
-										<th>Account Name</th>
-										<th>Account Name</th>
+										<th>Debit Account</th>
+										<th>Credit Account</th>
 										<th>Chq Date</th>
 										<th>Chq Number</th>
 										<th>Remarks</th>
@@ -613,10 +613,10 @@
                 $.each(result, function(k,v){
                     var html="<tr>";
                     html+= "<td>"+v['pdc_id ']+"</td>"
-					html+= "<td>"+v['date']+"</td>"
+					html += "<td>" + moment(v['date']).format('DD-MM-YY') + "</td>";
                     html+= "<td>"+v['debit_account']+"</td>"
 					html+= "<td>"+v['credit_account']+"</td>"
-                    html+= "<td>"+v['chqdate']+"</td>"
+					html += "<td>" + moment(v['chqdate']).format('DD-MM-YY') + "</td>";
                     html+= "<td>"+v['instrumentnumber']+"</td>"
                     html += "<td>" + v['remarks'] + " " + v['bankname'] + "</td>";
 					html+= "<td>"+v['amount']+"</td>"
