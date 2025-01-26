@@ -715,7 +715,7 @@
 
                 // Re-initialize Select2 for newly added elements
                 $('.select2-js').select2();
-
+				// make induced id from 0 to 1
 				$("#isInduced").val(1);
 
                 // Close the modal (if applicable)
