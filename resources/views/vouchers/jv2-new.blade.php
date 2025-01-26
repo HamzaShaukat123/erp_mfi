@@ -23,7 +23,7 @@
 											<label class="col-form-label" >RC. #</label>
 											<input type="text" placeholder="RC. #" class="form-control" disabled>
 											<input type="hidden" id="itemCount" name="items" value="1" class="form-control">
-											<input type="text" id="isInduced" name="isInduced" value="0" class="form-control" >
+											<input type="hidden" id="isInduced" name="isInduced" value="0" class="form-control" >
 											<input type="hidden" id="pur_prevInvoices" name="pur_prevInvoices" value="0" class="form-control">
 											<input type="hidden" id="prevInvoices" name="prevInvoices" value="0" class="form-control">
 										</div>

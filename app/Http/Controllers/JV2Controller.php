@@ -114,19 +114,6 @@ class JV2Controller extends Controller
                 }
             }
         }
-
-
-        // is induced 1 for From Stock Out
-        if ($request->has('isInduced') && $request->isInduced == 1) {
-            $SalinducedID = $pur_2_id['auto_lager'];
-            $prefix = $pur_2_id['prefix'];
-        
-            // Update the PDC record directly
-            pdc::where('pdc_id', $request->pdc_id)->update([
-                'voch_prefix' => $prefix,
-                'voch_id' => $SalinducedID,
-            ]);
-        }
            
 
         if($request->has('prevInvoices') && $request->prevInvoices!=0)
