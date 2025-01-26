@@ -716,6 +716,8 @@
                 // Re-initialize Select2 for newly added elements
                 $('.select2-js').select2();
 
+				$("#isInduced").val(1);
+
                 // Close the modal (if applicable)
                 $("#closeModal").trigger('click');
             } else {
