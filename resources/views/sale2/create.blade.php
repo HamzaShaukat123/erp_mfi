@@ -22,10 +22,10 @@
 											<div class="col-6 mb-2">
 												<label class="col-form-label" >Invoice No.</label>
 												<input type="text" placeholder="(New Invoice)" class="form-control" disabled>
-												<input type="hidden" id="itemCount" name="items" value="1" class="form-control">
-												<input type="hidden" id="isInduced" name="isInduced" value="0" class="form-control" >
-												<input type="hidden" id="inducedID" name="inducedID" class="form-control" >
-												<input type="hidden" id="inducedPrefix" name="inducedPrefix" class="form-control" >
+												<input type="text" id="itemCount" name="items" value="1" class="form-control">
+												<input type="text" id="isInduced" name="isInduced" value="0" class="form-control" >
+												<input type="text" id="inducedID" name="inducedID" class="form-control" >
+												<input type="text" id="inducedPrefix" name="inducedPrefix" class="form-control" >
 											</div>
 											<div class="col-6 mb-2">
 												<label class="col-form-label" >Date</label>
