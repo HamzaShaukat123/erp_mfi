@@ -683,9 +683,9 @@
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
         }
 
-        row += `<td style="vertical-align: middle;">
-                    <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
-                </td>`;
+        // row += `<td style="vertical-align: middle;">
+        //             <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
+        //         </td>`;
         row += "</tr>";
 
         return row;
