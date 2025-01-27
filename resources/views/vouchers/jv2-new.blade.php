@@ -635,10 +635,15 @@
 
 	function inducedItems(id) {
 
-    // Initialize table and index
-    var table = document.getElementById('JV2Table');
-    var index = 1; // Initialize index
-    $('#itemCount').val(1); // Reset the item count
+   // Initialize table and index
+var table = document.getElementById('JV2Table');
+
+// Get the current item count and increment it
+var currentIndex = parseInt($('#itemCount').val()) || 0; // Default to 0 if itemCount is empty or undefined
+var newIndex = currentIndex + 1; // Increment the index
+
+$('#itemCount').val(newIndex); // Update the item count with the new index
+
 
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
