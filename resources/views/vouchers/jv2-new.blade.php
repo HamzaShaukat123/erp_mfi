@@ -634,25 +634,19 @@
     }
 
 	function inducedItems(id) {
+    var table = document.getElementById('JV2Table');
 
-   // Initialize table and index
-var table = document.getElementById('JV2Table');
-
-// Get the current item count and increment it
-var currentIndex = parseInt($('#itemCount').val()) || 0; // Default to 0 if itemCount is empty or undefined
-var newIndex = currentIndex + 1; // Increment the index
-
-$('#itemCount').val(newIndex); // Update the item count with the new index
-
+    // Get the current item count from the input field or table rows
+    var currentIndex = parseInt($('#itemCount').val()) || $('#JV2Table tr').length || 0;
 
     // Helper function to generate HTML for rows
     function generateRow(account, amount, remarks, bankname, instrumentnumber, chqdate, isDebit) {
         var row = "<tr>";
 
-        // Correctly handle Debit and Credit Accounts based on condition
+        // Handle Debit and Credit Accounts based on condition
         if (isDebit) {
             row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'" required>
+                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${currentIndex}" required>
                             <option value="${account['ac_dr_sid'] || ''}" selected>${account['debit_account'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -661,7 +655,7 @@ $('#itemCount').val(newIndex); // Update the item count with the new index
                     </td>`;
         } else {
             row += `<td>
-                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod'+index+'" required>
+                        <select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${currentIndex}" required>
                             <option value="${account['ac_cr_sid'] || ''}" selected>${account['credit_account'] || ''}</option>
                             @foreach($acc as $key => $row)
                                 <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -670,7 +664,6 @@ $('#itemCount').val(newIndex); // Update the item count with the new index
                     </td>`;
         }
 
-        // Include prefix and pdc_id as hidden fields along with remarks
         row += `<td>
                     <input type="text" name="pdc_id[]" value="${account['pdc_id'] || ''}">
                     <input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
@@ -680,7 +673,6 @@ $('#itemCount').val(newIndex); // Update the item count with the new index
         row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
         row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
 
-        // Debit or Credit based on condition
         if (isDebit) {
             row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
@@ -689,42 +681,36 @@ $('#itemCount').val(newIndex); // Update the item count with the new index
             row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
         }
 
-        // row += `<td style="vertical-align: middle;">
-        //             <button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
-        //         </td>`;
         row += "</tr>";
-
         return row;
     }
 
-    // Perform an AJAX GET request to fetch the data for the selected PDC
+    // Perform AJAX GET request to fetch data
     $.ajax({
         type: "GET",
-        url: "/vouchers2/getItems/" + id, // API endpoint with the ID
+        url: "/vouchers2/getItems/" + id,
         success: function(result) {
             if (result.pur2 && result.pur2.length > 0) {
                 $.each(result.pur2, function(k, v) {
-                    // Log data to verify the content
-                    console.log(v);  // Log each object to check the data
+                    console.log(v); // Log data for debugging
 
-                    // Generate the 1st row (Debit Account)
+                    // Add Debit and Credit rows
                     $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], true));
-                    index++; // Increment index for the next row
-
-                    // Generate the 2nd row (Credit Account)
+                    currentIndex++;
                     $('#JV2Table').append(generateRow(v, v['amount'], v['remarks'], v['bankname'], v['instrumentnumber'], v['chqdate'], false));
-                    index++; // Increment index for the next row
+                    currentIndex++;
                 });
 
                 // Update the item count
-                $('#itemCount').val(index);
+                $('#itemCount').val(currentIndex);
 
-                // Re-initialize Select2 for newly added elements
+                // Re-initialize Select2 for dynamically added rows
                 $('.select2-js').select2();
-				// make induced id from 0 to 1
-				$("#isInduced").val(1);
 
-                // Close the modal (if applicable)
+                // Update induced flag
+                $("#isInduced").val(1);
+
+                // Close modal (if applicable)
                 $("#closeModal").trigger('click');
             } else {
                 alert("No items found for this PDC.");
@@ -735,5 +721,6 @@ $('#itemCount').val(newIndex); // Update the item count with the new index
         }
     });
 }
+
 
 </script>
