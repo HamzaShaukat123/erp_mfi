@@ -634,9 +634,10 @@
     }
 
 	function inducedItems(id) {
+
     // Initialize table and index
     var table = document.getElementById('JV2Table');
-    var index = 0; // Initialize index
+    var index = 1; // Initialize index
     $('#itemCount').val(1); // Reset the item count
 
     // Helper function to generate HTML for rows
