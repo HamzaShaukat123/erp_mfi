@@ -242,7 +242,7 @@ class JV2Controller extends Controller
 
         } 
 
-        return redirect()->route('all-jv2');
+        return redirect()->route('all-jv2-paginate');
     }
 
     public function edit($id)
@@ -399,7 +399,7 @@ class JV2Controller extends Controller
                 
             }
         }
-        return redirect()->route('all-jv2');
+        return redirect()->route('all-jv2-paginate');
     }
 
     public function addAtt(Request $request)
@@ -420,7 +420,7 @@ class JV2Controller extends Controller
                 $jv2_att->save();
             }
         }
-        return redirect()->route('all-jv2');
+        return redirect()->route('all-jv2-paginate');
 
     }
 
@@ -430,7 +430,7 @@ class JV2Controller extends Controller
             'status' => '0',
             'updated_by' => session('user_id'),
         ]);
-        return redirect()->route('all-jv2');
+        return redirect()->route('all-jv2-paginate');
     }
 
     public function activeSalesAgeing($id){

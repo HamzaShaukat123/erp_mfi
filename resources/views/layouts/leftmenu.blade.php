@@ -143,7 +143,7 @@
 
                             @if(((session('user_access')[9]['module_id'])==10 && (session('user_access')[9]['view'])==1))
                             <li>
-                                <a class="nav-link"   href="{{ route('all-jv2')}}">
+                                <a class="nav-link"   href="{{ route('all-jv2-paginate')}}">
                                     Journal Voucher 2
                                 </a>
                             </li>	
