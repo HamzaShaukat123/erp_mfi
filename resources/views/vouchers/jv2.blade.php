@@ -9,7 +9,7 @@
                         <div class="col">
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
-                                    <h2 class="card-title"><a href="{{ route('all-jv2') }}">Journal Voucher 2</a><a href="{{ route('all-jv2') }}">Journal Voucher 2</a></h2>
+                                    <h2 class="card-title"><a>Journal Voucher 2</a><a href="{{ route('all-jv2') }}">Fetch All</a></h2>
                                     <form class="text-end" action="{{ route('new-jv2') }}" method="GET">
                                         <button type="submit" class="btn btn-primary"> <i class="fas fa-plus"></i> New Voucher</button>
                                     </form>
