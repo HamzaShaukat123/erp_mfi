@@ -796,7 +796,7 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
-													<h2 class="card-title">Top 3 Customers Of Purchase 2</h2>
+													<h2 class="card-title">Top 10 Customers Of Purchase 2</h2>
 												</header>
 												<div class="card-body scrollable-div">
 													
