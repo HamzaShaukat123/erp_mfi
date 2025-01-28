@@ -9,7 +9,7 @@
                         <div class="col">
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
-                                    <h2 class="card-title">Journal Voucher 2 <Paginate> </h2>
+                                    <h2 class="card-title">Journal Voucher 2 (Paginate)</h2>
                                     <form class="text-end" action="{{ route('new-jv2') }}" method="GET">
                                         <button type="submit" class="btn btn-primary"> <i class="fas fa-plus"></i> New Voucher</button>
                                     </form>
