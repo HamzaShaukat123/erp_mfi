@@ -99,8 +99,8 @@
 											<td class="text-center">{{$sale_item->Sales_qty2}}</td>
 											<td class="font-weight-semibold text-dark">{{$sale_item->item_name}}</td>
 											<td>{{$sale_item->remarks}}</td>
-											<td class="text-center">{{$sale_item->sales_price}}</td>
 											<td class="text-center">{{$sale_item->Sales_qty}}</td>
+											<td class="text-center">{{$sale_item->sales_price}}</td>
 											<td class="text-center">{{$sale_item->sales_price * $sale_item->Sales_qty}}</td>
 										</tr>
 										<?php $subtotal=$subtotal+($sale_item->sales_price * $sale_item->Sales_qty) ?>
