@@ -23,6 +23,7 @@
         Route::get('/coa-sub-heads/all-coa-sub-heads', [App\Http\Controllers\COASubHeadsController::class, 'index'])->name('all-acc-sub-heads-groups');
         Route::get('/vouchers/all-jv1', [App\Http\Controllers\JV1Controller::class, 'index'])->name('all-jv1');
         Route::get('/vouchers2/all-jv2', [App\Http\Controllers\JV2Controller::class, 'index'])->name('all-jv2');
+        Route::get('/vouchers2/all-jv2-paginate', [App\Http\Controllers\JV2Controller::class, 'indexPaginate'])->name('all-jv2-paginate');
         Route::get('/purchase1/all-purchases', [App\Http\Controllers\PurchaseController::class, 'index'])->name('all-purchases1');
         Route::get('/purchase2/all-purchases', [App\Http\Controllers\Purchase2Controller::class, 'index'])->name('all-purchases2');
         Route::get('/sales/all-invoices', [App\Http\Controllers\SalesController::class, 'index'])->name('all-saleinvoices');

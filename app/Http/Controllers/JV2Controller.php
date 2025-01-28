@@ -64,7 +64,7 @@ class JV2Controller extends Controller
     }
 
 
-    public function index_paginate()
+    public function indexPaginate()
     {
         $jv2 = Lager0::where('lager0.status', 1)
             ->select(
