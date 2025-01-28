@@ -55,7 +55,8 @@ class JV2Controller extends Controller
                 'sales_ageing.status',
                 'purchase_ageing.status'
             )
-            ->get();
+            // ->get();
+            ->paginate(10); 
 
         return view('vouchers.jv2', compact('jv2'));
 
