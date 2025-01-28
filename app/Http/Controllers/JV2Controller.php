@@ -87,7 +87,7 @@ class JV2Controller extends Controller
                 'purchase_ageing.status'
             )
         ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
-        ->paginate(10); // This will paginate the last 10 records
+        ->paginate(75); // This will paginate the last 10 records
 
            
 
