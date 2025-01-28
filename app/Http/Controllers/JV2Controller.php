@@ -175,6 +175,32 @@ class JV2Controller extends Controller
                 $jv2_att->save();
             }
         }
+
+        if($request->has('isInduced') && $request->isInduced == 1){
+
+            // // Fetch the latest JV2 record
+            $latest_jv2 = lager0::latest()->first();
+
+            // Retrieve the pdc_ids from the request
+            $pdc_ids = $request->input('pdc_id');
+
+            // Check if there are pdc_ids
+            if($pdc_ids) {
+                // Loop through each pdc_id and update the corresponding record
+                foreach($pdc_ids as $pdc_id) {
+                    $voch_id = $latest_jv2['jv_no'];
+                    $voch_prefix = $latest_jv2['prefix'];
+
+                    // Update the PDC record based on the pdc_id
+                    pdc::where('pdc_id', $pdc_id)->update([
+                        'voch_id' => $voch_id,
+                        'voch_prefix' => $voch_prefix,
+                    ]);
+                }
+            }
+
+        } 
+
         return redirect()->route('all-jv2');
     }
 
@@ -611,11 +637,13 @@ class JV2Controller extends Controller
     public function getpdc()
     {
         $unclosed_inv = pdc::where('pdc.status', 1)
+        //->whereNull('pdc.voch_id')
         ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
         ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
         ->select('pdc.*', 
         'd_ac.ac_name as debit_account', 
         'c_ac.ac_name as credit_account')
+        ->orderBy('pdc.chqdate', 'asc') 
         ->get();
 
         return $unclosed_inv;
