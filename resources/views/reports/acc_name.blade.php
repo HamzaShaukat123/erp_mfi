@@ -150,9 +150,8 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('glr')"><i class="fa fa-file-excel"></i> Excel</a>      
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <!-- General Ledger Table -->
-                                        <table class="table table-bordered table-striped mb-3">
-                                            <thead class="table-dark text-center">
+                                        <table class="table table-bordered table-striped mb-0">
+                                            <thead>
                                                 <tr>
                                                     <th>S/No</th>
                                                     <th>R/No</th>
@@ -166,10 +165,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="GLRTbleBody">
-                                                <!-- Data Rows Here -->
+
                                             </tbody>
                                         </table>
-                                    
+
                                         <!-- Unadjusted Post Dated Cheques Table -->
                                         <table class="table table-bordered text-center">
                                             <thead>
@@ -192,7 +191,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    
+                                </div>
                             </div>
                             <div id="sale_age" class="tab-pane">
                                 <div class="row form-group pb-3">
