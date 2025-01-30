@@ -103,7 +103,8 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('gl')"><i class="fa fa-file-excel"></i> Excel</a>      
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <table class="table table-bordered table-striped mb-0">
+                                        <!-- General Ledger Table -->
+                                        <table class="table table-bordered table-striped mb-4">
                                             <thead>
                                                 <tr>
                                                     <th>S/No</th>
@@ -111,19 +112,19 @@
                                                     <th>Voucher</th>
                                                     <th>Date</th>
                                                     <th>Account Name</th>
-                                                    {{-- <th>Remarks</th> --}}
+                                                    <th>Remarks</th>
                                                     <th>Debit</th>
                                                     <th>Credit</th>
                                                     <th>Balance</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="GLTbleBody">
-
+                                            <tbody id="GLRTbleBody">
+                                                <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
-
-                                          <!-- Unadjusted Post Dated Cheques Table -->
-                                          <table class="table table-bordered text-center mt-4">
+                                    
+                                        <!-- Unadjusted Post Dated Cheques Table -->
+                                        <table class="table table-bordered text-center mt-4">
                                             <thead>
                                                 <tr style="background-color: #bfe3d0; font-weight: bold;">
                                                     <td colspan="8" class="py-2">Unadjusted Post Dated Cheques</td>
@@ -139,11 +140,10 @@
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="GLPostTbleBody">
+                                            <tbody id="GLRPostTbleBody">
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
