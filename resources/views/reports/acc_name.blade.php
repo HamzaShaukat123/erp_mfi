@@ -769,159 +769,159 @@
                 });
             }
             else if(tabId=="#GL_R"){
-    var table = document.getElementById('GLRTbleBody');
-    while (table.rows.length > 0) {
-        table.deleteRow(0);
-    }
-
-    var pdcTable = document.getElementById('GLRPostTbleBody');
-    while (pdcTable.rows.length > 0) {
-        pdcTable.deleteRow(0);
-    }
-
-    url = "/rep-by-acc-name/glr";
-    tableID = "#GLRTbleBody";
-    pdcTableID = "#GLRPostTbleBody"; // Reference to PDC table
-
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-            fromDate: fromDate,
-            toDate: toDate,
-            acc_id: acc_id,
-        }, 
-        beforeSend: function() {
-            $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
-            $(pdcTableID).html('<tr><td colspan="8" class="text-center">Loading Post Dated Cheques...</td></tr>');
-        },
-        success: function(result){
-            $('#glr_from').text(formattedfromDate);
-            $('#glr_to').text(formattedtoDate);
-            var selectedAcc = $('#acc_id').find("option:selected").text();
-            $('#glr_acc').text(selectedAcc);
-            $(tableID).empty(); // Clear the loading message
-
-            var SOD = 0;                        
-            var SOC = 0;                        
-
-            $.each(result['lager_much_op_bal'], function(k, v){
-                SOD += v['SumOfDebit'] || 0;
-                SOC += v['SumOfrec_cr'] || 0;
-            });
-
-            var opening_bal = SOD - SOC;
-            var balance = opening_bal || 0; // Ensure balance starts as 0 if opening_bal is not defined
-            var totalDebit = 0;
-            var totalCredit = 0;
-
-            var html = "<tr>";
-            html += "<th></th>"; 
-            html += "<th></th>"; 
-            html += "<th></th>"; 
-            html += "<th></th>";
-            html += "<th></th>"; 
-            html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
-            html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : opening_bal) + "</th>";
-            html += "</tr>";
-            $(tableID).append(html);
-
-            $.each(result['lager_much_all'], function(k, v) {
-                var html = "<tr>";
-                html += "<td>" + (k + 1) + "</td>";
-                if (v['entry_of'] === 'Sale') {
-                    html += "<td><a href='/sales/saleinvoice/view/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else if (v['entry_of'] === 'SP') {
-                    html += "<td><a href='/sales2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else if (v['entry_of'] === 'Pur') {
-                    html += "<td><a href='/purchase1/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else if (v['entry_of'] === 'PP') {
-                    html += "<td><a href='/purchase2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else if (v['entry_of'] === 'JV1') {
-                    html += "<td><a href='/vouchers/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else if (v['entry_of'] === 'JV2') {
-                    html += "<td><a href='/vouchers2/print/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
-                } else {
-                    html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + " " + (v['prefix'] ? v['prefix'] : "") + "</td>";
+                var table = document.getElementById('GLRTbleBody');
+                while (table.rows.length > 0) {
+                    table.deleteRow(0);
                 }
 
-                html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + "</td>";
-                html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
-                html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
-                html += "<td>" + (v['Narration'] ? v['Narration'] : "") + "</td>";
-                html += "<td>" + (v['Debit'] ? v['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
-                html += "<td>" + (v['Credit'] ? v['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
-
-                // Add to totals (check for valid numbers)
-                if (v['Debit'] && !isNaN(v['Debit'])) {
-                    balance += v['Debit']; // Add to balance
-                    totalDebit += v['Debit']; // Accumulate total debit
+                var pdcTable = document.getElementById('GLRPostTbleBody');
+                while (pdcTable.rows.length > 0) {
+                    pdcTable.deleteRow(0);
                 }
 
-                // Subtract from balance and accumulate credit total (check for valid numbers)
-                if (v['Credit'] && !isNaN(v['Credit'])) {
-                    balance -= v['Credit']; // Subtract from balance
-                    totalCredit += v['Credit']; // Accumulate total credit
-                }
+                url = "/rep-by-acc-name/glr";
+                tableID = "#GLRTbleBody";
+                pdcTableID = "#GLRPostTbleBody"; // Reference to PDC table
 
-                html += "<td>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</td>";
-                html += "</tr>";
-                $(tableID).append(html);
-            });
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        acc_id: acc_id,
+                    }, 
+                    beforeSend: function() {
+                        $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
+                        $(pdcTableID).html('<tr><td colspan="8" class="text-center">Loading Post Dated Cheques...</td></tr>');
+                    },
+                    success: function(result){
+                        $('#glr_from').text(formattedfromDate);
+                        $('#glr_to').text(formattedtoDate);
+                        var selectedAcc = $('#acc_id').find("option:selected").text();
+                        $('#glr_acc').text(selectedAcc);
+                        $(tableID).empty(); // Clear the loading message
 
-            // After the loop, add the totals row
-            var netAmount = balance; 
-            var words = convertCurrencyToWords(netAmount);
-            var totalHtml = "<tr><td style='color:#17365D' colspan='5'><strong>" + words + "</strong></td>";
-            totalHtml += "<td style='text-align: right;'><strong>Total</strong></td>";
-            totalHtml += "<td class='text-danger'><strong>" + totalDebit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
-            totalHtml += "<td class='text-danger'><strong>" + totalCredit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
-            totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</strong></td>";
+                        var SOD = 0;                        
+                        var SOC = 0;                        
 
-            $(tableID).append(totalHtml);
+                        $.each(result['lager_much_op_bal'], function(k, v){
+                            SOD += v['SumOfDebit'] || 0;
+                            SOC += v['SumOfrec_cr'] || 0;
+                        });
 
-            // Unadjusted Post Dated Cheques
-            var pdcHtml = "";
-            var totalDebit2 = 0;
-            var totalCredit2 = 0;
-            $.each(result['lager_pdc'], function(k, cheque) {
-                var bgColor = (k % 2 === 0) ? '#f1f1f1' : '#ffffff';
+                        var opening_bal = SOD - SOC;
+                        var balance = opening_bal || 0; // Ensure balance starts as 0 if opening_bal is not defined
+                        var totalDebit = 0;
+                        var totalCredit = 0;
 
-                totalDebit2 += cheque['Debit'] || 0;
-                totalCredit2 += cheque['Credit'] || 0;
+                        var html = "<tr>";
+                        html += "<th></th>"; 
+                        html += "<th></th>"; 
+                        html += "<th></th>"; 
+                        html += "<th></th>";
+                        html += "<th></th>"; 
+                        html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
+                        html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : opening_bal) + "</th>";
+                        html += "</tr>";
+                        $(tableID).append(html);
 
-                pdcHtml += "<tr style='background-color:" + bgColor + ";'>";
-                pdcHtml += "<td>" + (k + 1) + "</td>";
-                pdcHtml += "<td>" + (cheque['pdc_id'] ? cheque['prefix'] + cheque['pdc_id'] : "") + "</td>";
-                pdcHtml += "<td>" + (cheque['date'] ? moment(cheque['date']).format('DD-MM-YYYY') : "") + "</td>";
-                pdcHtml += "<td>" + (cheque['remarks'] || "") + " " + (cheque['bankname'] || "") + "</td>";
-                pdcHtml += "<td>" + (cheque['instrumentnumber'] || "") + "</td>";
-                pdcHtml += "<td>" + (cheque['chqdate'] ? moment(cheque['chqdate']).format('DD-MM-YYYY') : "") + "</td>";
-                pdcHtml += "<td>" + (cheque['Debit'] ? cheque['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
-                pdcHtml += "<td>" + (cheque['Credit'] ? cheque['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
-                pdcHtml += "</tr>";
-            });
+                        $.each(result['lager_much_all'], function(k, v) {
+                            var html = "<tr>";
+                            html += "<td>" + (k + 1) + "</td>";
+                            if (v['entry_of'] === 'Sale') {
+                                html += "<td><a href='/sales/saleinvoice/view/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else if (v['entry_of'] === 'SP') {
+                                html += "<td><a href='/sales2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else if (v['entry_of'] === 'Pur') {
+                                html += "<td><a href='/purchase1/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else if (v['entry_of'] === 'PP') {
+                                html += "<td><a href='/purchase2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else if (v['entry_of'] === 'JV1') {
+                                html += "<td><a href='/vouchers/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else if (v['entry_of'] === 'JV2') {
+                                html += "<td><a href='/vouchers2/print/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
+                            } else {
+                                html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + " " + (v['prefix'] ? v['prefix'] : "") + "</td>";
+                            }
 
-            // Add no records message if no unadjusted cheques are found
-            if (result['lager_pdc'].length === 0) {
-                pdcHtml += "<tr><td colspan='8' style='padding:10px; text-align:center; font-style:italic; color:gray;'>No pending unadjusted post-dated cheques.</td></tr>";
+                            html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + "</td>";
+                            html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
+                            html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
+                            html += "<td>" + (v['Narration'] ? v['Narration'] : "") + "</td>";
+                            html += "<td>" + (v['Debit'] ? v['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+                            html += "<td>" + (v['Credit'] ? v['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+
+                            // Add to totals (check for valid numbers)
+                            if (v['Debit'] && !isNaN(v['Debit'])) {
+                                balance += v['Debit']; // Add to balance
+                                totalDebit += v['Debit']; // Accumulate total debit
+                            }
+
+                            // Subtract from balance and accumulate credit total (check for valid numbers)
+                            if (v['Credit'] && !isNaN(v['Credit'])) {
+                                balance -= v['Credit']; // Subtract from balance
+                                totalCredit += v['Credit']; // Accumulate total credit
+                            }
+
+                            html += "<td>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</td>";
+                            html += "</tr>";
+                            $(tableID).append(html);
+                        });
+
+                        // After the loop, add the totals row
+                        var netAmount = balance; 
+                        var words = convertCurrencyToWords(netAmount);
+                        var totalHtml = "<tr><td style='color:#17365D' colspan='5'><strong>" + words + "</strong></td>";
+                        totalHtml += "<td style='text-align: right;'><strong>Total</strong></td>";
+                        totalHtml += "<td class='text-danger'><strong>" + totalDebit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                        totalHtml += "<td class='text-danger'><strong>" + totalCredit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                        totalHtml += "<td class='text-danger'><strong>" + (typeof balance === 'number' ? balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : balance) + "</strong></td>";
+
+                        $(tableID).append(totalHtml);
+
+                        // Unadjusted Post Dated Cheques
+                        var pdcHtml = "";
+                        var totalDebit2 = 0;
+                        var totalCredit2 = 0;
+                        $.each(result['lager_pdc'], function(k, cheque) {
+                            var bgColor = (k % 2 === 0) ? '#f1f1f1' : '#ffffff';
+
+                            totalDebit2 += cheque['Debit'] || 0;
+                            totalCredit2 += cheque['Credit'] || 0;
+
+                            pdcHtml += "<tr style='background-color:" + bgColor + ";'>";
+                            pdcHtml += "<td>" + (k + 1) + "</td>";
+                            pdcHtml += "<td>" + (cheque['pdc_id'] ? cheque['prefix'] + cheque['pdc_id'] : "") + "</td>";
+                            pdcHtml += "<td>" + (cheque['date'] ? moment(cheque['date']).format('DD-MM-YYYY') : "") + "</td>";
+                            pdcHtml += "<td>" + (cheque['remarks'] || "") + " " + (cheque['bankname'] || "") + "</td>";
+                            pdcHtml += "<td>" + (cheque['instrumentnumber'] || "") + "</td>";
+                            pdcHtml += "<td>" + (cheque['chqdate'] ? moment(cheque['chqdate']).format('DD-MM-YYYY') : "") + "</td>";
+                            pdcHtml += "<td>" + (cheque['Debit'] ? cheque['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+                            pdcHtml += "<td>" + (cheque['Credit'] ? cheque['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+                            pdcHtml += "</tr>";
+                        });
+
+                        // Add no records message if no unadjusted cheques are found
+                        if (result['lager_pdc'].length === 0) {
+                            pdcHtml += "<tr><td colspan='8' style='padding:10px; text-align:center; font-style:italic; color:gray;'>No pending unadjusted post-dated cheques.</td></tr>";
+                        }
+
+                        // Add totals row for unadjusted cheques
+                        pdcHtml += "<tr style='background-color:#bfe3d0; font-weight:bold;'>";
+                        pdcHtml += "<td colspan='6' style='text-align:right; padding:10px;'>Total</td>";
+                        pdcHtml += "<td style='text-align:center;'>" + totalDebit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
+                        pdcHtml += "<td style='text-align:center;'>" + totalCredit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
+                        pdcHtml += "</tr>";
+
+                        $(pdcTableID).html(pdcHtml); // Insert PDC data into its table
+                    },
+                    error: function(){
+                        $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+                        $(pdcTableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading Post Dated Cheques. Please try again.</td></tr>');
+                    }
+                });
             }
-
-            // Add totals row for unadjusted cheques
-            pdcHtml += "<tr style='background-color:#bfe3d0; font-weight:bold;'>";
-            pdcHtml += "<td colspan='6' style='text-align:right; padding:10px;'>Total</td>";
-            pdcHtml += "<td style='text-align:center;'>" + totalDebit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
-            pdcHtml += "<td style='text-align:center;'>" + totalCredit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
-            pdcHtml += "</tr>";
-
-            $(pdcTableID).html(pdcHtml); // Insert PDC data into its table
-        },
-        error: function(){
-            $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
-            $(pdcTableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading Post Dated Cheques. Please try again.</td></tr>');
-        }
-    });
-}
 
 
             else if (tabId == "#sale_age") {
