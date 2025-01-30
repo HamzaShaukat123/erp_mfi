@@ -187,7 +187,7 @@
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="GLRPostTbleBody">
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
@@ -773,8 +773,11 @@
                 while (table.rows.length > 0) {
                     table.deleteRow(0);
                 }
+
+                
                 url="/rep-by-acc-name/glr";
                 tableID="#GLRTbleBody";
+               
 
                 $.ajax({
                     type: "GET",
@@ -883,6 +886,69 @@
                         $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
                     }
                 });
+
+                var table2 = document.getElementById('GLRPostTbleBody');
+while (table2.rows.length > 0) {
+    table2.deleteRow(0);
+}
+
+var tableID = "#GLRPostTbleBody";
+
+$.ajax({
+    type: "GET",
+    url: url,
+    data: {
+        fromDate: fromDate,
+        toDate: toDate,
+        acc_id: acc_id,
+    },
+    beforeSend: function () {
+        $(tableID).html('<tr><td colspan="8" class="text-center">Loading Data Please Wait...</td></tr>');
+    },
+    success: function (result) {
+        $('#glr_from').text(formattedfromDate);
+        $('#glr_to').text(formattedtoDate);
+        var selectedAcc = $('#acc_id').find("option:selected").text();
+        $('#glr_acc').text(selectedAcc);
+        
+        $(tableID).empty(); // Clear the loading message
+        var totalDebit = 0, totalCredit = 0;
+
+        $.each(result, function (k, v) {
+            var bgColor = (k % 2 === 0) ? '#f1f1f1' : '#ffffff';
+            totalDebit += v['Debit'] ? parseFloat(v['Debit']) : 0;
+            totalCredit += v['Credit'] ? parseFloat(v['Credit']) : 0;
+
+            var html = "<tr style='background-color:" + bgColor + ";'>";
+            html += "<td style='padding:10px; text-align:center;'>" + (k + 1) + "</td>";
+            html += "<td style='padding:10px; text-align:center;'>" + (v['prefix'] ? v['prefix'] : '') + (v['pdc_id'] ? v['pdc_id'] : '') + "</td>";
+            html += "<td style='padding:10px; text-align:center;'>" + (v['date'] ? moment(v['date']).format('DD-MM-YY') : '') + "</td>";
+            html += "<td style='padding:10px; text-align:center; font-size:9px;'>" + (v['remarks'] || v['bankname'] || '') + "</td>";
+            html += "<td style='padding:10px; text-align:center; font-size:9px;'>" + (v['instrumentnumber'] ? v['instrumentnumber'] : '') + "</td>";
+            html += "<td style='padding:10px; text-align:center;'>" + (v['chqdate'] ? moment(v['chqdate']).format('DD-MM-YY') : '') + "</td>";
+            html += "<td style='padding:10px; text-align:center;'>" + (v['Debit'] ? Number(v['Debit']).toLocaleString() : '') + "</td>";
+            html += "<td style='padding:10px; text-align:center;'>" + (v['Credit'] ? Number(v['Credit']).toLocaleString() : '') + "</td>";
+            html += "</tr>";
+            
+            $(tableID).append(html);
+        });
+
+        if (result.length === 0) {
+            $(tableID).append('<tr><td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No pending unadjusted post-dated cheques.</td></tr>');
+        }
+
+        var totalRow = "<tr style='background-color:#bfe3d0; font-weight:bold;'>";
+        totalRow += "<td colspan='6' style='text-align:right; padding:10px;'>Total</td>";
+        totalRow += "<td style='padding:10px; text-align:center;'>" + totalDebit.toLocaleString() + "</td>";
+        totalRow += "<td style='padding:10px; text-align:center;'>" + totalCredit.toLocaleString() + "</td>";
+        totalRow += "</tr>";
+
+        $(tableID).append(totalRow);
+    },
+    error: function () {
+        $(tableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+    }
+});
             }
             else if (tabId == "#sale_age") {
                 var table = document.getElementById('SaleAgeTbleBody');
