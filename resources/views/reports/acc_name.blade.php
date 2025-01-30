@@ -168,6 +168,24 @@
 
                                             </tbody>
                                         </table>
+
+                                        <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
+                                            <tr style="background-color:#bfe3d0; font-weight:bold;">
+                                                <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
+                                            </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr</th>
+                                                    <th>Voucher#</th>
+                                                    <th>Date</th>
+                                                    <th>Remarks</th>
+                                                    <th>Cheque#</th>
+                                                    <th>Cheque Date</th>
+                                                    <th>Debit</th>
+                                                    <th>Credit</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

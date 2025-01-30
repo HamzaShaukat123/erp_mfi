@@ -26,10 +26,15 @@ class RptAccNameGLController extends Controller
         ->orderBy('prefix','asc')
         ->orderBy('auto_lager','asc')
         ->get();
+
+        $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
+        ->whereNull('voch_id')
+        ->get();
     
         $response = [
             'lager_much_op_bal' => $lager_much_op_bal,
             'lager_much_all' => $lager_much_all,
+            'lager_pdc' => $lager_pdc,
         ];
 
         return response()->json($response);
