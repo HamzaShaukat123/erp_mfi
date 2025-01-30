@@ -112,7 +112,6 @@
                                                     <th>Voucher</th>
                                                     <th>Date</th>
                                                     <th>Account Name</th>
-                                                    <th>Remarks</th>
                                                     <th>Debit</th>
                                                     <th>Credit</th>
                                                     <th>Balance</th>
