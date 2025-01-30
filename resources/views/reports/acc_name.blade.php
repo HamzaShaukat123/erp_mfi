@@ -168,12 +168,11 @@
 
                                             </tbody>
                                         </table>
-                                    </div>
-                                <div>
+
                                         <!-- Unadjusted Post Dated Cheques Table -->
                                         <table class="table table-bordered text-center">
                                             <thead>
-                                                <tr class="bg-success text-white fw-bold">
+                                                <tr style="background-color: #bfe3d0; font-weight: bold;">
                                                     <td colspan="8" class="py-2">Unadjusted Post Dated Cheques</td>
                                                 </tr>
                                                 <tr class="table-secondary">
@@ -191,7 +190,6 @@
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
-                                        
                                     </div>
                                 </div>
                             </div>
