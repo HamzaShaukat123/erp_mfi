@@ -118,7 +118,7 @@
                                                     <th>Balance</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="GLRTbleBody">
+                                            <tbody id="GLTbleBody">
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
@@ -140,7 +140,7 @@
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="GLRPostTbleBody">
+                                            <tbody id="GLPostTbleBody">
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
