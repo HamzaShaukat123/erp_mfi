@@ -880,7 +880,47 @@
 
                             $(tableID).append(totalHtml);
 
+ // Unadjusted post-dated cheques
+ var pdcHtml = "<table border='1' style='border-collapse: collapse; width:100%; text-align:center; margin-top:5px;'>";
+        pdcHtml += "<tr style='background-color:#bfe3d0; font-weight:bold;'><td colspan='8' style='text-align:center; padding:10px;'>Unadjusted Post Dated Cheques</td></tr>";
+        pdcHtml += "<thead><tr><th style='width:8%; color:#17365D;'>Sr</th><th style='width:13%; color:#17365D;'>Voucher#</th><th style='width:12%; color:#17365D;'>Date</th><th style='width:16%; color:#17365D;'>Remarks</th><th style='width:13%; color:#17365D;'>Cheque#</th><th style='width:12%; color:#17365D;'>Cheque Date</th><th style='width:13%; color:#17365D;'>Debit</th><th style='width:13%; color:#17365D;'>Credit</th></tr></thead><tbody>";
+        
+        var totalDebit2 = 0;
+        var totalCredit2 = 0;
+        $.each(result['lager_pdc'], function(k, cheque) {
+            var bgColor = (k % 2 === 0) ? '#f1f1f1' : '#ffffff';
 
+            totalDebit2 += cheque['Debit'] || 0;
+            totalCredit2 += cheque['Credit'] || 0;
+
+            pdcHtml += "<tr style='background-color:" + bgColor + ";'>";
+            pdcHtml += "<td>" + (k + 1) + "</td>";
+            pdcHtml += "<td>" + (cheque['pdc_id'] ? cheque['prefix'] + cheque['pdc_id'] : "") + "</td>";
+            pdcHtml += "<td>" + (cheque['date'] ? moment(cheque['date']).format('DD-MM-YYYY') : "") + "</td>";
+            pdcHtml += "<td>" + (cheque['remarks'] || "") + " " + (cheque['bankname'] || "") + "</td>";
+            pdcHtml += "<td>" + (cheque['instrumentnumber'] || "") + "</td>";
+            pdcHtml += "<td>" + (cheque['chqdate'] ? moment(cheque['chqdate']).format('DD-MM-YYYY') : "") + "</td>";
+            pdcHtml += "<td>" + (cheque['Debit'] ? cheque['Debit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+            pdcHtml += "<td>" + (cheque['Credit'] ? cheque['Credit'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0") + "</td>";
+            pdcHtml += "</tr>";
+        });
+
+        // Add no records message if no unadjusted cheques are found
+        if (result['lager_pdc'].length === 0) {
+            pdcHtml += "<tr><td colspan='8' style='padding:10px; text-align:center; font-style:italic; color:gray;'>No pending unadjusted post-dated cheques.</td></tr>";
+        }
+
+        // Add totals row for unadjusted cheques
+        pdcHtml += "<tr style='background-color:#bfe3d0; font-weight:bold;'>";
+        pdcHtml += "<td colspan='6' style='text-align:right; padding:10px;'>Total</td>";
+        pdcHtml += "<td style='text-align:center;'>" + totalDebit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
+        pdcHtml += "<td style='text-align:center;'>" + totalCredit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
+        pdcHtml += "</tr>";
+        
+        pdcHtml += "</tbody></table>";
+
+        $(tableID).append(pdcHtml);
+    
                         },
                         error: function(){
                         $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
