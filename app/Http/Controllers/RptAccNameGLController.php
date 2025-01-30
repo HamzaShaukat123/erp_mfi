@@ -944,9 +944,81 @@ class RptAccNameGLController extends Controller
         // Close tbody and table
         $html .= '</tbody></table>';
 
-        // Write HTML content to the PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
+          // Fetch unadjusted post-dated cheques (replace this query with your actual data retrieval logic)
+          $lager_pdc = lager_pdc::where('ac_cr_sid', $request->acc_id)
+          ->whereNull('voch_id')
+          ->get();
 
+          
+
+          $html .= '
+          <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
+              <tr style="background-color:#bfe3d0; font-weight:bold;">
+                  <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
+              </tr>
+              <thead>
+                  <tr>
+                      <th style="width:8%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Sr</th>
+                      <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Voucher#</th>
+                      <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Date</th>
+                      <th style="width:16%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Remarks</th>
+                      <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque#</th>
+                      <th style="width:12%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Cheque Date</th>
+                      <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Debit</th>
+                      <th style="width:13%; color:#17365D; font-weight:bold; text-align:center; padding:10px;">Credit</th>
+                  </tr>
+              </thead>
+              <tbody>';
+              
+      // Initialize variables to store total debit and credit
+      $totalDebit2 = 0;
+      $totalCredit2 = 0;
+      
+      // Loop through the unadjusted cheques data and append rows
+      $count = 1;
+      foreach ($lager_pdc as $cheque) {
+          // Alternate background color between white and light gray
+          $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+      
+          // Add debit and credit to the totals
+          $totalDebit2 += $cheque->Debit;
+          $totalCredit2 += $cheque->Credit;
+      
+          $html .= '
+              <tr style="background-color:' . $bgColor . ';">
+                  <td style="width:8%; padding:10px; text-align:center;">' . $count . '</td>
+                  <td style="width:13%; padding:10px; text-align:center;">' . $cheque->prefix . $cheque->pdc_id . '</td>
+                  <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->date)->format('d-m-y') . '</td>
+                  <td style="width:16%; padding:10px; text-align:center; font-size:9px;">' . $cheque->remarks . ' ' . $cheque->bankname . '</td>
+                  <td style="width:13%; padding:10px; text-align:center; font-size:9px;">' . $cheque->instrumentnumber . '</td>
+                  <td style="width:12%; padding:10px; text-align:center;">' . Carbon::createFromFormat('Y-m-d', $cheque->chqdate)->format('d-m-y') . '</td>
+                  <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Debit, 0) . '</td>
+                  <td style="width:13%; padding:10px; text-align:center;">' . number_format($cheque->Credit, 0) . '</td>
+              </tr>';
+          $count++;
+      }
+      
+      // If no records are found, display a message
+      if ($count === 1) {
+          $html .= '
+              <tr>
+                  <td colspan="8" style="padding:10px; text-align:center; font-style:italic; color:gray;">No pending unadjusted post-dated cheques.</td>
+              </tr>';
+      }
+      
+      // Add the totals row
+      $html .= '
+          <tr style="background-color:#bfe3d0; font-weight:bold;">
+              <td colspan="6" style="text-align:right; padding:10px;">Total</td>
+              <td style="padding:10px; text-align:center;">' . number_format($totalDebit2, 0) . '</td>
+              <td style="padding:10px; text-align:center;">' . number_format($totalCredit2, 0) . '</td>
+          </tr>';
+      
+      $html .= '</tbody></table>';
+
+
+      // Write HTML content to the PDF
+      $pdf->writeHTML($html, true, false, true, false, '');
         // Filename and Output
         $filename = "general_ledger_r_of_{$lager_much_op_bal->first()->ac_name}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
         $pdf->Output($filename, 'D');
