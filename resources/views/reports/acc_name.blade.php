@@ -150,7 +150,8 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('glr')"><i class="fa fa-file-excel"></i> Excel</a>      
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <table class="table table-bordered table-striped mb-0">
+                                        <!-- General Ledger Table -->
+                                        <table class="table table-bordered table-striped mb-4">
                                             <thead>
                                                 <tr>
                                                     <th>S/No</th>
@@ -165,12 +166,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="GLRTbleBody">
-
+                                                <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
-
+                                    
                                         <!-- Unadjusted Post Dated Cheques Table -->
-                                        <table class="table table-bordered text-center">
+                                        <table class="table table-bordered text-center mt-4">
                                             <thead>
                                                 <tr style="background-color: #bfe3d0; font-weight: bold;">
                                                     <td colspan="8" class="py-2">Unadjusted Post Dated Cheques</td>
@@ -191,6 +192,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div id="sale_age" class="tab-pane">
