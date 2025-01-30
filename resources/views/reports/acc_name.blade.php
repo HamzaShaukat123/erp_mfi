@@ -727,7 +727,6 @@
                         html += "<th></th>"; 
                         html += "<th></th>"; 
                         html += "<th></th>";
-                        html += "<th></th>"; 
                         html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
                         html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : opening_bal) + "</th>";
                         html += "</tr>";
