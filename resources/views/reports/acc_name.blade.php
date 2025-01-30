@@ -150,8 +150,9 @@
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('glr')"><i class="fa fa-file-excel"></i> Excel</a>      
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <table class="table table-bordered table-striped mb-0">
-                                            <thead>
+                                        <!-- General Ledger Table -->
+                                        <table class="table table-bordered table-striped mb-3">
+                                            <thead class="table-dark text-center">
                                                 <tr>
                                                     <th>S/No</th>
                                                     <th>R/No</th>
@@ -165,16 +166,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="GLRTbleBody">
-
+                                                <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
-
-                                        <table border="1" style="border-collapse: collapse; width:100%; text-align:center; margin-top:5px;">
-                                            <tr style="background-color:#bfe3d0; font-weight:bold;">
-                                                <td colspan="8" style="text-align:center; padding:10px;">Unadjusted Post Dated Cheques</td>
-                                            </tr>
+                                    
+                                        <!-- Unadjusted Post Dated Cheques Table -->
+                                        <table class="table table-bordered text-center">
                                             <thead>
-                                                <tr>
+                                                <tr class="bg-success text-white fw-bold">
+                                                    <td colspan="8" class="py-2">Unadjusted Post Dated Cheques</td>
+                                                </tr>
+                                                <tr class="table-secondary">
                                                     <th>Sr</th>
                                                     <th>Voucher#</th>
                                                     <th>Date</th>
@@ -185,9 +187,12 @@
                                                     <th>Credit</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                                <!-- Data Rows Here -->
+                                            </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                    
                             </div>
                             <div id="sale_age" class="tab-pane">
                                 <div class="row form-group pb-3">
