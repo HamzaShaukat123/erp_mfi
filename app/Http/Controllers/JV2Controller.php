@@ -678,7 +678,7 @@ class JV2Controller extends Controller
     public function getpdc()
     {
         $unclosed_inv = pdc::where('pdc.status', 1)
-        //->whereNull('pdc.voch_id')
+        ->whereNull('pdc.voch_id')
         ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
         ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
         ->select('pdc.*', 
