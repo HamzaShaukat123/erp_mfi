@@ -544,7 +544,6 @@ class RptAccNameGLController extends Controller
         $response = [
             'lager_much_op_bal' => $lager_much_op_bal,
             'lager_much_all' => $lager_much_all,
-            'lager_pdc' => $lager_pdc,
         ];
 
         return response()->json($response);
