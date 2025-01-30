@@ -168,7 +168,8 @@
 
                                             </tbody>
                                         </table>
-
+                                    </div>
+                                <div>
                                         <!-- Unadjusted Post Dated Cheques Table -->
                                         <table class="table table-bordered text-center">
                                             <thead>
@@ -190,6 +191,7 @@
                                                 <!-- Data Rows Here -->
                                             </tbody>
                                         </table>
+                                        
                                     </div>
                                 </div>
                             </div>
