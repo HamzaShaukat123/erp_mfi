@@ -914,8 +914,7 @@
                         
                         $(tableID).empty(); // Clear the loading message
                         var totalDebit = 0, totalCredit = 0;
-
-                        $.each(result, function (k, v) {
+                        $.each(result['lager_pdc'], function(k, v) {
                             var bgColor = (k % 2 === 0) ? '#f1f1f1' : '#ffffff';
                             totalDebit += v['Debit'] ? parseFloat(v['Debit']) : 0;
                             totalCredit += v['Credit'] ? parseFloat(v['Credit']) : 0;
