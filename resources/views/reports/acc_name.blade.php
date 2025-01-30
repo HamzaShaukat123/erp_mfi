@@ -774,8 +774,14 @@
         table.deleteRow(0);
     }
 
+    var pdcTable = document.getElementById('GLRPostTbleBody');
+    while (pdcTable.rows.length > 0) {
+        pdcTable.deleteRow(0);
+    }
+
     url = "/rep-by-acc-name/glr";
     tableID = "#GLRTbleBody";
+    pdcTableID = "#GLRPostTbleBody"; // Reference to PDC table
 
     $.ajax({
         type: "GET",
@@ -784,21 +790,22 @@
             fromDate: fromDate,
             toDate: toDate,
             acc_id: acc_id,
-        },
+        }, 
         beforeSend: function() {
             $(tableID).html('<tr><td colspan="9" class="text-center">Loading Data Please Wait...</td></tr>');
+            $(pdcTableID).html('<tr><td colspan="8" class="text-center">Loading Post Dated Cheques...</td></tr>');
         },
-        success: function(result) {
+        success: function(result){
             $('#glr_from').text(formattedfromDate);
             $('#glr_to').text(formattedtoDate);
             var selectedAcc = $('#acc_id').find("option:selected").text();
             $('#glr_acc').text(selectedAcc);
             $(tableID).empty(); // Clear the loading message
 
-            var SOD = 0;
-            var SOC = 0;
+            var SOD = 0;                        
+            var SOC = 0;                        
 
-            $.each(result['lager_much_op_bal'], function(k, v) {
+            $.each(result['lager_much_op_bal'], function(k, v){
                 SOD += v['SumOfDebit'] || 0;
                 SOC += v['SumOfrec_cr'] || 0;
             });
@@ -809,11 +816,11 @@
             var totalCredit = 0;
 
             var html = "<tr>";
+            html += "<th></th>"; 
+            html += "<th></th>"; 
+            html += "<th></th>"; 
             html += "<th></th>";
-            html += "<th></th>";
-            html += "<th></th>";
-            html += "<th></th>";
-            html += "<th></th>";
+            html += "<th></th>"; 
             html += "<th colspan='3' style='text-align: center'><-----Opening Balance-----></th>"; // Merged and centered across two columns
             html += "<th style='text-align: left'>" + (typeof opening_bal === 'number' ? opening_bal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : opening_bal) + "</th>";
             html += "</tr>";
@@ -822,26 +829,22 @@
             $.each(result['lager_much_all'], function(k, v) {
                 var html = "<tr>";
                 html += "<td>" + (k + 1) + "</td>";
-                
-                // Create links based on entry type
-                var entryLink = '';
                 if (v['entry_of'] === 'Sale') {
-                    entryLink = "<a href='/sales/saleinvoice/view/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/sales/saleinvoice/view/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else if (v['entry_of'] === 'SP') {
-                    entryLink = "<a href='/sales2/show/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/sales2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else if (v['entry_of'] === 'Pur') {
-                    entryLink = "<a href='/purchase1/show/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/purchase1/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else if (v['entry_of'] === 'PP') {
-                    entryLink = "<a href='/purchase2/show/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/purchase2/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else if (v['entry_of'] === 'JV1') {
-                    entryLink = "<a href='/vouchers/show/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/vouchers/show/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else if (v['entry_of'] === 'JV2') {
-                    entryLink = "<a href='/vouchers2/print/" + v['auto_lager'] + "' target='_blank'>";
+                    html += "<td><a href='/vouchers2/print/" + v['auto_lager'] + "' target='_blank'>" + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 } else {
-                    entryLink = (v['entry_of'] ? v['entry_of'] : "") + " " + (v['prefix'] ? v['prefix'] : "");
+                    html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + " " + (v['prefix'] ? v['prefix'] : "") + "</td>";
                 }
 
-                html += "<td>" + entryLink + (v['prefix'] ? v['prefix'] : "") + (v['auto_lager'] ? v['auto_lager'] : "") + "</a></td>";
                 html += "<td>" + (v['entry_of'] ? v['entry_of'] : "") + "</td>";
                 html += "<td>" + (v['jv_date'] ? moment(v['jv_date']).format('DD-MM-YYYY') : "") + "</td>";
                 html += "<td>" + (v['ac2'] ? v['ac2'] : "") + "</td>";
@@ -867,7 +870,7 @@
             });
 
             // After the loop, add the totals row
-            var netAmount = balance;
+            var netAmount = balance; 
             var words = convertCurrencyToWords(netAmount);
             var totalHtml = "<tr><td style='color:#17365D' colspan='5'><strong>" + words + "</strong></td>";
             totalHtml += "<td style='text-align: right;'><strong>Total</strong></td>";
@@ -877,11 +880,8 @@
 
             $(tableID).append(totalHtml);
 
-            // Unadjusted post-dated cheques
-            var pdcHtml = "<table border='1' style='border-collapse: collapse; width:100%; text-align:center; margin-top:5px;'>";
-            pdcHtml += "<tr style='background-color:#bfe3d0; font-weight:bold;'><td colspan='8' style='text-align:center; padding:10px;'>Unadjusted Post Dated Cheques</td></tr>";
-            pdcHtml += "<thead><tr><th style='width:8%; color:#17365D;'>Sr</th><th style='width:13%; color:#17365D;'>Voucher#</th><th style='width:12%; color:#17365D;'>Date</th><th style='width:16%; color:#17365D;'>Remarks</th><th style='width:13%; color:#17365D;'>Cheque#</th><th style='width:12%; color:#17365D;'>Cheque Date</th><th style='width:13%; color:#17365D;'>Debit</th><th style='width:13%; color:#17365D;'>Credit</th></tr></thead><tbody>";
-
+            // Unadjusted Post Dated Cheques
+            var pdcHtml = "";
             var totalDebit2 = 0;
             var totalCredit2 = 0;
             $.each(result['lager_pdc'], function(k, cheque) {
@@ -914,15 +914,15 @@
             pdcHtml += "<td style='text-align:center;'>" + totalCredit2.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</td>";
             pdcHtml += "</tr>";
 
-            pdcHtml += "</tbody></table>";
-
-            $(tableID).append(pdcHtml);
+            $(pdcTableID).html(pdcHtml); // Insert PDC data into its table
         },
-        error: function() {
+        error: function(){
             $(tableID).html('<tr><td colspan="9" class="text-center text-danger">Error loading data. Please try again.</td></tr>');
+            $(pdcTableID).html('<tr><td colspan="8" class="text-center text-danger">Error loading Post Dated Cheques. Please try again.</td></tr>');
         }
     });
 }
+
 
             else if (tabId == "#sale_age") {
                 var table = document.getElementById('SaleAgeTbleBody');
