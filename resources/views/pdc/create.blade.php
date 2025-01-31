@@ -39,10 +39,10 @@
 														<input type="number" class="form-control" disabled>
 													</td> -->
 													<td>
-														<input type="date" class="form-control" style="max-width: 124px" name="date[]" required value="<?php echo date('y-m-d'); ?>" >
+														<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >
 													</td>
 													<td>
-														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid" onchange="addNewRow(1)" required>
 															<option value="" disabled selected>Select Account</option>
 															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -50,7 +50,7 @@
 														</select>
 													</td>
 													<td>
-														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid" onchange="addNewRow(1)" required>
 															<option value="" disabled selected>Select Account</option>
 															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -67,7 +67,7 @@
 														<input type="text" class="form-control" name="instrumentnumber[]" required>
 													</td>
 													<td>
-														<input type="date" class="form-control" style="max-width: 124px" name="chqdate[]" size=5 required value="<?php echo date('Y-m-d'); ?>" >
+														<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" size=5 required value="<?php echo date('Y-m-d'); ?>" >
 													</td>
 													<td>
 														<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">
@@ -151,12 +151,28 @@
 			var cell7 = newRow.insertCell(6);
 			var cell8 = newRow.insertCell(7);
 			var cell9 = newRow.insertCell(8);
-			var cell10 = newRow.insertCell(9);
-			var cell11 = newRow.insertCell(10);
-			var cell12 = newRow.insertCell(11);
-			var cell13 = newRow.insertCell(12);
 
-	
+			// cell1.innerHTML  = '<input type="text" class="form-control" disabled>';
+			cell1.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >';
+			cell2.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"   onclick="addNewRow('+index+')" name ="ac_dr_sid[]" required>'+
+									'<option value="" disabled selected>Select Account</option>
+									@foreach($acc as $key => $row)	
+										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+									@endforeach
+								'</select>';
+			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"   onclick="addNewRow('+index+')" name ="ac_cr_sid[]" required>'+
+									'<option value="" disabled selected>Select Account</option>
+									@foreach($acc as $key => $row)	
+										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+									@endforeach
+								'</select>';
+			cell4.innerHTML  = '<input type="text"   class="form-control" name="remarks[]">';					
+			cell5.innerHTML  = '<input type="text" class="form-control" name="bankname[]" autofocus required>';
+			cell6.innerHTML  = '<input type="text" class="form-control" name="instrumentnumber[]" autofocus required>';
+			cell7.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="<?php echo date('Y-m-d'); ?>" >';
+			cell8.innerHTML  = '<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">';
+			cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
+
 			index++;
 
 			itemCount = Number($('#itemCount').val());
@@ -167,27 +183,5 @@
 
 	}
 
-	function validateItemName(inputElement)
-	{
-		var item_name = inputElement.value;
-
-		$.ajaxSetup({
-			headers: {
-				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			}
-		});
-
-        $.ajax({
-            type: 'POST',
-			url: '/item2/new-item/validate',
-            data: {'item_name': item_name},
-            success: function(response){
-            },
-            error: function(response){
-                var errors = response.responseJSON.errors;
-                var errorMessage = 'Item Already Exists';
-                alert(errorMessage);
-            }
-        });
-    }
+	
 </script>
