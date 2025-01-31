@@ -42,7 +42,7 @@
 														<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >
 													</td>
 													<td>
-														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid" onchange="addNewRow(1)" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid"  required>
 															<option value="" disabled selected>Select Account</option>
 															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -50,7 +50,7 @@
 														</select>
 													</td>
 													<td>
-														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid" onchange="addNewRow(1)" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid"  required>
 															<option value="" disabled selected>Select Account</option>
 															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -70,7 +70,7 @@
 														<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" size=5 required value="<?php echo date('Y-m-d'); ?>" >
 													</td>
 													<td>
-														<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">
+														<input type="number" class="form-control" name="amount[]" required value="0" onchange="addNewRow(1)" step=".00001">
 													</td>
 													<td style="vertical-align: middle;">
 														<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>
@@ -154,13 +154,13 @@
 
 			// cell1.innerHTML  = '<input type="text" class="form-control" disabled>';
 			cell1.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >';
-			cell2.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"   onclick="addNewRow('+index+')" name ="ac_dr_sid[]" required>'+
+			cell2.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid[]" required>'+
 									'<option value="" disabled selected>Select Account</option>
 									@foreach($acc as $key => $row)	
 										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
 									@endforeach
 								'</select>';
-			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"   onclick="addNewRow('+index+')" name ="ac_cr_sid[]" required>'+
+			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid[]" required>'+
 									'<option value="" disabled selected>Select Account</option>
 									@foreach($acc as $key => $row)	
 										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
@@ -170,7 +170,7 @@
 			cell5.innerHTML  = '<input type="text" class="form-control" name="bankname[]" autofocus required>';
 			cell6.innerHTML  = '<input type="text" class="form-control" name="instrumentnumber[]" autofocus required>';
 			cell7.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="<?php echo date('Y-m-d'); ?>" >';
-			cell8.innerHTML  = '<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">';
+			cell8.innerHTML  = '<input type="number" class="form-control" name="amount[]" required value="0" onclick="addNewRow('+index+')" step=".00001">';
 			cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
 
 			index++;
