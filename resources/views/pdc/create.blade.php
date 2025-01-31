@@ -98,63 +98,65 @@
 	var index = 2;
 	var itemCount = Number($('#itemCount').val());
 
-	function removeRow(button) {
-		if ($("#PDCTable tr").length > 1) {
-			$(button).closest('tr').remove();
-			itemCount--;
-			$('#itemCount').val(itemCount);
-		}
-	}
-
-	function addNewRow() {
-		var lastRow = $('#PDCTable tr:last');
-		var lastSelectValue = lastRow.find('select').first().val();
-
-		if (lastSelectValue !== "") {
-			var newRow = `<tr>
-				<td><input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="${new Date().toISOString().split('T')[0]}"></td>
-				<td>${createSelect("ac_dr_sid[]")}</td>
-				<td>${createSelect("ac_cr_sid[]")}</td>
-				<td><input type="text" class="form-control" name="remarks[]"></td>
-				<td><input type="text" class="form-control" name="bankname[]" required></td>
-				<td><input type="text" class="form-control" name="instrumentnumber[]" required></td>
-				<td><input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="${new Date().toISOString().split('T')[0]}"></td>
-				<td><input type="number" class="form-control" name="amount[]" required value="0" step=".00001"></td>
-				<td style="vertical-align: middle;"><button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button></td>
-			</tr>`;
-
-			$('#PDCTable').append(newRow);
-			itemCount++;
-			$('#itemCount').val(itemCount);
-			$('.select2-js').select2();
-		}
-	}
-
-	function createSelect(name) {
-		var select = `<select class="form-control select2-js" name="${name}" required>
-			<option value="" disabled selected>Select Account</option>`;
-		@foreach($acc as $row)
-			select += `<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>`;
-		@endforeach
-		select += `</select>`;
-		return select;
-	}
-
-	$(document).ready(function() {
-		$('.select2-js').select2();
-	});
 
 	function checkAndAddRow(input) {
     var value = input.value.trim();
     
+    // Only add a new row if the value is valid (greater than 0)
     if (value !== "" && parseFloat(value) > 0) {
         var lastRow = $('#PDCTable tr:last');
         
-        // Ensure a new row is only added once per row entry
+        // Add a new row if this is the last row with a valid amount value
         if (lastRow.find('.amount-field').is(input)) {
             addNewRow();
         }
     }
 }
+
+function addNewRow() {
+    var lastRow = $('#PDCTable tr:last');
+    var lastSelectValue = lastRow.find('select').first().val();
+
+    if (lastSelectValue !== "") {
+        var newRow = `<tr>
+            <td><input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="${new Date().toISOString().split('T')[0]}"></td>
+            <td>${createSelect("ac_dr_sid[]")}</td>
+            <td>${createSelect("ac_cr_sid[]")}</td>
+            <td><input type="text" class="form-control" name="remarks[]"></td>
+            <td><input type="text" class="form-control" name="bankname[]" required></td>
+            <td><input type="text" class="form-control" name="instrumentnumber[]" required></td>
+            <td><input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="${new Date().toISOString().split('T')[0]}"></td>
+            <td><input type="number" class="form-control" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)"></td>
+            <td style="vertical-align: middle;"><button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button></td>
+        </tr>`;
+
+        $('#PDCTable').append(newRow);
+        itemCount++;
+        $('#itemCount').val(itemCount);
+        $('.select2-js').select2();
+    }
+}
+
+function removeRow(button) {
+    if ($("#PDCTable tr").length > 1) {
+        $(button).closest('tr').remove();
+        itemCount--;
+        $('#itemCount').val(itemCount);
+    }
+}
+
+function createSelect(name) {
+    var select = `<select class="form-control select2-js" name="${name}" required>
+        <option value="" disabled selected>Select Account</option>`;
+    @foreach($acc as $row)
+        select += `<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>`;
+    @endforeach
+    select += `</select>`;
+    return select;
+}
+
+$(document).ready(function() {
+    $('.select2-js').select2();
+});
 
 </script>
