@@ -38,6 +38,43 @@
 													<!-- <td>
 														<input type="number" class="form-control" disabled>
 													</td> -->
+													<td>
+														<input type="date" class="form-control" style="max-width: 124px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >
+													</td>
+													<td>
+														<select data-plugin-selecttwo class="form-control select2-js"  name ="ac_dr_sid[]" onchange="addNewRow(1)" required>
+															<option value="" disabled selected>Select Account</option>
+															@foreach($coa as $key => $row)	
+																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+															@endforeach
+														</select>
+													</td>
+													<td>
+														<select data-plugin-selecttwo class="form-control select2-js"  name ="ac_cr_sid[]" onchange="addNewRow(1)" required>
+															<option value="" disabled selected>Select Account</option>
+															@foreach($coa as $key => $row)	
+																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
+															@endforeach
+														</select>
+													</td>
+													<td>
+														<input type="text" class="form-control" name="remarks[]" value=" ">
+													</td>
+													<td>
+														<input type="text" class="form-control" name="bankname[]" required>
+													</td>
+													<td>
+														<input type="text" class="form-control" name="instrumentnumber[]" required>
+													</td>
+													<td>
+														<input type="date" class="form-control" style="max-width: 124px" name="chqdate[]" size=5 required value="<?php echo date('Y-m-d'); ?>" >
+													</td>
+													<td>
+														<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">
+													</td>
+													<td style="vertical-align: middle;">
+														<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>
+													</td>
 													
 													
 												</tr>
