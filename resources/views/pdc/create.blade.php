@@ -39,7 +39,7 @@
 														<input type="number" class="form-control" disabled>
 													</td> -->
 													<td>
-														<input type="date" class="form-control" style="max-width: 124px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >
+														<input type="date" class="form-control" style="max-width: 124px" name="date[]" required value="<?php echo date('y-m-d'); ?>" >
 													</td>
 													<td>
 														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid" required>
