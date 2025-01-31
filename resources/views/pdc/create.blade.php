@@ -136,9 +136,16 @@
 
 	function addNewRow(id) {
     var lastRow = $('#myTable tr:last');
+
+    // Ensure lastRow exists and contains a select element
+    if (lastRow.length === 0 || !lastRow[0].cells[0].querySelector('select')) {
+        console.warn("No valid row found with a select element.");
+        return;
+    }
+
     var latestValue = lastRow[0].cells[0].querySelector('select').value;
 
-    if (latestValue != "") {
+    if (latestValue !== "") {
         var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
         var newRow = table.insertRow(table.rows.length);
 
