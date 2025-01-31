@@ -141,8 +141,8 @@ class PDCController extends Controller
     public function create(Request $request)
     {
         
-        $coa = AC::all();
-        return view('pdc.create',compact('coa'));
+        $acc = AC::where('status', 1)->orderBy('ac_name', 'asc')->get();
+        return view('pdc.create',compact('acc'));
     }
 
     

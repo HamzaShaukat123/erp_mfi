@@ -42,17 +42,17 @@
 														<input type="date" class="form-control" style="max-width: 124px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >
 													</td>
 													<td>
-														<select data-plugin-selecttwo class="form-control select2-js"  name ="ac_dr_sid[]" onchange="addNewRow(1)" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid" required>
 															<option value="" disabled selected>Select Account</option>
-															@foreach($coa as $key => $row)	
+															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
 															@endforeach
 														</select>
 													</td>
 													<td>
-														<select data-plugin-selecttwo class="form-control select2-js"  name ="ac_cr_sid[]" onchange="addNewRow(1)" required>
+														<select  data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid" required>
 															<option value="" disabled selected>Select Account</option>
-															@foreach($coa as $key => $row)	
+															@foreach($acc as $key => $row)	
 																<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
 															@endforeach
 														</select>
