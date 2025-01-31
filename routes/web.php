@@ -109,6 +109,7 @@
         Route::post('/items/create', [App\Http\Controllers\ItemsController::class, 'store'])->name('store-item');
         Route::post('/coa/create', [App\Http\Controllers\COAController::class, 'store'])->name('store-acc');
         Route::post('/item2/create', [App\Http\Controllers\Item2Controller::class, 'store'])->name('store-item-2');
+       
         Route::post('/vouchers/create', [App\Http\Controllers\JV1Controller::class, 'store'])->name('store-jv1');
         Route::post('/sales/create', [App\Http\Controllers\SalesController::class, 'store'])->name('store-sale-invoice');
         Route::get('/vouchers2/new', [App\Http\Controllers\JV2Controller::class, 'create'])->name('new-jv2');
@@ -130,6 +131,7 @@
         Route::get('/stock_out/new', [App\Http\Controllers\StockOutController::class, 'create'])->name('create-stock-out-invoice'); 
         Route::post('/stock_out/create', [App\Http\Controllers\StockOutController::class, 'store'])->name('store-stock-out-invoice');
         Route::get('/item2/new', [App\Http\Controllers\Item2Controller::class, 'create'])->name('create-item-2'); 
+        
         Route::get('/stock_in/new', [App\Http\Controllers\StockInController::class, 'create'])->name('create-stock-in-invoice'); 
         Route::get('/purchase1/new', [App\Http\Controllers\PurchaseController::class, 'create'])->name('new-purchases1');
         Route::post('/purchase1/create', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store-purchases1');
@@ -637,6 +639,8 @@
 
     // PDC
     Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
+    Route::get('/pdc/new', [App\Http\Controllers\PDCController::class, 'create'])->name('create-pdc-multiple'); 
+    Route::post('/pdc/create-multiple', [App\Http\Controllers\PDCController::class, 'storeMultiple'])->name('store-pdc-multiple');
     Route::post('/pdc/create', [App\Http\Controllers\PDCController::class, 'store'])->name('store-pdc');
     Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
     Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');

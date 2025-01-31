@@ -10,10 +10,13 @@
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
                                     <h2 class="card-title">PDC</h2>
-                                    <div class="text-end">
-                                        <button type="button" class="modal-with-form btn btn-primary" href="#addModal"> <i class="fas fa-plus"></i> New PDC</button>
-                                    </div>
+                                    <form class="text-end" action="{{ route('create-pdc-multiple') }}" method="GET">
+                                        <button type="button" class="btn btn-primary mt-2 modal-with-zoom-anim ws-normal" href="#addModal"> <i class="fas fa-plus"></i> New PDC (Single)</button>
+                                        <button type="submit" class="btn btn-danger mt-2"> <i class="fas fa-plus"></i> New PDC (Multiple)</button>
+                                    </form>
                                 </header>
+
+                              
                                 <div class="card-body" >
                                     <div>
                                         <div class="col-md-5" style="display:flex;">

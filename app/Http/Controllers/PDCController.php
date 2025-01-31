@@ -101,6 +101,50 @@ class PDCController extends Controller
         }
         return redirect()->route('all-pdc');
     }
+
+
+    public function storeMultiple(Request $request)
+    {
+
+        if($request->has('items'))
+        {
+            for($i=0;$i<$request->items;$i++)
+            {
+                if(filled($request->item_name[$i]))
+                {
+                    $Item_entry2 = new Item_entry2();
+                    $Item_entry2->item_name=$request->item_name[$i];
+                    $Item_entry2->item_group=$request->item_group[$i];
+                    $Item_entry2->item_remark=$request->item_remarks[$i];
+                    $Item_entry2->sales_price=$request->item_s_price[$i];
+                    $Item_entry2->OPP_qty_cost=$request->item_pur_cost[$i];
+                    $Item_entry2->pur_rate_date=$request->purchase_rate_date[$i];
+                    $Item_entry2->sale_rate_date=$request->sale_rate_date[$i];
+                    $Item_entry2->qty=$request->item_stock[$i];
+                    $Item_entry2->weight=$request->weight[$i];
+                    $Item_entry2->opp_qty=$request->item_stock[$i];
+                    $Item_entry2->opp_date=$request->item_date[$i];
+                    $Item_entry2->stock_level=$request->item_stock_level[$i];
+                    $Item_entry2->labourprice=$request->item_l_price[$i];
+                    $Item_entry2->status=1;
+                    $Item_entry2->created_by=session('user_id');
+
+                    $Item_entry2->save();
+                }
+            }
+        }
+
+        return redirect()->route('all-items-2');
+    }
+
+
+    public function create(Request $request)
+    {
+        
+        $coa = AC::all();
+        return view('pdc.create',compact('coa'));
+    }
+
     
     public function update(Request $request)
     {
