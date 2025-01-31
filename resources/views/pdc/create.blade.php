@@ -154,18 +154,20 @@
 
 			// cell1.innerHTML  = '<input type="text" class="form-control" disabled>';
 			cell1.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >';
-			cell2.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name ="ac_dr_sid[]" required>'+
-									'<option value="" disabled selected>Select Account</option>
-									@foreach($acc as $key => $row)	
-										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
-									@endforeach
+			cell2.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" name="ac_dr_sid[]" required>' +
+								'<option value="" disabled selected>Select Account</option>' +
+								'@foreach($acc as $key => $row)' +
+								'<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>' +
+								'@endforeach' +
 								'</select>';
-			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name ="ac_cr_sid[]" required>'+
-									'<option value="" disabled selected>Select Account</option>
-									@foreach($acc as $key => $row)	
-										<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
-									@endforeach
+
+			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name="ac_cr_sid[]" required>' +
+								'<option value="" disabled selected>Select Account</option>' +
+								'@foreach($acc as $key => $row)' +
+								'<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>' +
+								'@endforeach' +
 								'</select>';
+
 			cell4.innerHTML  = '<input type="text"   class="form-control" name="remarks[]">';					
 			cell5.innerHTML  = '<input type="text" class="form-control" name="bankname[]" autofocus required>';
 			cell6.innerHTML  = '<input type="text" class="form-control" name="instrumentnumber[]" autofocus required>';
