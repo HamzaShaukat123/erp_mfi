@@ -66,7 +66,7 @@
 													<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="{{ date('Y-m-d') }}">
 												</td>
 												<td>
-													<input type="number" class="form-control" name="amount[]" required value="0" step=".00001">
+													<input type="number" class="form-control amount-field" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)">
 												</td>
 												<td style="vertical-align: middle;">
 													<button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
@@ -143,4 +143,18 @@
 	$(document).ready(function() {
 		$('.select2-js').select2();
 	});
+
+	function checkAndAddRow(input) {
+    var value = input.value.trim();
+    
+    if (value !== "" && parseFloat(value) > 0) {
+        var lastRow = $('#PDCTable tr:last');
+        
+        // Ensure a new row is only added once per row entry
+        if (lastRow.find('.amount-field').is(input)) {
+            addNewRow();
+        }
+    }
+}
+
 </script>
