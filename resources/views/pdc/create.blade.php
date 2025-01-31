@@ -134,56 +134,77 @@
         }
     });
 
-	function addNewRow(id){
-		var lastRow =  $('#myTable tr:last');
-		latestValue=lastRow[0].cells[0].querySelector('select').value;
+	function addNewRow(id) {
+    var lastRow = $('#myTable tr:last');
+    var latestValue = lastRow[0].cells[0].querySelector('select').value;
 
-		if(latestValue!=""){
-			var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-			var newRow = table.insertRow(table.rows.length);
+    if (latestValue != "") {
+        var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow(table.rows.length);
 
-			var cell1 = newRow.insertCell(0);
-			var cell2 = newRow.insertCell(1);
-			var cell3 = newRow.insertCell(2);
-			var cell4 = newRow.insertCell(3);
-			var cell5 = newRow.insertCell(4);
-			var cell6 = newRow.insertCell(5);
-			var cell7 = newRow.insertCell(6);
-			var cell8 = newRow.insertCell(7);
-			var cell9 = newRow.insertCell(8);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+        var cell5 = newRow.insertCell(4);
+        var cell6 = newRow.insertCell(5);
+        var cell7 = newRow.insertCell(6);
+        var cell8 = newRow.insertCell(7);
+        var cell9 = newRow.insertCell(8);
 
-			// cell1.innerHTML  = '<input type="text" class="form-control" disabled>';
-			cell1.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="<?php echo date('Y-m-d'); ?>" >';
-			cell2.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" name="ac_dr_sid[]" required>' +
-								'<option value="" disabled selected>Select Account</option>' +
-								'@foreach($acc as $key => $row)' +
-								'<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>' +
-								'@endforeach' +
-								'</select>';
+        // Date Input
+        cell1.innerHTML = '<input type="date" class="form-control" style="max-width: 135px" name="date[]" required value="' + new Date().toISOString().split('T')[0] + '" >';
 
-			cell3.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js" name="ac_cr_sid[]" required>' +
-								'<option value="" disabled selected>Select Account</option>' +
-								'@foreach($acc as $key => $row)' +
-								'<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>' +
-								'@endforeach' +
-								'</select>';
+        // Create Select Fields
+        let selectDr = createSelect("ac_dr_sid[]");
+        let selectCr = createSelect("ac_cr_sid[]");
 
-			cell4.innerHTML  = '<input type="text"   class="form-control" name="remarks[]">';					
-			cell5.innerHTML  = '<input type="text" class="form-control" name="bankname[]" autofocus required>';
-			cell6.innerHTML  = '<input type="text" class="form-control" name="instrumentnumber[]" autofocus required>';
-			cell7.innerHTML  = '<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="<?php echo date('Y-m-d'); ?>" >';
-			cell8.innerHTML  = '<input type="number" class="form-control" name="amount[]" required value="0" onclick="addNewRow('+index+')" step=".00001">';
-			cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
+        cell2.appendChild(selectDr);
+        cell3.appendChild(selectCr);
 
-			index++;
+        // Other Input Fields
+        cell4.innerHTML = '<input type="text" class="form-control" name="remarks[]">';
+        cell5.innerHTML = '<input type="text" class="form-control" name="bankname[]" required>';
+        cell6.innerHTML = '<input type="text" class="form-control" name="instrumentnumber[]" required>';
+        cell7.innerHTML = '<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="' + new Date().toISOString().split('T')[0] + '" >';
+        cell8.innerHTML = '<input type="number" class="form-control" name="amount[]" required value="0" onclick="addNewRow('+index+')" step=".00001">';
+        cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
 
-			itemCount = Number($('#itemCount').val());
-			itemCount = itemCount+1;
-			$('#itemCount').val(itemCount);
-			$('#myTable select[data-plugin-selecttwo]').select2();
-		}
+        index++;
 
-	}
+        // Update Item Count
+        var itemCount = Number($('#itemCount').val());
+        $('#itemCount').val(itemCount + 1);
+
+        // Reinitialize Select2
+        $('#myTable select[data-plugin-selecttwo]').select2();
+    }
+}
+
+// Function to Create Select Dropdown
+function createSelect(name) {
+    let select = document.createElement("select");
+    select.setAttribute("data-plugin-selecttwo", "");
+    select.classList.add("form-control", "select2-js");
+    select.setAttribute("name", name);
+    select.required = true;
+
+    let defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.textContent = "Select Account";
+    select.appendChild(defaultOption);
+
+    accounts.forEach(row => {
+        let option = document.createElement("option");
+        option.value = row.ac_code;
+        option.textContent = row.ac_name;
+        select.appendChild(option);
+    });
+
+    return select;
+}
 
 	
 </script>
