@@ -135,15 +135,15 @@
     });
 
 	function addNewRow(id) {
-    var lastRow = $('#myTable tr:last');
+    var lastRow = $('#myTable tbody tr:last'); // Get the last row in the tbody
 
-    // Ensure lastRow exists and contains a select element
-    if (lastRow.length === 0 || !lastRow[0].cells[0].querySelector('select')) {
+    // Check if lastRow exists and contains a select field
+    if (lastRow.length === 0 || lastRow.find('select').length === 0) {
         console.warn("No valid row found with a select element.");
         return;
     }
 
-    var latestValue = lastRow[0].cells[0].querySelector('select').value;
+    var latestValue = lastRow.find('select').first().val(); // Get the first select value
 
     if (latestValue !== "") {
         var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
@@ -174,7 +174,7 @@
         cell5.innerHTML = '<input type="text" class="form-control" name="bankname[]" required>';
         cell6.innerHTML = '<input type="text" class="form-control" name="instrumentnumber[]" required>';
         cell7.innerHTML = '<input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="' + new Date().toISOString().split('T')[0] + '" >';
-        cell8.innerHTML = '<input type="number" class="form-control" name="amount[]" required value="0" onclick="addNewRow('+index+')" step=".00001">';
+        cell8.innerHTML = '<input type="number" class="form-control" name="amount[]" required value="0" onchange="addNewRow(1)" step=".00001">';
         cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
 
         index++;
@@ -186,31 +186,6 @@
         // Reinitialize Select2
         $('#myTable select[data-plugin-selecttwo]').select2();
     }
-}
-
-// Function to Create Select Dropdown
-function createSelect(name) {
-    let select = document.createElement("select");
-    select.setAttribute("data-plugin-selecttwo", "");
-    select.classList.add("form-control", "select2-js");
-    select.setAttribute("name", name);
-    select.required = true;
-
-    let defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = "Select Account";
-    select.appendChild(defaultOption);
-
-    accounts.forEach(row => {
-        let option = document.createElement("option");
-        option.value = row.ac_code;
-        option.textContent = row.ac_name;
-        select.appendChild(option);
-    });
-
-    return select;
 }
 
 	
