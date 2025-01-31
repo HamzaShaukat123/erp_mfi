@@ -95,21 +95,14 @@
 </html>
 
 <script>
-	var index = 2;
-	var itemCount = Number($('#itemCount').val());
+var index = 2;
+var itemCount = Number($('#itemCount').val());
 
-
-	function checkAndAddRow(input) {
-    var value = input.value.trim();
-    
-    // Only add a new row if the value is valid (greater than 0)
-    if (value !== "" && parseFloat(value) > 0) {
-        var lastRow = $('#PDCTable tr:last');
-        
-        // Add a new row if this is the last row with a valid amount value
-        if (lastRow.find('.amount-field').is(input)) {
-            addNewRow();
-        }
+function removeRow(button) {
+    if ($("#PDCTable tr").length > 1) {
+        $(button).closest('tr').remove();
+        itemCount--;
+        $('#itemCount').val(itemCount);
     }
 }
 
@@ -126,7 +119,7 @@ function addNewRow() {
             <td><input type="text" class="form-control" name="bankname[]" required></td>
             <td><input type="text" class="form-control" name="instrumentnumber[]" required></td>
             <td><input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="${new Date().toISOString().split('T')[0]}"></td>
-            <td><input type="number" class="form-control" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)"></td>
+            <td><input type="number" class="form-control amount-field" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)"></td>
             <td style="vertical-align: middle;"><button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button></td>
         </tr>`;
 
@@ -134,14 +127,6 @@ function addNewRow() {
         itemCount++;
         $('#itemCount').val(itemCount);
         $('.select2-js').select2();
-    }
-}
-
-function removeRow(button) {
-    if ($("#PDCTable tr").length > 1) {
-        $(button).closest('tr').remove();
-        itemCount--;
-        $('#itemCount').val(itemCount);
     }
 }
 
@@ -157,6 +142,25 @@ function createSelect(name) {
 
 $(document).ready(function() {
     $('.select2-js').select2();
+    
+    // Ensure dynamic binding for newly added amount inputs
+    $(document).on('change', '.amount-field', function() {
+        checkAndAddRow(this);
+    });
 });
+
+function checkAndAddRow(input) {
+    var value = input.value.trim();
+    
+    // Only add a new row if the value is valid (greater than 0)
+    if (value !== "" && parseFloat(value) > 0) {
+        var lastRow = $('#PDCTable tr:last');
+        
+        // Add a new row if this is the last row with a valid amount value
+        if (lastRow.find('.amount-field').is(input)) {
+            addNewRow();
+        }
+    }
+}
 
 </script>
