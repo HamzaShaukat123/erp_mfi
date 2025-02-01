@@ -665,9 +665,10 @@
 			}
 
 			row += `<td>
-						<input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-						<input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''}">
-					</td>`;
+				<input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
+				<input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''} RecievingDate=${account['date'] || ''}">
+			</td>`;
+
 
 			row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
 			row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
