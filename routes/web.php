@@ -40,7 +40,9 @@
         Route::get('/quotation/all-quotation', [App\Http\Controllers\QuotationController::class, 'index'])->name('all-quotation');
         Route::get('/tquotation/all-tquotation', [App\Http\Controllers\TQuotationController::class, 'index'])->name('all-tquotation');
         Route::get('/weight/all-weight', [App\Http\Controllers\WeightController::class, 'index'])->name('all-weight');
+        Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
         Route::get('/po/show/{id}', [App\Http\Controllers\PoController::class, 'show'])->name('show-po');
+        Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
         Route::get('/purchase2/show/{id}', [App\Http\Controllers\Purchase2Controller::class, 'show'])->name('show-purchases2');
         Route::get('/sales/saleinvoice/view/{id}', [App\Http\Controllers\SalesController::class, 'showNew'])->name('show-sale-invoice');
         Route::get('/sales2/show/{id}', [App\Http\Controllers\Sales2Controller::class, 'show'])->name('show-sales2');
@@ -65,6 +67,7 @@
         Route::get('/vouchers/view/{id}', [App\Http\Controllers\JV1Controller::class, 'view'])->name('jv1-att-view');
         Route::get('/vouchers2/download/{id}', [App\Http\Controllers\JV2Controller::class, 'downloadAtt'])->name('jv2-att-download');
         Route::get('/vouchers2/view/{id}', [App\Http\Controllers\JV2Controller::class, 'view'])->name('jv2-att-view');
+        Route::get('/pdc/view/{id}', [App\Http\Controllers\PDCController::class, 'view'])->name('pdc-att-view');
         Route::get('/purchase1/view/{id}', [App\Http\Controllers\PurchaseController::class, 'view'])->name('show-purchases1-att');
         Route::get('/purchase1/download/{id}', [App\Http\Controllers\PurchaseController::class, 'downloadAtt'])->name('purc1-att-download');
         Route::get('/purchase2/view/{id}', [App\Http\Controllers\Purchase2Controller::class, 'view'])->name('show-purchases2-att');
@@ -86,6 +89,7 @@
         Route::get('/stock_in/download/{id}', [App\Http\Controllers\StockInController::class, 'downloadAtt'])->name('stock-in-att-download');
         Route::get('/stock_in/viewAtt/{id}', [App\Http\Controllers\StockInController::class, 'view'])->name('show-stock-in-att'); 
         Route::get('/stock_out/download/{id}', [App\Http\Controllers\StockOutController::class, 'downloadAtt'])->name('stock-out-att-download');
+        Route::get('/pdc/download/{id}', [App\Http\Controllers\PDCController::class, 'downloadAtt'])->name('pdc-att-download');
         Route::get('/stock_out/view/{id}', [App\Http\Controllers\StockOutController::class, 'view'])->name('show-stock-out-att');
         Route::get('/tquotation/view/{id}', [App\Http\Controllers\TQuotationController::class, 'view'])->name('show-tquotation-att');
         Route::get('/weight/view/{id}', [App\Http\Controllers\WeightController::class, 'view'])->name('show-weight-att');
@@ -131,7 +135,7 @@
         Route::get('/stock_out/new', [App\Http\Controllers\StockOutController::class, 'create'])->name('create-stock-out-invoice'); 
         Route::post('/stock_out/create', [App\Http\Controllers\StockOutController::class, 'store'])->name('store-stock-out-invoice');
         Route::get('/item2/new', [App\Http\Controllers\Item2Controller::class, 'create'])->name('create-item-2'); 
-        
+        Route::get('/pdc/new', [App\Http\Controllers\PDCController::class, 'create'])->name('create-pdc-multiple'); 
         Route::get('/stock_in/new', [App\Http\Controllers\StockInController::class, 'create'])->name('create-stock-in-invoice'); 
         Route::get('/purchase1/new', [App\Http\Controllers\PurchaseController::class, 'create'])->name('new-purchases1');
         Route::post('/purchase1/create', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store-purchases1');
@@ -149,6 +153,8 @@
         Route::post('/tstock_out/create', [App\Http\Controllers\TStockOutController::class, 'store'])->name('store-tstock-out-invoice');
         Route::get('/tstock_in/new', [App\Http\Controllers\TStockInController::class, 'create'])->name('create-tstock-in-invoice'); 
         Route::post('/tstock_in/create', [App\Http\Controllers\TStockInController::class, 'store'])->name('store-tstock-in-invoice');
+        Route::post('/pdc/create-multiple', [App\Http\Controllers\PDCController::class, 'storeMultiple'])->name('store-pdc-multiple');
+        Route::post('/pdc/create', [App\Http\Controllers\PDCController::class, 'store'])->name('store-pdc');
         Route::get('/vouchers2/pendingInvoice/{id}', [App\Http\Controllers\JV2Controller::class, 'pendingInvoice'])->name('jv2-pend-invoices');
         Route::get('/vouchers2/purpendingInvoice/{id}', [App\Http\Controllers\JV2Controller::class, 'purpendingInvoice'])->name('jv2-pur-pend-invoices');
     });
@@ -206,6 +212,7 @@
         Route::get('/vouchers2/purpendingInvoice/{id}', [App\Http\Controllers\JV2Controller::class, 'purpendingInvoice'])->name('jv2-pur-pend-invoices');
         Route::get('/sales2/edit/{id}', [App\Http\Controllers\Sales2Controller::class, 'edit'])->name('edit-sales2');
         Route::post('/sales2/update', [App\Http\Controllers\Sales2Controller::class, 'update'])->name('update-sales2');
+        Route::post('/pdc/update', [App\Http\Controllers\PDCController::class, 'update'])->name('update-pdc');
         Route::get('/tbad_dabs/edit/{id}', [App\Http\Controllers\TBadDabsController::class, 'edit'])->name('edit-tbad-dabs-entry');
         Route::get('/tstock_in/edit/{id}', [App\Http\Controllers\TStockInController::class, 'edit'])->name('edit-tstock-in-invoice');
         Route::post('/tstock_in/tstock_in_invoice/update', [App\Http\Controllers\TStockInController::class, 'update'])->name('update-tstock-in-invoice');
@@ -234,6 +241,7 @@
         Route::post('/sales/delete', [App\Http\Controllers\SalesController::class, 'destroy'])->name('delete-sale-invoice');
         Route::post('/tbad_dabs/delete', [App\Http\Controllers\TBadDabsController::class, 'destroy'])->name('delete-tbad-dabs');
         Route::post('/sales2/delete', [App\Http\Controllers\Sales2Controller::class, 'destroy'])->name('delete-sales2');
+        Route::post('/pdc/delete', [App\Http\Controllers\PDCController::class, 'destroy'])->name('delete-pdc');
         Route::post('/tstock_in/delete', [App\Http\Controllers\TStockInController::class, 'destroy'])->name('delete-tstock-in-invoice');
         Route::post('/tstock_out/delete', [App\Http\Controllers\TStockOutController::class, 'destroy'])->name('delete-tstock-out-invoice');
     });
@@ -253,6 +261,7 @@
         Route::post('/stock_out/addAtt/', [App\Http\Controllers\StockOutController::class, 'addAtt'])->name('stock_out-att-add');
         Route::post('/bad_dabs/addAtt/', [App\Http\Controllers\BadDabsController::class, 'addAtt'])->name('bad_dabs-att-add');
         Route::post('/po/addAtt/', [App\Http\Controllers\PoController::class, 'addAtt'])->name('po-att-add');
+        Route::post('/pdc/addAtt/', [App\Http\Controllers\PDCController::class, 'addAtt'])->name('pdc-att-add');
         Route::post('/tpo/addAtt/', [App\Http\Controllers\TpoController::class, 'addAtt'])->name('tpo-att-add');
         Route::post('/quotation/addAtt/', [App\Http\Controllers\QuotationController::class, 'addAtt'])->name('quotation-att-add');
         Route::post('/tquotation/addAtt/', [App\Http\Controllers\TQuotationController::class, 'addAtt'])->name('tquotation-att-add');
@@ -276,6 +285,7 @@
         Route::delete('/sales/deleteAttachment/{id}', [App\Http\Controllers\SalesController::class, 'deleteAtt'])->name('sale1-att-delete');
         Route::delete('/sales2/deleteAttachment/{id}', [App\Http\Controllers\Sales2Controller::class, 'deleteAtt'])->name('sales2-att-delete');
         Route::delete('/purchase2/deleteAttachment/{id}', [App\Http\Controllers\Purchase2Controller::class, 'deleteAtt'])->name('purc2-att-delete');
+        Route::delete('/pdc/deleteAttachment/{id}', [App\Http\Controllers\PDCController::class, 'deleteAtt'])->name('pdc-att-delete');
         Route::delete('/vouchers2/deleteAttachment/{id}', [App\Http\Controllers\JV2Controller::class, 'deleteAtt'])->name('jv2-att-delete');
     });
 
@@ -289,6 +299,7 @@
         Route::get('/purchase1/generatePDF/{id}', [App\Http\Controllers\PurchaseController::class, 'generatePDF'])->name('print-purc1-invoice');
         Route::get('/vouchers2/print/{id}', [App\Http\Controllers\JV2Controller::class, 'print'])->name('print-jv2');
         Route::get('/vouchers/print/{id}', [App\Http\Controllers\JV1Controller::class, 'print'])->name('print-jv1');
+        Route::get('/pdc/print/{id}', [App\Http\Controllers\PDCController::class, 'print'])->name('print-pdc');
         Route::get('/complains/print/{id}', [App\Http\Controllers\ComplainsController::class, 'print'])->name('print-complains');
         Route::get('/weight/generatePDF/{id}', [App\Http\Controllers\WeightController::class, 'generatePDF'])->name('print-weight-invoice');
         Route::get('/tpo/generatePDF/', [App\Http\Controllers\TpoController::class, 'generatePDF'])->name('print-tpo-invoice');
@@ -341,6 +352,7 @@
         Route::get('/weight/getavailablestock/{id}', [App\Http\Controllers\WeightController::class, 'getavailablestock'])->name('weightt-item-stock-bal');
         Route::get('/complains/detail', [App\Http\Controllers\ComplainsController::class, 'getcomplainsDetails'])->name('get-complains-details');
         Route::get('/coa/detail', [App\Http\Controllers\COAController::class, 'getAccountDetails'])->name('get-acc-details');
+        Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');
         Route::post('/items/new-item/validate', [App\Http\Controllers\ItemsController::class, 'validation'])->name('validate-item');
         Route::post('/item2/new-item/validate', [App\Http\Controllers\Item2Controller::class, 'validation'])->name('validate-item-2');
         Route::post('/coa/acc/validate', [App\Http\Controllers\COAController::class, 'validation'])->name('validate-acc');
@@ -360,6 +372,7 @@
         Route::get('/sales/attachements', [App\Http\Controllers\SalesController::class, 'getAttachements'])->name('get-sale1-att');
         Route::get('/sales2/attachements', [App\Http\Controllers\Sales2Controller::class, 'getAttachements'])->name('get-sales2-att');
         Route::get('/purchase2/attachements', [App\Http\Controllers\Purchase2Controller::class, 'getAttachements'])->name('get-purc2-att');
+        Route::get('/pdc/attachements', [App\Http\Controllers\PDCController::class, 'getAttachements'])->name('get-pdc-att');
         Route::get('/vouchers2/attachements', [App\Http\Controllers\JV2Controller::class, 'getAttachements'])->name('get-jv2-att');
         Route::get('/purchase1/attachements', [App\Http\Controllers\PurchaseController::class, 'getAttachements'])->name('get-purc1-att');
         Route::get('/modules/all-modules', [App\Http\Controllers\ModulesController::class, 'index'])->name('all-modules');
@@ -634,21 +647,3 @@
 
 
   
-
-
-
-    // PDC
-    Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
-    Route::get('/pdc/new', [App\Http\Controllers\PDCController::class, 'create'])->name('create-pdc-multiple'); 
-    Route::post('/pdc/create-multiple', [App\Http\Controllers\PDCController::class, 'storeMultiple'])->name('store-pdc-multiple');
-    Route::post('/pdc/create', [App\Http\Controllers\PDCController::class, 'store'])->name('store-pdc');
-    Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
-    Route::get('/pdc/detail', [App\Http\Controllers\PDCController::class, 'getPDCDetails'])->name('get-pdc-details');
-    Route::post('/pdc/update', [App\Http\Controllers\PDCController::class, 'update'])->name('update-pdc');
-    Route::post('/pdc/delete', [App\Http\Controllers\PDCController::class, 'destroy'])->name('delete-pdc');
-    Route::get('/pdc/attachements', [App\Http\Controllers\PDCController::class, 'getAttachements'])->name('get-pdc-att');
-    Route::post('/pdc/addAtt/', [App\Http\Controllers\PDCController::class, 'addAtt'])->name('pdc-att-add');
-    Route::get('/pdc/download/{id}', [App\Http\Controllers\PDCController::class, 'downloadAtt'])->name('pdc-att-download');
-    Route::get('/pdc/view/{id}', [App\Http\Controllers\PDCController::class, 'view'])->name('pdc-att-view');
-    Route::delete('/pdc/deleteAttachment/{id}', [App\Http\Controllers\PDCController::class, 'deleteAtt'])->name('pdc-att-delete');
-    Route::get('/pdc/print/{id}', [App\Http\Controllers\PDCController::class, 'print'])->name('print-pdc');
