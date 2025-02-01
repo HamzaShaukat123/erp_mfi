@@ -68,6 +68,9 @@
 												<td>
 													<input type="number" class="form-control amount-field" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)">
 												</td>
+												<td>
+													<input type="file" class="form-control" name="att[][]" multiple>
+												</td>
 												<td style="vertical-align: middle;">
 													<button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button>
 												</td>
@@ -75,11 +78,11 @@
 										</tbody>
 									</table>
 								</div>
-
 								<footer class="card-footer">
 									<div class="row form-group mb-2">
 										<div class="text-end">
-											<button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-save"></i> Save All Items</button>
+											<button type="button" class="btn btn-danger mt-2"  onclick="window.location='{{ route('all-pdc') }}'"> <i class="fas fa-trash"></i> Discard </button>
+											<button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-save"></i> Save All PDCs</button>
 										</div>
 									</div>
 								</footer>
@@ -120,6 +123,7 @@ function addNewRow() {
             <td><input type="text" class="form-control" name="instrumentnumber[]" required></td>
             <td><input type="date" class="form-control" style="max-width: 135px" name="chqdate[]" required value="${new Date().toISOString().split('T')[0]}"></td>
             <td><input type="number" class="form-control amount-field" name="amount[]" required value="0" step=".00001" onchange="checkAndAddRow(this)"></td>
+            <td><input type="file" class="form-control" name="att[${itemCount}][]" multiple></td>
             <td style="vertical-align: middle;"><button type="button" onclick="removeRow(this)" class="btn btn-danger"><i class="fas fa-times"></i></button></td>
         </tr>`;
 
@@ -129,6 +133,7 @@ function addNewRow() {
         $('.select2-js').select2();
     }
 }
+
 
 function createSelect(name) {
     var select = `<select class="form-control select2-js" name="${name}" required>

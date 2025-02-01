@@ -105,38 +105,38 @@ class PDCController extends Controller
 
     public function storeMultiple(Request $request)
     {
-
-        if($request->has('items'))
-        {
-            for($i=0;$i<$request->items;$i++)
-            {
-                if(filled($request->item_name[$i]))
-                {
+        if ($request->has('items')) {
+            for ($i = 0; $i < $request->items; $i++) {
+                if (filled($request->ac_dr_sid[$i])) {
                     $pdc = new pdc();
-                    $pdc->item_name=$request->item_name[$i];
-                    $pdc->item_group=$request->item_group[$i];
-                    $pdc->item_remark=$request->item_remarks[$i];
-                    $pdc->sales_price=$request->item_s_price[$i];
-                    $pdc->OPP_qty_cost=$request->item_pur_cost[$i];
-                    $pdc->pur_rate_date=$request->purchase_rate_date[$i];
-                    $pdc->sale_rate_date=$request->sale_rate_date[$i];
-                    $pdc->qty=$request->item_stock[$i];
-                    $pdc->weight=$request->weight[$i];
-                    $pdc->opp_qty=$request->item_stock[$i];
-                    $pdc->opp_date=$request->item_date[$i];
-                    $pdc->stock_level=$request->item_stock_level[$i];
-                    $pdc->labourprice=$request->item_l_price[$i];
-                    $pdc->status=1;
-                    $pdc->created_by=session('user_id');
-
+                    $pdc->date = $request->date[$i];
+                    $pdc->ac_dr_sid = $request->ac_dr_sid[$i];
+                    $pdc->ac_cr_sid = $request->ac_cr_sid[$i];
+                    $pdc->remarks = $request->remarks[$i];
+                    $pdc->bankname = $request->bankname[$i];
+                    $pdc->instrumentnumber = $request->instrumentnumber[$i];
+                    $pdc->chqdate = $request->chqdate[$i];
+                    $pdc->amount = $request->amount[$i];
+                    $pdc->status = 1;
+                    $pdc->created_by = session('user_id');
                     $pdc->save();
+                    
+                    // Handle attachments
+                    if ($request->hasFile("att.$i")) {
+                        $files = $request->file("att.$i");
+                        foreach ($files as $file) {
+                            $pdc_att = new pdc_att();
+                            $pdc_att->pdc_id = $pdc->id;
+                            $extension = $file->getClientOriginalExtension();
+                            $pdc_att->att_path = $this->pdcDoc($file, $extension);
+                            $pdc_att->save();
+                        }
+                    }
                 }
             }
         }
-
         return redirect()->route('all-pdc');
     }
-
 
     public function create(Request $request)
     {
