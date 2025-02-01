@@ -29,6 +29,7 @@
 												<th>Instrument#<span style="color: red;"><strong>*</strong></span></th>
 												<th>Chq Date<span style="color: red;"><strong>*</strong></span></th>
 												<th>Amount<span style="color: red;"><strong>*</strong></span></th>
+												<th>Attachments</th>
 												<th></th>
 											</tr>
 										</thead>
