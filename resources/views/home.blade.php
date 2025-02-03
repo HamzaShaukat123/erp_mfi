@@ -2926,7 +2926,7 @@
 						$.each(result['dash_pdc_recv'], function (index, value) {
 							salesRows += `<tr>
 								<td>${value['prefix'] ? value['prefix'] : ''} ${value['pdc_id'] ? value['pdc_id'] : ''}</td>
-								<td>${value['chqdate'] ? value['chqdate'] : ''}</td>
+								<td>${value['chqdate'] ? moment(value['chqdate']).format('D-M-YY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['remarks'] ? value['remarks'] : ''} ${value['bankname'] ? value['bankname'] : ''} ${value['instrumentnumber'] ? value['instrumentnumber'] : ''}</td>
 								<td>${value['amount'] ? value['amount'].toFixed(0) : ''}</td>
@@ -2939,7 +2939,7 @@
 						$.each(result['dash_pdc_pay'], function (index, value) {
 							purchaseRows += `<tr>
 								<td>${value['prefix'] ? value['prefix'] : ''} ${value['pdc_id'] ? value['pdc_id'] : ''}</td>
-								<td>${value['chqdate'] ? value['chqdate'] : ''}</td>
+								<td>${value['chqdate'] ? moment(value['chqdate']).format('D-M-YY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['remarks'] ? value['remarks'] : ''} ${value['bankname'] ? value['bankname'] : ''} ${value['instrumentnumber'] ? value['instrumentnumber'] : ''}</td>
 								<td>${value['amount'] ? value['amount'].toFixed(0) : ''}</td>
