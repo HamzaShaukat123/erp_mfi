@@ -423,6 +423,9 @@
 								<li class="nav-item">
 									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#OVER_DAYS" href="#OVER_DAYS" data-bs-toggle="tab">Over Days</a>
 								</li>
+								<li class="nav-item">
+									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#PDC" href="#PDC" data-bs-toggle="tab">PDC</a>
+								</li>
 							</ul>
 							<div class="tab-content">
 								<div id="PENDING_INVOICES" class="tab-pane">
@@ -1622,6 +1625,70 @@
 														<tbody id="ODPayAccTable">
 															
 														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+
+								<div id="PDC" class="tab-pane">
+									<div class="row form-group pb-3">
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Received PDCs</h2>
+												</header>
+												<div class="card-body scrollable-div2">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDC ID</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chq Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Detail</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="RecPDCTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-6 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Paid PDCs</h2>
+												</header>
+												<div class="card-body scrollable-div2">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PDC ID</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chq Date</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Account Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Detail</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Amount</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="PaidPDCTable">
+															
+														</tbody>
+													</table>
 													</table>
 												</div>
 											</section>
@@ -2839,6 +2906,53 @@
 				});
 
 			}
+			else if(tabId=="#PDC"){
+				var table = document.getElementById('RecPDCTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				var table = document.getElementById('PaidPDCTable');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
+				$.ajax({
+					type: "GET",
+					url: '/dashboard-tabs/pdc',
+					success: function(result) {
+						// For Sales Ageing
+						var salesRows = '';
+						$.each(result['dash_pdc_recv'], function (index, value) {
+							salesRows += `<tr>
+								<td>${value['prefix'] ? value['prefix'] : ''} ${value['pdc_id'] ? value['pdc_id'] : ''}</td>
+								<td>${value['chqdate'] ? value['chqdate'] : ''}</td>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['remarks'] ? value['remarks'] : ''} ${value['bankname'] ? value['bankname'] : ''} ${value['instrumentnumber'] ? value['instrumentnumber'] : ''}</td>
+								<td>${value['amount'] ? value['amount'].toFixed(0) : ''}</td>
+							</tr>`;
+						});
+						$('#RecPDCTable').html(salesRows);
+
+						// For Purchase Ageing
+						var purchaseRows = '';
+						$.each(result['dash_pdc_pay'], function (index, value) {
+							purchaseRows += `<tr>
+								<td>${value['prefix'] ? value['prefix'] : ''} ${value['pdc_id'] ? value['pdc_id'] : ''}</td>
+								<td>${value['chqdate'] ? value['chqdate'] : ''}</td>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['remarks'] ? value['remarks'] : ''} ${value['bankname'] ? value['bankname'] : ''} ${value['instrumentnumber'] ? value['instrumentnumber'] : ''}</td>
+								<td>${value['amount'] ? value['amount'].toFixed(0) : ''}</td>
+							</tr>`;
+						});
+						$('#PaidPDCTable').html(purchaseRows);
+					},
+					error: function() {
+						alert("Error loading PDC data");
+					}
+				});
+
+}
 
 
 		}

@@ -423,8 +423,11 @@
         // Over Days Tab
         Route::get('/dashboard-tabs/over-days', [App\Http\Controllers\DashboardOverDaysTabController::class, 'OverDays']);
 
-         // Over Dues Tab
-         Route::get('/dashboard-tabs/over-dues', [App\Http\Controllers\DashboardOverDuesTabController::class, 'OverDues']);
+        // Over Dues Tab
+        Route::get('/dashboard-tabs/over-dues', [App\Http\Controllers\DashboardOverDuesTabController::class, 'OverDues']);
+
+        // PDC Tab
+        Route::get('/dashboard-tabs/pdc', [App\Http\Controllers\DashboardPDCTabController::class, 'PDC']);
 
     });
 
