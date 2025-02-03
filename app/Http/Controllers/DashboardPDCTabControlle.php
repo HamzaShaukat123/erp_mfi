@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\dash_pdc_recv;
 use App\Models\dash_pdc_pay;
 
-class DashboardPDCTabControlle extends Controller
+class DashboardPDCTabController extends Controller
 {
     public function PDC(Request $request)
     {
