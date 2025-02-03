@@ -646,40 +646,43 @@
 			// Handle Debit and Credit Accounts based on condition
 			if (isDebit) {
 				row += `<td>
-							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${currentIndex}" required>
+							<select data-plugin-selecttwo class="form-control select2-js" id="account_cod${currentIndex}" required disabled>
 								<option value="${account['ac_dr_sid'] || ''}" selected>${account['debit_account'] || ''}</option>
 								@foreach($acc as $key => $row)
 									<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
 								@endforeach
 							</select>
+							<input type="hidden" name="account_cod[]" value="${account['ac_dr_sid'] || ''}">
 						</td>`;
 			} else {
 				row += `<td>
-							<select data-plugin-selecttwo class="form-control select2-js" name="account_cod[]" id="account_cod${currentIndex}" required>
+							<select data-plugin-selecttwo class="form-control select2-js" id="account_cod${currentIndex}" required disabled>
 								<option value="${account['ac_cr_sid'] || ''}" selected>${account['credit_account'] || ''}</option>
 								@foreach($acc as $key => $row)
 									<option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
 								@endforeach
 							</select>
+							<input type="hidden" name="account_cod[]" value="${account['ac_cr_sid'] || ''}">
 						</td>`;
 			}
 
+
 			row += `<td>
 				<input type="hidden" name="pdc_id[]" value="${account['pdc_id'] || ''}">
-				<input type="text" class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''} RecievingDate=${account['date'] || ''}">
+				<input type="text" readonly class="form-control" name="remarks[]" value="${remarks || ''} ${account['prefix'] || ''} ${account['pdc_id'] || ''} RecievingDate=${account['date'] || ''}">
 			</td>`;
 
 
-			row += `<td><input type="text" class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
-			row += `<td><input type="text" class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
-			row += `<td><input type="date" class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
+			row += `<td><input type="text" readonly class="form-control" name="bank_name[]" value="${bankname || ''}"></td>`;
+			row += `<td><input type="text" readonly class="form-control" name="instrumentnumber[]" value="${instrumentnumber || ''}"></td>`;
+			row += `<td><input type="date" readonly class="form-control" name="chq_date[]" value="${chqdate || ''}"></td>`;
 
 			if (isDebit) {
-				row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
-				row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
+				row += `<td><input type="number" readonly class="form-control" name="debit[]" onchange="totalDebit()" value="${amount || 0}" step="any"></td>`;
+				row += `<td><input type="number" readonly class="form-control" name="credit[]" onchange="totalCredit()" value="0" step="any"></td>`;
 			} else {
-				row += `<td><input type="number" class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
-				row += `<td><input type="number" class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
+				row += `<td><input type="number" readonly class="form-control" name="debit[]" onchange="totalDebit()" value="0" step="any"></td>`;
+				row += `<td><input type="number" readonly class="form-control" name="credit[]" onchange="totalCredit()" value="${amount || 0}" step="any"></td>`;
 			}
 
 			row += "</tr>";
