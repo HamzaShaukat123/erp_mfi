@@ -22,6 +22,7 @@ class DashboardGARDERTabController extends Controller
         ->whereIn('item_group_code', [10, 11]) // Filter for item group codes
         ->select('ac_name', DB::raw('SUM(weight) as tt_weight')) // Aggregate weights
         ->groupBy('ac_name') // Group by account name
+        ->orderBy('weight', 'desc')
         ->get(); // Fetch the results
 
         
