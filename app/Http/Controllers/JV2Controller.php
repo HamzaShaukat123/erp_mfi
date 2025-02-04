@@ -59,7 +59,7 @@ class JV2Controller extends Controller
 
            
 
-        return view('vouchers.jv2', compact('jv2'));
+        return view('jv2.jv2', compact('jv2'));
 
     }
 
@@ -98,7 +98,7 @@ class JV2Controller extends Controller
 
            
 
-        return view('vouchers.jv2', compact('jv2'));
+        return view('jv2.jv2', compact('jv2'));
 
     }
 
@@ -106,7 +106,7 @@ class JV2Controller extends Controller
     public function create(Request $request)
     {
         $acc = AC::where('status', 1)->orderBy('ac_name', 'asc')->get();
-        return view('vouchers.jv2-new',compact('acc'));
+        return view('jv2.jv2-new',compact('acc'));
     }
 
     public function store(Request $request)
@@ -283,7 +283,7 @@ class JV2Controller extends Controller
         $purchase_ageing = $purchase_ageing->isEmpty() ? null : $purchase_ageing;
 
         // Return the view with the fetched data.
-        return view('vouchers.jv2-edit', compact('acc', 'jv2', 'jv2_items', 'sales_ageing', 'purchase_ageing'));
+        return view('jv2.jv2-edit', compact('acc', 'jv2', 'jv2_items', 'sales_ageing', 'purchase_ageing'));
     }
     
     

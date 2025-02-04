@@ -28,7 +28,7 @@ class JV1Controller extends Controller
                 ->get();
         $acc = AC::where('status', 1)->orderBy('ac_name', 'asc')->get();
 
-        return view('vouchers.jv1',compact('jv1','acc'));
+        return view('jv1.jv1',compact('jv1','acc'));
     }
 
     public function show(string $id)
@@ -43,7 +43,7 @@ class JV1Controller extends Controller
                 ->first();
     
         // Point to the correct Blade view file: show.blade.php
-        return view('vouchers.jv1-show', compact('jv1'));
+        return view('jv1.jv1-show', compact('jv1'));
     }
     
     public function store(Request $request)
