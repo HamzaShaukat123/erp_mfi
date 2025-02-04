@@ -42,7 +42,7 @@
         Route::get('/weight/all-weight', [App\Http\Controllers\WeightController::class, 'index'])->name('all-weight');
         Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
         Route::get('/po/show/{id}', [App\Http\Controllers\PoController::class, 'show'])->name('show-po');
-        Route::get('/pdc/show/{id}', [App\Http\Controllers\PDCController::class, 'show'])->name('show-pdc');
+        
         Route::get('/purchase2/show/{id}', [App\Http\Controllers\Purchase2Controller::class, 'show'])->name('show-purchases2');
         Route::get('/sales/saleinvoice/view/{id}', [App\Http\Controllers\SalesController::class, 'showNew'])->name('show-sale-invoice');
         Route::get('/sales2/show/{id}', [App\Http\Controllers\Sales2Controller::class, 'show'])->name('show-sales2');
@@ -73,6 +73,7 @@
         Route::get('/purchase2/view/{id}', [App\Http\Controllers\Purchase2Controller::class, 'view'])->name('show-purchases2-att');
         Route::get('/purchase2/download/{id}', [App\Http\Controllers\Purchase2Controller::class, 'downloadAtt'])->name('purc2-att-download');
         Route::get('/sales2/view/{id}', [App\Http\Controllers\Sales2Controller::class, 'view'])->name('show-sales2-att');
+        Route::get('/pdc/show-multiple-pdc', [App\Http\Controllers\PDCController::class, 'ShowMultiple'])->name('show-multiple-pdc');
         Route::get('/sales2/download/{id}', [App\Http\Controllers\Sales2Controller::class, 'downloadAtt'])->name('sales2-att-download');
         Route::get('/sales/download/{id}', [App\Http\Controllers\SalesController::class, 'downloadAtt'])->name('sale1-att-download');
         Route::get('/sales/view/{id}', [App\Http\Controllers\SalesController::class, 'view'])->name('show-sale1-att');
@@ -647,6 +648,12 @@
     Route::get('/send-email', [App\Http\Controllers\UsersController::class, 'sendEmail']);
     
     Route::get('/pos', [App\Http\Controllers\POSController::class, 'index'])->name('pos');
+
+
+
+
+
+    
 
 
   

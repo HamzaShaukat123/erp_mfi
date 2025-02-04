@@ -25,26 +25,27 @@ class PDCController extends Controller
                 ->select('pdc.*', 
                 'd_ac.ac_name as debit_account', 
                 'c_ac.ac_name as credit_account')
+                ->orderBy('pdc.pdc_id', 'desc')
                 ->get();
         $acc = AC::where('status', 1)->orderBy('ac_name', 'asc')->get();
 
         return view('pdc.index',compact('jv1','acc'));
     }
 
-    public function show(string $id)
-    {
-        // Retrieve the record with joined debit and credit account details
-        $jv1 = pdc::where('pdc.pdc_id', $id)
-                ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
-                ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
-                ->select('pdc.*', 
-                'd_ac.ac_name as debit_account', 
-                'c_ac.ac_name as credit_account')
-                ->first();
+    // public function show(string $id)
+    // {
+    //     // Retrieve the record with joined debit and credit account details
+    //     $jv1 = pdc::where('pdc.pdc_id', $id)
+    //             ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+    //             ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+    //             ->select('pdc.*', 
+    //             'd_ac.ac_name as debit_account', 
+    //             'c_ac.ac_name as credit_account')
+    //             ->first();
     
-        // Point to the correct Blade view file: show.blade.php
-        return view('pdc_id.show', compact('jv1'));
-    }
+    //     // Point to the correct Blade view file: show.blade.php
+    //     return view('pdc_id.show', compact('jv1'));
+    // }
     
     public function store(Request $request)
     {
@@ -137,6 +138,31 @@ class PDCController extends Controller
         }
         return redirect()->route('all-pdc');
     }
+
+    public function ShowMultiple(Request $request)
+    {
+        // Convert the comma-separated string into an array
+        $pdcIds = explode(',', $request->input('selected_pdc'));
+    
+        if (empty($pdcIds) || $pdcIds[0] == "") {
+            return back()->with('error', 'No PDC selected.');
+        }
+    
+        // Fetch records with join logic
+        $pdcRecords = PDC::whereIn('pdc.pdc_id', $pdcIds)
+            ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+            ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+            ->select('pdc.*', 
+                'd_ac.ac_name as debit_account', 
+                'c_ac.ac_name as credit_account'
+            )
+            ->get();
+    
+        // Return a Blade view with the fetched records
+        return view('pdc.show', compact('pdcRecords'));
+    }
+    
+
 
     public function create(Request $request)
     {

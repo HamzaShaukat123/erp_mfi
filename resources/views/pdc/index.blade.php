@@ -8,12 +8,26 @@
                     <div class="row">
                         <div class="col">
                             <section class="card">
-                                <header class="card-header" style="display: flex;justify-content: space-between;">
+                                <header class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                                     <h2 class="card-title">PDC</h2>
-                                    <form class="text-end" action="{{ route('create-pdc-multiple') }}" method="GET">
-                                        <button type="button" class="btn btn-primary mt-2 modal-with-zoom-anim ws-normal" href="#addModal"> <i class="fas fa-plus"></i> New PDC (Single)</button>
-                                        <button type="submit" class="btn btn-danger mt-2"> <i class="fas fa-plus"></i> New PDC (Multiple)</button>
-                                    </form>
+                                    <div style="display: flex; gap: 10px;">
+                                        <form class="text-end" action="{{ route('create-pdc-multiple') }}" method="GET">
+                                            <button type="button" class="btn btn-primary mt-2 modal-with-zoom-anim ws-normal" href="#addModal">
+                                                <i class="fas fa-plus"></i> New PDC (Single)
+                                            </button>
+                                            <button type="submit" class="btn btn-danger mt-2">
+                                                <i class="fas fa-plus"></i> New PDC (Multiple)
+                                            </button>
+                                        </form>
+                                        
+                                        <!-- Separate Form for Print Selected -->
+                                        <form id="print-form" class="text-end" action="{{ route('show-multiple-pdc') }}" method="GET">
+                                            <input type="hidden" name="selected_pdc" id="selected_pdc_input">
+                                            <button type="submit" class="btn btn-success mt-2">
+                                                <i class="fas fa-print"></i> Print Selected
+                                            </button>
+                                        </form>
+                                    </div>
                                 </header>
 
                               
@@ -22,16 +36,16 @@
                                         <div class="col-md-5" style="display:flex;">
                                             <select class="form-control" style="margin-right:10px" id="columnSelect">
                                                 <option selected disabled>Search by</option>
-                                                <option value="0">by ID</option>
-                                                <option value="1">by Date</option>
-                                                <option value="2">by Account Debit</option>
-                                                <option value="3">by Account Credit</option>
-                                                <option value="4">by Remarks</option>
-                                                <option value="5">by Bank</option>
-                                                <option value="6">by Instrument</option>
-                                                <option value="7">by Chq Date</option>
-                                                <option value="8">by Amount</option>
-                                                <option value="9">by Vocher</option>
+                                                <option value="1">by ID</option>
+                                                <option value="2">by Date</option>
+                                                <option value="3">by Account Debit</option>
+                                                <option value="4">by Account Credit</option>
+                                                <option value="5">by Remarks</option>
+                                                <option value="6">by Bank</option>
+                                                <option value="7">by Instrument</option>
+                                                <option value="8">by Chq Date</option>
+                                                <option value="9">by Amount</option>
+                                                <option value="10">by Vocher</option>
                                             </select>
                                             <input type="text" class="form-control" id="columnSearch" placeholder="Search By Column"/>
                                         </div>
@@ -40,6 +54,7 @@
                                         <table class="table table-bordered table-striped mb-0" id="cust-datatable-default">
                                             <thead>
                                                 <tr>
+                                                    <th></th> 
                                                     <th width="5%">ID#</th>
                                                     <th width="8%">Date</th>
                                                     <th width="15%">Account Debit</th>
@@ -57,6 +72,7 @@
                                             <tbody>
                                                 @foreach ($jv1 as $key => $row)
                                                     <tr>
+                                                        <td><input type="checkbox" class="selectRow" value="{{$row->pdc_id}}" onclick="getSelectedIds()"></td> <!-- Checkbox per row -->
                                                         <td>{{$row->pdc_id}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($row->date)->format('d-m-y') }}</td>
                                                         <td>{{$row->debit_account}}</td>
@@ -448,5 +464,22 @@
         .catch(error => {
             alert(error.message);
         });
+    }
+
+
+    function getSelectedIds() {
+        var selectedIds = [];
+        var checkboxes = document.querySelectorAll('.selectRow:checked'); // Find selected checkboxes
+        
+        checkboxes.forEach(function(checkbox) {
+            selectedIds.push(checkbox.value); // Add PDC ID to the array
+        });
+
+        // Check if any checkboxes are selected
+        if (selectedIds.length > 0) {
+            document.getElementById('selected_pdc_input').value = selectedIds.join(','); // Populate the hidden input
+        } else {
+            document.getElementById('selected_pdc_input').value = ''; // Clear the input if no checkboxes are selected
+        }
     }
 </script>
