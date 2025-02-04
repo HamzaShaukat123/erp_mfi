@@ -300,7 +300,7 @@
         Route::get('/purchase1/generatePDF/{id}', [App\Http\Controllers\PurchaseController::class, 'generatePDF'])->name('print-purc1-invoice');
         Route::get('/vouchers2/print/{id}', [App\Http\Controllers\JV2Controller::class, 'print'])->name('print-jv2');
         Route::get('/vouchers/print/{id}', [App\Http\Controllers\JV1Controller::class, 'print'])->name('print-jv1');
-        Route::get('/pdc/print/{id}', [App\Http\Controllers\PDCController::class, 'print'])->name('print-pdc');
+        Route::get('/pdc/print', [App\Http\Controllers\PDCController::class, 'printPDC'])->name('print-pdc');
         Route::get('/complains/print/{id}', [App\Http\Controllers\ComplainsController::class, 'print'])->name('print-complains');
         Route::get('/weight/generatePDF/{id}', [App\Http\Controllers\WeightController::class, 'generatePDF'])->name('print-weight-invoice');
         Route::get('/tpo/generatePDF/', [App\Http\Controllers\TpoController::class, 'generatePDF'])->name('print-tpo-invoice');

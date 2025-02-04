@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class PDCController extends Controller
 {
@@ -139,30 +140,7 @@ class PDCController extends Controller
         return redirect()->route('all-pdc');
     }
 
-    public function ShowMultiple(Request $request)
-    {
-        // Convert the comma-separated string into an array
-        $pdcIds = explode(',', $request->input('selected_pdc'));
-    
-        if (empty($pdcIds) || $pdcIds[0] == "") {
-            return back()->with('error', 'No PDC selected.');
-        }
-    
-        // Fetch records with join logic
-        $pdcRecords = PDC::whereIn('pdc.pdc_id', $pdcIds)
-            ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
-            ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
-            ->select('pdc.*', 
-                'd_ac.ac_name as debit_account', 
-                'c_ac.ac_name as credit_account'
-            )
-            ->get();
-    
-        // Return a Blade view with the fetched records
-        return view('pdc.show', compact('pdcRecords'));
-    }
-    
-
+   
 
     public function create(Request $request)
     {
@@ -312,127 +290,119 @@ class PDCController extends Controller
         }
     }
 
-    public function print($id)
+    public function ShowMultiple(Request $request)
     {
+        // Convert the comma-separated string into an array
+        $pdcIds = explode(',', $request->input('selected_pdc'));
+    
+        if (empty($pdcIds) || $pdcIds[0] == "") {
+            return back()->with('error', 'No PDC selected.');
+        }
+    
+        // Fetch records with join logic
+        $pdcRecords = PDC::whereIn('pdc.pdc_id', $pdcIds)
+            ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+            ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+            ->select('pdc.*', 
+                'd_ac.ac_name as debit_account', 
+                'c_ac.ac_name as credit_account'
+            )
+            ->get();
+    
+        // Return a Blade view with the fetched records
+        return view('pdc.show', compact('pdcRecords', 'pdcIds'));
+    }
+    
 
-        $jv1 = pdc::where('pdc.pdc_id', $id)
-        ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
-        ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
-        ->select('pdc.*', 
-        'd_ac.ac_name as debit_account', 
-        'c_ac.ac_name as credit_account')
-        ->first();
 
+    public function printPDC(Request $request)
+    {
+        // Get the selected PDC IDs from the request
+        $pdcIds = explode(',', $request->query('selected_pdc'));
+    
+        if (empty($pdcIds) || $pdcIds[0] == "") {
+            return back()->with('error', 'No PDC selected.');
+        }
+    
+        // Fetch the records using the PDC IDs
+        $pdcRecords = PDC::whereIn('pdc.pdc_id', $pdcIds)
+            ->join('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+            ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+            ->select('pdc.*', 'd_ac.ac_name as debit_account', 'c_ac.ac_name as credit_account')
+        ->get();
+
+     // Get and format current and report dates
+        $currentDate = Carbon::now()->format('d-m-y');
+
+        // Initialize PDF
         $pdf = new MyPDF();
-
-        // Set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle('JV1 # '.$jv1['pdc_id']);
-        $pdf->SetSubject('JV1 # '.$jv1['pdc_id']);
-        $pdf->SetKeywords('Journal Voucher, TCPDF, PDF');
+        $pdf->SetTitle('PDC Report');
+        $pdf->SetSubject('PDC Report');
+        $pdf->SetKeywords('PDC, Report, TCPDF, PDF');
         $pdf->setPageOrientation('L');
-               
-        // Add a page
         $pdf->AddPage();
-           
-        $pdf->setCellPadding(1.2); // Set padding for all cells in the table
 
-        $margin_top = '.margin-top {
-            margin-top: 10px;
-        }';
-        // $pdf->writeHTML('<style>' . $margin_top . '</style>', true, false, true, false, '');
-
-        // margin bottom
-        $margin_bottom = '.margin-bottom {
-            margin-bottom: 4px;
-        }';
-        // $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
-
-        $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">Journal Voucher 1</h1>';
+        // Document header
+        $heading = '
+            <table style="width:100%; text-align:center; padding-bottom:10px;">
+                <tr>
+                    <td style="font-size:20px; font-style:italic; text-decoration:underline; color:#17365D; width:70%;">PDC Report</td>
+                    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:right; width:30%;">Print Date: <span style="color:black;">' . htmlspecialchars($currentDate) . '</span></td>
+                </tr>
+            </table>';
 
         $pdf->writeHTML($heading, true, false, true, false, '');
-        $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
 
-        $html = '<table style="margin-bottom:1rem">';
-        $html .= '<tr>';
-        $html .= '<td style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins"> Voucher No: <span style="text-decoration: underline;color:black;">'.$jv1['pdc_id'].'</span></td>';
-        $html .= '<td style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins;text-align:right"> Date: <span style="color:black;font-weight:normal;">' . \Carbon\Carbon::parse($jv1['date'])->format('d-m-y') . '</span></td>';
-        $html .= '</tr>';
+        // Start of the Table with PDC data
+        $html = '<table border="1" style="border-collapse: collapse;text-align:center">
+                    <tr>
+                        <th style="width:8%;color:#17365D;font-weight:bold;">SR</th>
+                        <th style="width:16%;color:#17365D;font-weight:bold;">Account Debit</th>
+                        <th style="width:16%;color:#17365D;font-weight:bold;">Account Credit</th>
+                        <th style="width:20%;color:#17365D;font-weight:bold;">Remarks</th>
+                        <th style="width:15%;color:#17365D;font-weight:bold;">Instrument</th>
+                        <th style="width:11%;color:#17365D;font-weight:bold;">Chq Date</th>
+                        <th style="width:12%;color:#17365D;font-weight:bold;">Amount</th>
+                    </tr>';
+
+        $totalAmount = 0;
+        $count = 1; // Initialize the count variable
+
+        foreach ($pdcRecords as $pdc) {
+            $bgColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+            $html .= '  <tr style="background-color:' . $bgColor . ';">
+                            <td>' . $count . '</td>
+                            <td>' . $pdc->debit_account . '</td>
+                            <td>' . $pdc->credit_account . '</td>
+                            <td>' . $pdc->remarks . ' ' . $pdc->bankname . '</td>
+                            <td>' . $pdc->instrumentnumber . '</td>
+                            <td>' . \Carbon\Carbon::parse($pdc->chqdate)->format('d-m-y') . '</td>
+                            <td>' . number_format($pdc->amount, 0) . '</td>
+                        </tr>';
+
+            $totalAmount += $pdc->amount;
+            $count++;
+        }
+
+        // Convert total amount to words
+        $num_to_words = $pdf->convertCurrencyToWords(round($totalAmount));
+
+        $html .= '
+        <tr style="background-color:#d9edf7; font-weight:bold;">
+            <td colspan="4" style="text-align:center; font-style:italic; padding:10px;">' . htmlspecialchars($num_to_words) . '</td>
+            <td colspan="2" style="text-align:right;">Total Amount:</td>
+            <td style="font-weight:bold; text-align:center;">' . number_format($totalAmount, 0) . '</td>
+        </tr>';
+
         $html .= '</table>';
-
-        $html .= '<table style="margin-bottom:1rem">';
-       
-        $html .= '<tr>';
-        $html .= '<td width="10%" style="font-size:12px;font-weight:bold;color:#17365D;font-family:poppins">Remarks:</td>';
-        $html .= '<td width="78%" style="color:black;font-weight:normal;">'.$jv1['remarks'].'</td>';
-        $html .= '</tr>';
-        $html .= '</table>';
-
-        // $pdf->writeHTML($html, true, false, true, false, '');
-
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        $html = '<table border="1" style="border-collapse: collapse;" >';
-        $html .= '<tr>';
-        $html .= '<th style="width:40%;color:#17365D;font-weight:bold;">Account Debit</th>';
-        $html .= '<th style="width:40%;color:#17365D;font-weight:bold;">Account Credit</th>';
-        $html .= '<th style="width:20%;color:#17365D;font-weight:bold;">Amount</th>';
-        $html .= '</tr>';
-        $html .= '</table>';
-        
-        // $pdf->writeHTML($html, true, false, true, false, '');
-
-        $count=1;
-        $total_credit=0;
-        $total_debit=0;
-
-        $html .= '<table cellspacing="0" cellpadding="5">';
-        $html .= '<tr>';
-        $html .= '<td style="width:40%;">'.$jv1['debit_account'].'</td>';
-        $html .= '<td style="width:40%;">'.$jv1['credit_account'].'</td>';
-        $html .= '<td style="width:20%;">' . number_format($jv1['amount'], 0) . '</td>';
-
-        $html .= '</tr>';
-        
-        $html .= '</table>';
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
-        $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
-        $pdf->writeHTML('<style>' . $margin_bottom . '</style>', true, false, true, false, '');
-
-        // Column 3
-        $roundedTotal= round($jv1['amount']);
-        $num_to_words=$pdf->convertCurrencyToWords($roundedTotal);
-
-        // $number = floor($jv1['amount']); // Remove decimals (round down)
-        // $f = new NumberFormatter("en", NumberFormatter::SPELLOUT);
-        // $numberText=$f->format($number);
-        // $formattedWords = ucwords(strtolower($numberText));
-
-        $words='<h1 style="text-decoration:underline;font-style:italic;color:#17365D">'.$num_to_words.'</h1>';
-        $pdf->writeHTML($words, true, false, true, false, '');
-
-
-        $currentY = $pdf->GetY();
-
-        $style = array(
-            'T' => array('width' => 0.75),  // Only top border with width 0.75
-        );
-
-        // Set text color
-        $pdf->SetTextColor(23, 54, 93); // RGB values for #17365D
-        // First Cell
-        $pdf->SetXY(50, $currentY+50);
-        $pdf->Cell(50, 0, "Accountant's Signature", $style, 1, 'C');
-
-        // Second Cell
-        $pdf->SetXY(200, $currentY+50);
-        $pdf->Cell(50, 0, "Customer's Signature", $style, 1, 'C');
-
-        $pdf->Output('jv1_'.$jv1['pdc_id'].'.pdf', 'I');
+        // Filename and Output
+        $filename = "pdc_report.pdf";
+        $pdf->Output($filename, 'I');
 
     }
-
+    
 }

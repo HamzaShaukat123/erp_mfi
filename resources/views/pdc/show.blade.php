@@ -73,9 +73,9 @@
                                         <a onclick="window.location='{{ route('all-pdc') }}'" class="btn btn-primary mt-2"> 
                                             <i class="fas fa-arrow-left"></i> Back
                                         </a>
-                                        {{-- <a href="{{ route('print-pdc') }}" class="btn btn-danger mt-2" target="_blank"> 
-                                            <i class="fas fa-print"></i> Print
-                                        </a> --}}
+										<a href="{{ route('print-pdc', ['selected_pdc' => implode(',', $pdcIds)]) }}" class="btn btn-danger mt-2" target="_blank">
+											<i class="fas fa-print"></i> Print
+										</a>
                                     </div>
                                 </div>
                             </div>
