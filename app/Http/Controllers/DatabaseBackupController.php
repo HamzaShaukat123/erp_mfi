@@ -17,7 +17,6 @@ class DatabaseBackupController extends Controller
         $dbName = env('DB_DATABASE');
         $dbUser = env('DB_USERNAME');
         $dbPassword = env('DB_PASSWORD');
-        dd(env('DB_USERNAME'), env('DB_PASSWORD'));
     
         // try {
         //     $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
