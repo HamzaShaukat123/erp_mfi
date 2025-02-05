@@ -697,63 +697,115 @@ class RptGoDownItemGroupController extends Controller
     }
 
 
-    public function stockAllTabularFilteredgeneratePDF(Request $request)
-{
-    // Validate request parameters
-    $request->validate([
-        'acc_id' => 'required|exists:pipe_stock_all_by_item_group,item_group_cod',
-        'fromDate' => 'required|date',
-        'toDate' => 'required|date',
-        'outputType' => 'required|in:download,view',
-    ]);
+    public function stockAllTabularFilteredgeneratePDF($groupedByItemName, $groupName, $request)
+    {
+        $currentDate = Carbon::now();
+        $formattedDate = $currentDate->format('d-m-y');
 
-    // Retrieve and filter data
-    $data = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
-    ->whereBetween('pipe_stock_all_by_item_group.created_at', [$request->fromDate, $request->toDate])
-    ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
-    ->select(
-        'pipe_stock_all_by_item_group.item_group_cod',
-        'pipe_stock_all_by_item_group.it_cod',
-        'pipe_stock_all_by_item_group.item_name',
-        'pipe_stock_all_by_item_group.opp_bal',
-        'item_group.group_name'
-    )
-    ->get();
+        // Initialize PDF (ensure MyPDF or TCPDF is correctly included and loaded)
+        $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('MFI');
+        $pdf->SetTitle("Star Stock All Report - {$groupName}");
+        $pdf->SetSubject("Star  Stock All Report - {$groupName}");
+        $pdf->SetKeywords('Star Stock All Tabular, TCPDF, PDF');
+        $pdf->setPageOrientation('L');
 
+        // Add a page and set padding
+        $pdf->AddPage();
+        $pdf->setCellPadding(1.2);
 
-    if ($data->isEmpty()) {
-        return response()->json(['message' => 'No records found.'], 404);
+        // Dynamic heading
+        $headingStyle = "font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D;";
+        $heading = "<h1 style=\"{$headingStyle}\">Stock All Tabular - {$groupName} (Generated: {$formattedDate})</h1>";
+        $pdf->writeHTML($heading, true, false, true, false, '');
+
+        // Table header for data
+        $html = '<table border="1" style="border-collapse: collapse; text-align: center; width: 100%;">';
+        $html .= '<tr>';
+        $html .= '<th style="width: 28%;color:#17365D;font-weight:bold;">Item Name</th>';
+
+        // Dynamically determine the available gauges
+        $allGauges = [];
+        foreach ($groupedByItemName as $items) {
+            foreach ($items as $item) {
+                if (isset($item['item_mm'])) {
+                    $allGauges[$item['item_mm']] = true; // Use the gauge as a key for unique values
+                }
+            }
+        }
+        $availableGauges = array_keys($allGauges); // Extract unique gauges
+
+        // Sort gauges in natural order
+        natsort($availableGauges);
+        $availableGauges = array_values($availableGauges); // Reindex after sorting
+
+        // Determine which gauges have non-zero, non-null data
+        $validGauges = [];
+        foreach ($availableGauges as $gauge) {
+            $hasValidData = false;
+            foreach ($groupedByItemName as $items) {
+                $item = $items->firstWhere('item_mm', $gauge);
+                if ($item && $item['opp_bal'] > 0) {
+                    $hasValidData = true;
+                    break;
+                }
+            }
+            if ($hasValidData) {
+                $validGauges[] = $gauge; // Add to valid gauges if it has data
+            }
+        }
+
+        // Remaining columns width calculation
+        $remainingWidth = 72;
+        $numColumns = count($validGauges);
+        $columnWidth = $numColumns > 0 ? $remainingWidth / $numColumns : 0;
+
+        $html .= '<th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">' . implode('</th><th style="width: ' . $columnWidth . '%;color:#17365D;font-weight:bold;">', $validGauges) . '</th>';
+        $html .= '</tr>';
+
+        // Generate table rows
+        $count = 0;
+        foreach ($groupedByItemName as $itemName => $items) {
+            $backgroundColor = ($count % 2 == 0) ? '#f1f1f1' : '#ffffff';
+            $count++;
+
+            $htmlRow = "<td style=\"font-size: 12px;\">{$itemName}</td>";
+            $hasData = false; // Initialize flag to check if there's any data for the row
+
+            // Only iterate through valid gauges
+            foreach ($validGauges as $gauge) {
+                $item = $items->firstWhere('item_mm', $gauge);
+                $value = $item ? $item['opp_bal'] : null;
+
+                // Only add the gauge column if the value is not null or zero
+                if ($value !== null && $value > 0) {
+                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
+                    $hasData = true;
+                } else {
+                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
+                }
+
+                
+            }
+
+            // Only add row if it has data
+            if ($hasData) {
+                $html .= "<tr style=\"background-color: {$backgroundColor};\">{$htmlRow}</tr>";
+            }
+        }
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $filename = "filter_stock_all_tabular_{$groupName}.pdf";
+
+        // Determine output type
+        if ($request->outputType === 'download') {
+            $pdf->Output($filename, 'D'); // For download
+        } else {
+            $pdf->Output($filename, 'I'); // For inline view
+        }
+
     }
-
-    $groupName = $data->first()->group_name ?? 'Unknown Group';
-
-    // Process and sort data
-    $processedData = $data->map(function ($item) {
-        $parts = explode(' ', $item->item_name);
-        return [
-            'item_group' => $parts[0] ?? '',
-            'item_mm' => $parts[1] ?? '',
-            'item_name' => implode(' ', array_slice($parts, 2)),
-            'group_name' => $item->group_name,
-            'opp_bal' => $item->opp_bal ?? 0,
-        ];
-    });
-
-    // Categorize items
-    $roundItems = $processedData->filter(fn($item) => str_starts_with($item['item_name'], 'ROUND X'))->sortBy('item_name');
-    $sqrItems = $processedData->filter(fn($item) => str_ends_with($item['item_name'], 'SQR'))->sortBy('item_name');
-    $otherItems = $processedData->reject(fn($item) => str_starts_with($item['item_name'], 'ROUND X') || str_ends_with($item['item_name'], 'SQR'))->sortBy('item_name');
-
-    // Merge sorted data
-    $orderedData = $roundItems->merge($sqrItems)->merge($otherItems);
-    $groupedData = $orderedData->groupBy('item_name');
-
-    if ($groupedData->isEmpty()) {
-        return response()->json(['message' => 'No data available for selected range.'], 404);
-    }
-
-    return $this->generatePDF($groupedData, $groupName, $request);
-}
-
     
 }
