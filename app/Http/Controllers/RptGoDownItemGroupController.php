@@ -482,11 +482,10 @@ class RptGoDownItemGroupController extends Controller
         }
     
         // Determine if this is a 'star' or 'non-star' report based on the route or parameter
-        // if (strpos($request->path(), 'star') !== false) {
-        //     // For star report, call the star PDF generation method
-        //     return $this->stockAllTabularStargeneratePDF($groupedByItemName, $groupName, $request);
-        // } else 
-        if (strpos($request->path(), 'filtered') !== false) {
+        if (strpos($request->path(), 'star') !== false) {
+            // For star report, call the star PDF generation method
+            return $this->stockAllTabularStargeneratePDF($groupedByItemName, $groupName, $request);
+        } else if (strpos($request->path(), 'filtered') !== false) {
             // For filter report, call the filter PDF generation method
             return $this->stockAllTabularFilteredgeneratePDF($groupedByItemName, $groupName, $request);
         } else {
