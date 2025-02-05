@@ -708,17 +708,18 @@ class RptGoDownItemGroupController extends Controller
     ]);
 
     // Retrieve and filter data
-    $data = pipe_stock_all_by_item_group::where('item_group_cod', $request->acc_id)
-        ->whereBetween('created_at', [$request->fromDate, $request->toDate])
-        ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
-        ->select(
-            'pipe_stock_all_by_item_group.item_group_cod',
-            'pipe_stock_all_by_item_group.it_cod',
-            'pipe_stock_all_by_item_group.item_name',
-            'pipe_stock_all_by_item_group.opp_bal',
-            'item_group.group_name'
-        )
-        ->get();
+    $data = pipe_stock_all_by_item_group::where('pipe_stock_all_by_item_group.item_group_cod', $request->acc_id)
+    ->whereBetween('pipe_stock_all_by_item_group.created_at', [$request->fromDate, $request->toDate])
+    ->leftJoin('item_group', 'item_group.item_group_cod', '=', 'pipe_stock_all_by_item_group.item_group_cod')
+    ->select(
+        'pipe_stock_all_by_item_group.item_group_cod',
+        'pipe_stock_all_by_item_group.it_cod',
+        'pipe_stock_all_by_item_group.item_name',
+        'pipe_stock_all_by_item_group.opp_bal',
+        'item_group.group_name'
+    )
+    ->get();
+
 
     if ($data->isEmpty()) {
         return response()->json(['message' => 'No records found.'], 404);
