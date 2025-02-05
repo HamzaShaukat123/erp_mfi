@@ -492,6 +492,7 @@ class RptGoDownItemGroupController extends Controller
             // For non-star report, call the non-star PDF generation method
             return $this->stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request);
         }
+
     }
     
     private function stockAllTabulargeneratePDF($groupedByItemName, $groupName, $request)
