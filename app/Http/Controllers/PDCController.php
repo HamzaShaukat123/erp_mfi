@@ -346,14 +346,19 @@ class PDCController extends Controller
 
         // Document header
         $heading = '
-            <table style="width:100%; text-align:center; padding-bottom:10px;">
-                <tr>
-                    <td style="font-size:20px; font-style:italic; text-decoration:underline; color:#17365D; width:70%;">PDC Report</td>
-                    <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:right; width:30%;">Print Date: <span style="color:black;">' . htmlspecialchars($currentDate) . '</span></td>
-                </tr>
-            </table>';
-
+        <table style="width:100%; border-bottom:2px solid #17365D;">
+            <tr>
+                <td style="font-size:22px; font-weight:bold; color:#17365D; width:70%;">
+                    PDC Report
+                </td>
+                <td style="font-size:22px; font-weight:bold; color:#17365D;  width:30%;">
+                    Print Date: <span style="color:black;">' . htmlspecialchars($currentDate) . '</span>
+                </td>
+            </tr>
+        </table>';
+    
         $pdf->writeHTML($heading, true, false, true, false, '');
+    
 
         // Start of the Table with PDC data
         $html = '<table border="1" style="border-collapse: collapse;text-align:center">
