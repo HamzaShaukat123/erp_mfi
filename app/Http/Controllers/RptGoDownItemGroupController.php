@@ -662,12 +662,18 @@ class RptGoDownItemGroupController extends Controller
                 $item = $items->firstWhere('item_mm', $gauge);
                 $value = $item ? $item['opp_bal'] : null;
 
-                // Only add the gauge column if the value is not null or zero
+                // // Only add the gauge column if the value is not null or zero
+                // if ($value !== null && $value > 0) {
+                //     $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
+                //     $hasData = true;
+                // } else {
+                //     $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">x</td>";
+                // }
+
                 if ($value !== null && $value > 0) {
-                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px; color: red;\">AV</td>";
-                    $hasData = true;
+                    $html .= "<td style=\"text-align: center; font-size: 12px; color: red;\">{$value}</td>";
                 } else {
-                    $htmlRow .= "<td style=\"text-align: center; font-size: 12px;\">x</td>";
+                    $html .= "<td style=\"text-align: center; font-size: 12px;\">{$value}</td>";
                 }
             }
 
