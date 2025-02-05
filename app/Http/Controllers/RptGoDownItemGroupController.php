@@ -595,7 +595,7 @@ class RptGoDownItemGroupController extends Controller
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
         $pdf->SetTitle("Star Stock All Report - {$groupName}");
-        $pdf->SetSubject("Star  Stock All Report - {$groupName}");
+        $pdf->SetSubject("Star Stock All Report - {$groupName}");
         $pdf->SetKeywords('Star Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
 
@@ -706,9 +706,9 @@ class RptGoDownItemGroupController extends Controller
         $pdf = new MyPDF(); // Replace MyPDF with TCPDF if applicable
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('MFI');
-        $pdf->SetTitle("Star Stock All Report - {$groupName}");
-        $pdf->SetSubject("Star  Stock All Report - {$groupName}");
-        $pdf->SetKeywords('Star Stock All Tabular, TCPDF, PDF');
+        $pdf->SetTitle("Filtered Stock All Report - {$groupName}");
+        $pdf->SetSubject("Filtered Stock All Report - {$groupName}");
+        $pdf->SetKeywords('Filtered Stock All Tabular, TCPDF, PDF');
         $pdf->setPageOrientation('L');
 
         // Add a page and set padding
