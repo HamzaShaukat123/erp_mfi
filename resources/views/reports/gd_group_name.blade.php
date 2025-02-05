@@ -224,6 +224,7 @@
                                     <div class="col-lg-6 text-end">
                                         {{-- <a class="mb-1 mt-1 me-1 btn btn-warning" aria-label="Download" onclick="downloadPDF('SAT')"><i class="fa fa-download"></i> Download</a> --}}
                                         <a class="mb-1 mt-1 me-1 btn btn-info" aria-label="Print PDF" onclick="printPDFStar('SAT')"><i class="fa fa-file-pdf"></i> Print Star PDF</a>
+                                        <a class="mb-1 mt-1 me-1 btn btn-primary" aria-label="Print PDF" onclick="printPDFFiltered('SAT')"><i class="fa fa-file-pdf"></i> Print Filtered PDF</a>
                                         <a class="mb-1 mt-1 me-1 btn btn-danger" aria-label="Print PDF" onclick="printPDF('SAT')"><i class="fa fa-file-pdf"></i> Print PDF</a>
                                         <a class="mb-1 mt-1 me-1 btn btn-success" aria-label="Export to Excel" onclick="downloadExcel('SAT')"><i class="fa fa-file-excel"></i> Excel</a>   
                                     </div>
@@ -616,6 +617,19 @@
             
             if (tabName === "SAT") {
                 window.open(`/rep-godown-by-group-name/sat/star/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+            }
+        }
+
+        function printPDFFiltered(tabName) {
+            const { fromDate, toDate, acc_id } = getInputValues();
+
+            if (!fromDate || !toDate || !acc_id) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (tabName === "SAT") {
+                window.open(`/rep-godown-by-group-name/sat/filtered/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
             }
         }
 
