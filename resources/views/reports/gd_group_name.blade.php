@@ -628,8 +628,9 @@
                 return;
             }
 
-            const url = `/rep-godown-by-group-name/sat/filtered/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
-            window.open(url, '_blank');
+            if (tabName === "SAT") {
+                window.open(`/rep-godown-by-group-name/sat/filtered/report?outputType=view&fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`, '_blank');
+            }
         }
 
 
