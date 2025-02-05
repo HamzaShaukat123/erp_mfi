@@ -212,7 +212,7 @@ class RptAccNamePurAgeingController extends Controller
                 
     
             // Filename and Output
-        $filename = "Sales_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
+        $filename = "Pur_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
         $pdf->Output($filename, 'I');
     }
 
@@ -316,7 +316,7 @@ class RptAccNamePurAgeingController extends Controller
             $pdf->writeHTML($html, true, false, true, false, '');        
     
             // Filename and Output
-        $filename = "Sales_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
+        $filename = "Pur_Ageing_report_{$pur_days[0]['ac_nam']}_from_{$formattedFromDate}_to_{$formattedToDate}.pdf";
         $pdf->Output($filename, 'D');
     }
 
