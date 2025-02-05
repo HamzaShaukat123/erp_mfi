@@ -17,6 +17,7 @@ class DatabaseBackupController extends Controller
         $dbName = env('DB_DATABASE');
         $dbUser = env('DB_USERNAME');
         $dbPassword = env('DB_PASSWORD');
+        dd(env('DB_USERNAME'), env('DB_PASSWORD'));
     
         // try {
         //     $pdo = new PDO("mysql:host={$dbHost};dbname={$dbName}", $dbUser, $dbPassword);
@@ -76,42 +77,42 @@ class DatabaseBackupController extends Controller
     
 
     public function downloadZip()
-{
-    // Path to the directory you want to zip
-    $directoryPath = public_path('uploads'); // Assuming 'uploads' is in the 'public' directory
+    {
+        // Path to the directory you want to zip
+        $directoryPath = public_path('uploads'); // Assuming 'uploads' is in the 'public' directory
 
-    if (!is_dir($directoryPath)) {
-        return response()->json(['error' => 'The specified directory does not exist.'], 404);
+        if (!is_dir($directoryPath)) {
+            return response()->json(['error' => 'The specified directory does not exist.'], 404);
+        }
+
+        // Create a temporary file to store the zip
+        $zipFileName = 'uploads_' . date('Y-m-d_H-i-s') . '.zip';
+        $tempPath = storage_path('app/temp');
+
+        // Ensure the temp directory exists
+        if (!is_dir($tempPath)) {
+            mkdir($tempPath, 0755, true); // Create directory with proper permissions
+        }
+
+        $zipFilePath = $tempPath . '/' . $zipFileName;
+
+        // Create a new ZipArchive instance
+        $zip = new ZipArchive();
+
+        // Open the zip file for writing
+        if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
+            // Add files to the zip
+            $this->addFilesToZip($zip, $directoryPath);
+
+            // Close the zip file
+            $zip->close();
+
+            // Stream the zip file to the browser for download
+            return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        } else {
+            return response()->json(['error' => 'Failed to create zip file.'], 500);
+        }
     }
-
-    // Create a temporary file to store the zip
-    $zipFileName = 'uploads_' . date('Y-m-d_H-i-s') . '.zip';
-    $tempPath = storage_path('app/temp');
-
-    // Ensure the temp directory exists
-    if (!is_dir($tempPath)) {
-        mkdir($tempPath, 0755, true); // Create directory with proper permissions
-    }
-
-    $zipFilePath = $tempPath . '/' . $zipFileName;
-
-    // Create a new ZipArchive instance
-    $zip = new ZipArchive();
-
-    // Open the zip file for writing
-    if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
-        // Add files to the zip
-        $this->addFilesToZip($zip, $directoryPath);
-
-        // Close the zip file
-        $zip->close();
-
-        // Stream the zip file to the browser for download
-        return response()->download($zipFilePath)->deleteFileAfterSend(true);
-    } else {
-        return response()->json(['error' => 'Failed to create zip file.'], 500);
-    }
-}
 
 /**
  * Recursively add files and directories to the zip
