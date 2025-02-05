@@ -363,10 +363,10 @@ class PDCController extends Controller
         // Start of the Table with PDC data
         $html = '<table border="1" style="border-collapse: collapse;text-align:center">
                     <tr>
-                        <th style="width:8%;color:#17365D;font-weight:bold;">SR</th>
-                        <th style="width:16%;color:#17365D;font-weight:bold;">Account Debit</th>
-                        <th style="width:16%;color:#17365D;font-weight:bold;">Account Credit</th>
-                        <th style="width:20%;color:#17365D;font-weight:bold;">Remarks</th>
+                        <th style="width:7%;color:#17365D;font-weight:bold;">SR</th>
+                        <th style="width:17%;color:#17365D;font-weight:bold;">Account Debit</th>
+                        <th style="width:17%;color:#17365D;font-weight:bold;">Account Credit</th>
+                        <th style="width:21%;color:#17365D;font-weight:bold;">Remarks</th>
                         <th style="width:15%;color:#17365D;font-weight:bold;">Instrument</th>
                         <th style="width:11%;color:#17365D;font-weight:bold;">Chq Date</th>
                         <th style="width:12%;color:#17365D;font-weight:bold;">Amount</th>
