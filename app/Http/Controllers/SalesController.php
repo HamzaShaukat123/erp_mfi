@@ -41,6 +41,48 @@ class SalesController extends Controller
         return view('sales.index',compact('sales'));
     }
 
+
+
+    public function indexPaginate()
+    {
+        $sales = Sales::where('sales.status', 1)
+        ->leftJoin('sales_2', 'sales_2.sales_inv_cod', '=', 'sales.Sal_inv_no')
+        ->join('ac', 'sales.account_name', '=', 'ac.ac_code')
+        ->select(
+            'sales.Sal_inv_no',
+            'sales.sa_date',
+            'sales.Cash_pur_name',
+            'sales.Sales_remarks',
+            'ac.ac_name',
+            'sales.pur_ord_no',
+            'sales.ConvanceCharges',
+            'sales.LaborCharges',
+            'sales.Bill_discount',
+            'sales.bill_not',
+            'sales.prefix',
+            \DB::raw('SUM(sales_2.Sales_qty) as weight_sum'),
+            \DB::raw('SUM(sales_2.Sales_qty * sales_2.sales_price) as total_bill') // Removed extra comma
+        )
+        ->groupBy(
+            'sales.Sal_inv_no',
+            'sales.sa_date',
+            'sales.Cash_pur_name',
+            'sales.Sales_remarks',
+            'ac.ac_name',
+            'sales.pur_ord_no',
+            'sales.ConvanceCharges',
+            'sales.LaborCharges',
+            'sales.Bill_discount',
+            'sales.bill_not',
+            'sales.prefix'
+        )
+        ->orderBy('sales.Sal_inv_no', 'desc') // Get the latest records
+        ->paginate(100); // Paginate (100 records per page)
+    
+    
+        return view('sales.index',compact('sales'));
+    }
+
     public function create(Request $request)
     {
         $items = Item_entry::orderBy('item_name', 'asc')->get();
