@@ -170,7 +170,7 @@
 							</div>
 
 							<div class="text-end">
-								<a onclick="window.location='{{ route('all-sale2invoices') }}'" class="btn btn-primary mt-2 mb-2"> <i class="fas fa-arrow-left"></i> Back</a>
+								<a onclick="window.location='{{ route('all-sale2invoices-paginate') }}'" class="btn btn-primary mt-2 mb-2"> <i class="fas fa-arrow-left"></i> Back</a>
 							
 								<a class="btn btn-danger mt-2 mb-2 mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal" onclick="setPrintId({{$pur->Sal_inv_no}})" href="#printModal"><i class="fas fa-print"></i> Print</a>
 							</div>
@@ -200,7 +200,7 @@
 											<div class="col-md-12 text-end">
 												<button type="submit" class="btn btn-danger">Print Invoice</button>
 												<button type="button" class="btn btn-default modal-dismiss">Cancel</button>
-												<a href="{{ route('all-sale2invoices') }}" class="btn btn-primary mt-2 mb-2">
+												<a href="{{ route('all-sale2invoices-paginate') }}" class="btn btn-primary mt-2 mb-2">
 													<i class="fas fa-arrow-left"></i> Back
 												</a>
 											</div>

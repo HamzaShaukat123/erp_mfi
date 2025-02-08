@@ -44,6 +44,51 @@ class Sales2Controller extends Controller
         return view('sale2.index',compact('pur2'));
     }
 
+    public function indexPaginate()
+    {
+        $pur2 = tsales::where('tsales.status', 1)
+        ->leftJoin('tsales_2', 'tsales_2.sales_inv_cod', '=', 'tsales.Sal_inv_no')
+        ->join('ac as acc_name', 'acc_name.ac_code', '=', 'tsales.account_name')
+        ->join('ac as comp_acc', 'comp_acc.ac_code', '=', 'tsales.company_name')
+        ->select(
+            'tsales.Sal_inv_no',
+            'tsales.sa_date',
+            'acc_name.ac_name as acc_name',
+            'tsales.pur_ord_no',
+            'comp_acc.ac_name as comp_account',
+            'tsales.company_name',
+            'tsales.Sales_Remarks',
+            'tsales.Cash_name',
+            'tsales.pur_against',
+            'tsales.prefix',
+            'tsales.ConvanceCharges',
+            'tsales.LaborCharges',
+            'tsales.Bill_discount',
+            \DB::raw('SUM(tsales_2.weight_pc * tsales_2.Sales_qty2) as weight_sum'),
+            \DB::raw('SUM(((tsales_2.Sales_qty2 * tsales_2.sales_price) + ((tsales_2.Sales_qty2 * tsales_2.sales_price) * (tsales_2.discount/100))) * tsales_2.length) as total_bill')
+        )
+        ->groupBy(
+            'tsales.Sal_inv_no',
+            'tsales.sa_date',
+            'acc_name.ac_name', // Fixed alias
+            'tsales.pur_ord_no',
+            'comp_acc.ac_name', // Fixed alias
+            'tsales.company_name',
+            'tsales.Sales_Remarks',
+            'tsales.pur_against',
+            'tsales.prefix',
+            'tsales.ConvanceCharges',
+            'tsales.LaborCharges',
+            'tsales.Bill_discount',
+            'tsales.Cash_name'
+        )
+        ->orderBy('tsales.Sal_inv_no', 'desc') // Order by latest date
+        ->paginate(100); // Paginate (100 records per page)
+
+
+        return view('sale2.index',compact('pur2'));
+    }
+
     public function create(Request $request)
     {
         $items = Item_entry2::orderBy('item_name', 'asc')->get();
@@ -176,7 +221,7 @@ class Sales2Controller extends Controller
             ]);
         }
 
-        // return redirect()->route('all-sale2invoices');
+        // return redirect()->route('all-sale2invoices-paginate');
 
         return redirect()->route('show-sales2', $pur_2_id['Sal_inv_no']);
 
@@ -331,7 +376,7 @@ class Sales2Controller extends Controller
               ]);
     
         // Redirect to the appropriate route
-        return redirect()->route('all-sale2invoices');
+        return redirect()->route('all-sale2invoices-paginate');
     }
     
 
@@ -351,7 +396,7 @@ class Sales2Controller extends Controller
                 $sale2_att->save();
             }
         }
-        return redirect()->route('all-sale2invoices');
+        return redirect()->route('all-sale2invoices-paginate');
 
     }
 
@@ -361,7 +406,7 @@ class Sales2Controller extends Controller
             'status' => '0',
             'updated_by' => session('user_id'),
         ]);
-        return redirect()->route('all-sale2invoices');
+        return redirect()->route('all-sale2invoices-paginate');
     }
 
     public function show(string $id)

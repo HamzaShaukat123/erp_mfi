@@ -29,6 +29,8 @@
         Route::get('/purchase2/all-purchases-paginate', [App\Http\Controllers\Purchase2Controller::class, 'indexPaginate'])->name('all-purchases2-paginate');
         Route::get('/sales/all-invoices', [App\Http\Controllers\SalesController::class, 'index'])->name('all-saleinvoices');
         Route::get('/sales2/all-invoices', [App\Http\Controllers\Sales2Controller::class, 'index'])->name('all-sale2invoices');
+        Route::get('/sales/all-invoices-paginate', [App\Http\Controllers\SalesController::class, 'indexPaginate'])->name('all-saleinvoices-paginate');
+        Route::get('/sales2/all-invoices-paginate', [App\Http\Controllers\Sales2Controller::class, 'indexPaginate'])->name('all-sale2invoices-paginate');
         Route::get('/tbad_dabs/all-tbad-dabs', [App\Http\Controllers\TBadDabsController::class, 'index'])->name('all-tbad-dabs');
         Route::get('/tstock_in/all-tstock_in', [App\Http\Controllers\TStockInController::class, 'index'])->name('all-tstock-in');
         Route::get('/tstock_out/all-tstock_out', [App\Http\Controllers\TStockOutController::class, 'index'])->name('all-tstock-out');
