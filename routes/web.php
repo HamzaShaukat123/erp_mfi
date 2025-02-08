@@ -26,6 +26,7 @@
         Route::get('/vouchers2/all-jv2-paginate', [App\Http\Controllers\JV2Controller::class, 'indexPaginate'])->name('all-jv2-paginate');
         Route::get('/purchase1/all-purchases', [App\Http\Controllers\PurchaseController::class, 'index'])->name('all-purchases1');
         Route::get('/purchase2/all-purchases', [App\Http\Controllers\Purchase2Controller::class, 'index'])->name('all-purchases2');
+        Route::get('/purchase2/all-purchases-paginate', [App\Http\Controllers\Purchase2Controller::class, 'indexPaginate'])->name('all-purchases2-paginate');
         Route::get('/sales/all-invoices', [App\Http\Controllers\SalesController::class, 'index'])->name('all-saleinvoices');
         Route::get('/sales2/all-invoices', [App\Http\Controllers\Sales2Controller::class, 'index'])->name('all-sale2invoices');
         Route::get('/tbad_dabs/all-tbad-dabs', [App\Http\Controllers\TBadDabsController::class, 'index'])->name('all-tbad-dabs');

@@ -162,7 +162,7 @@
 							</div>
 
 							<div class="text-end">
-								<a onclick="window.location='{{ route('all-purchases2') }}'" class="btn btn-primary mt-2 mb-2"> <i class="fas fa-arrow-left"></i> Back</a>
+								<a onclick="window.location='{{ route('all-purchases2-paginate') }}'" class="btn btn-primary mt-2 mb-2"> <i class="fas fa-arrow-left"></i> Back</a>
 								<a href="{{ route('print-purc2-invoice', $pur->Sale_inv_no) }}" class="btn btn-danger mt-2 mb-2" target="_blank"> <i class="fas fa-print"></i> Print</a>
 							
 							</div>
