@@ -156,17 +156,19 @@
 													<table id="sales_ageing" class="table table-bordered table-striped mb-0 mt-2">
 														<thead>
 															<tr>
-																<th width="15%">Inv #</th>
-																<th width="15%">Date</th>
-																<th width="20%">Bill Amount</th>
-																<th width="20%">Remaining</th>
-																<th width="20%">Amount</th>
+																<th width="13%">Inv #</th>
+																<th width="14%">Name</th>
+																<th width="12%">Date</th>
+																<th width="17%">Bill Amount</th>
+																<th width="17%">Remaining</th>
+																<th width="17%">Amount</th>
 															</tr>
 														</thead>
 														<tbody id="pendingInvoices">
 														@foreach ($sales_ageing as $key => $row)
 															<tr>
 																<td><input type='text' class='form-control' value="{{$row->prefix}}{{$row->Sal_inv_no}}" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="{{$row->Sal_inv_no}}"><input type='hidden' name='totalInvoices' class='form-control' value="{{$key}}"><input type='hidden' name='prefix[]' class='form-control' value="{{$row->prefix}}"></td>
+																<td><input type='text' class='form-control' value="{{$row->nop}}" disabled></td>
 																<td><input type='date' class='form-control' value="{{$row->sa_date}}" disabled></td>
 																<td><input type='number' class='form-control' value="{{$row->b_amt}}" name='bill_amount[]' disabled></td>
 																<td><input type='number' class='form-control text-danger' value="{{$row->balance}}" name='balance_amount[]' disabled></td>
@@ -627,11 +629,12 @@
 					$.each(result, function(k,v){
 						if(Math.round(v['balance'])>0){
 							var html="<tr>";
-							html+= "<td width='18%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='prefix[]' class='form-control' value="+v['prefix']+"></td>"
-							html+= "<td width='15%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
-							html+= "<td width='20%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='rec_amount[]' onchange='totalReci()' required></td>"
+							html+= "<td width='13%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='prefix[]' class='form-control' value="+v['prefix']+"></td>"
+							html += "<td width='14%'>" + (v['nop'] ? v['nop'] : "") + "</td>";
+							html+= "<td width='12%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
+							html+= "<td width='17%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
+							html+= "<td width='17%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
+							html+= "<td width='17%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='rec_amount[]' onchange='totalReci()' required></td>"
 							html+="</tr>";
 							$('#pendingInvoices').append(html);
 							counter++;
