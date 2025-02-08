@@ -174,7 +174,7 @@ class SalesController extends Controller
                 $sale1_att->save();
             }
         }
-        return redirect()->route('all-saleinvoices');
+        return redirect()->route('all-saleinvoices-paginate');
     }
 
     public function showNew(string $id)
@@ -291,7 +291,7 @@ class SalesController extends Controller
             }
         }
 
-        return redirect()->route('all-saleinvoices');
+        return redirect()->route('all-saleinvoices-paginate');
     }
 
     public function addAtt(Request $request)
@@ -310,7 +310,7 @@ class SalesController extends Controller
                 $sale1_att->save();
             }
         }
-        return redirect()->route('all-saleinvoices');
+        return redirect()->route('all-saleinvoices-paginate');
     }
 
     public function destroy(Request $request)
@@ -319,7 +319,7 @@ class SalesController extends Controller
             'status' => '0',
             'updated_by' => session('user_id'),
         ]);
-        return redirect()->route('all-saleinvoices');
+        return redirect()->route('all-saleinvoices-paginate');
     }
 
     public function deleteAtt($id)

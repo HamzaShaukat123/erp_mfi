@@ -10,6 +10,10 @@
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
                                     <h2 class="card-title">All Sale Invoices</h2>
+                                    <h2 class="card-title">
+                                        <a>All Sale Invoices</a>
+                                        <a href="{{ route('all-saleinvoices') }}"><small><small>&nbsp;&nbsp;&nbsp;Fetch All</small></small></a>
+                                    </h2> 
                                     <form class="text-end" action="{{ route('create-sale-invoice') }}" method="GET">
                                         <button type="submit" class="btn btn-primary"> <i class="fas fa-plus"></i> New Sale Invoice</button>
                                     </form>
