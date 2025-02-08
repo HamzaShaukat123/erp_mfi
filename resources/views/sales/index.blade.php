@@ -9,7 +9,6 @@
                         <div class="col">
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
-                                    <h2 class="card-title">All Sale Invoices</h2>
                                     <h2 class="card-title">
                                         <a>All Sale Invoices</a>
                                         <a href="{{ route('all-saleinvoices') }}"><small><small>&nbsp;&nbsp;&nbsp;Fetch All</small></small></a>
