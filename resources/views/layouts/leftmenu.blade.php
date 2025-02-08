@@ -221,7 +221,7 @@
 
                             @if(((session('user_access')[15]['module_id'])==16 && (session('user_access')[15]['view'])==1))
                             <li>
-                                <a class="nav-link"   href="{{ route('all-sale2invoices')}}">
+                                <a class="nav-link"   href="{{ route('all-sale2invoices-paginate')}}">
                                     Sale 2
                                 </a>
                             </li>
