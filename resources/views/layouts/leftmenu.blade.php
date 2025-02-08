@@ -177,7 +177,7 @@
 
                             @if(((session('user_access')[11]['module_id'])==12 && (session('user_access')[11]['view'])==1))
                             <li>
-                                <a class="nav-link"   href="{{ route('all-purchases2')}}" >
+                                <a class="nav-link"   href="{{ route('all-purchases2-paginate')}}" >
                                     Purchase 2
                                 </a>
                             </li>
