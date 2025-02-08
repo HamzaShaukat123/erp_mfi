@@ -215,11 +215,12 @@
 													<table id="sales_ageing" class="table table-bordered table-striped mb-0 mt-2">
 														<thead>
 															<tr>
-																<th width="15%">Inv #</th>
-																<th width="15%">Date</th>
-																<th width="20%">Bill Amount</th>
-																<th width="20%">Remaining</th>
-																<th width="20%">Amount</th>
+																<th width="13%">Inv #</th>
+																<th width="12%">Date</th>
+																<th width="17%">Bill Amount</th>
+																<th width="17%">Remaining</th>
+																<th width="17%">Amount</th>
+																<th width="14%">Name</th>
 															</tr>
 														</thead>
 														<tbody id="pendingInvoices">
