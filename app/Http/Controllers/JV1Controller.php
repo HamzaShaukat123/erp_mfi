@@ -7,11 +7,13 @@ use App\Models\AC;
 use NumberFormatter;
 use App\Models\jv1_att;
 use App\Models\jvsingel;
+use App\Models\pdc;
 use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class JV1Controller extends Controller
 {
@@ -56,40 +58,66 @@ class JV1Controller extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
+    
         $jv1 = new jvsingel();
         $jv1->created_by = session('user_id');
-
+    
         if ($request->has('ac_dr_sid') && $request->ac_dr_sid) {
-            $jv1->ac_dr_sid=$request->ac_dr_sid;
+            $jv1->ac_dr_sid = $request->ac_dr_sid;
         }
         if ($request->has('ac_cr_sid') && $request->ac_cr_sid) {
-            $jv1->ac_cr_sid=$request->ac_cr_sid;
+            $jv1->ac_cr_sid = $request->ac_cr_sid;
         }
-        if ($request->has('amount') && $request->amount OR $request->amount==0 ) {
-            $jv1->amount=$request->amount;
+        if ($request->has('amount') && ($request->amount || $request->amount == 0)) {
+            $jv1->amount = $request->amount;
         }
         if ($request->has('date') && $request->date) {
-            $jv1->date=$request->date;
+            $jv1->date = $request->date;
         }
-        if ($request->has('remarks') && $request->remarks  OR empty($request->remarks)) {
-            $jv1->remarks=$request->remarks;
+        if ($request->has('remarks') && ($request->remarks || empty($request->remarks))) {
+            $jv1->remarks = $request->remarks;
         }
         $jv1->save();
-
+    
+        // Fetch the latest jv1 entry for reference
         $latest_jv1 = jvsingel::latest()->first();
-
-        if($request->hasFile('att')){
+    
+        if ($request->hasFile('att')) {
             $files = $request->file('att');
-            foreach ($files as $file)
-            {
+            foreach ($files as $file) {
                 $jv1_att = new jv1_att();
                 $jv1_att->jv1_id = $latest_jv1['auto_lager'];
                 $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->jv1Doc($file,$extension);
+                $jv1_att->att_path = $this->jv1Doc($file, $extension);
                 $jv1_att->save();
             }
         }
+    
+        if ($request->has('isInduced') && $request->isInduced == 1) {
+
+            // // Fetch the latest JV1 record
+            $latest_jv1 = jvsingel::latest()->first();
+
+            // Find PDC using pdc_id from the request
+            $pur_2_id = Pdc::where('pdc_id', $request->pdc_id)->first();
+        
+            if ($pur_2_id) {
+                // Retrieve the voch_id and voch_prefix
+
+                $voch_id = $latest_jv1['auto_lager'];
+                $voch_prefix = $latest_jv1['prefix'];
+        
+                // Update the PDC table with voch_id and voch_prefix
+                Pdc::where('pdc_id', $request->pdc_id)->update([
+                    'voch_id' => $voch_id,
+                    'voch_prefix' => $voch_prefix,
+                ]);
+        
+            } 
+        }
+
+        
+        // Redirect if no induced flag is set
         return redirect()->route('all-jv1');
     }
     
@@ -220,6 +248,49 @@ class JV1Controller extends Controller
             return response()->json(['message' => 'File not found.'], 404);
         }
     }
+    
+
+    public function getpdc()
+    {
+        $unclosed_inv = pdc::where('pdc.status', 1)
+        ->whereNull('pdc.voch_id')
+        ->leftjoin('ac as d_ac', 'd_ac.ac_code', '=', 'pdc.ac_dr_sid')
+        ->join('ac as c_ac', 'c_ac.ac_code', '=', 'pdc.ac_cr_sid')
+        ->select('pdc.*', 
+        'd_ac.ac_name as debit_account', 
+        'c_ac.ac_name as credit_account')
+        ->orderBy('pdc.chqdate', 'asc') 
+        ->orderBy('pdc.pdc_id', 'asc')
+        ->get();
+
+        return $unclosed_inv;
+    }
+    
+    public function getItems($id)
+    {
+        try {
+            \Log::info("Fetching PDC data for ID: " . $id); // Debugging log
+    
+            // Check if data exists
+            $pdc = Pdc::where('pdc_id', $id)->first();
+    
+            if (!$pdc) {
+                \Log::warning("No PDC record found for ID: " . $id);
+                return response()->json(['error' => 'PDC ID not found'], 404);
+            }
+    
+            \Log::info("PDC data found", ['data' => $pdc]);
+    
+            return response()->json(['pur2' => $pdc]);
+    
+        } catch (\Exception $e) {
+            \Log::error("Error fetching PDC data: " . $e->getMessage());
+            return response()->json(['error' => 'Server Error'], 500);
+        }
+    }
+    
+    
+    
 
     public function print($id)
     {

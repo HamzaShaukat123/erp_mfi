@@ -119,6 +119,7 @@
         Route::post('/item2/create', [App\Http\Controllers\Item2Controller::class, 'store'])->name('store-item-2');
        
         Route::post('/vouchers/create', [App\Http\Controllers\JV1Controller::class, 'store'])->name('store-jv1');
+        Route::get('/vouchers/getpdc/', [App\Http\Controllers\JV1Controller::class, 'getpdc'])->name('get-unajusted-pdc-jv1');
         Route::post('/sales/create', [App\Http\Controllers\SalesController::class, 'store'])->name('store-sale-invoice');
         Route::get('/vouchers2/new', [App\Http\Controllers\JV2Controller::class, 'create'])->name('new-jv2');
         Route::post('/vouchers2/create', [App\Http\Controllers\JV2Controller::class, 'store'])->name('store-jv2');
@@ -338,6 +339,7 @@
         Route::get('/coa-sub-heads/detail', [App\Http\Controllers\COASubHeadsController::class, 'getCOASubHeadDetails'])->name('get-acc-sub-heads-groups-details');
         Route::get('/vouchers/detail', [App\Http\Controllers\JV1Controller::class, 'getJVDetails'])->name('get-jv1-details');
         Route::get('/vouchers2/getItems/{id}', [App\Http\Controllers\JV2Controller::class, 'getItems'])->name('get-pdc-items');
+        Route::get('/vouchers/getItems/{id}', [App\Http\Controllers\JV1Controller::class, 'getItems'])->name('get-pdc-items-jv1');
         Route::get('/purchase2/getunclosed/', [App\Http\Controllers\Purchase2Controller::class, 'getunclosed'])->name('get-unclosed-purc2-invoice');
         Route::get('/purchase2/getunclosedstockin/', [App\Http\Controllers\Purchase2Controller::class, 'getunclosedstockin'])->name('get-unclosed-purc2stockin-invoice');
         Route::get('/purchase2/getItems/{id}', [App\Http\Controllers\Purchase2Controller::class, 'getItems'])->name('get-purc2-items');
