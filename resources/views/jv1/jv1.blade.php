@@ -13,7 +13,7 @@
                                     <div class="text-end">
                                         <button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" 
                                             onclick="getpdc()" href="#getpdc">
-                                            <i class="fas fa-plus"></i> Get PDC
+                                            <i class="fas fa-plus"></i> Get PDC(Only For Return Chqs)
                                         </button>
                                         
                                         <button type="button" class="modal-with-form btn btn-primary mb-2" href="#addModal">
