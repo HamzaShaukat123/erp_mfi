@@ -485,10 +485,10 @@
 
                 // Set values dynamically
                 $('input[name="amount"]').val(data.amount).prop('readonly', true);
-                $('#ac_dr_sid_hidden').val(data.ac_dr_sid);
-                $('#ac_cr_sid_hidden').val(data.ac_dr_sid);
-                $('select[name="ac_dr_sid"]').val(data.ac_dr_sid).prop('disabled', true).trigger('change');
-                $('select[name="ac_cr_sid"]').val(data.ac_dr_sid).prop('disabled', true).trigger('change');
+                $('#ac_dr_sid_hidden').val(data.ac_cr_sid);
+                $('#ac_cr_sid_hidden').val(data.ac_cr_sid);
+                $('select[name="ac_dr_sid"]').val(data.ac_cr_sid).prop('disabled', true).trigger('change');
+                $('select[name="ac_cr_sid"]').val(data.ac_cr_sid).prop('disabled', true).trigger('change');
                 let combinedText = "Detail Of Chq Return PDC: " + data.prefix + " " + data.pdc_id + " " + data.chqdate + " " + data.bankname + " " + data.instrumentnumber + " " + data.remarks + "\n" +
                 "Receiving Date: " + data.date;
                 $('textarea[name="remarks"]').val(combinedText).prop('readonly', true);
