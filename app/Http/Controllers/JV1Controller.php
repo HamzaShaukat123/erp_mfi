@@ -50,71 +50,122 @@ class JV1Controller extends Controller
     
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'ac_dr_sid' => 'required',
-            'ac_cr_sid' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'ac_dr_sid' => 'required',
+        //     'ac_cr_sid' => 'required',
+        // ]);
         
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
     
-        $jv1 = new jvsingel();
-        $jv1->created_by = session('user_id');
+        // $jv1 = new jvsingel();
+        // $jv1->created_by = session('user_id');
     
-        if ($request->has('ac_dr_sid') && $request->ac_dr_sid) {
+        // if ($request->has('ac_dr_sid') && $request->ac_dr_sid) {
+        //     $jv1->ac_dr_sid = $request->ac_dr_sid;
+        // }
+        // if ($request->has('ac_cr_sid') && $request->ac_cr_sid) {
+        //     $jv1->ac_cr_sid = $request->ac_cr_sid;
+        // }
+        // if ($request->has('amount') && ($request->amount || $request->amount == 0)) {
+        //     $jv1->amount = $request->amount;
+        // }
+        // if ($request->has('date') && $request->date) {
+        //     $jv1->date = $request->date;
+        // }
+        // if ($request->has('remarks') && ($request->remarks || empty($request->remarks))) {
+        //     $jv1->remarks = $request->remarks;
+        // }
+        // $jv1->save();
+    
+        // // Fetch the latest jv1 entry for reference
+        // $latest_jv1 = jvsingel::latest()->first();
+    
+        // if ($request->hasFile('att')) {
+        //     $files = $request->file('att');
+        //     foreach ($files as $file) {
+        //         $jv1_att = new jv1_att();
+        //         $jv1_att->jv1_id = $latest_jv1['auto_lager'];
+        //         $extension = $file->getClientOriginalExtension();
+        //         $jv1_att->att_path = $this->jv1Doc($file, $extension);
+        //         $jv1_att->save();
+        //     }
+        // }
+    
+       
+     
+
+        if ($request->has('isInduced') && $request->isInduced == 1) {
+            // Fetch the latest JV1 record
+            $latest_jv1 = jvsingel::latest()->first();
+        
+            // Find PDC using pdc_id from the request
+            $pur_2_id = Pdc::where('pdc_id', $request->pdc_id)->first();
+            
+            if ($pur_2_id && $latest_jv1) {
+                // Update the PDC table with voch_id and voch_prefix
+                Pdc::where('pdc_id', $request->pdc_id)->update([
+                    'voch_id' => $latest_jv1->auto_lager,
+                    'voch_prefix' => $latest_jv1->prefix,
+                ]);
+            }
+        
+            // Validate input for induced transactions
+            $validator = Validator::make($request->all(), [
+                'ac_dr_sid_hidden' => 'required',
+                'ac_cr_sid_hidden' => 'required',
+            ]);
+        
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+        
+            // Create new jvsingel record
+            $jv1 = new jvsingel();
+            $jv1->created_by = session('user_id');
+            $jv1->ac_dr_sid = $request->ac_dr_sid_hidden;
+            $jv1->ac_cr_sid = $request->ac_cr_sid_hidden;
+            $jv1->amount = $request->amount ?? 0;
+            $jv1->date = $request->date ?? null;
+            $jv1->remarks = $request->remarks ?? null;
+            $jv1->save();
+        } else 
+        {
+            // Validate input for normal transactions
+            $validator = Validator::make($request->all(), [
+                'ac_dr_sid' => 'required',
+                'ac_cr_sid' => 'required',
+            ]);
+        
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+        
+            // Create new jvsingel record
+            $jv1 = new jvsingel();
+            $jv1->created_by = session('user_id');
             $jv1->ac_dr_sid = $request->ac_dr_sid;
-        }
-        if ($request->has('ac_cr_sid') && $request->ac_cr_sid) {
             $jv1->ac_cr_sid = $request->ac_cr_sid;
+            $jv1->amount = $request->amount ?? 0;
+            $jv1->date = $request->date ?? null;
+            $jv1->remarks = $request->remarks ?? null;
+            $jv1->save();
         }
-        if ($request->has('amount') && ($request->amount || $request->amount == 0)) {
-            $jv1->amount = $request->amount;
-        }
-        if ($request->has('date') && $request->date) {
-            $jv1->date = $request->date;
-        }
-        if ($request->has('remarks') && ($request->remarks || empty($request->remarks))) {
-            $jv1->remarks = $request->remarks;
-        }
-        $jv1->save();
-    
+        
         // Fetch the latest jv1 entry for reference
         $latest_jv1 = jvsingel::latest()->first();
-    
+        
         if ($request->hasFile('att')) {
-            $files = $request->file('att');
-            foreach ($files as $file) {
+            foreach ($request->file('att') as $file) {
                 $jv1_att = new jv1_att();
-                $jv1_att->jv1_id = $latest_jv1['auto_lager'];
-                $extension = $file->getClientOriginalExtension();
-                $jv1_att->att_path = $this->jv1Doc($file, $extension);
+                $jv1_att->jv1_id = $latest_jv1->auto_lager;
+                $jv1_att->att_path = $this->jv1Doc($file, $file->getClientOriginalExtension());
                 $jv1_att->save();
             }
         }
-    
-        if ($request->has('isInduced') && $request->isInduced == 1) {
-
-            // // Fetch the latest JV1 record
-            $latest_jv1 = jvsingel::latest()->first();
-
-            // Find PDC using pdc_id from the request
-            $pur_2_id = Pdc::where('pdc_id', $request->pdc_id)->first();
         
-            if ($pur_2_id) {
-                // Retrieve the voch_id and voch_prefix
 
-                $voch_id = $latest_jv1['auto_lager'];
-                $voch_prefix = $latest_jv1['prefix'];
-        
-                // Update the PDC table with voch_id and voch_prefix
-                Pdc::where('pdc_id', $request->pdc_id)->update([
-                    'voch_id' => $voch_id,
-                    'voch_prefix' => $voch_prefix,
-                ]);
-        
-            } 
-        }
 
         
         // Redirect if no induced flag is set

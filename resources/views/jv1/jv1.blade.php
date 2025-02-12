@@ -222,7 +222,7 @@
                                         <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
                                     @endforeach
                                 </select>
-                                <input type="hidden" name="ac_dr_sid" id="ac_dr_sid_hidden">
+                                <input type="hidden" name="ac_dr_sid_hidden" id="ac_dr_sid_hidden">
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Account Credit<span style="color: red;"><strong>*</strong></span></label>
@@ -234,7 +234,7 @@
                                     @endforeach
                                 </select> 
                                 
-                                <input type="hidden" name="ac_cr_sid" id="ac_cr_sid_hidden">                           
+                                <input type="hidden" name="ac_cr_sid_hidden" id="ac_cr_sid_hidden">                           
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Amount<span style="color: red;"><strong>*</strong></span></label>
