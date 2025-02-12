@@ -92,8 +92,6 @@ class JV1Controller extends Controller
         //         $jv1_att->save();
         //     }
         // }
-    
-       
      
 
         if ($request->has('isInduced') && $request->isInduced == 1) {
@@ -164,9 +162,6 @@ class JV1Controller extends Controller
                 $jv1_att->save();
             }
         }
-        
-
-
         
         // Redirect if no induced flag is set
         return redirect()->route('all-jv1');
