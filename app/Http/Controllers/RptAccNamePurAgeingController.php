@@ -40,7 +40,7 @@ class RptAccNamePurAgeingController extends Controller
         $purchaseData = [];
         $purchaseData[] = [
         'S/No', 'Date', 'Inv No.', 'Detail', 'Bill Amount', 'UnPaid Amount', 'Days', 
-        '1-20 Days', '21-35 Days', '36-50 Days', 'Over 50 Days', 'Cleared In Days'
+        '1-7 Days', '8-15 Days', '16-20 Days', '21-35 Days', '36-50 Days', 'Over 50 Days', 'Cleared In Days'
         ];
 
         $count = 1;
