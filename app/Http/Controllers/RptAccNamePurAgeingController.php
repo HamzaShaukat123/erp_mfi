@@ -145,7 +145,7 @@ class RptAccNamePurAgeingController extends Controller
             <table border="1" style="border-collapse: collapse; width:100%; text-align:center;">
                 <thead>
                     <tr>
-                        <th style="width:4%;color:#17365D; font-weight:bold;">S/No</th>
+                        <th style="width:4%;color:#17365D; font-weight:bold;">S/N</th>
                         <th style="width:9%;color:#17365D; font-weight:bold;">Date</th>
                         <th style="width:8%;color:#17365D; font-weight:bold;">Inv No.</th>
                         <th style="width:14%; color:#17365D; font-weight:bold;">Detail</th>
@@ -155,9 +155,9 @@ class RptAccNamePurAgeingController extends Controller
                         <th style="width:8%;color:#17365D; font-weight:bold;">1-7 Days</th>
                         <th style="width:8%;color:#17365D; font-weight:bold;">8-15 Days</th>
                         <th style="width:8%;color:#17365D; font-weight:bold;">16-20 Days</th>
-                        <th style="width:8%;color:#17365D; font-weight:bold;">21-35 Days</th>
-                        <th style="width:8%;color:#17365D; font-weight:bold;">Over 50 Days</th>
-                        <th style="width:8%;color:#17365D; font-weight:bold;">Cleared In Days</th>
+                        <th style="width:6%;color:#17365D; font-weight:bold;">21-35 Days</th>
+                        <th style="width:6%;color:#17365D; font-weight:bold;">Over 50 Days</th>
+                        <th style="width:7%;color:#17365D; font-weight:bold;">Cleared In Days</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -190,9 +190,9 @@ class RptAccNamePurAgeingController extends Controller
                             <td style="width:8%;">' . number_format($items['1_7_Days'], 0) . '</td>
                             <td style="width:8%;">' . number_format($items['8_15_Days'], 0) . '</td>
                             <td style="width:8%;">' . number_format($items['16_21_Days'], 0) . '</td>
-                            <td style="width:8%;">' . number_format($items['21_35_Days'], 0) . '</td>
-                            <td style="width:8%;">' . number_format($items['over_50_Days'], 0) . '</td>
-                            <td style="width:8%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
+                            <td style="width:6%;">' . number_format($items['21_35_Days'], 0) . '</td>
+                            <td style="width:6%;">' . number_format($items['over_50_Days'], 0) . '</td>
+                            <td style="width:7%;" ' . ($items['remaining_amount'] != 0 ? $maxDaysStyle : '') . '>' . 
                                 ($items['remaining_amount'] == 0 ? $items['max_days'] : '') . 
                                 ' - ' . $status . 
                             '</td>
