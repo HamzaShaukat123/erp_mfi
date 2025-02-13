@@ -103,7 +103,7 @@ class RptAccNamePurAgeingController extends Controller
             $pdf->SetKeywords('Purchase Ageing Report, TCPDF, PDF');
             $pdf->setPageOrientation('L');
             $pdf->AddPage();
-            $pdf->setCellPadding(1);
+            $pdf->setCellPadding(0);
     
             // Document header
             $heading = '<h1 style="font-size:20px;text-align:center;font-style:italic;text-decoration:underline;color:#17365D">Purchase Ageing Report Of Account</h1>';
