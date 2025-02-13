@@ -1084,7 +1084,7 @@
                         acc_id: acc_id,
                     },
                     beforeSend: function () {
-                        $(tableID).html('<tr><td colspan="13" class="text-center">Loading Data Please Wait...</td></tr>');
+                        $(tableID).html('<tr><td colspan="15" class="text-center">Loading Data Please Wait...</td></tr>');
                     },
                     success: function (result) {
                         $('#pur_age_from').text(formattedfromDate);
@@ -1093,7 +1093,7 @@
                         $('#pur_age_acc').text(selectedAcc);
 
                         if (!result.length) {
-                            $(tableID).html('<tr><td colspan="13" class="text-center">No data available for the selected criteria.</td></tr>');
+                            $(tableID).html('<tr><td colspan="15" class="text-center">No data available for the selected criteria.</td></tr>');
                             return;
                         }
 
