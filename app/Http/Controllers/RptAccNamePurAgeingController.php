@@ -208,7 +208,7 @@ class RptAccNamePurAgeingController extends Controller
             $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
             <td colspan="5" style="text-align:right;">Total Remaining Amount:</td>
             <td style="text-align:center;">' . number_format($totalRemainingAmount, 0) . '</td>
-            <td colspan="6"></td>
+            <td colspan="7"></td>
             </tr>';
             
             $html .= '</tbody></table>';
@@ -349,7 +349,7 @@ class RptAccNamePurAgeingController extends Controller
             $html .= '<tr style="background-color:#d9edf7; font-weight:bold;">
             <td colspan="5" style="text-align:right;">Total Remaining Amount:</td>
             <td style="text-align:center;">' . number_format($totalRemainingAmount, 0) . '</td>
-            <td colspan="6"></td>
+            <td colspan="7"></td>
             </tr>';
             
             $html .= '</tbody></table>';
