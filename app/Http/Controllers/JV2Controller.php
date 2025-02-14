@@ -258,6 +258,7 @@ class JV2Controller extends Controller
         
         // Join sales_ageing with vw_union_sale_1_2_opbal.
         $sales_ageing = sales_ageing::where('jv2_id', $id)
+            ->where('voch_prefix', 'JV2-')
             ->join('vw_union_sale_1_2_opbal', function ($join) {
                 $join->on('vw_union_sale_1_2_opbal.prefix', '=', 'sales_ageing.sales_prefix')
                      ->whereColumn('vw_union_sale_1_2_opbal.Sal_inv_no', 'sales_ageing.sales_id');
@@ -271,6 +272,7 @@ class JV2Controller extends Controller
         // Fetch the related purchase ageing records.
     
         $purchase_ageing = purchase_ageing::where('jv2_id', $id)
+        ->where('voch_prefix', 'JV2-')
         ->join('vw_union_pur_1_2_opbal', function ($join) {
             $join->on('vw_union_pur_1_2_opbal.prefix', '=', 'purchase_ageing.sales_prefix')
                  ->whereColumn('vw_union_pur_1_2_opbal.Sal_inv_no', 'purchase_ageing.sales_id');
