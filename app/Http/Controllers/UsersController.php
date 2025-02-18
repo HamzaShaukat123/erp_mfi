@@ -364,7 +364,7 @@ class UsersController extends Controller
 
     public function sendEmail($data)
     {
-        Mail::to(['memonfabrication@hotmail.com', 'saad.shaukat123@gmail.com'])->send(new SendMail($data));
+        Mail::to(['memonfabrication@hotmail.com', 'saad.shaukat123@gmail.com','memon.fabrication@gmail.com'])->send(new SendMail($data));
         return 0;
 
     }
