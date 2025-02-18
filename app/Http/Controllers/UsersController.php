@@ -364,8 +364,9 @@ class UsersController extends Controller
 
     public function sendEmail($data)
     {
-        Mail::to('memonfabrication@hotmail.com')->send(new SendMail($data));
+        Mail::to(['memonfabrication@hotmail.com', 'saad.shaukat123@gmail.com'])->send(new SendMail($data));
         return 0;
+
     }
 
     public function getUserLocation()
