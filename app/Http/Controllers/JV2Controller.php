@@ -28,7 +28,7 @@ class JV2Controller extends Controller
 
     public function index()
     {
-        $jv2 = Lager0::where('lager0.status', 1)
+        $jv2 = lager0::where('lager0.status', 1)
         ->select(
             'lager0.jv_no',
             'lager0.jv_date',
@@ -73,7 +73,7 @@ class JV2Controller extends Controller
 
     public function indexPaginate()
     {
-        $jv2 = Lager0::where('lager0.status', 1)
+        $jv2 = lager0::where('lager0.status', 1)
             ->select(
                 'lager0.jv_no',
                 'lager0.jv_date',
@@ -89,8 +89,14 @@ class JV2Controller extends Controller
                 DB::raw('(SELECT auto_lager, SUM(debit) AS total_debit, SUM(credit) AS total_credit FROM lager GROUP BY auto_lager) AS dc'),
                 'lager0.jv_no', '=', 'dc.auto_lager'
             )
-            ->leftJoin('sales_ageing', 'lager0.jv_no', '=', 'sales_ageing.jv2_id')
-            ->leftJoin('purchase_ageing', 'lager0.jv_no', '=', 'purchase_ageing.jv2_id')
+            ->leftJoin('sales_ageing', function ($join) {
+                $join->on('lager0.jv_no', '=', 'sales_ageing.jv2_id')
+                    ->where('sales_ageing.voch_prefix', 'JV2-');
+            })
+            ->leftJoin('purchase_ageing', function ($join) {
+                $join->on('lager0.jv_no', '=', 'purchase_ageing.jv2_id')
+                    ->where('purchase_ageing.voch_prefix', 'JV2-');
+            })
             ->groupBy(
                 'lager0.jv_no',
                 'lager0.jv_date',
