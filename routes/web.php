@@ -659,6 +659,12 @@
 
 
 
+    Route::get('/salesageing/all-salesageing', [App\Http\Controllers\SalesAgeingController::class, 'index'])->name('all-salesageing');
+    Route::post('/salesageing/delete', [App\Http\Controllers\SalesAgeingController::class, 'destroy'])->name('delete-salesageing');
+
+
+
+
     
 
 
