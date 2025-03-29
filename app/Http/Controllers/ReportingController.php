@@ -81,7 +81,8 @@ class ReportingController extends Controller
     // Commissions
     public function commissions()
     {
-        $item_group = Item_Groups::orderBy('group_name', 'asc')->get();
+        $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
         return view('reports.commissions',compact('item_group'));
+        
     }
 }
