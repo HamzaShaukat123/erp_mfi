@@ -22,13 +22,12 @@ class RptAccGrpBAController extends Controller
     public function baExcel(Request $request)
     {
         $balance_all = balance_all::all()->groupBy('heads');
-        
-        // Construct the filename
+    
         $filename = "balance_all.xlsx";
-
-        // Return the download response with the dynamic filename
+    
         return Excel::download(new ACGroupBAExport($balance_all), $filename);
     }
+    
 
     public function baReport(Request $request)
     {

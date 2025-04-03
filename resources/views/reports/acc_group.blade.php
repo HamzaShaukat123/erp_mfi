@@ -417,6 +417,10 @@
 
                 window.location.href = `/rep-by-acc-grp/shoa/excel?acc_id=${acc_id}`;
             }
+
+            else if (tabName === "BA") {
+                window.location.href = `/rep-by-acc-grp/ba/excel`;
+            }
         }
 
         function printPDF(tabName) {
