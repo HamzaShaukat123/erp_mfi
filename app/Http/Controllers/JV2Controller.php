@@ -74,44 +74,45 @@ class JV2Controller extends Controller
     public function indexPaginate()
     {
         $jv2 = lager0::where('lager0.status', 1)
-            ->select(
-                'lager0.jv_no',
-                'lager0.jv_date',
-                'lager0.narration',
-                DB::raw('COALESCE(dc.total_debit, 0) AS total_debit'),
-                DB::raw('COALESCE(dc.total_credit, 0) AS total_credit'),
-                DB::raw("GROUP_CONCAT(DISTINCT CONCAT(sales_ageing.sales_prefix, sales_ageing.sales_id) SEPARATOR ' ; ') AS merged_sales_ids"),
-                DB::raw("GROUP_CONCAT(DISTINCT CONCAT(purchase_ageing.sales_prefix, purchase_ageing.sales_id) SEPARATOR ' ; ') AS merged_purchase_ids"),
-                'sales_ageing.status as sales_status',
-                'purchase_ageing.status as purchase_status'
-            )
-            ->leftJoin(
-                DB::raw('(SELECT auto_lager, SUM(debit) AS total_debit, SUM(credit) AS total_credit FROM lager GROUP BY auto_lager) AS dc'),
-                'lager0.jv_no', '=', 'dc.auto_lager'
-            )
-            ->leftJoin('sales_ageing', function ($join) {
-                $join->on('lager0.jv_no', '=', 'sales_ageing.jv2_id')
-                    ->where('sales_ageing.voch_prefix', 'JV2-');
-            })
-            ->leftJoin('purchase_ageing', function ($join) {
-                $join->on('lager0.jv_no', '=', 'purchase_ageing.jv2_id')
-                    ->where('purchase_ageing.voch_prefix', 'JV2-');
-            })
-            ->groupBy(
-                'lager0.jv_no',
-                'lager0.jv_date',
-                'lager0.narration',
-                'dc.total_debit',
-                'dc.total_credit',
-                'sales_ageing.status',
-                'purchase_ageing.status'
-            )
-            ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
-            ->paginate(100); // This will paginate the last 100 records
+    ->select(
+        'lager0.jv_no',
+        'lager0.jv_date',
+        'lager0.narration',
+        DB::raw('COALESCE(dc.total_debit, 0) AS total_debit'),
+        DB::raw('COALESCE(dc.total_credit, 0) AS total_credit'),
+        DB::raw("GROUP_CONCAT(DISTINCT CONCAT(sales_ageing.sales_prefix, sales_ageing.sales_id) SEPARATOR ' ; ') AS merged_sales_ids"),
+        DB::raw("GROUP_CONCAT(DISTINCT CONCAT(purchase_ageing.sales_prefix, purchase_ageing.sales_id) SEPARATOR ' ; ') AS merged_purchase_ids"),
+        'sales_ageing.status as sales_status',
+        'purchase_ageing.status as purchase_status',
+        'jv2_accountname.account_names' // Include account_names from jv2_accountname table
+    )
+    ->leftJoin(
+        DB::raw('(SELECT auto_lager, SUM(debit) AS total_debit, SUM(credit) AS total_credit FROM lager GROUP BY auto_lager) AS dc'),
+        'lager0.jv_no', '=', 'dc.auto_lager'
+    )
+    ->leftJoin('sales_ageing', function ($join) {
+        $join->on('lager0.jv_no', '=', 'sales_ageing.jv2_id')
+            ->where('sales_ageing.voch_prefix', 'JV2-');
+    })
+    ->leftJoin('purchase_ageing', function ($join) {
+        $join->on('lager0.jv_no', '=', 'purchase_ageing.jv2_id')
+            ->where('purchase_ageing.voch_prefix', 'JV2-');
+    })
+    ->leftJoin('jv2_accountname', 'lager0.jv_no', '=', 'jv2_accountname.auto_lager') // LEFT JOIN with jv2_accountname
+    ->groupBy(
+        'lager0.jv_no',
+        'lager0.jv_date',
+        'lager0.narration',
+        'dc.total_debit',
+        'dc.total_credit',
+        'sales_ageing.status',
+        'purchase_ageing.status',
+        'jv2_accountname.account_names' // Add account_names to groupBy clause
+    )
+    ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
+    ->paginate(100); // This will paginate the last 100 records
 
-           
-
-        return view('jv2.jv2', compact('jv2'));
+return view('jv2.jv2', compact('jv2'));
 
     }
 

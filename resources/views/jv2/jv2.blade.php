@@ -25,9 +25,10 @@
                                                 <option value="0">by Vouch#</option>
                                                 <option value="1">by Date</option>
                                                 <option value="2">by Narration</option>
-                                                <option value="3">by Debit/Credit</option>
-                                                <option value="4">by Sale Invoices</option>
-                                                <option value="5">by Purchase Invoices</option>
+                                                <option value="3">by Account Name</option>
+                                                <option value="4">by Debit/Credit</option>
+                                                <option value="5">by Sale Invoices</option>
+                                                <option value="6">by Purchase Invoices</option>
                                             </select>
                                             <input type="text" class="form-control" id="columnSearch" placeholder="Search By Column"/>
                                         </div>
@@ -39,6 +40,7 @@
                                                     <th>Voch#</th>
                                                     <th>Date</th>
                                                     <th>Narration</th>
+                                                    <th>Account Name</th>
                                                     <th>Debit / Credit</th>
                                                     <th>Sales Invoices</th>
                                                     <th>Purchase Invoices</th>
@@ -52,6 +54,7 @@
                                                         <td>{{$row->jv_no}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($row->jv_date)->format('d-m-y') }}</td>
                                                         <td>{{$row->narration}}</td>
+                                                        <td>{{$row->account_names}}</td>
                                                         <td>{{ number_format($row->total_debit, 0) }} / {{ number_format($row->total_credit, 0) }}</td>
                                                     
                                                         <td style="color: {{ $row->sales_status == 0 ? 'red' : 'inherit' }}">
