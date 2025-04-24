@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\AC;
 use App\Services\myPDF;
 use App\Models\lager;
@@ -64,11 +63,8 @@ class JV2Controller extends Controller
             'purchase_ageing.status',
             'jv2_accountname.account_names' // Add account_names to groupBy clause
         )
-
         ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
         ->get();
-
-           
 
         return view('jv2.jv2', compact('jv2'));
 
