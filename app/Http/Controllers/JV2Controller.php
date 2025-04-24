@@ -64,8 +64,9 @@ class JV2Controller extends Controller
             'purchase_ageing.status',
             'jv2_accountname.account_names' // Add account_names to groupBy clause
         )
-        ->get();
 
+        ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
+        ->get();
 
            
 
