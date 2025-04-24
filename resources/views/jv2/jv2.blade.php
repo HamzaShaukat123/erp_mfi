@@ -39,12 +39,12 @@
                                                 <tr>
                                                     <th>Voch#</th>
                                                     <th>Date</th>
-                                                    <th>Narration</th>
+                                                    {{-- <th>Narration</th>
                                                     <th>Account Name</th>
                                                     <th>Debit / Credit</th>
                                                     <th>Sales Invoices</th>
                                                     <th>Purchase Invoices</th>
-                                                    <th>Att.</th>
+                                                    <th>Att.</th> --}}
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -53,7 +53,7 @@
                                                     <tr>
                                                         <td>{{$row->jv_no}}</td>
                                                         <td>{{ \Carbon\Carbon::parse($row->jv_date)->format('d-m-y') }}</td>
-                                                        <td>{{$row->narration}}</td>
+                                                        {{-- <td>{{$row->narration}}</td>
                                                         <td>{{$row->account_names}}</td>
                                                         <td>{{ number_format($row->total_debit, 0) }} / {{ number_format($row->total_credit, 0) }}</td>
                                                     
@@ -69,7 +69,7 @@
                                                             <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-dark" onclick="getAttachements({{$row->jv_no}})" href="#attModal"><i class="fa fa-eye"> </i></a>
                                                             <span class="separator"> | </span>
                                                             <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal text-danger" onclick="setAttId({{$row->jv_no}})" href="#addAttModal"> <i class="fas fa-paperclip"> </i></a>
-                                                        </td>
+                                                        </td> --}}
                                                         <td class="actions">
                                                             <a class="mb-1 mt-1 me-1" target="_blank" href="{{ route('print-jv2', $row->jv_no) }}">
                                                                 <i class="fas fa-print"></i>
