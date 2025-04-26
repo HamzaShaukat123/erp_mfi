@@ -708,7 +708,7 @@
                         $('#gl_to').text(formattedtoDate);
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         var selectedAccId = $('#acc_id').find("option:selected").val();
-                        $('#gl_acc').text(selectedAccId + '-' + selectedAcc);
+                        $('#gl_acc').text(selectedAccId + '-' + selectedAcc + 'Balance=' + balance +);
                         $(tableID).empty(); // Clear the loading message
 
                         var SOD = 0;                        
