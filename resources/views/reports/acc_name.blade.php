@@ -706,9 +706,13 @@
                     success: function(result){
                         $('#gl_from').text(formattedfromDate);
                         $('#gl_to').text(formattedtoDate);
+                        var opening_bal = SOD - SOC;
+                        var balance = opening_bal || 0; // Ensure balance starts as 0 if opening_bal is not defined
+
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         var selectedAccId = $('#acc_id').find("option:selected").val();
-                        $('#gl_acc').text(selectedAccId + ' - ' + selectedAcc + ' | Balance = ' + balance);
+                        $('#gl_acc').text(selectedAccId + ' - ' + selectedAcc + ' | Balance = ' + balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+
                         $(tableID).empty(); // Clear the loading message
 
                         var SOD = 0;                        
