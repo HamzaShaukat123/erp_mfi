@@ -776,7 +776,7 @@
                         // AFTER transactions are processed, now update #gl_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         var selectedAccId = $('#acc_id').find("option:selected").val();
-                        $('#gl_acc').text(selectedAccId + ' - ' + selectedAcc + '          | Balance = ' + balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+                        $('#gl_acc').html(selectedAccId + ' - ' + selectedAcc + ' | Balance = <span style="display: inline-block; min-width: 100px; text-align: center;">' + balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + '</span>');
 
                         // Now add the total row
                         var netAmount = balance;
