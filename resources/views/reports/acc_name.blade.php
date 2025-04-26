@@ -707,7 +707,8 @@
                         $('#gl_from').text(formattedfromDate);
                         $('#gl_to').text(formattedtoDate);
                         var selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#gl_acc').text(selectedAcc);
+                        var selectedAccId = $('#acc_id').find("option:selected").val();
+                        $('#gl_acc').text(selectedAccId + ' - ' + selectedAcc);
                         $(tableID).empty(); // Clear the loading message
 
                         var SOD = 0;                        
