@@ -867,8 +867,7 @@
                     success: function(result){
                         $('#glr_from').text(formattedfromDate);
                         $('#glr_to').text(formattedtoDate);
-                        var selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#glr_acc').text(selectedAcc);
+                       
                         $(tableID).empty(); // Clear the loading message
 
                         var SOD = 0;                        
@@ -937,6 +936,19 @@
                             html += "</tr>";
                             $(tableID).append(html);
                         });
+
+
+                        // AFTER transactions are processed, now update #gl_acc
+                        var selectedAcc = $('#acc_id').find("option:selected").text();
+                        var selectedAccId = $('#acc_id').find("option:selected").val();
+                        $('#gl_acc').html(
+                            selectedAccId + ' - ' + selectedAcc +
+                            ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
+                            '<span style="color: green;">' +
+                            balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
+                            '</span>' +
+                            '</span>'
+                        );
 
                         // After the loop, add the totals row
                         var netAmount = balance; 
