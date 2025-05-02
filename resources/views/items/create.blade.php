@@ -12,7 +12,7 @@
 									<header class="card-header" style="display: flex;justify-content: space-between;">
 										<h2 class="card-title">New Item Entry (Multiple)</h2>
 										<div class="card-actions">
-											<button type="button" class="btn btn-primary" onclick="addNewRow_btn()"> <i class="fas fa-plus"></i> Add New Row </button>
+											<button type="button" class="btn btn-primary" onclick="addNewRow()"> <i class="fas fa-plus"></i> Add New Row </button>
 										</div>
 									</header>
 
@@ -157,7 +157,7 @@
 			var cell11 = newRow.insertCell(10);
 			var cell12 = newRow.insertCell(11);
 
-			cell1.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"  onclick="addNewRow('+index+')" name ="item_group[]" required>'+
+			cell1.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"  onchange="addNewRow('+index+')" name ="item_group[]" required>'+
 									'<option value="" disabled selected>Select Group</option>'+
 									@foreach($item_groups as $key => $row)	
 										'<option value="{{$row->item_group_cod}}">{{$row->group_name}}</option>'+
