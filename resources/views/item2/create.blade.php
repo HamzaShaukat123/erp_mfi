@@ -174,7 +174,7 @@
 								'</select>';
 
 			cell2.innerHTML  = '<input type="text" class="form-control" name="item_name[]" autofocus onchange="validateItemName(this)" required>';
-			cell3.innerHTML  = '<input type="text"   class="form-control" onclick="addNewRow('+index+')" name="item_remarks[]">';
+			cell3.innerHTML  = '<input type="text"   class="form-control"  name="item_remarks[]">';
 			cell4.innerHTML  = '<input type="number" class="form-control" name="item_stock[]" required value="0" step=".00001">';
 			cell5.innerHTML  = '<input type="number" class="form-control" name="weight[]" required value="0" step=".00001">';
 			cell6.innerHTML  = '<input type="number" class="form-control" name="item_pur_cost[]" required value="0" step=".00001">';
