@@ -166,14 +166,15 @@
 			var cell13 = newRow.insertCell(12);
 
 			// cell1.innerHTML  = '<input type="text" class="form-control" disabled>';
-			cell1.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"   onclick="addNewRow('+index+')" name ="item_group[]" required>'+
+			cell1.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" onchange="addNewRow('+index+')" name="item_group[]" required>'+
 									'<option value="" disabled selected>Select Group</option>'+
-									@foreach($item_groups as $key => $row)	
-										'<option value="{{$row->item_group_cod}}">{{$row->group_name}}</option>'+
+									@foreach($item_groups as $row)
+										'<option value="{{ $row->item_group_cod }}">{{ $row->group_name }}</option>'+
 									@endforeach
 								'</select>';
+
 			cell2.innerHTML  = '<input type="text" class="form-control" name="item_name[]" autofocus onchange="validateItemName(this)" required>';
-			cell3.innerHTML  = '<input type="text"   class="form-control" name="item_remarks[]">';
+			cell3.innerHTML  = '<input type="text"   class="form-control" onclick="addNewRow('+index+')" name="item_remarks[]">';
 			cell4.innerHTML  = '<input type="number" class="form-control" name="item_stock[]" required value="0" step=".00001">';
 			cell5.innerHTML  = '<input type="number" class="form-control" name="weight[]" required value="0" step=".00001">';
 			cell6.innerHTML  = '<input type="number" class="form-control" name="item_pur_cost[]" required value="0" step=".00001">';
