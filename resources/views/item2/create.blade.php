@@ -94,6 +94,9 @@
 									<footer class="card-footer">
 										<div class="row form-group mb-2">
 											<div class="text-end">
+												<button type="button" class="btn btn-danger mt-2" onclick="confirmDiscard()">
+													<i class="fas fa-trash"></i> Discard
+												</button>
 												<button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-save"></i> Save All Items</button>
 											</div>
 										</div>
@@ -121,6 +124,13 @@
 			}
 		});
 	});
+
+
+	function confirmDiscard() {
+		if (confirm('Do you want to discard this page?')) {
+		window.location = "{{ route('all-items-2') }}";
+		}
+	}
 
     function removeRow(button) {
 		var tableRows = $("#ItemsTable tr").length;
