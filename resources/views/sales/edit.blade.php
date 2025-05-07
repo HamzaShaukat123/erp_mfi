@@ -272,47 +272,50 @@
         }
     });
 
-	function addNewRow(){
-		var lastRow =  $('#myTable tr:last');
-		latestValue=lastRow[0].cells[2].querySelector('select').value;
+	
 
-		if(latestValue!="Select Item"){
 
-			var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-			var newRow = table.insertRow(table.rows.length);
+	function addNewRow() {
+		var lastRow = $('#myTable tbody tr:last');
+		var canAdd = true;
 
-			var cell1 = newRow.insertCell(0);
-			var cell2 = newRow.insertCell(1);
-			var cell3 = newRow.insertCell(2);
-			var cell4 = newRow.insertCell(3);
-			var cell5 = newRow.insertCell(4);
-			var cell6 = newRow.insertCell(5);
-			var cell7 = newRow.insertCell(6);
-			var cell8 = newRow.insertCell(7);
+		if (lastRow.length > 0) {
+			var lastSelect = lastRow.find('select');
+			if (lastSelect.length > 0 && lastSelect.val() === "Select Item") {
+				canAdd = false;
+			}
+		}
 
-			cell1.innerHTML = '<input type="text" id="item_code'+index+'" name="item_code[]" placeholder="Code" required onchange="getItemDetails('+index+','+1+')" class="form-control">';
-			cell2.innerHTML = '<input type="number" id="item_qty_'+index+'" onchange="rowTotal('+index+')"  name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control">';
-			cell3.innerHTML = '<select data-plugin-selecttwo class="form-control select2-js" id="item_name'+index+'" onchange="getItemDetails('+index+','+2+')" name="item_name">'+
-									'<option>Select Item</option>'+
-									@foreach($items as $key => $row)	
-										'<option value="{{$row->it_cod}}">{{$row->item_name}}</option>'+
-									@endforeach
-								'</select>';
-			cell4.innerHTML = '<input type="text" id="remarks'+index+'" name="item_remarks[]" placeholder="Remarks" class="form-control">';
-			cell5.innerHTML = '<input type="number" id="weight_'+index+'" onchange="rowTotal('+index+')" name="item_weight[]" placeholder="Weight (kgs)" value="0" step="any" required class="form-control">';
-			cell6.innerHTML = '<input type="number" id="price'+index+'" onchange="rowTotal('+index+')" name="item_price[]" placeholder="Price" value="0" step="any" required class="form-control">';
-			cell7.innerHTML = '<input type="number" id="amount'+index+'" name="item_amount[]" placeholder="Amount" class="form-control" disabled>';
-			cell8.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
+		if (canAdd) {
+			var tableBody = $('#myTable tbody');
+			var newRow = $('<tr></tr>');
+
+			newRow.append('<td><input type="text" id="item_code' + index + '" name="item_code[]" placeholder="Code" required onchange="getItemDetails(' + index + ',1)" class="form-control"></td>');
+			newRow.append('<td><input type="number" id="item_qty_' + index + '" onchange="rowTotal(' + index + ')" name="item_qty[]" placeholder="Qty" value="0" step="any" required class="form-control"></td>');
+			newRow.append('<td><select data-plugin-selecttwo class="form-control select2-js" id="item_name' + index + '" onchange="getItemDetails(' + index + ',2)" name="item_name[]">' +
+						'<option>Select Item</option>' +
+						@foreach($items as $key => $row)
+							'<option value="{{ $row->it_cod }}">{{ $row->item_name }}</option>' +
+						@endforeach
+						'</select></td>');
+			newRow.append('<td><input type="text" id="remarks' + index + '" name="item_remarks[]" placeholder="Remarks" class="form-control"></td>');
+			newRow.append('<td><input type="number" id="weight_' + index + '" onchange="rowTotal(' + index + ')" name="item_weight[]" placeholder="Weight (kgs)" value="0" step="any" required class="form-control"></td>');
+			newRow.append('<td><input type="number" id="price' + index + '" onchange="rowTotal(' + index + ')" name="item_price[]" placeholder="Price" value="0" step="any" required class="form-control"></td>');
+			newRow.append('<td><input type="number" id="amount' + index + '" name="item_amount[]" placeholder="Amount" class="form-control" disabled></td>');
+			newRow.append('<td><button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button></td>');
+
+			tableBody.append(newRow);
 
 			index++;
+			var itemCount = Number($('#itemCount').val()) || 0;
+			$('#itemCount').val(itemCount + 1);
 
-			var itemCount = Number($('#itemCount').val());
-			itemCount = itemCount+1;
-			$('#itemCount').val(itemCount);
+			// Re-initialize Select2
 			$('#myTable select[data-plugin-selecttwo]').select2();
-			
 		}
 	}
+
+
 
 	function addNewRow_btn() {
 
