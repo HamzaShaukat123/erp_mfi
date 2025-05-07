@@ -56,11 +56,30 @@
 									<div class="card-body">
 										<div class="row form-group mb-2">
 											<div class="col-sm-12 col-md-6 mb-3">
-												<label class="col-form-label">Account Name<span style="color: red;"><strong>*</strong></span></label>
-												<select data-plugin-selecttwo class="form-control select2-js" disabled>
+												<label class="col-form-label" id="accountNameLabel">
+													Account Name<span style="color: red;"><strong>*</strong></span>
+												</label>
+											
+												<!-- Toggle Enable/Disable -->
+												<label 
+													class="col-form-label" 
+													style="cursor: pointer; color: blue; text-decoration: underline; float: right;" 
+													id="edit-sale-inv"
+												>
+													Enable
+												</label>
+											
+												<select 
+													id="accountSelect"
+													data-plugin-selecttwo 
+													class="form-control select2-js" 
+													disabled
+												>
 													<option value="" disabled selected>Select Account</option>
 													@foreach($coa as $key => $row)	
-														<option value="{{$row->ac_code}}" {{ $pur2->company_name == $row->ac_code ? 'selected' : '' }}>{{$row->ac_name}}</option>
+														<option value="{{$row->ac_code}}" {{ $pur2->company_name == $row->ac_code ? 'selected' : '' }}>
+															{{$row->ac_name}}
+														</option>
 													@endforeach
 												</select>
 											</div>
@@ -72,7 +91,7 @@
 												<label class="col-form-label" >Purchase Inv. No.</label>
 												<input type="text" placeholder="Purchase Inv. No." value="{{$pur2->pur_against}}"  disabled class="form-control">
 												<input type="hidden" name="sales_against" value="{{$pur2->pur_against}}"  class="form-control">
-												<input type="hidden" name="disp_account_name" value="{{$pur2->company_name}}"  class="form-control">
+												<input type="hidden" name="disp_account_name" value="{{$pur2->company_name}}" id="dispAccountName" class="form-control">
 											</div>
 
 											<div class="col-sm-3 col-md-6 mb-2">
@@ -512,5 +531,36 @@
 			$('#isCommissionForm').val(0);
 		}
 	}
+
+
+	
+    $(document).ready(function () {
+        const $select = $('#accountSelect');
+        const $label = $('#accountNameLabel');
+        const $toggleLabel = $('#edit-sale-inv');
+        const $dispInput = $('#dispAccountName');
+
+        // On toggle click
+        $toggleLabel.on('click', function () {
+            const isDisabled = $select.prop('disabled');
+
+            if (isDisabled) {
+                $select.prop('disabled', false).select2(); // enable and reinit select2
+                $label.addClass('blue-label');
+                $toggleLabel.text('Disable');
+            } else {
+                $select.prop('disabled', true); // disable
+                $label.removeClass('blue-label');
+                $toggleLabel.text('Enable');
+            }
+        });
+
+        // On select change, update input field
+        $select.on('change', function () {
+            $dispInput.val($(this).val());
+        });
+    });
+
+
 
 </script>
