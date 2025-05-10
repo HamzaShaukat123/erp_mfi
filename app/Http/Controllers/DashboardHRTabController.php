@@ -20,7 +20,7 @@ class DashboardHRTabController extends Controller
 
         $steelex = pur_pipe_summary_of_party_by_mill::leftjoin('ac','ac.ac_code','=','pur_pipe_summary_of_party_by_mill.account_name')
         ->where('dat',$request->month)
-        ->where('company_code',86)
+        ->where('company_code',296)
         ->orderBy('weight', 'desc')
         ->get();
 
