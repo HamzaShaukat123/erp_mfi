@@ -1762,16 +1762,15 @@
 		}
 
 		// Graph Chart for MILL WISE HR PIPE PURCHASE Started
-		const mills = ['296', '82', '73'];
+		const mills = ['296', '82', '73','86'];
 		const IILmills = ['1', '5', '6', '7', '8']; // Mill codes to include
 
 		const colors = [
 			'rgba(220, 53, 69, 1)',
 			'rgba(0, 136, 204, 1)',
 			'rgba(25, 135, 84, 1)',
-			
-			'rgba(43, 170, 177, 1)',
 			'rgba(219, 150, 81, 1)',
+			'rgba(43, 170, 177, 1)',
 			
 		];
 
