@@ -97,7 +97,7 @@
 												<button type="button" class="btn btn-danger mt-2" onclick="confirmDiscard()">
 													<i class="fas fa-trash"></i> Discard
 												</button>
-												<button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-save"></i> Save All Items</button>
+												<button type="submit" class="btn btn-primary mt-2" onclick="this.disabled=true; this.form.submit();"><i class="fas fa-save"></i> Save All Items</button>
 											</div>
 										</div>
 									</footer>

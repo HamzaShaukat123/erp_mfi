@@ -214,7 +214,7 @@
 										<div class="row form-group mb-2">
 											<div class="text-end">
 												<button type="button" class="btn btn-danger mt-2"  onclick="window.location='{{ route('all-tquotation') }}'"> <i class="fas fa-trash"></i> Discard Invoice</button>
-												<button type="submit" class="btn btn-primary mt-2"> <i class="fas fa-save"></i> Add Quotation</button>
+												<button type="submit" class="btn btn-primary mt-2" onclick="this.disabled=true; this.form.submit();"><i class="fas fa-save"></i> Add Quotation</button>
 											</div>
 										</div>
 									</footer>

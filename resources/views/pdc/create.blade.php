@@ -89,8 +89,7 @@
 											<button type="button" class="btn btn-danger" onclick="window.location='{{ route('all-pdc') }}'">
 												<i class="fas fa-trash"></i> Discard
 											</button>
-											<button type="submit" class="btn btn-primary">
-												<i class="fas fa-save"></i> Save All PDCs
+											<button type="submit" class="btn btn-primary mt-2" onclick="this.disabled=true; this.form.submit();"><i class="fas fa-save"></i> Save All PDCs
 											</button>
 										</div>
 									</div>
