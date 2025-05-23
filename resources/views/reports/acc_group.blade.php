@@ -212,8 +212,8 @@
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
                             html += "<td>" + (v['address'] ? v['address'] : "") + "</td>";
                             html += "<td>" + (v['phone_no'] ? v['phone_no'] : "") + "</td>";
-                            html += "<td>" + (drAmt ? drAmt.toFixed(0) : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (drAmt ? drAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
                             $(tableID).append(html);
                         });
@@ -278,8 +278,8 @@
                             html += "<td>" + (v['ac_name'] ? v['ac_name'] : "") + "</td>";
                             html += "<td>" + (v['address'] ? v['address'] : "") + "</td>";
                             html += "<td>" + (v['phone_no'] ? v['phone_no'] : "") + "</td>";
-                            html += "<td>" + (drAmt ? drAmt.toFixed(0) : "") + "</td>";
-                            html += "<td>" + (crAmt ? crAmt.toFixed(0) : "") + "</td>";
+                            html += "<td>" + (drAmt ? drAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
+                            html += "<td>" + (crAmt ? crAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "") + "</td>";
                             html +="</tr>";
                             $(tableID).append(html);
                         });
