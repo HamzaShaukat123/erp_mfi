@@ -1004,7 +1004,6 @@
                 });
             }
 
-
             else if (tabId == "#sale_age") {
                 var table = document.getElementById('SaleAgeTbleBody');
                 while (table.rows.length > 0) {
