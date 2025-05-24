@@ -219,13 +219,14 @@
                         });
 
                         var totalRow = "<tr><td colspan='5' style='text-align: right;'><strong>Total:</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalDrAmt.toFixed(0) + "</strong></td>";
-                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toFixed(0) + "</strong></td></tr>";
+                        totalRow += "<td class='text-danger'><strong>" + totalDrAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
+                        totalRow += "<td class='text-danger'><strong>" + totalCrAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td></tr>";
+
                         $(tableID).append(totalRow);
 
                         var balanceAmt = totalDrAmt + totalCrAmt;
                         var totalRow = "<tr><td colspan='5' style='text-align: right;'><strong>Balance:</strong></td>";
-                        totalRow += "<td colspan='2' class='text-danger text-center'><strong>" + balanceAmt.toFixed(0) + "</strong></td>";
+                        totalRow += "<td colspan='2' class='text-danger text-center'><strong>" + balanceAmt.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "</strong></td>";
                         $(tableID).append(totalRow);
 
                      },
