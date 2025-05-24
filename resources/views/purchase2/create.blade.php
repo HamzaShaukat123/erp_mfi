@@ -298,7 +298,10 @@
 												<button type="button" class="btn btn-danger mt-2" onclick="confirmDiscard()">
 													<i class="fas fa-trash"></i> Discard Invoice
 												</button>
-												<button type="submit" class="btn btn-primary mt-2" onclick="this.disabled=true; this.form.submit();"><i class="fas fa-save"></i> Add Invoice</button>
+												{{-- <button type="submit" class="btn btn-primary mt-2" id="submitBtn"><i class="fas fa-save"></i> Add Invoice</button> --}}
+
+												<button type="submit" class="btn btn-primary mt-2" id="submitBtn"><i class="fas fa-save"></i> Add Invoice</button>
+
 											</div>
 										</div>
 									</footer>
@@ -328,6 +331,25 @@
 
 		
 	});
+
+	$('#addForm').on('submit', function(e){
+		e.preventDefault(); // Prevent default submission initially
+
+		const form = this;
+
+		if (!form.checkValidity()) {
+			// Let browser show HTML5 validation messages
+			form.reportValidity();
+			return;
+		}
+
+		// Perform your custom logic here...
+
+		// If all conditions pass:
+		$('#submitBtn').prop('disabled', true); // disable the button
+		form.submit(); // now submit the form programmatically
+	});
+
 
 	function confirmDiscard() {
 		if (confirm('Do you want to discard this invoice?')) {

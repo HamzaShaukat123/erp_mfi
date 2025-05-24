@@ -87,7 +87,7 @@
 									<footer class="card-footer">
 										<div class="row form-group mb-2">
 											<div class="text-end">
-												<button type="submit" class="btn btn-primary mt-2" onclick="this.disabled=true; this.form.submit();"><i class="fas fa-save"></i> Save All Items</button>
+												<button type="submit" class="btn btn-primary mt-2" id="submitBtn"><i class="fas fa-save"></i> Save All Items</button>
 											</div>
 										</div>
 									</footer>
@@ -113,6 +113,27 @@
 				return false;
 			}
 		});
+	});
+
+
+
+
+	$('#addForm').on('submit', function(e){
+		e.preventDefault(); // Prevent default submission initially
+
+		const form = this;
+
+		if (!form.checkValidity()) {
+			// Let browser show HTML5 validation messages
+			form.reportValidity();
+			return;
+		}
+
+		// Perform your custom logic here...
+
+		// If all conditions pass:
+		$('#submitBtn').prop('disabled', true); // disable the button
+		form.submit(); // now submit the form programmatically
 	});
 
     function removeRow(button) {
