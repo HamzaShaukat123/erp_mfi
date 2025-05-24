@@ -366,8 +366,9 @@
                             html += `
                             <tr style="background-color: #FFFFFF;">
                                 <td colspan="4" class="text-center"><strong>Sub Total for ${subHeadCount}</strong></td>
-                                <td class="text-danger"><strong>${subtotaldebit.toFixed(0)}</strong></td>
-                                <td class="text-danger"><strong>${subtotalcredit.toFixed(0)}</strong></td>
+                                <td class="text-danger"><strong>${subtotaldebit.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></td>
+                                <td class="text-danger"><strong>${subtotalcredit.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong></td>
+
                             </tr>`;
 
                         });
