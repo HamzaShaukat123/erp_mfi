@@ -350,8 +350,9 @@
                                             <td>${item.ac_code || ""}</td>
                                             <td>${item.ac_name || ""}</td>
                                             <td>${item.address || ""}</td>
-                                            <td>${item.Debit || ""}</td>
-                                            <td>${item.Credit || ""}</td>
+                                            <td>${item.Debit ? Number(item.Debit).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : ""}</td>
+                                            <td>${item.Credit ? Number(item.Credit).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : ""}</td>
+
                                         </tr>`;
 
                                 // Add to subtotals
