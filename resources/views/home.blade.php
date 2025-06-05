@@ -972,6 +972,155 @@
 									</div>
 								</div>
 
+								<div id="IILSINDH" class="tab-pane">
+									<div class="row form-group pb-3">
+
+										<div class="col-12 col-md-5 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Item Wise IIL Sindh Pipe Purchase</h2>
+												</header>
+												<div class="card-body">
+													<canvas id="IILSINDHtop5CustomerPerformance" style="height: 353px;width: 600px;"></canvas>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Monthly Tonage</h2>
+												</header>
+												<div class="card-body">
+													<canvas id="IILSINDHMonthlyTonage"></canvas>
+												</div>
+											</section>
+										</div>
+
+										<div class="mb-3 text-end">
+											<div class="form-group" style="display: inline-block">
+												<input type="month" class="form-control" id="filterIILSINDH" value="{{ date('Y-m') }}" onchange="getTabData()">
+											</div>
+											<a class="btn btn-primary" style="padding: 0.5rem 0.6rem;" onclick="getTabData()"><i class="fa fa-filter"></i></a>
+										</div>
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">CRC Purchase Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="CRCSaleSINDHTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">HRS Purchase Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="HRSSaleSINDHTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">SS Eco 201 Purchase Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="ECOSaleSINDHTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">SS Cosmo 304 Sale Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="COSMOSaleSINDHTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
+
+										
+										
+									</div>
+								</div>
+
 								<div id="GARDER" class="tab-pane">
 									<div class="row form-group pb-3">
 
