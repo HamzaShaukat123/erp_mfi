@@ -1762,7 +1762,7 @@
 		}
 
 		// Graph Chart for MILL WISE HR PIPE PURCHASE Started
-		const mills = ['296', '82', '73','86'];
+		const mills = ['296', '82', '73','86', '88'];
 		const IILmills = ['1', '5', '6', '7', '8']; // Mill codes to include
 
 		const colors = [
@@ -1771,6 +1771,7 @@
 			'rgba(25, 135, 84, 1)',
 			'rgba(219, 150, 81, 1)',
 			'rgba(43, 170, 177, 1)',
+			
 			
 		];
 
@@ -1910,6 +1911,9 @@
 					}
 					else if(item.mill_name=="MEHBOOB PIPE"){
 						result[millCode].backgroundColor = 'rgba(25, 135, 84, 1)';
+					}
+					else if(item.mill_name=="TUBLINK PIPE"){
+						result[millCode].backgroundColor = 'rgba(255, 105, 180, 1)';
 					}
 				}
 			});
