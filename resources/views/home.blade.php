@@ -402,7 +402,7 @@
 									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#HR" href="#HR" data-bs-toggle="tab">HR</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#IIL" href="#IIL" data-bs-toggle="tab">IIL</a>
+									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#IIL" href="#IIL" data-bs-toggle="tab">IIL Karachi</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link nav-link-dashboard-tab" data-bs-target="#IILSINDH" href="#IILSINDH" data-bs-toggle="tab">IIL Sindh</a>
