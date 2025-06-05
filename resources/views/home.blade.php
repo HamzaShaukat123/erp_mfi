@@ -1762,7 +1762,7 @@
 		}
 
 		// Graph Chart for MILL WISE HR PIPE PURCHASE Started
-		const mills = ['296', '82', '73','86','88'];
+		const mills = ['296', '82', '73','86'];
 		const IILmills = ['1', '5', '6', '7', '8']; // Mill codes to include
 
 		const colors = [
@@ -1771,7 +1771,6 @@
 			'rgba(25, 135, 84, 1)',
 			'rgba(219, 150, 81, 1)',
 			'rgba(43, 170, 177, 1)',
-			'rgba(255, 105, 180, 1)',
 			
 		];
 
@@ -1874,61 +1873,57 @@
 		let top5CustomerPerformanceChart;
 		let IILmonthlyTonageChart; // Declare a global variable to hold the chart instance
 		let IILtop5CustomerPerformanceChart;
-function groupByMillCode(mills, data) {
-	const result = {
-		labels: [], // To hold the labels for the chart
-		data: [], // To hold the total_weight for each mill
-		backgroundColor: [] // To hold the colors for the chart
-	};
 
-	// Initialize groups for each mill in mills array
-	mills.forEach(mill => {
-		result[mill] = { weight: 0, name: "", backgroundColor: "" };
-	});
+		function groupByMillCode(mills, data) {
+			const result = {
+				labels: [], // To hold the labels for the chart
+				data: [], // To hold the total_weight for each mill
+				backgroundColor: [] // To hold the colors for the chart
+			};
 
-	// Add a group for "Others"
-	result['Others'] = { weight: 0, name: "Others", backgroundColor: 'rgba(200, 200, 200, 1)' };
+			// Initialize groups for each mill in mills array
+			mills.forEach(mill => {
+				result[mill] = { weight: 0, name: "", backgroundColor: "" };
+			});
 
-	// Iterate through the data to group by mill_code and calculate total_weight
-	data.forEach(item => {
-		const millCode = item.mill_code.toString();
-		const isKnownMill = mills.includes(millCode);
-		const millName = isKnownMill ? item.mill_name : 'Others';
+			// Add a group for "Others"
+			result['Others'] = { weight: 0, name: "Others" };
 
-		if (!isKnownMill) {
-			result['Others'].weight += item.total_weight;
-		} else {
-			result[millCode].weight += item.total_weight;
-			result[millCode].name = item.mill_name || `Mill ${millCode}`;
+			// Iterate through the data to group by mill_code and calculate total_weight
+			data.forEach(item => {
+				const millCode = item.mill_code.toString();
+				const millName = mills.includes(millCode) ? item.mill_name : 'Others';
 
-			// Assign color based on mill name
-			if (item.mill_name === "STEELEX") {
-				result[millCode].backgroundColor = 'rgba(220, 53, 69, 1)';
-			} else if (item.mill_name === "S.P.M") {
-				result[millCode].backgroundColor = 'rgba(0, 136, 204, 1)';
-			} else if (item.mill_name === "MEHBOOB PIPE") {
-				result[millCode].backgroundColor = 'rgba(25, 135, 84, 1)';
-			} else if (item.mill_name === "Tublink Pipe") {
-				result[millCode].backgroundColor = 'rgba(255, 193, 7, 1)'; // Yellow
-			} else {
-				// Fallback color for unknown but included mills
-				result[millCode].backgroundColor = 'rgba(100, 100, 100, 1)';
+				// Aggregate the total_weight based on the mill_code or group it under "Others"
+				if (millName === 'Others') {
+					result['Others'].weight += item.total_weight;
+					result['Others'].backgroundColor = 'rgba(200, 200, 200, 1)';
+
+				} else {
+					result[millCode].weight += item.total_weight;
+					result[millCode].name = item.mill_name;
+					if(item.mill_name=="STEELEX"){
+						result[millCode].backgroundColor = 'rgba(220, 53, 69, 1)';
+					}
+					else if(item.mill_name=="S.P.M"){
+						result[millCode].backgroundColor = 'rgba(0, 136, 204, 1)';
+					}
+					else if(item.mill_name=="MEHBOOB PIPE"){
+						result[millCode].backgroundColor = 'rgba(25, 135, 84, 1)';
+					}
+				}
+			});
+			// Prepare the final chart data
+			for (const key in result) {
+				if (result[key].weight > 0) {
+					result.labels.push(result[key].name);
+					result.data.push(result[key].weight);
+					result.backgroundColor.push(result[key].backgroundColor);
+				}
 			}
+
+			return result;
 		}
-	});
-
-	// Prepare the final chart data
-	for (const key in result) {
-		if (result[key].weight > 0) {
-			result.labels.push(result[key].name);
-			result.data.push(result[key].weight);
-			result.backgroundColor.push(result[key].backgroundColor);
-		}
-	}
-
-	return result;
-}
-
 
 		function IILgroupByMillCode(itemGroups, colors, data) {
 			const result = {
