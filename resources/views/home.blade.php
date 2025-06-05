@@ -833,7 +833,7 @@
 														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
 													</div>
 
-													<h2 class="card-title">Item Wise IIL Pipe Purchase</h2>
+													<h2 class="card-title">Item Wise IIL Karachi Pipe Purchase</h2>
 												</header>
 												<div class="card-body">
 													<canvas id="IILtop5CustomerPerformance" style="height: 353px;width: 600px;"></canvas>
