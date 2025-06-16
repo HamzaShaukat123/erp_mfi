@@ -820,6 +820,33 @@
 												</div>
 											</section>
 										</div>
+
+
+										<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Steelex Purchase Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="SteelexSaleTable">
+															
+														</tbody>
+													</table>
+												</div>
+											</section>
+										</div>
 										
 									</div>
 								</div>
