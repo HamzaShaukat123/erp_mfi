@@ -818,6 +818,30 @@
 														</tbody>
 													</table>
 												</div>
+
+												<div class="col-12 col-md-3 mb-3">
+											<section class="card">
+												<header class="card-header">
+													<div class="card-actions">
+														<a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+													</div>
+
+													<h2 class="card-title">Purchase 2 Summary</h2>
+												</header>
+												<div class="card-body scrollable-div">
+													
+													<table class="table table-responsive-md table-striped mb-0">
+														<thead class="sticky-tbl-header">
+															<tr>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Company Name</font></font></th>
+																<th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;text-align:center">Tonage</font></font></th>
+															</tr>
+														</thead>
+														<tbody id="Pur2Summary">
+															
+														</tbody>
+													</table>
+												</div>
 											</section>
 										</div>
 										
@@ -2350,6 +2374,11 @@
 					table.deleteRow(0);
 				}
 
+				var table = document.getElementById('Pur2Summary');
+				while (table.rows.length > 0) {
+					table.deleteRow(0);
+				}
+
 				var month = document.getElementById('filterHR').value;
 
 				$.ajax({
@@ -2490,6 +2519,24 @@
 							</tr>`;
 						});
 						$('#Top3Cus').html(rows);
+
+						var rows = '';
+						var totalWeight = 0; // Initialize total
+
+						$.each(result['godown'], function (index, value) {
+							var weight = value['weight'] ? parseFloat(value['weight']) : 0; // Convert to a number
+							totalWeight += weight; // Add to total
+							rows += `<tr>
+								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${weight ? weight : ''}</td>
+							</tr>`;
+						});
+						// Append a row for the total
+						rows += `<tr>
+							<td><strong>Total</strong></td>
+							<td class="text-danger"><strong>${totalWeight.toFixed(2)}</strong></td> <!-- Format to 2 decimal places -->
+						</tr>`
+						$('#Pur2Summary').html(rows);
 
 						
 					},
