@@ -9,6 +9,7 @@ use App\Models\pur_pipe_summary_of_party_by_mill;
 use App\Models\AC;
 use App\Models\top_customers_of_sale2;
 use App\Models\top_customers_of_pur2;
+use App\Models\total_pur_pipe_summary_of_by_mill;
 
 class DashboardHRTabController extends Controller
 {
@@ -46,6 +47,11 @@ class DashboardHRTabController extends Controller
         ->where('dat',$request->month)
         ->get();
 
+
+        $pur2summary = total_pur_pipe_summary_of_by_mill::where('dat',$request->month)
+        ->orderBy('weight', 'desc')
+        ->get();
+
         
         return [
             'dash_pur_2_summary_monthly_companywise' => $dash_pur_2_summary_monthly_companywise,
@@ -55,6 +61,7 @@ class DashboardHRTabController extends Controller
             'mehboob' => $mehboob,
             'godown' => $godown,
             'top_customers_of_pur2' => $top_customers_of_pur2,
+            'pur2summary' => $pur2summary
         ];
     }
 

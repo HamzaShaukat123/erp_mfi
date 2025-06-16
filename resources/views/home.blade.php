@@ -2523,11 +2523,11 @@
 						var rows = '';
 						var totalWeight = 0; // Initialize total
 
-						$.each(result['godown'], function (index, value) {
+						$.each(result['pur2summary'], function (index, value) {
 							var weight = value['weight'] ? parseFloat(value['weight']) : 0; // Convert to a number
 							totalWeight += weight; // Add to total
 							rows += `<tr>
-								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
+								<td>${value['company_name'] ? value['company_name'] : ''}</td>
 								<td>${weight ? weight : ''}</td>
 							</tr>`;
 						});
