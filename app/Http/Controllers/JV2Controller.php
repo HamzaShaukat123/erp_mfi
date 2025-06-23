@@ -547,7 +547,7 @@ class JV2Controller extends Controller
         $html .= '<th style="width:20%;color:#17365D;font-weight:bold;">Account Name</th>';
         $html .= '<th style="width:20%;color:#17365D;font-weight:bold;">Remarks</th>';
         $html .= '<th style="width:15%;color:#17365D;font-weight:bold;">Bank Name</th>';
-        $html .= '<th style="width:15%;color:#17365D;font-weight:bold;">Inst #</th>';
+        $html .= '<th style="width:15%;color:#17365D;font-weight:bold;">Inst/Slip #</th>';
         $html .= '<th style="width:15%;color:#17365D;font-weight:bold;">Debit</th>';
         $html .= '<th style="width:15%;color:#17365D;font-weight:bold;">Credit</th>';
         $html .= '</tr>';
@@ -567,7 +567,7 @@ class JV2Controller extends Controller
                 $html .= '<td style="width:20%;">'.$items['acc_name'].'</td>';
                 $html .= '<td style="width:20%;">'.$items['remarks'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['bankname'].'</td>';
-                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'</td>';
+                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'/'.$items['slip'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['debit'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['credit'].'</td>';
                 $total_debit=$total_debit+$items['debit'];
@@ -579,7 +579,7 @@ class JV2Controller extends Controller
                 $html .= '<td style="width:20%;">'.$items['acc_name'].'</td>';
                 $html .= '<td style="width:20%;">'.$items['remarks'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['bankname'].'</td>';
-                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'</td>';
+                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'/'.$items['slip'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['debit'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['credit'].'</td>';
                 $total_debit=$total_debit+$items['debit'];
