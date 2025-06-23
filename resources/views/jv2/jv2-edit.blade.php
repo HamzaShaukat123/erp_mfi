@@ -54,7 +54,6 @@
 													<th width="">Remarks</th>
 													<th width="">Bank Name</th>
 													<th width="">Instr. #</th>
-													<th width="">Slip #</th>
 													<th width="">Chq Date</th>
 													<th width="">Debit</th>
 													<th width="">Credit</th>
@@ -80,9 +79,6 @@
 														</td>
 														<td>
 															<input type="text" class="form-control" name="instrumentnumber[]" value="{{$jv2_items->instrumentnumber}}">
-														</td>
-														<td>
-															<input type="text" class="form-control" name="slip[]" value="{{$jv2_items->slip}}">
 														</td>
 														<td>
 															<input type="date" class="form-control"  name="chq_date[]" size=5  value="{{$jv2_items->chqdate}}">
@@ -535,7 +531,6 @@
 			var cell6 = newRow.insertCell(5);
 			var cell7 = newRow.insertCell(6);
 			var cell8 = newRow.insertCell(7);
-			var cell9 = newRow.insertCell(8);
 
 			cell1.innerHTML  = '<select data-plugin-selecttwo class="form-control select2-js"  onclick="addNewRow()" name ="account_cod[]" required>'+
 									'<option value="" disabled selected>Select Account</option>'+
@@ -546,11 +541,10 @@
 			cell2.innerHTML  = '<input type="text" class="form-control" name="remarks[]" >';
 			cell3.innerHTML  = '<input type="text" class="form-control" name="bank_name[]" >';
 			cell4.innerHTML  = '<input type="text" class="form-control" name="instrumentnumber[]">';
-			cell5.innerHTML  = '<input type="text" class="form-control" name="slip[]">';
-			cell6.innerHTML  = '<input type="date" class="form-control" size="5" name="chq_date[]"  >';
-			cell7.innerHTML  = '<input type="number" class="form-control" name="debit[]"  required value="0" onchange="totalDebit()" step=".00001">';
-			cell8.innerHTML  = '<input type="number" class="form-control" name="credit[]"  required value="0" onchange="totalCredit()" step=".00001">';
-			cell9.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
+			cell5.innerHTML  = '<input type="date" class="form-control" size="5" name="chq_date[]"  >';
+			cell6.innerHTML  = '<input type="number" class="form-control" name="debit[]"  required value="0" onchange="totalDebit()" step=".00001">';
+			cell7.innerHTML  = '<input type="number" class="form-control" name="credit[]"  required value="0" onchange="totalCredit()" step=".00001">';
+			cell8.innerHTML = '<button type="button" onclick="removeRow(this)" class="btn btn-danger" tabindex="1"><i class="fas fa-times"></i></button>';
 
 			itemCount = Number($('#itemCount').val());
 			itemCount = itemCount+1;
@@ -594,7 +588,7 @@
         var rowCount = table.rows.length; // Get the total number of rows
 
 		for (var j=0;j<rowCount; j++){
-			debit = table.rows[j].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
+			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalDebit = totalDebit + Number(debit);
 		}
 		$('#total_debit').val(totalDebit);
@@ -608,7 +602,7 @@
         var rowCount = table.rows.length; // Get the total number of rows
 
 		for (var i=0;i<rowCount; i++){
-			credit = table.rows[i].cells[7].querySelector('input').value; // Get the value of the input field in the specified cell
+			credit = table.rows[i].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalCredit = totalCredit + Number(credit);
 		}
 		$('#total_credit').val(totalCredit);
