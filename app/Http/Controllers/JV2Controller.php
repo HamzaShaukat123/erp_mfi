@@ -567,7 +567,7 @@ class JV2Controller extends Controller
                 $html .= '<td style="width:20%;">'.$items['acc_name'].'</td>';
                 $html .= '<td style="width:20%;">'.$items['remarks'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['bankname'].'</td>';
-                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'/'.$items['slip'].'</td>';
+                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].''.$items['slip'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['debit'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['credit'].'</td>';
                 $total_debit=$total_debit+$items['debit'];
@@ -579,7 +579,7 @@ class JV2Controller extends Controller
                 $html .= '<td style="width:20%;">'.$items['acc_name'].'</td>';
                 $html .= '<td style="width:20%;">'.$items['remarks'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['bankname'].'</td>';
-                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].'/'.$items['slip'].'</td>';
+                $html .= '<td style="width:15%;">'.$items['instrumentnumber'].''.$items['slip'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['debit'].'</td>';
                 $html .= '<td style="width:15%;">'.$items['credit'].'</td>';
                 $total_debit=$total_debit+$items['debit'];
