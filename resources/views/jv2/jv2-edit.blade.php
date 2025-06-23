@@ -478,10 +478,10 @@
 
 		for (var j=0;j<rowCount; j++){
 
-			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
+			debit = table.rows[j].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalDebit = totalDebit + Number(debit);
 
-			credit = table.rows[j].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
+			credit = table.rows[j].cells[7].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalCredit = totalCredit + Number(credit);
 		}
 		$('#total_credit').val(totalCredit);
@@ -592,7 +592,7 @@
         var rowCount = table.rows.length; // Get the total number of rows
 
 		for (var j=0;j<rowCount; j++){
-			debit = table.rows[j].cells[5].querySelector('input').value; // Get the value of the input field in the specified cell
+			debit = table.rows[j].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalDebit = totalDebit + Number(debit);
 		}
 		$('#total_debit').val(totalDebit);
@@ -606,7 +606,7 @@
         var rowCount = table.rows.length; // Get the total number of rows
 
 		for (var i=0;i<rowCount; i++){
-			credit = table.rows[i].cells[6].querySelector('input').value; // Get the value of the input field in the specified cell
+			credit = table.rows[i].cells[7].querySelector('input').value; // Get the value of the input field in the specified cell
 			totalCredit = totalCredit + Number(credit);
 		}
 		$('#total_credit').val(totalCredit);
