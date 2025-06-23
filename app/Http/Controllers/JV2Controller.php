@@ -169,6 +169,9 @@ class JV2Controller extends Controller
                     if ($request->instrumentnumber[$i]!=null) {
                         $lager->instrumentnumber=$request->instrumentnumber[$i];
                     }
+                    if ($request->slip[$i]!=null) {
+                        $lager->slip=$request->slip[$i];
+                    }
                     if ($request->chq_date[$i]!=null) {
                         $lager->chqdate=$request->chq_date[$i];
                     }
@@ -350,6 +353,9 @@ class JV2Controller extends Controller
                     }
                     if ($request->instrumentnumber[$i] OR empty($request->instrumentnumber[$i])) {
                         $lager->instrumentnumber=$request->instrumentnumber[$i];
+                    }
+                    if ($request->slip[$i] OR empty($request->slip[$i])) {
+                        $lager->slip=$request->slip[$i];
                     }
                     if ($request->chq_date[$i] OR empty($request->chq_date[$i])) {
                         $lager->chqdate=$request->chq_date[$i];
