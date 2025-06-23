@@ -54,6 +54,7 @@
 													<th width="">Remarks</th>
 													<th width="">Bank Name</th>
 													<th width="">Instr. #</th>
+													<th width="">Slip #</th>
 													<th width="">Chq Date</th>
 													<th width="">Debit</th>
 													<th width="">Credit</th>
@@ -79,6 +80,9 @@
 														</td>
 														<td>
 															<input type="text" class="form-control" name="instrumentnumber[]" value="{{$jv2_items->instrumentnumber}}">
+														</td>
+														<td>
+															<input type="text" class="form-control" name="slip[]" value="{{$jv2_items->slip}}">
 														</td>
 														<td>
 															<input type="date" class="form-control"  name="chq_date[]" size=5  value="{{$jv2_items->chqdate}}">
