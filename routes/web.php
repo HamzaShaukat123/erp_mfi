@@ -136,6 +136,7 @@
         Route::post('/quotation/create', [App\Http\Controllers\QuotationController::class, 'store'])->name('store-quotation-invoice');
         Route::post('/coa-sub-heads/create', [App\Http\Controllers\COASubHeadsController::class, 'store'])->name('store-acc-sub-heads-groups');
         Route::post('/coa-groups/create', [App\Http\Controllers\COAGroupsController::class, 'store'])->name('store-acc-groups');
+        
         Route::get('/sales/new', [App\Http\Controllers\SalesController::class, 'create'])->name('create-sale-invoice'); 
         Route::get('/stock_out/new', [App\Http\Controllers\StockOutController::class, 'create'])->name('create-stock-out-invoice'); 
         Route::post('/stock_out/create', [App\Http\Controllers\StockOutController::class, 'store'])->name('store-stock-out-invoice');
@@ -228,6 +229,7 @@
         Route::post('/items/delete', [App\Http\Controllers\ItemsController::class, 'destroy'])->name('delete-item');
         Route::post('/item2/delete', [App\Http\Controllers\Item2Controller::class, 'destroy'])->name('delete-item-2');
         Route::post('/coa-groups/delete', [App\Http\Controllers\COAGroupsController::class, 'destroy'])->name('delete-acc-groups');
+        
         Route::post('/vouchers/delete', [App\Http\Controllers\JV1Controller::class, 'destroy'])->name('delete-jv1');
         Route::post('/po/delete', [App\Http\Controllers\PoController::class, 'destroy'])->name('delete-po');
         Route::post('/tpo/delete', [App\Http\Controllers\TpoController::class, 'destroy'])->name('delete-tpo');
@@ -661,6 +663,15 @@
 
     Route::get('/salesageing/all-salesageing', [App\Http\Controllers\SalesAgeingController::class, 'index'])->name('all-salesageing');
     Route::post('/salesageing/delete', [App\Http\Controllers\SalesAgeingController::class, 'destroy'])->name('delete-salesageing');
+
+
+    Route::post('/coa-groups/delete', [App\Http\Controllers\COACityController::class, 'destroy'])->name('delete-acc-city');
+    
+    Route::get('/coa-city/all-city', [App\Http\Controllers\COACityController::class, 'index'])->name('all-city');
+    Route::post('/coa-city/create', [App\Http\Controllers\COACityController::class, 'store'])->name('store-acc-city');
+    Route::post('/coa-city/update', [App\Http\Controllers\COACityController::class, 'update'])->name('update-acc-city');
+    Route::get('/coa-city/detail', [App\Http\Controllers\COACityController::class, 'show'])->name('coa-city-detail');
+
 
 
 
