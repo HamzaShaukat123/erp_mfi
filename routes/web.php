@@ -21,6 +21,7 @@
         Route::get('/coa/all-acc', [App\Http\Controllers\COAController::class, 'index'])->name('all-acc');
         Route::get('/coa-groups/all-coa-groups', [App\Http\Controllers\COAGroupsController::class, 'index'])->name('all-acc-groups');
         Route::get('/coa-city/all-city', [App\Http\Controllers\COACityController::class, 'index'])->name('all-city');
+        Route::get('/coa-area/all-area', [App\Http\Controllers\COAAreaController::class, 'index'])->name('all-area');
         Route::get('/coa-sub-heads/all-coa-sub-heads', [App\Http\Controllers\COASubHeadsController::class, 'index'])->name('all-acc-sub-heads-groups');
         Route::get('/vouchers/all-jv1', [App\Http\Controllers\JV1Controller::class, 'index'])->name('all-jv1');
         Route::get('/vouchers2/all-jv2', [App\Http\Controllers\JV2Controller::class, 'index'])->name('all-jv2');
@@ -47,6 +48,7 @@
         Route::get('/pdc/all-pdc', [App\Http\Controllers\PDCController::class, 'index'])->name('all-pdc');
         Route::get('/po/show/{id}', [App\Http\Controllers\PoController::class, 'show'])->name('show-po');
         Route::post('/coa-city/update', [App\Http\Controllers\COACityController::class, 'update'])->name('update-acc-city');
+        Route::post('/coa-area/update', [App\Http\Controllers\COAAreaController::class, 'update'])->name('update-acc-area');
         Route::get('/purchase2/show/{id}', [App\Http\Controllers\Purchase2Controller::class, 'show'])->name('show-purchases2');
         Route::get('/sales/saleinvoice/view/{id}', [App\Http\Controllers\SalesController::class, 'showNew'])->name('show-sale-invoice');
         Route::get('/sales2/show/{id}', [App\Http\Controllers\Sales2Controller::class, 'show'])->name('show-sales2');
@@ -119,6 +121,7 @@
         Route::post('/coa/create', [App\Http\Controllers\COAController::class, 'store'])->name('store-acc');
         Route::post('/item2/create', [App\Http\Controllers\Item2Controller::class, 'store'])->name('store-item-2');
         Route::post('/coa-city/create', [App\Http\Controllers\COACityController::class, 'store'])->name('store-acc-city');
+        Route::post('/coa-area/create', [App\Http\Controllers\COAAreaController::class, 'store'])->name('store-acc-area');
         Route::post('/vouchers/create', [App\Http\Controllers\JV1Controller::class, 'store'])->name('store-jv1');
         Route::get('/vouchers/getpdc/', [App\Http\Controllers\JV1Controller::class, 'getpdc'])->name('get-unajusted-pdc-jv1');
         Route::post('/sales/create', [App\Http\Controllers\SalesController::class, 'store'])->name('store-sale-invoice');
@@ -195,6 +198,7 @@
         Route::post('/item2/update', [App\Http\Controllers\Item2Controller::class, 'update'])->name('update-item-2');
         Route::post('/coa/update', [App\Http\Controllers\COAController::class, 'update'])->name('update-acc');
         Route::get('/coa-city/detail', [App\Http\Controllers\COACityController::class, 'show'])->name('coa-city-detail');
+        Route::get('/coa-area/detail', [App\Http\Controllers\COAAreaController::class, 'show'])->name('coa-area-detail');
         Route::post('/coa-groups/update', [App\Http\Controllers\COAGroupsController::class, 'update'])->name('update-acc-groups');
         Route::post('/coa-sub-heads/update', [App\Http\Controllers\COASubHeadsController::class, 'update'])->name('update-acc-sub-heads-groups');
         Route::post('/vouchers/update', [App\Http\Controllers\JV1Controller::class, 'update'])->name('update-jv1');
@@ -232,6 +236,7 @@
         Route::post('/item2/delete', [App\Http\Controllers\Item2Controller::class, 'destroy'])->name('delete-item-2');
         Route::post('/coa-groups/delete', [App\Http\Controllers\COAGroupsController::class, 'destroy'])->name('delete-acc-groups');
         Route::post('/coa-city/delete', [App\Http\Controllers\COACityController::class, 'destroy'])->name('delete-acc-city');
+        Route::post('/coa-area/delete', [App\Http\Controllers\COAAreaController::class, 'destroy'])->name('delete-acc-area');
         Route::post('/vouchers/delete', [App\Http\Controllers\JV1Controller::class, 'destroy'])->name('delete-jv1');
         Route::post('/po/delete', [App\Http\Controllers\PoController::class, 'destroy'])->name('delete-po');
         Route::post('/tpo/delete', [App\Http\Controllers\TpoController::class, 'destroy'])->name('delete-tpo');
