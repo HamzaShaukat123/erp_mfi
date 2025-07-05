@@ -47,7 +47,7 @@
                             @endif	
                             
                              <!-- set admin Role ID here -->
-                             @if(session('user_role')==2)
+                             @if(session('user_role')==1)
                             <li>
                                 <a class="nav-link"   href="{{ route('all-modules')}}">
                                     Modules
