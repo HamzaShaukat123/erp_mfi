@@ -129,6 +129,13 @@
                                 </a>
                             </li>
                             @endif
+                            @if((session('user_access')[41]['module_id'])==40 && (session('user_access')[41]['view'])==1)
+                            <li>
+                                <a class="nav-link"   href="{{ route('all-area')}}">
+                                    COA City
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
