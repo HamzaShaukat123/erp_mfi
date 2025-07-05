@@ -92,7 +92,7 @@
                     </li>
                     @endif
 
-                    @if(((session('user_access')[5]['module_id'])==6 && (session('user_access')[5]['view'])==1) OR ((session('user_access')[6]['module_id'])==7 && (session('user_access')[6]['view'])==1) OR ((session('user_access')[7]['module_id'])==8 && (session('user_access')[7]['view'])==1) OR ((session('user_access')[40]['module_id'])==41 && (session('user_access')[40]['view'])==1) OR ((session('user_access')[41]['module_id'])==42 && (session('user_access')[41]['view'])==1))
+                    @if(((session('user_access')[5]['module_id'])==6 && (session('user_access')[5]['view'])==1) OR ((session('user_access')[6]['module_id'])==7 && (session('user_access')[6]['view'])==1) OR ((session('user_access')[7]['module_id'])==8 && (session('user_access')[7]['view'])==1) OR ((session('user_access')[40]['module_id'])==41 && (session('user_access')[40]['view'])==1))
                     <li class="nav-parent">
                         <a class="nav-link" href="#">
                             <i style="font-size:16px"class="fa fa-money-bill" aria-hidden="true"></i>
