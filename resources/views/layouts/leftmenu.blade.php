@@ -132,7 +132,7 @@
                             @if((session('user_access')[41]['module_id'])==42 && (session('user_access')[41]['view'])==1)
                             <li>
                                 <a class="nav-link"   href="{{ route('all-area')}}">
-                                    COA City
+                                    COA Area
                                 </a>
                             </li>
                             @endif
