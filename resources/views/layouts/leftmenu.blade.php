@@ -121,6 +121,14 @@
                                 </a>
                             </li>
                             @endif
+
+                            @if((session('user_access')[7]['module_id'])==8 && (session('user_access')[7]['view'])==1)
+                            <li>
+                                <a class="nav-link"   href="{{ route('all-city')}}">
+                                    COA City
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
