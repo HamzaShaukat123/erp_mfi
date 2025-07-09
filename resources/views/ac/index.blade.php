@@ -71,7 +71,7 @@
                                                         @endif
                                                         <td>{{ \Carbon\Carbon::parse($row->opp_date)->format('d-m-y') }}</td>
                                                         <td>{{$row->remarks}}</td>
-                                                        <td>{{$row->address}}   {{$row->phone_no}}</td>
+                                                        <td>{{$row->address}}  {{$row->area}} {{$row->city}} {{$row->phone_no}}</td>
                                                         @if(substr(strval($row->credit_limit), strpos(strval($row->credit_limit), '.') + 1) > 0)
                                                             <td style="color: rgb(156, 32, 32);"><strong>{{ rtrim(rtrim(number_format($row->credit_limit, 10, '.', ','), '0'), '.') }}</strong></td>
                                                         @else
