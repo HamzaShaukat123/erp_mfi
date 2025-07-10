@@ -361,7 +361,7 @@
                                 <select data-plugin-selecttwo class="form-control select2-js"  name="area" id="update_area">
                                     <option value="">Select Group</option>
                                     @foreach($area as $key => $row)	
-                                        <option value="{{$row->area}}">{{$row->area}}</option>
+                                        <option value="{{$row->id}}">{{$row->area}}</option>
                                     @endforeach
                                 </select>
                                 <a href="{{ route('all-acc-groups') }}">Add New A.Group</a>
