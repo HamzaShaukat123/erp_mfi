@@ -266,6 +266,24 @@
                                 <input type="text" class="form-control"  placeholder="Remarks" name="remarks" >
                             </div>
                             <div class="col-lg-6 mb-2">
+                                <label>Area </label>
+                                <select data-plugin-selecttwo class="form-control select2-js"  name ="area">
+                                    <option value="">Select Area</option>
+                                    @foreach($ac_area as $key => $row)	
+                                        <option value="{{$row->id}}">{{$row->area}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>City </label>
+                                <select data-plugin-selecttwo class="form-control select2-js"  name ="city">
+                                    <option value="">Select City</option>
+                                    @foreach($ac_city as $key => $row)	
+                                        <option value="{{$row->id}}">{{$row->city}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-6 mb-2">
                                 <label>Address</label>
                                 <textarea type="text" class="form-control" rows="2" placeholder="Address" name="address"></textarea>
                             </div>
