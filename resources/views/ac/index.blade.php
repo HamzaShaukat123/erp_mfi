@@ -364,13 +364,12 @@
                                         <option value="{{$row->id}}">{{$row->area}}</option>
                                     @endforeach
                                 </select>
-                                <a href="{{ route('all-acc-groups') }}">Add New A.Group</a>
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Account Group</label>
                                 <select data-plugin-selecttwo class="form-control select2-js"  name="group_cod" id="update_group_cod">
                                     <option value="">Select Group</option>
-                                    @foreach($ac_group as $key => $row)	
+                                    @foreach($ac_area as $key => $row)	
                                         <option value="{{$row->group_cod}}">{{$row->group_name}}</option>
                                     @endforeach
                                 </select>
