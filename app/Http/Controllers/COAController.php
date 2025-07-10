@@ -26,9 +26,10 @@ class COAController extends Controller
     public function index()
     {
         $acc = AC::join('sub_head_of_acc as shoa', 'shoa.id', '=', 'ac.AccountType')
-               ->leftjoin('ac_group as ag', 'ag.group_cod', '=', 'ac.group_cod')
+                ->leftjoin('ac_group as ag', 'ag.group_cod', '=', 'ac.group_cod')
                 ->leftjoin('ac_city as ac_city', 'ac_city.id', '=', 'ac.city')
-               ->select('ac.*' , 'ag.group_name', 'shoa.sub', 'ac_city.city')
+                ->leftjoin('ac_area as ac_area', 'ac_area.id', '=', 'ac.area')
+               ->select('ac.*' , 'ag.group_name', 'shoa.sub', 'ac_city.city', 'ac_area.area')
                ->get();
         $sub_head_of_acc = sub_head_of_acc::where('status', 1)->get();
         $ac_group = ac_group::where('status', 1)->get();
