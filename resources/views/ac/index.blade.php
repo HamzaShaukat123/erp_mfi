@@ -359,21 +359,20 @@
                             <div class="col-lg-6 mb-2">
                                 <label>Area</label>
                                 <select data-plugin-selecttwo class="form-control select2-js"  name="area" id="update_area">
-                                    <option value="">Select Group</option>
+                                    <option value="">Select Area</option>
                                     @foreach($ac_area as $key => $row)	
                                         <option value="{{$row->id}}">{{$row->area}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <label>Account Group</label>
-                                <select data-plugin-selecttwo class="form-control select2-js"  name="group_cod" id="update_group_cod">
-                                    <option value="">Select Group</option>
-                                    @foreach($ac_area as $key => $row)	
-                                        <option value="{{$row->group_cod}}">{{$row->group_name}}</option>
+                                <label>City</label>
+                                <select data-plugin-selecttwo class="form-control select2-js"  name="city" id="update_city">
+                                    <option value="">Select City</option>
+                                    @foreach($ac_city as $key => $row)	
+                                        <option value="{{$row->id}}">{{$row->city}}</option>
                                     @endforeach
                                 </select>
-                                <a href="{{ route('all-acc-groups') }}">Add New A.Group</a>
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label>Address</label>
@@ -496,6 +495,7 @@
                 $('#update_opp_date').val(result['opp_date']);
                 $('#update_remarks').val(result['remarks']);
                 $('#update_area').val(result['area']).trigger('change');
+                $('#update_city').val(result['city']).trigger('change');
                 $('#update_address').val(result['address']);
                 $('#update_phone_no').val(result['phone_no']);
                 $('#update_credit_limit').val(result['credit_limit']);

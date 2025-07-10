@@ -35,7 +35,7 @@ class COAController extends Controller
         $ac_group = ac_group::where('status', 1)->get();
         $ac_area = ac_area::where('status', 1)->get();
 
-        return view('ac.index',compact('acc','sub_head_of_acc','ac_group','ac_area'));
+        return view('ac.index',compact('acc','sub_head_of_acc','ac_group','ac_area','ac_city'));
     }
 
     public function validation(Request $request)
@@ -73,11 +73,14 @@ class COAController extends Controller
         if ($request->has('remarks') && $request->remarks) {
             $acc->remarks=$request->remarks;
         }
-        if ($request->has('address') && $request->address) {
-            $acc->address=$request->address;
-        }
         if ($request->has('area') && $request->area) {
             $acc->area=$request->area;
+        }
+        if ($request->has('city') && $request->city) {
+            $acc->city=$request->city;
+        }
+        if ($request->has('address') && $request->address) {
+            $acc->address=$request->address;
         }
         if ($request->has('phone_no') && $request->phone_no) {
             $acc->phone_no=$request->phone_no;
