@@ -154,6 +154,12 @@ class COAController extends Controller
         if ($request->has('remarks') && $request->remarks OR empty($request->remarks)) {
             $acc->remarks=$request->remarks;
         }
+        if ($request->has('area') && $request->area OR empty($request->area)) {
+            $acc->area=$request->area;
+        }
+        if ($request->has('city') && $request->city OR empty($request->city)) {
+            $acc->city=$request->city;
+        }
         if ($request->has('address') && $request->address OR empty($request->address)) {
             $acc->address=$request->address;
         }
@@ -166,7 +172,6 @@ class COAController extends Controller
         if ($request->has('days_limit') && $request->days_limit) {
             $acc->days_limit=$request->days_limit;
         }
-
         if ($request->has('group_cod') && $request->group_cod OR empty($request->group_cod)) {
             $acc->group_cod=$request->group_cod;
         }
@@ -180,7 +185,9 @@ class COAController extends Controller
             'pay_able'=>$acc->pay_able,
             'opp_date'=>$acc->opp_date,
             'remarks'=>$acc->remarks,
+            'area'=>$acc->area,
             'address'=>$acc->address,
+            'city'=>$acc->city,
             'phone_no'=>$acc->phone_no,
             'credit_limit'=>$acc->credit_limit,
             'days_limit'=>$acc->days_limit,
