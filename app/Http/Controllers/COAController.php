@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use App\Models\AC;
 use App\Models\ac_att;
 use App\Models\ac_group;
+use App\Models\ac_area;
+use App\Models\ac_city;
 use App\Traits\SaveImage;
 use App\Models\sub_head_of_acc;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -25,7 +27,8 @@ class COAController extends Controller
     {
         $acc = AC::join('sub_head_of_acc as shoa', 'shoa.id', '=', 'ac.AccountType')
                ->leftjoin('ac_group as ag', 'ag.group_cod', '=', 'ac.group_cod')
-               ->select('ac.*' , 'ag.group_name', 'shoa.sub')
+                ->leftjoin('ac_city as ac_city', 'ac_city.id', '=', 'ac.city')
+               ->select('ac.*' , 'ag.group_name', 'shoa.sub', 'ac_city.city')
                ->get();
         $sub_head_of_acc = sub_head_of_acc::where('status', 1)->get();
         $ac_group = ac_group::where('status', 1)->get();
