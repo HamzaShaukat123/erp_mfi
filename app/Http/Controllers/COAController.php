@@ -75,6 +75,9 @@ class COAController extends Controller
         if ($request->has('address') && $request->address) {
             $acc->address=$request->address;
         }
+        if ($request->has('area') && $request->area) {
+            $acc->area=$request->area;
+        }
         if ($request->has('phone_no') && $request->phone_no) {
             $acc->phone_no=$request->phone_no;
         }

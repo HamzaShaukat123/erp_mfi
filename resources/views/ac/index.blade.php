@@ -357,6 +357,26 @@
                                 <input type="text" class="form-control"  placeholder="Remarks" name="remarks" id="update_remarks">
                             </div>
                             <div class="col-lg-6 mb-2">
+                                <label>Area</label>
+                                <select data-plugin-selecttwo class="form-control select2-js"  name="area" id="update_area">
+                                    <option value="">Select Group</option>
+                                    @foreach($area as $key => $row)	
+                                        <option value="{{$row->area}}">{{$row->area}}</option>
+                                    @endforeach
+                                </select>
+                                <a href="{{ route('all-acc-groups') }}">Add New A.Group</a>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                <label>Account Group</label>
+                                <select data-plugin-selecttwo class="form-control select2-js"  name="group_cod" id="update_group_cod">
+                                    <option value="">Select Group</option>
+                                    @foreach($ac_group as $key => $row)	
+                                        <option value="{{$row->group_cod}}">{{$row->group_name}}</option>
+                                    @endforeach
+                                </select>
+                                <a href="{{ route('all-acc-groups') }}">Add New A.Group</a>
+                            </div>
+                            <div class="col-lg-6 mb-2">
                                 <label>Address</label>
                                 <textarea type="text" class="form-control" rows="2" placeholder="Address" name="address" id="update_address"></textarea>
                             </div>
@@ -476,6 +496,7 @@
                 $('#update_pay_able').val(result['pay_able']);
                 $('#update_opp_date').val(result['opp_date']);
                 $('#update_remarks').val(result['remarks']);
+                $('#update_area').val(result['area']).trigger('change');
                 $('#update_address').val(result['address']);
                 $('#update_phone_no').val(result['phone_no']);
                 $('#update_credit_limit').val(result['credit_limit']);
