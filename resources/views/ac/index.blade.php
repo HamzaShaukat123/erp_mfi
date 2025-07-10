@@ -360,7 +360,7 @@
                                 <label>Area</label>
                                 <select data-plugin-selecttwo class="form-control select2-js"  name="area" id="update_area">
                                     <option value="">Select Group</option>
-                                    @foreach($area as $key => $row)	
+                                    @foreach($ac_area as $key => $row)	
                                         <option value="{{$row->id}}">{{$row->area}}</option>
                                     @endforeach
                                 </select>
