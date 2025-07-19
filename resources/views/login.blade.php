@@ -43,32 +43,6 @@
 					width:80%
 				}
 			}
-
-			.orbit-container {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    animation: rotateOrbit 5s linear infinite;
-    transform-origin: center center;
-}
-
-.logo {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-@keyframes rotateOrbit {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
 		</style>
 	</head>
 	<body style="background:#fff;">
@@ -76,13 +50,9 @@
 			<div class="row">
 				<div class="col-12 col-md-6 text-center">
 					<div class="container resp-cont" style="position: relative;top: 20%;">
-						<div class="orbit-container">
-    <a href="/" class="logo">
-        <img src="/assets/img/logo.png" height="60" alt="MFI Logo" />
-    </a>
-</div>
-
-					
+						<a href="/" class="logo">
+							<img src="/assets/img/logo.png" height="60" alt="MFI Logo" />
+						</a>					
 						<h2 class="mb-0 text-primary">Welcome Back</h2>
 						<p class="text-dark mb-4">Please Login To Continue</p>
 						@if ($errors->has('error'))
