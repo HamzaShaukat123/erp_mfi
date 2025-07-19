@@ -99,7 +99,7 @@
 							</div>
 						</form>
 
-						<p class="text-center text-muted mt-3 mb-3">&copy; Copyright 2024. All Rights Reserved.</p>
+						<p class="text-center text-muted mt-3 mb-3">&copy; Copyright 2025. All Rights Reserved.</p>
 					</div>
 				</div>
 				<div class="col-md-6 d-none d-lg-block">
