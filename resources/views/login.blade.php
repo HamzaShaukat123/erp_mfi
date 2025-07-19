@@ -43,6 +43,11 @@
 					width:80%
 				}
 			}
+
+			.rotate-fixed {
+    transform: rotate(90deg); /* Change to any angle like 45deg, 180deg */
+}
+
 		</style>
 	</head>
 	<body style="background:#fff;">
@@ -51,8 +56,9 @@
 				<div class="col-12 col-md-6 text-center">
 					<div class="container resp-cont" style="position: relative;top: 20%;">
 						<a href="/" class="logo">
-							<img src="/assets/img/logo.png" height="60" alt="MFI Logo" />
-						</a>					
+    <img src="/assets/img/logo.png" height="60" alt="MFI Logo" class="rotate-fixed" />
+</a>
+					
 						<h2 class="mb-0 text-primary">Welcome Back</h2>
 						<p class="text-dark mb-4">Please Login To Continue</p>
 						@if ($errors->has('error'))
