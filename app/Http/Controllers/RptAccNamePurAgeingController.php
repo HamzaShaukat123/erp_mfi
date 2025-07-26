@@ -40,7 +40,7 @@ class RptAccNamePurAgeingController extends Controller
         $purchaseData = [];
         $purchaseData[] = [
         'S/No', 'Date', 'Inv No.', 'Detail', 'Bill Amount', 'UnPaid Amount', 'Days', 
-        '1-7 Days', '8-15 Days', '16-20 Days', '21-35 Days', '36-50 Days', 'Over 50 Days', 'Cleared In Days'
+        'Advance', '1-7 Days', '8-15 Days', '16-20 Days', '21-35 Days', '36-50 Days', 'Over 50 Days', 'Cleared In Days'
         ];
 
         $count = 1;
@@ -59,6 +59,7 @@ class RptAccNamePurAgeingController extends Controller
             number_format($items['bill_amount'], 0),
             number_format($items['remaining_amount'], 0),
             $items['remaining_amount'] != 0 ? $daysFromBillDate : '',
+            number_format($items['Advance'], 0),
             number_format($items['1_7_Days'], 0),
             number_format($items['8_15_Days'], 0),
             number_format($items['16_20_Days'], 0),
