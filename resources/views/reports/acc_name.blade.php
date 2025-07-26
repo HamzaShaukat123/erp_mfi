@@ -1087,83 +1087,116 @@
                 });
             }
 
-            else if (tabId == "#pur_age") {
-                var table = document.getElementById('PurAgeTbleBody');
-                while (table.rows.length > 0) {
-                    table.deleteRow(0);
-                }
-                url = "/rep-by-acc-name/pur_age";
-                tableID = "#PurAgeTbleBody";
+           else if (tabId == "#pur_age") {
+    var table = document.getElementById('PurAgeTbleBody');
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
+    url = "/rep-by-acc-name/pur_age";
+    tableID = "#PurAgeTbleBody";
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: {
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        acc_id: acc_id,
-                    },
-                    beforeSend: function () {
-                        $(tableID).html('<tr><td colspan="15" class="text-center">Loading Data Please Wait...</td></tr>');
-                    },
-                    success: function (result) {
-                        $('#pur_age_from').text(formattedfromDate);
-                        $('#pur_age_to').text(formattedtoDate);
-                        var selectedAcc = $('#acc_id').find("option:selected").text();
-                        $('#pur_age_acc').text(selectedAcc);
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            acc_id: acc_id,
+        },
+        beforeSend: function () {
+            $(tableID).html('<tr><td colspan="15" class="text-center">Loading Data Please Wait...</td></tr>');
+        },
+        success: function (result) {
+            $('#pur_age_from').text(formattedfromDate);
+            $('#pur_age_to').text(formattedtoDate);
+            var selectedAcc = $('#acc_id').find("option:selected").text();
+            $('#pur_age_acc').text(selectedAcc);
 
-                        if (!result.length) {
-                            $(tableID).html('<tr><td colspan="15" class="text-center">No data available for the selected criteria.</td></tr>');
-                            return;
-                        }
-
-                        var rows = '';
-                        var totalRemainingAmount = 0; // Initialize total
-
-                        $.each(result, function (k, v) {
-                            const remainingAmount = isNaN(parseFloat(v['remaining_amount'])) ? 0 : parseFloat(v['remaining_amount']);
-                            totalRemainingAmount += remainingAmount; // Accumulate total
-
-                            const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
-                            const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
-
-                            rows += `<tr>
-                                <td>${k + 1}</td>
-                                <td>${(v['sale_prefix'] ? v['sale_prefix'] : '')} ${(v['Sal_inv_no'] ? v['Sal_inv_no'] : '')}</td>
-                                <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
-                                <td>${(v['ac2'] ? v['ac2'] : '')} ${(v['remarks'] ? v['remarks'] : '')}</td>
-                                <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
-                                <td>${remainingAmount ? remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
-                                <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
-                                <td>${v['Advance'] ? v['Advance'] : ''}</td>
-                                <td>${v['1_7_Days'] ? v['1_7_Days'] : ''}</td>
-                                <td>${v['8_15_Days'] ? v['8_15_Days'] : ''}</td>
-                                <td>${v['16_20_Days'] ? v['16_20_Days'] : ''}</td>
-                                <td>${v['21_35_Days'] ? v['21_35_Days'] : ''}</td>
-                                <td>${v['36_50_Days'] ? v['36_50_Days'] : ''}</td>
-                                <td>${v['over_50_Days'] ? v['over_50_Days'] : ''}</td>
-                                <td style="${remainingAmount === 0 ? maxDaysStyle : ''}">${remainingAmount === 0 ? (v['max_days'] ? v['max_days'] : '') : ''}</td>
-                                <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
-                            </tr>`;
-                        });
-
-                        // Append total row
-                        rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
-                            <td colspan="5" style="text-align: right;">Balance:</td>
-                            <td class="text-danger">${totalRemainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
-                            <td colspan="9"></td>
-                        </tr>`;
-
-
-                        $(tableID).html(rows);
-                    },
-                    error: function (xhr, status, error) {
-                        $(tableID).html(`<tr><td colspan="13" class="text-center text-danger">
-                            Error loading data: ${xhr.responseText || error}.
-                        </td></tr>`);
-                    }
-                });
+            if (!result.length) {
+                $(tableID).html('<tr><td colspan="15" class="text-center">No data available for the selected criteria.</td></tr>');
+                return;
             }
+
+            var rows = '';
+            var totalRemainingAmount = 0;
+
+            // Totals for specific columns
+            var totalAdvance = 0;
+            var total1_7 = 0;
+            var total8_15 = 0;
+            var total16_20 = 0;
+            var total21_35 = 0;
+            var total36_50 = 0;
+            var totalOver50 = 0;
+
+            $.each(result, function (k, v) {
+                const remainingAmount = isNaN(parseFloat(v['remaining_amount'])) ? 0 : parseFloat(v['remaining_amount']);
+                totalRemainingAmount += remainingAmount;
+
+                // Convert and accumulate column-wise totals
+                const adv = parseFloat(v['Advance']) || 0;
+                const d1_7 = parseFloat(v['1_7_Days']) || 0;
+                const d8_15 = parseFloat(v['8_15_Days']) || 0;
+                const d16_20 = parseFloat(v['16_20_Days']) || 0;
+                const d21_35 = parseFloat(v['21_35_Days']) || 0;
+                const d36_50 = parseFloat(v['36_50_Days']) || 0;
+                const dOver50 = parseFloat(v['over_50_Days']) || 0;
+
+                totalAdvance += adv;
+                total1_7 += d1_7;
+                total8_15 += d8_15;
+                total16_20 += d16_20;
+                total21_35 += d21_35;
+                total36_50 += d36_50;
+                totalOver50 += dOver50;
+
+                const maxDaysStyle = (remainingAmount !== 0) ? "color: red;" : "";
+                const daysFromBillDate = v['bill_date'] ? moment().diff(moment(v['bill_date']), 'days') : '';
+
+                rows += `<tr>
+                    <td>${k + 1}</td>
+                    <td>${(v['sale_prefix'] || '')} ${(v['Sal_inv_no'] || '')}</td>
+                    <td>${v['bill_date'] ? moment(v['bill_date']).format('DD-MM-YYYY') : ''}</td>
+                    <td>${(v['ac2'] || '')} ${(v['remarks'] || '')}</td>
+                    <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US') : "0"}</td>
+                    <td>${remainingAmount ? remainingAmount.toLocaleString('en-US') : "0"}</td>
+                    <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
+                    <td>${adv}</td>
+                    <td>${d1_7}</td>
+                    <td>${d8_15}</td>
+                    <td>${d16_20}</td>
+                    <td>${d21_35}</td>
+                    <td>${d36_50}</td>
+                    <td>${dOver50}</td>
+                    <td style="${remainingAmount === 0 ? maxDaysStyle : ''}">${remainingAmount === 0 ? (v['max_days'] || '') : ''}</td>
+                    <td>${remainingAmount === 0 ? 'Cleared' : 'Not Cleared'}</td>
+                </tr>`;
+            });
+
+            // Append total row
+            rows += `<tr style="font-weight: bold; background-color: #f8f9fa;">
+                <td colspan="5" style="text-align: right;">Balance:</td>
+                <td class="text-danger">${totalRemainingAmount.toLocaleString('en-US')}</td>
+                <td></td>
+                <td>${totalAdvance.toLocaleString('en-US')}</td>
+                <td>${total1_7.toLocaleString('en-US')}</td>
+                <td>${total8_15.toLocaleString('en-US')}</td>
+                <td>${total16_20.toLocaleString('en-US')}</td>
+                <td>${total21_35.toLocaleString('en-US')}</td>
+                <td>${total36_50.toLocaleString('en-US')}</td>
+                <td>${totalOver50.toLocaleString('en-US')}</td>
+                <td colspan="2"></td>
+            </tr>`;
+
+            $(tableID).html(rows);
+        },
+        error: function (xhr, status, error) {
+            $(tableID).html(`<tr><td colspan="15" class="text-center text-danger">
+                Error loading data: ${xhr.responseText || error}.
+            </td></tr>`);
+        }
+    });
+}
 
             else if(tabId=="#sale_1"){
                 var table = document.getElementById('Sale1TbleBody');
