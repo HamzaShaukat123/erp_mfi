@@ -304,6 +304,7 @@
                                                     <th>Bill Amount</th>
                                                     <th>UnPaid Amount</th>
                                                     <th>Days</th>
+                                                    <th>Advance</th>
                                                     <th>1-7 Days</th>
                                                     <th>8-15 Days</th>
                                                     <th>16-20 Days</th>
@@ -1134,6 +1135,7 @@
                                 <td>${v['bill_amount'] ? v['bill_amount'].toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
                                 <td>${remainingAmount ? remainingAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : "0"}</td>
                                 <td>${remainingAmount !== 0 ? daysFromBillDate : ''}</td>
+                                <td>${v['Advance'] ? v['Advance'] : ''}</td>
                                 <td>${v['1_7_Days'] ? v['1_7_Days'] : ''}</td>
                                 <td>${v['8_15_Days'] ? v['8_15_Days'] : ''}</td>
                                 <td>${v['16_20_Days'] ? v['16_20_Days'] : ''}</td>
