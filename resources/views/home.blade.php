@@ -2960,7 +2960,7 @@
 						var UVsalesRows = '';
 						$.each(result['unadjusted_sales_ageing_jv2'], function (index, value) {
 							UVsalesRows += `<tr>
-								<td><a href='/vouchers/edit/${value['jv2_id']}' target='_blank'>${value['prefix'] ? value['prefix'] : ''}${value['jv2_id'] ? value['jv2_id'] : ''}</a></td>
+								<td><a href='/vouchers2/edit/${value['jv2_id']}' target='_blank'>${value['prefix'] ? value['prefix'] : ''}${value['jv2_id'] ? value['jv2_id'] : ''}</a></td>
 								<td>${value['jv_date'] ? moment(value['jv_date']).format('D-M-YYYY') : ''}</td>
 								<td>${value['ac_name'] ? value['ac_name'] : ''}</td>
 								<td>${value['SumCredit'] ? value['SumCredit'] : ''}</td>
