@@ -106,11 +106,18 @@ class Purchase2Controller extends Controller
         $lager_much_op_bal = null;
         if ($request->account_name) {
             $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->account_name)
-                ->where('date', '<', Carbon::today())
-                ->get();
+            ->get();
         }
 
         return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
+    }
+
+    public function getBalance($account_id)
+    {
+        $balance = lager_much_op_bal::where('ac1', $account_id)
+            ->sum('SumOfDebit'); // Replace with actual column
+
+        return response()->json(['balance' => $balance]);
     }
 
 
