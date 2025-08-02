@@ -69,6 +69,7 @@ class PurchaseController extends Controller
         $coa = AC::orderBy('ac_name', 'asc')->get();
 
         return view('purchase1.create',compact('items','coa'));
+        
     }
 
     public function store(Request $request)
