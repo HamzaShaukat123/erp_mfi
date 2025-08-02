@@ -115,12 +115,19 @@ class Purchase2Controller extends Controller
 
     public function getBalance(Request $request)
     {
-        $balance = lager_much_op_bal::where('ac1', $request->account_id)
+        $debit = lager_much_op_bal::where('ac1', $request->account_id)
             ->where('date', '<', Carbon::today())
-            ->sum('SumOfDebit'); 
+            ->sum('SumOfDebit');
+
+        $credit = lager_much_op_bal::where('ac1', $request->account_id)
+            ->where('date', '<', Carbon::today())
+            ->sum('SumOfCredit');
+
+        $balance = $debit - $credit;
 
         return response()->json(['balance' => $balance ?? 0]);
-    }   
+    }
+
 
 
 
