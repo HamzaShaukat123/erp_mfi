@@ -99,20 +99,22 @@ class Purchase2Controller extends Controller
     }
 
     public function create(Request $request)
-    {
-        $items = Item_entry2::all();
-        $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
-        $coa = AC::all();
+{
+    $items = Item_entry2::all();
+    $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
+    $coa = AC::all();
 
-        $lager_much_op_bal = null;
-        if ($request->account_name) {
-            $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->account_name)
-                ->where('date', '<', Carbon::today())
-                ->get();
-        }
+    $lager_much_all = collect(); // Empty collection by default
 
-        return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
+    if ($request->account_name) {
+        $lager_much_all = lager_much_all::where('account_cod', $request->account_name)
+            ->where('jv_date', '<', Carbon::today())
+            ->get();
     }
+
+    return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_all'));
+}
+
 
     // public function getBalance(Request $request)
     // {
