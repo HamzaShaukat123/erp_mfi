@@ -114,13 +114,20 @@ class Purchase2Controller extends Controller
 
     public function getBalance($account_id)
     {
-        $balance = lager_much_op_bal::where('ac1', $account_id)
-            ->sum('SumOfDebit'); // Replace with actual column
+        $balanceData = \DB::table('lager_much_op_bal')
+            ->selectRaw('
+                SUM(`SumOfDebit`) AS total_debit,
+                SUM(`SumOfrec_cr`) AS total_credit,
+                (SUM(`SumOfDebit`) - SUM(`SumOfrec_cr`)) AS BAL
+            ')
+            ->where('ac1', $account_id)
+            ->first();
 
-        return response()->json(['balance' => $balance]);
+        return response()->json([
+            'balance' => $balanceData->BAL ?? 0
+        ]);
     }
-
-
+    
     public function store(Request $request)
     {
         
