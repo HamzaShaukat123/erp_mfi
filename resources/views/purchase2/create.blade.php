@@ -36,8 +36,9 @@
 												<div class="d-flex justify-content-between align-items-center">
 													<label class="col-form-label">Company Name <span style="color: red;">*</span></label>
 													<label id="balance-label" class="col-form-label text-success">
-														Balance: {{ $lager_much_op_bal ? number_format(round($lager_much_op_bal->sum('balance')), 0) : 0 }}
+														Balance: {{ isset($lager_much_op_bal->BAL) ? number_format($lager_much_op_bal->BAL, 0) : 0 }}
 													</label>
+
 												</div>
 												<select id="account-select" data-plugin-selecttwo class="form-control select2-js" name="account_name" required>
 													<option value="" disabled selected>Select Company Account</option>
