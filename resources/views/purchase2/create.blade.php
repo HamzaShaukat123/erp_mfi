@@ -609,20 +609,21 @@
 	}
 
     $('#account-select').on('change', function () {
-        var accountId = $(this).val();
+		var accountId = $(this).val();
 
-        if (accountId) {
-            $.ajax({
-                url: '/purchase2/' + accountId,
-                type: 'GET',
-                success: function (response) {
-                    $('#balance-label').text('Balance: ' + response.balance);
-                },
-                error: function () {
-                    $('#balance-label').text('Balance: 0');
-                }
-            });
-        }
-    });
+		if (accountId) {
+			$.ajax({
+				url: '/purchase2/' + accountId,
+				type: 'GET',
+				success: function (response) {
+					$('#balance-label').text('Balance: ' + Number(response.balance).toLocaleString('en-US', { maximumFractionDigits: 0 }));
+				},
+				error: function () {
+					$('#balance-label').text('Balance: 0');
+				}
+			});
+		}
+	});
+
 
 </script>
