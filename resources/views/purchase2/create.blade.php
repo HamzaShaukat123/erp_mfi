@@ -35,7 +35,7 @@
 											<div class="col-sm-12 col-md-12 mb-3">
 												<div class="d-flex justify-content-between align-items-center">
 													<label class="col-form-label">Company Name <span style="color: red;">*</span></label>
-													<label id="balance-label" class="col-form-label text-success fs-4">
+													<label id="balance-label" class="col-form-label text-success fs-3">
 														Balance: {{ isset($lager_much_op_bal->BAL) ? number_format($lager_much_op_bal->BAL, 0) : 0 }}
 													</label>
 
