@@ -112,15 +112,16 @@ class Purchase2Controller extends Controller
 
         return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
     }
-
+    
     public function getBalance(Request $request)
     {
         $balance = lager_much_op_bal::where('ac1', $request->account_id)
             ->where('date', '<', Carbon::today())
-            ->sum('balance_column_name'); // Replace with actual column name for balance
+            ->sum('bal_amount'); 
 
-        return response()->json(['balance' => $balance]);
-    }
+        return response()->json(['balance' => $balance ?? 0]);
+    }   
+
 
 
     public function store(Request $request)
