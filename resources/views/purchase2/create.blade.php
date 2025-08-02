@@ -612,7 +612,7 @@
 
         if (accountId) {
             $.ajax({
-                url: '/get-balance/' + accountId,
+                url: '/purchase2/' + accountId,
                 type: 'GET',
                 success: function (response) {
                     $('#balance-label').text('Balance: ' + response.balance);
