@@ -33,19 +33,19 @@
 												<input type="file" class="form-control" name="att[]" multiple accept=".zip, appliation/zip, application/pdf, image/png, image/jpeg">
 											</div>
 											<div class="col-sm-12 col-md-12 mb-3">
-												<div class="d-flex justify-content-between align-items-center">
-													<label class="col-form-label">Company Name <span style="color: red;">*</span></label>
-													<label id="balance-label" class="col-form-label text-success">
-														Balance: {{ $lager_much_all ? $lager_much_all->sum('balance_column_name') : 0 }}
-													</label>
-												</div>
-												<select id="account-select" data-plugin-selecttwo class="form-control select2-js" name="account_name" required>
-													<option value="" disabled selected>Select Company Account</option>
-													@foreach($coa as $key => $row)
-														<option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>
-													@endforeach
-												</select>
-											</div>
+    <div class="d-flex justify-content-between align-items-center">
+        <label class="col-form-label">Company Name <span style="color: red;">*</span></label>
+        <label id="balance-label" class="col-form-label text-success">
+            Balance: {{ $lager_much_all ? $lager_much_all->sum('Debit') - $lager_much_all->sum('Credit') : 0 }}
+        </label>
+    </div>
+    <select id="account-select" data-plugin-selecttwo class="form-control select2-js" name="account_name" required>
+        <option value="" disabled selected>Select Company Account</option>
+        @foreach($coa as $key => $row)
+            <option value="{{ $row->ac_code }}">{{ $row->ac_name }}</option>
+        @endforeach
+    </select>
+</div>
 
 											
 									  	</div>
