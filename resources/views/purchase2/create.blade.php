@@ -36,7 +36,7 @@
 												<div class="d-flex justify-content-between align-items-center">
 													<label class="col-form-label">Company Name <span style="color: red;">*</span></label>
 													<label id="balance-label" class="col-form-label text-success">
-														Balance: {{ $lager_much_op_bal ? $lager_much_op_bal->sum('balance_column_name') : 0 }}
+														Balance: {{ $lager_much_all ? $lager_much_all->sum('balance_column_name') : 0 }}
 													</label>
 												</div>
 												<select id="account-select" data-plugin-selecttwo class="form-control select2-js" name="account_name" required>
