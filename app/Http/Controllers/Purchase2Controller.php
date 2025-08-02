@@ -9,6 +9,7 @@ use App\Models\Item_entry2;
 use App\Models\Item_Groups;
 use App\Models\AC;
 use App\Models\lager_much_op_bal;
+use App\Models\lager_much_all;
 use App\Models\tpurchase;
 use App\Models\tpurchase_2;
 use App\Models\pur2_att;
@@ -113,11 +114,21 @@ class Purchase2Controller extends Controller
         return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
     }
 
+    // public function getBalance(Request $request)
+    // {
+    //     $balance = lager_much_op_bal::where('ac1', $request->account_id)
+    //         ->where('date', '<', Carbon::today())
+    //         ->sum('SumOfDebit'); 
+
+    //     return response()->json(['balance' => $balance ?? 0]);
+    // }
+
+
     public function getBalance(Request $request)
     {
-        $balance = lager_much_op_bal::where('ac1', $request->account_id)
-            ->where('date', '<', Carbon::today())
-            ->sum('SumOfDebit'); 
+        $balance = lager_much_all::where('account_cod', $request->account_id)
+            ->whereBetween('jv_date', '<', Carbon::today())
+            ->sum('Debit'); 
 
         return response()->json(['balance' => $balance ?? 0]);
     }
