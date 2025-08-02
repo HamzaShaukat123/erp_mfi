@@ -9,7 +9,6 @@ use App\Models\Item_entry2;
 use App\Models\Item_Groups;
 use App\Models\AC;
 use App\Models\lager_much_op_bal;
-use App\Models\lager_much_all;
 use App\Models\tpurchase;
 use App\Models\tpurchase_2;
 use App\Models\pur2_att;
@@ -99,41 +98,19 @@ class Purchase2Controller extends Controller
     }
 
     public function create(Request $request)
-{
-    $items = Item_entry2::all();
-    $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
-    $coa = AC::all();
-
-    $lager_much_all = collect(); // Empty collection by default
-
-    if ($request->account_name) {
-        $lager_much_all = lager_much_all::where('account_cod', $request->account_name)
-            ->where('jv_date', '<', Carbon::today())
-            ->get();
-    }
-
-    return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_all'));
-}
-
-
-    // public function getBalance(Request $request)
-    // {
-    //     $balance = lager_much_op_bal::where('ac1', $request->account_id)
-    //         ->where('date', '<', Carbon::today())
-    //         ->sum('SumOfDebit'); 
-
-    //     return response()->json(['balance' => $balance ?? 0]);
-    // }
-
-
-   public function getBalance(Request $request)
     {
-        $balance = lager_much_all::where('account_cod', $request->account_id) 
-            ->where('jv_date', '<', Carbon::today())
-            ->select(DB::raw('COALESCE(SUM(Debit),0) - COALESCE(SUM(Credit),0) as balance'))
-            ->value('balance');
+        $items = Item_entry2::all();
+        $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
+        $coa = AC::all();
 
-        return response()->json(['balance' => $balance ?? 0]);
+        $lager_much_op_bal = null;
+        if ($request->account_name) {
+            $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->account_name)
+                ->where('date', '<', Carbon::today())
+                ->get();
+        }
+
+        return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
     }
 
 
