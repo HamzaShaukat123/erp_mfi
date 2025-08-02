@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Services\myPDF;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class Purchase2Controller extends Controller
 {
@@ -114,19 +113,14 @@ class Purchase2Controller extends Controller
         return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
     }
 
- 
+    public function getBalance(Request $request)
+    {
+        $balance = lager_much_op_bal::where('ac1', $request->account_id)
+            ->where('date', '<', Carbon::today())
+            ->sum('SumOfDebit'); 
 
-public function getBalance(Request $request)
-{
-    $balance = lager_much_op_bal::where('ac1', $request->account_id)
-        ->where('date', '<', Carbon::today())
-        ->select(DB::raw('SUM(SumOfDebit) - SUM(SumOfCredit) as balance'))
-        ->value('balance');
-
-    return response()->json(['balance' => $balance ?? 0]);
-}
-
-
+        return response()->json(['balance' => $balance ?? 0]);
+    }
 
 
     public function store(Request $request)
