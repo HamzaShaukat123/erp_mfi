@@ -97,36 +97,15 @@ class Purchase2Controller extends Controller
         return view('purchase2.index',compact('pur2'));
     }
 
-    public function create(Request $request)
+   public function create(Request $request)
     {
         $items = Item_entry2::all();
+        $item_group = Item_Groups::all();
         $item_group = Item_Groups::whereBetween('item_group_cod', [1, 6])->get();
         $coa = AC::all();
-
-        $lager_much_op_bal = null;
-        if ($request->account_name) {
-            $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->account_name)
-            ->get();
-        }
-
-        return view('purchase2.create', compact('items', 'coa', 'item_group', 'lager_much_op_bal'));
+        return view('purchase2.create',compact('items','coa','item_group'));
     }
 
-    public function getBalance($account_id)
-    {
-        $balanceData = \DB::table('lager_much_op_bal')
-            ->selectRaw('
-                SUM(`SumOfDebit`) AS total_debit,
-                SUM(`SumOfrec_cr`) AS total_credit,
-                (SUM(`SumOfDebit`) - SUM(`SumOfrec_cr`)) AS BAL
-            ')
-            ->where('ac1', $account_id)
-            ->first();
-
-        return response()->json([
-            'balance' => $balanceData->BAL ?? 0
-        ]);
-    }
     
     public function store(Request $request)
     {
