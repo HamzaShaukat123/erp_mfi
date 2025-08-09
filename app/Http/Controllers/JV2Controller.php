@@ -124,6 +124,7 @@ class JV2Controller extends Controller
 
     public function indexPaginate()
     {
+        
         $jv2 = lager0::where('lager0.status', 1)
             ->select(
                 'lager0.jv_no',
@@ -135,7 +136,9 @@ class JV2Controller extends Controller
                 DB::raw("GROUP_CONCAT(DISTINCT CONCAT(purchase_ageing.sales_prefix, purchase_ageing.sales_id) SEPARATOR ' ; ') AS merged_purchase_ids"),
                 'sales_ageing.status as sales_status',
                 'purchase_ageing.status as purchase_status',
-                'jv2_accountname.account_names' // Include account_names from jv2_accountname table
+                'jv2_accountname.account_names', // From jv2_accountname
+                'sales_ac.ac_name AS sales_account_name', // From ac table (sales)
+                'purchase_ac.ac_name AS purchase_account_name' // From ac table (purchase)
             )
             ->leftJoin(
                 DB::raw('(SELECT auto_lager, SUM(debit) AS total_debit, SUM(credit) AS total_credit FROM lager GROUP BY auto_lager) AS dc'),
@@ -149,7 +152,11 @@ class JV2Controller extends Controller
                 $join->on('lager0.jv_no', '=', 'purchase_ageing.jv2_id')
                     ->where('purchase_ageing.voch_prefix', 'JV2-');
             })
-            ->leftJoin('jv2_accountname', 'lager0.jv_no', '=', 'jv2_accountname.auto_lager') // LEFT JOIN with jv2_accountname
+            ->leftJoin('jv2_accountname', 'lager0.jv_no', '=', 'jv2_accountname.auto_lager')
+            // Left join AC table for sales_ageing
+            ->leftJoin('ac as sales_ac', 'sales_ac.ac_code', '=', 'sales_ageing.acc_name')
+            // Left join AC table for purchase_ageing
+            ->leftJoin('ac as purchase_ac', 'purchase_ac.ac_code', '=', 'purchase_ageing.acc_name')
             ->groupBy(
                 'lager0.jv_no',
                 'lager0.jv_date',
@@ -158,9 +165,11 @@ class JV2Controller extends Controller
                 'dc.total_credit',
                 'sales_ageing.status',
                 'purchase_ageing.status',
-                'jv2_accountname.account_names' // Add account_names to groupBy clause
+                'jv2_accountname.account_names',
+                'sales_ac.ac_name',
+                'purchase_ac.ac_name'
             )
-            ->orderBy('lager0.jv_no', 'desc') // Order by jv_date in descending order
+            ->orderBy('lager0.jv_no', 'desc')
             ->paginate(100); // This will paginate the last 100 records
 
         return view('jv2.jv2', compact('jv2'));
