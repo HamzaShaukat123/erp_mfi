@@ -58,11 +58,11 @@
                                                         <td>{{ number_format($row->total_debit, 0) }} / {{ number_format($row->total_credit, 0) }}</td>
                                                     
                                                         <td style="color: {{ $row->sales_status == 0 ? 'red' : 'inherit' }}">
-                                                            {{$row->merged_sales_ids}}{{$row->sales_account_name}}
+                                                            {{$row->merged_sales_ids}} {{$row->sales_account_name}}
                                                         </td>
                                                         
                                                         <td style="color: {{ $row->purchase_status == 0 ? 'red' : 'inherit' }}">
-                                                            {{$row->merged_purchase_ids}}{{$row->purchase_account_name}}
+                                                            {{$row->merged_purchase_ids}} {{$row->purchase_account_name}}
                                                         </td>
                                                     
                                                         <td>
