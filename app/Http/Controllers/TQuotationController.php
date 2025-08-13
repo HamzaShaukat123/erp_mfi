@@ -1133,13 +1133,13 @@ $html .= '</table>';
             
             $pdf->writeHTML($html, true, false, true, false, '');
         
-            $html = '<table border="0.5" cellpadding="5" style="width:100%; border-collapse:collapse; text-align:center;">';
-        $html .= '<tr style="background-color:#f2f2f2; font-weight:bold; color:#17365D;">';
-        $html .= '<th style="width:8%;">S/R</th>';
-        $html .= '<th style="width:35%;">Item Name</th>';
-        $html .= '<th style="width:28%;">Description</th>';
-        $html .= '<th style="width:13%;">Qty</th>';
-        $html .= '<th style="width:16%;">Weight</th>';
+            $html = '<table border="0.3" style="text-align:center;margin-top:10px">';
+            $html .= '<tr>';
+            $html .= '<th style="width:8%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">S/R</th>';
+            $html .= '<th style="width:35%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Item Name</th>';
+            $html .= '<th style="width:28%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Description</th>';
+            $html .= '<th style="width:13%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Qty</th>';;
+            $html .= '<th style="width:16%;font-size:10px;font-weight:bold;font-family:poppins;color:#17365D">Weight</th>';
             $html .= '</tr>';
             $html .= '</table>';
     
