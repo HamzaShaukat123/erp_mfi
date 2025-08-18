@@ -264,7 +264,7 @@ class RptAccNameGLController extends Controller
         </tr>
         <tr>
         <td style="font-size:12px; font-weight:bold; color:#17365D; padding:5px 10px; border-bottom:1px solid #000; width:70%;"> 
-            Address: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal->first()->address) . '</span>
+            Address: <span style="color:black;">' . htmlspecialchars($lager_much_op_bal[0]['remarks']) . '</span>
         </td>
         <td style="font-size:12px; font-weight:bold; color:#17365D; text-align:left; padding:5px 10px; border-bottom:1px solid #000; border-left:1px solid #000;width:30%;"> 
             From Date: <span style="color:black;">' . htmlspecialchars($formattedFromDate) . '</span>
