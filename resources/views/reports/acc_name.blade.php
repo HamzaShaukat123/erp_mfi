@@ -774,26 +774,24 @@
                             $(tableID).append(html);
                         });
 
-                      // AFTER transactions are processed, now update #gl_acc
-var selectedAcc = $('#acc_id').find("option:selected").text();
-var selectedAccId = $('#acc_id').find("option:selected").val();
+                        // AFTER transactions are processed, now update #gl_acc
+                        var selectedAcc = $('#acc_id').find("option:selected").text();
+                        var selectedAccId = $('#acc_id').find("option:selected").val();
 
-// get phone number from API response
-var phoneNo = result.lager_much_op_bal.length > 0 
-    ? result.lager_much_op_bal[0].phone_no 
-    : '';
+                        // get phone number from API response
+                        var phoneNo = result.lager_much_op_bal.length > 0 
+                            ? result.lager_much_op_bal[0].phone_no 
+                            : '';
 
-$('#gl_acc').html(
-    selectedAccId + ' - ' + selectedAcc +
-    ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
-    '<span style="color: green;">' +
-    balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
-    '</span>' +
-    '</span>' +
-    ' <span style="color:#17365D; margin-left:20px;">Phone: ' + phoneNo + '</span>'
-);
-
-
+                        $('#gl_acc').html(
+                            selectedAccId + ' - ' + selectedAcc +
+                            ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
+                            '<span style="color: green;">' +
+                            balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
+                            '</span>' +
+                            '</span>' +
+                            ' <span style="color:#17365D; margin-left:20px;">Phone: ' + phoneNo + '</span>'
+                        );
 
                         // Now add the total row
                         var netAmount = balance;
@@ -951,15 +949,22 @@ $('#gl_acc').html(
                         // AFTER transactions are processed, now update #gl_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         var selectedAccId = $('#acc_id').find("option:selected").val();
-                        $('#glr_acc').html(
+
+                        // get phone number from API response
+                        var phoneNo = result.lager_much_op_bal.length > 0 
+                            ? result.lager_much_op_bal[0].phone_no 
+                            : '';
+
+                        $('#gl_acc').html(
                             selectedAccId + ' - ' + selectedAcc +
                             ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
                             '<span style="color: green;">' +
                             balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
                             '</span>' +
-                            '</span>'
+                            '</span>' +
+                            ' <span style="color:#17365D; margin-left:20px;">Phone: ' + phoneNo + '</span>'
                         );
-
+                        
                         // After the loop, add the totals row
                         var netAmount = balance; 
                         var words = convertCurrencyToWords(netAmount);
