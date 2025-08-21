@@ -776,15 +776,19 @@
 
                         // AFTER transactions are processed, now update #gl_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
-                        var selectedAccId = $('#acc_id').find("option:selected").val();
-                        $('#gl_acc').html(
-                            selectedAccId + ' - ' + selectedAcc +
-                            ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
-                            '<span style="color: green;">' +
-                            balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
-                            '</span>' +
-                            '</span>'
-                        );
+var selectedAccId = $('#acc_id').find("option:selected").val();
+var phoneNo = $('#acc_id').find("option:selected").data('phone');
+
+$('#gl_acc').html(
+    selectedAccId + ' - ' + selectedAcc +
+    ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
+    '<span style="color: green;">' +
+    balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
+    '</span>' +
+    '</span>' +
+    ' <span style="color: #17365D; margin-left: 20px;"> Phone: ' + phoneNo + '</span>'
+);
+
 
                         // Now add the total row
                         var netAmount = balance;
