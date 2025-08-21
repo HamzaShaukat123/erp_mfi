@@ -777,7 +777,7 @@
                         // AFTER transactions are processed, now update #gl_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
 var selectedAccId = $('#acc_id').find("option:selected").val();
-var phoneNo = $('#acc_id').find("option:selected").data('phone');
+var phoneNo = $('#acc_id').find("option:selected").data('phone_no');
 
 $('#gl_acc').html(
     selectedAccId + ' - ' + selectedAcc +
