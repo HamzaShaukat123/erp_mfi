@@ -946,7 +946,7 @@
                         });
 
 
-                        // AFTER transactions are processed, now update #gl_acc
+                        // AFTER transactions are processed, now update #glr_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
                         var selectedAccId = $('#acc_id').find("option:selected").val();
 
@@ -955,7 +955,7 @@
                             ? result.lager_much_op_bal[0].phone_no 
                             : '';
 
-                        $('#gl_acc').html(
+                        $('#glr_acc').html(
                             selectedAccId + ' - ' + selectedAcc +
                             ' <span style="color: green; display: inline-block; width: 200px; text-align: right;"> Balance = ' +
                             '<span style="color: green;">' +
@@ -964,7 +964,7 @@
                             '</span>' +
                             ' <span style="color:#17365D; margin-left:20px;">Phone: ' + phoneNo + '</span>'
                         );
-                        
+
                         // After the loop, add the totals row
                         var netAmount = balance; 
                         var words = convertCurrencyToWords(netAmount);
