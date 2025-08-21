@@ -777,7 +777,11 @@
                         // AFTER transactions are processed, now update #gl_acc
                         var selectedAcc = $('#acc_id').find("option:selected").text();
 var selectedAccId = $('#acc_id').find("option:selected").val();
-var phoneNo = $('#acc_id').find("option:selected").data('phone_no');
+// get phone number from API response
+        var phoneNo = response.lager_much_op_bal.length > 0 
+            ? response.lager_much_op_bal[0].phone_no 
+            : '';
+
 
 $('#gl_acc').html(
     selectedAccId + ' - ' + selectedAcc +
@@ -786,7 +790,7 @@ $('#gl_acc').html(
     balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) +
     '</span>' +
     '</span>' +
-    ' <span style="color: #17365D; margin-left: 20px;"> Phone: ' + phoneNo + '</span>'
+     ' <span style="color:#17365D; margin-left:20px;">Phone: ' + phoneNo + '</span>'
 );
 
 
