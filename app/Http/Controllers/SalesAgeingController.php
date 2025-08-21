@@ -28,9 +28,42 @@ class SalesAgeingController extends Controller
     public function index()
     {
         // Fetching sales ageing data with the relevant fields and the left join
-        $jv2 = sales_ageing::select('sales_ageing.id', 'sales_ageing.voch_prefix','sales_ageing.status', 'sales_ageing.jv2_id', 'sales_ageing.sales_prefix', 'sales_ageing.sales_id', 'sales_ageing.amount', 'ac.ac_name')
-            ->leftJoin('ac', 'sales_ageing.acc_name', '=', 'ac.ac_code')
+        // $jv2 = sales_ageing::select('sales_ageing.id', 'sales_ageing.voch_prefix','sales_ageing.status', 'sales_ageing.jv2_id', 'sales_ageing.sales_prefix', 'sales_ageing.sales_id', 'sales_ageing.amount', 'ac.ac_name')
+        //     ->leftJoin('ac', 'sales_ageing.acc_name', '=', 'ac.ac_code')
+        // ->get();
+
+
+        $jv2 = sales_ageing::select(
+            'sales_ageing.voch_prefix',
+            'sales_ageing.jv2_id',
+            \DB::raw('GROUP_CONCAT(sales_ageing.id) as id'),
+            \DB::raw('GROUP_CONCAT(sales_ageing.status) as status'),
+            \DB::raw('GROUP_CONCAT(sales_ageing.sales_prefix) as sales_prefix'),
+            \DB::raw('GROUP_CONCAT(sales_ageing.sales_id) as sales_id'),
+            \DB::raw('SUM(sales_ageing.amount) as amount'),
+            \DB::raw('GROUP_CONCAT(ac.ac_name) as ac_name')
+        )
+        ->leftJoin('ac', 'sales_ageing.acc_name', '=', 'ac.ac_code')
+        ->groupBy('sales_ageing.voch_prefix', 'sales_ageing.jv2_id')
         ->get();
+
+
+        // $jv2 = sales_ageing::select(
+        //     'sales_ageing.sales_prefix',
+        //     'sales_ageing.sales_id',
+        //     \DB::raw('GROUP_CONCAT(DISTINCT sales_ageing.id ORDER BY sales_ageing.id) as id'),
+        //     \DB::raw('GROUP_CONCAT(DISTINCT sales_ageing.status ORDER BY sales_ageing.status) as status'),
+        //     \DB::raw('GROUP_CONCAT(DISTINCT sales_ageing.voch_prefix ORDER BY sales_ageing.voch_prefix) as voch_prefix'),
+        //     \DB::raw('GROUP_CONCAT(DISTINCT sales_ageing.jv2_id ORDER BY sales_ageing.jv2_id) as jv2_id'),
+        //     \DB::raw('SUM(sales_ageing.amount) as total_amount'),
+        //     \DB::raw('GROUP_CONCAT(DISTINCT ac.ac_name ORDER BY ac.ac_name) as ac_names')
+        // )
+        // ->leftJoin('ac', 'sales_ageing.acc_name', '=', 'ac.ac_code')
+        // ->groupBy('sales_ageing.sales_prefix', 'sales_ageing.sales_id')
+        // ->get();
+    
+    
+    
 
 
         // Passing data to the view
