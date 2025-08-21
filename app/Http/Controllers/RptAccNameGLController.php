@@ -16,7 +16,12 @@ use Carbon\Carbon;
 class RptAccNameGLController extends Controller
 {
     public function gl(Request $request){
+        // $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+        // ->where('date', '<', $request->fromDate)
+        // ->get();
+
         $lager_much_op_bal = lager_much_op_bal::where('ac1', $request->acc_id)
+        ->join('ac', 'ac.ac_code', '=', 'lager_much_op_bal.ac1')
         ->where('date', '<', $request->fromDate)
         ->get();
 
