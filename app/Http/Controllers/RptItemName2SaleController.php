@@ -8,6 +8,8 @@ use App\Models\sale2_account_item_group_info;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
+use App\Exports\RptItemName2SaleExport;
+
 
 
 class RptItemName2SaleController extends Controller
@@ -177,26 +179,39 @@ class RptItemName2SaleController extends Controller
 
 
 
-    public function ItemName2SaleExcel(Request $request)
-    {
-        $request->validate([
-            'fromDate' => 'required|date',
-            'toDate'   => 'required|date',
-            'acc_id'   => 'required',
+   public function ItemName2SaleExcel(Request $request)
+{
+    $request->validate([
+        'fromDate' => 'required|date',
+        'toDate'   => 'required|date',
+        'acc_id'   => 'required',
+    ]);
+
+    $sale2_account_item_group_info = \App\Models\sale2_account_item_group_info::where('item_cod', $request->acc_id)
+        ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
+        ->orderBy('sa_date', 'asc')
+        ->get([
+            'prefix',
+            'Sal_inv_no',
+            'sa_date',
+            'ac_name',
+            'item_group_name',
+            'item_name',
+            'weight',
+            'qty',
+            'price',
+            'length',
+            'percent'
         ]);
 
-        $sale2_account_item_group_info = sale2_account_item_group_info::where('item_cod', $request->acc_id)
-            ->whereBetween('sa_date', [$request->fromDate, $request->toDate])
-            ->orderBy('sa_date', 'asc')
-            ->get(['prefix', 'Sal_inv_no','sa_date', 'ac_name', 'item_group_name','item_name', 'weight','qty', 'price','length','percent']);
-
-        if ($sale2_account_item_group_info->isEmpty()) {
-            return back()->with('error', 'No records found for the selected date range.');
-        }
-
-        $filename = "Sale_item_report_{$request->acc_id}_from_{$request->fromDate}_to_{$request->toDate}.xlsx";
-
-        return Excel::download(new RptItemName2SaleExport($sale2_account_item_group_info), $filename);
+    if ($sale2_account_item_group_info->isEmpty()) {
+        return back()->with('error', 'No records found for the selected date range.');
     }
+
+    $filename = "Sale_item_report_{$request->acc_id}_from_{$request->fromDate}_to_{$request->toDate}.xlsx";
+
+    return Excel::download(new RptItemName2SaleExport($sale2_account_item_group_info), $filename);
+}
+
 
 }
