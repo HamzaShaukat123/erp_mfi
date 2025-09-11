@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Services\myPDF;
 use Carbon\Carbon;
 
+
 class RptAccNameGLController extends Controller
 {
     public function gl(Request $request){

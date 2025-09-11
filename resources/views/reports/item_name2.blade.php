@@ -338,6 +338,21 @@
             }
         }
 
+         function downloadExcel(tabName){
+           const { fromDate, toDate, acc_id } = getInputValues();
+
+            if (!fromDate || !toDate || !acc_id) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (tabName === "sale") {
+                window.location.href = `/rep-by-item-name2/sale/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+            }
+            else if (tabName === "purchase") {
+                window.location.href = `/rep-by-item-name2/pur/excel?fromDate=${fromDate}&toDate=${toDate}&acc_id=${acc_id}`;
+        }
+
         function downloadPDF(tabName) {
             const { fromDate, toDate, acc_id } = getInputValues();
 
