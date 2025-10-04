@@ -2332,7 +2332,7 @@
 							rows += `<tr>
 								// <td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
 								<td>
-  <a href="/sales/saleinvoice/edit/${value['Sal_inv_no']}" target="_blank">
+  <a href="/sales/edit/${value['Sal_inv_no']}" target="_blank">
     ${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}
   </a>
 </td>
