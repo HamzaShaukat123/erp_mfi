@@ -2325,45 +2325,40 @@
 				$.ajax({
 					type: "GET",
 					url: '/dashboard-tabs/bill-not',
+					dataType: 'json',  // <- important
 					success: function(result) {
 						var rows = '';
 
-						// Loop through the result
-						result.forEach(function(v) {
-							// Build the Sale Link based on sale_prefix
-							let saleLink = '';
-							if (v['sale_prefix'] === 'Sal-') {
-								saleLink = `<td>
-												<a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">
-													${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
-												</a>
-											</td>`;
-							} else {
-								saleLink = `<td>
-												<a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">
-													${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
-												</a>
-											</td>`;
-							}
+						// Make sure result is an array
+						if (!Array.isArray(result)) {
+							console.error('Expected an array but got:', result);
+							return;
+						}
 
-							// Build the rest of the row
+						result.forEach(function(v) {
+							let saleLink = v['sale_prefix'] === 'Sal-'
+								? `<td><a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">${v['sale_prefix'] || ''} ${v['Sal_inv_no'] || ''}</a></td>`
+								: `<td><a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">${v['sale_prefix'] || ''} ${v['Sal_inv_no'] || ''}</a></td>`;
+
 							rows += `<tr>
 										${saleLink}
 										<td class="text-center">${v['bill_date'] ? moment(v['bill_date']).format('D-M-YY') : ''}</td>
-										<td>${v['sales_pur_ord_no'] ? v['sales_pur_ord_no'] : ''} ${v['tsales_pur_ord_no'] ? v['tsales_pur_ord_no'] : ''}</td>
-										<td>${v['Cash_pur_name'] ? v['Cash_pur_name'] : ''} ${v['Cash_name'] ? v['Cash_name'] : ''}</td>
-										<td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
-										<td>${v['ttl_jv_amt'] ? v['ttl_jv_amt'] : ''}</td>
-										<td>${v['remaining_amount'] ? v['remaining_amount'] : ''}</td>
+										<td>${v['sales_pur_ord_no'] || ''} ${v['tsales_pur_ord_no'] || ''}</td>
+										<td>${v['Cash_pur_name'] || ''} ${v['Cash_name'] || ''}</td>
+										<td>${v['bill_amount'] || ''}</td>
+										<td>${v['ttl_jv_amt'] || ''}</td>
+										<td>${v['remaining_amount'] || ''}</td>
 									</tr>`;
 						});
 
 						$('#BillNotRECVDTable').html(rows);
 					},
-					error: function() {
+					error: function(xhr, status, error) {
+						console.error(error);
 						alert("Error loading BILL NOT RECVD data");
 					}
 				});
+
 			}
 
 			else if(tabId=="#HR"){
