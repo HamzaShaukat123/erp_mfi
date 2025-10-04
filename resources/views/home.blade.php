@@ -2328,50 +2328,44 @@
 					success: function(result) {
 						var rows = '';
 
-					let saleLink = '';
+						// Loop through the result
+						result.forEach(function(v) {
+							// Build the Sale Link based on sale_prefix
+							let saleLink = '';
+							if (v['sale_prefix'] === 'Sal-') {
+								saleLink = `<td>
+												<a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">
+													${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
+												</a>
+											</td>`;
+							} else {
+								saleLink = `<td>
+												<a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">
+													${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
+												</a>
+											</td>`;
+							}
 
-if (v['sale_prefix'] === 'Sal-') {
-    saleLink = `
-        <td>
-            <a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">
-                ${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
-            </a>
-        </td>
-    `;
-} else {
-    saleLink = `
-        <td>
-            <a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">
-                ${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
-            </a>
-        </td>
-    `;
-}
-
-// Then append to your row
-row += saleLink;
-
-
-								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
-								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
-								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''} ${value['Cash_name'] ? value['Cash_name'] : ''}</td>
-								<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
-								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
-								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
-							</tr>`;
+							// Build the rest of the row
+							rows += `<tr>
+										${saleLink}
+										<td class="text-center">${v['bill_date'] ? moment(v['bill_date']).format('D-M-YY') : ''}</td>
+										<td>${v['sales_pur_ord_no'] ? v['sales_pur_ord_no'] : ''} ${v['tsales_pur_ord_no'] ? v['tsales_pur_ord_no'] : ''}</td>
+										<td>${v['Cash_pur_name'] ? v['Cash_pur_name'] : ''} ${v['Cash_name'] ? v['Cash_name'] : ''}</td>
+										<td>${v['bill_amount'] ? v['bill_amount'] : ''}</td>
+										<td>${v['ttl_jv_amt'] ? v['ttl_jv_amt'] : ''}</td>
+										<td>${v['remaining_amount'] ? v['remaining_amount'] : ''}</td>
+									</tr>`;
 						});
 
 						$('#BillNotRECVDTable').html(rows);
-
-					
-
-						},
+					},
 					error: function() {
 						alert("Error loading BILL NOT RECVD data");
 					}
 				});
-
 			}
+
 			else if(tabId=="#HR"){
 				var table = document.getElementById('SteelexSaleTable');
 				while (table.rows.length > 0) {
