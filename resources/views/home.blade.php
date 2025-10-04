@@ -2328,10 +2328,7 @@
 					success: function(result) {
 						var rows = '';
 
-						$.each(result['bill_not_recvd'], function (index, value) {
-							rows += `<tr>
-							
-							let saleLink = '';
+					let saleLink = '';
 
 if (v['sale_prefix'] === 'Sal-') {
     saleLink = `
@@ -2350,6 +2347,10 @@ if (v['sale_prefix'] === 'Sal-') {
         </td>
     `;
 }
+
+// Then append to your row
+row += saleLink;
+
 
 								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
 								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
