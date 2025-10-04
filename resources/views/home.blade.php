@@ -2332,10 +2332,16 @@
 							rows += `<tr>
 								// <td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
 								<td>
-  <a href="/sales/edit/${value['Sal_inv_no']}" target="_blank">
+  <a href="${value['sale_prefix'] === 'Sal' 
+              ? '/sales/edit/' + value['Sal_inv_no'] 
+              : value['sale_prefix'] === 'SP' 
+                ? '/sales2/edit/' + value['Sal_inv_no'] 
+                : '#'}" 
+     target="_blank">
     ${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}
   </a>
 </td>
+
 								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
 								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
 								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''} ${value['Cash_name'] ? value['Cash_name'] : ''}</td>
