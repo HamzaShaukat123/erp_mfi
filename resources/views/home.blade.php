@@ -2325,42 +2325,32 @@
 				$.ajax({
 					type: "GET",
 					url: '/dashboard-tabs/bill-not',
-					dataType: 'json',  // <- important
 					success: function(result) {
 						var rows = '';
 
-						// Make sure result is an array
-						if (!Array.isArray(result)) {
-							console.error('Expected an array but got:', result);
-							return;
-						}
-
-						result.forEach(function(v) {
-							let saleLink = v['sale_prefix'] === 'Sal-'
-								? `<td><a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">${v['sale_prefix'] || ''} ${v['Sal_inv_no'] || ''}</a></td>`
-								: `<td><a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">${v['sale_prefix'] || ''} ${v['Sal_inv_no'] || ''}</a></td>`;
-
+						$.each(result['bill_not_recvd'], function (index, value) {
 							rows += `<tr>
-										${saleLink}
-										<td class="text-center">${v['bill_date'] ? moment(v['bill_date']).format('D-M-YY') : ''}</td>
-										<td>${v['sales_pur_ord_no'] || ''} ${v['tsales_pur_ord_no'] || ''}</td>
-										<td>${v['Cash_pur_name'] || ''} ${v['Cash_name'] || ''}</td>
-										<td>${v['bill_amount'] || ''}</td>
-										<td>${v['ttl_jv_amt'] || ''}</td>
-										<td>${v['remaining_amount'] || ''}</td>
-									</tr>`;
+								<td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
+								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
+								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
+								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''} ${value['Cash_name'] ? value['Cash_name'] : ''}</td>
+								<td>${value['bill_amount'] ? value['bill_amount'] : ''}</td>
+								<td>${value['ttl_jv_amt'] ? value['ttl_jv_amt'] : ''}</td>
+								<td>${value['remaining_amount'] ? value['remaining_amount'] : ''}</td>
+							</tr>`;
 						});
 
 						$('#BillNotRECVDTable').html(rows);
-					},
-					error: function(xhr, status, error) {
-						console.error(error);
+
+					
+
+						},
+					error: function() {
 						alert("Error loading BILL NOT RECVD data");
 					}
 				});
 
 			}
-
 			else if(tabId=="#HR"){
 				var table = document.getElementById('SteelexSaleTable');
 				while (table.rows.length > 0) {
