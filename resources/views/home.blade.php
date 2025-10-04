@@ -2330,19 +2330,27 @@
 
 						$.each(result['bill_not_recvd'], function (index, value) {
 							rows += `<tr>
-								// <td>${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}</td>
-								if (v['sale_prefix'] === 'Sal-') {
-								<td>
-  <a href="/sales/edit/${value['Sal_inv_no']}" target="_blank">
-    ${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}
-  </a>
-</td>
- } else {
-<td>
-  <a href="/sales2/edit/${value['Sal_inv_no']}" target="_blank">
-    ${value['sale_prefix'] ? value['sale_prefix'] : ''} ${value['Sal_inv_no'] ? value['Sal_inv_no'] : ''}
-  </a>
-</td>}
+							
+							let saleLink = '';
+
+if (v['sale_prefix'] === 'Sal-') {
+    saleLink = `
+        <td>
+            <a href="/sales/edit/${v['Sal_inv_no']}" target="_blank">
+                ${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
+            </a>
+        </td>
+    `;
+} else {
+    saleLink = `
+        <td>
+            <a href="/sales2/edit/${v['Sal_inv_no']}" target="_blank">
+                ${v['sale_prefix'] ? v['sale_prefix'] : ''} ${v['Sal_inv_no'] ? v['Sal_inv_no'] : ''}
+            </a>
+        </td>
+    `;
+}
+
 								<td class="text-center">${value['bill_date'] ? moment(value['bill_date']).format('D-M-YY') : ''}</td>
 								<td>${value['sales_pur_ord_no'] ? value['sales_pur_ord_no'] : ''} ${value['tsales_pur_ord_no'] ? value['tsales_pur_ord_no'] : ''}</td>
 								<td>${value['Cash_pur_name'] ? value['Cash_pur_name'] : ''} ${value['Cash_name'] ? value['Cash_name'] : ''}</td>
