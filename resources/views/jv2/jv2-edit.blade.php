@@ -619,41 +619,57 @@
 		window.history.back();
 	}
 
-	function getPendingInvoices(){
-		var cust_id=$('#customer_name').val();
+	function getPendingInvoices() {
+		var cust_id = $('#customer_name').val();
 		var table = document.getElementById('pendingInvoices');
 		$('#pendingInvoices').html('');
 		$('#pendingInvoices').find('tr').remove();
 
-		if(cust_id!=0){
-			var counter=1;
-			$('#prevInvoices').val(1)
-			
+		if (cust_id != 0) {
+			var counter = 1;
+			$('#prevInvoices').val(1);
+
+			// 🌀 Show loading text before AJAX
+			$('#pendingInvoices').html("<tr><td colspan='6' class='text-center text-muted py-3'>Loading...</td></tr>");
+
 			$.ajax({
 				type: "GET",
-				url: "/vouchers2/pendingInvoice/"+cust_id,
-				success: function(result){
-					$.each(result, function(k,v){
-						if(Math.round(v['balance'])>0){
-							var html="<tr>";
-							html+= "<td width='13%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='prefix[]' class='form-control' value="+v['prefix']+"></td>"
-							html+= "<td width='12%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
-							html+= "<td width='17%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
-							html+= "<td width='17%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
-							html+= "<td width='17%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='rec_amount[]' onchange='totalReci()' required></td>"
+				url: "/vouchers2/pendingInvoice/" + cust_id,
+
+				success: function (result) {
+					$('#pendingInvoices').html(''); // clear loading
+					let hasInvoices = false;
+
+					$.each(result, function (k, v) {
+						if (Math.round(v['balance']) > 0) {
+							hasInvoices = true;
+							var html = "<tr>";
+							html += "<td width='13%'><input type='text' class='form-control' value='" + v['prefix'] + v['Sal_inv_no'] + "' disabled><input type='hidden' name='invoice_nos[]' value='" + v['Sal_inv_no'] + "'><input type='hidden' name='totalInvoices' value='" + counter + "'><input type='hidden' name='prefix[]' value='" + v['prefix'] + "'></td>";
+							html += "<td width='12%'>" + v['sa_date'] + "<input type='hidden' value='" + v['sa_date'] + "'></td>";
+							html += "<td width='17%'><input type='number' class='form-control' value='" + Math.round(v['b_amt']) + "' disabled><input type='hidden' name='balance_amount[]' value='" + Math.round(v['b_amt']) + "'></td>";
+							html += "<td width='17%'><input type='number' class='form-control text-danger' value='" + Math.round(v['balance']) + "' disabled><input type='hidden' name='bill_amount[]' value='" + Math.round(v['bill_balance']) + "'></td>";
+							html += "<td width='17%'><input type='number' class='form-control' value='0' max='" + Math.round(v['balance']) + "' step='any' name='rec_amount[]' onchange='totalReci()' required></td>";
 							html += "<td width='14%'>" + (v['nop'] ? v['nop'] : "") + "</td>";
-							html+="</tr>";
+							html += "</tr>";
+
 							$('#pendingInvoices').append(html);
 							counter++;
 						}
 					});
+
+					// If no invoices found
+					if (!hasInvoices) {
+						$('#pendingInvoices').html("<tr><td colspan='6' class='text-center text-muted py-3'>No pending invoices found</td></tr>");
+					}
 				},
-				error: function(){
-					alert("error");
+
+				error: function () {
+					$('#pendingInvoices').html("<tr><td colspan='6' class='text-center text-danger py-3'>Error loading data</td></tr>");
 				}
 			});
 		}
 	}
+
 
 	function totalReci() {
 		var totalRec = 0; // Initialize the total amount variable
@@ -695,36 +711,51 @@
 
 	}
 
-	function getPurPendingInvoices(){
-		var cust_id=$('#pur_customer_name').val();
+	function getPurPendingInvoices() {
+		var cust_id = $('#pur_customer_name').val();
 		var table = document.getElementById('purpendingInvoices');
 		$('#purpendingInvoices').html('');
 		$('#purpendingInvoices').find('tr').remove();
 
-		if(cust_id!=0){
-			var counter=1;
-			$('#pur_prevInvoices').val(1)
-			
+		if (cust_id != 0) {
+			var counter = 1;
+			$('#pur_prevInvoices').val(1);
+
+			// 🌀 Show loading text while fetching data
+			$('#purpendingInvoices').html("<tr><td colspan='5' class='text-center text-muted py-3'>Loading...</td></tr>");
+
 			$.ajax({
 				type: "GET",
-				url: "/vouchers2/purpendingInvoice/"+cust_id,
-				success: function(result){
-					$.each(result, function(k,v){
-						if(Math.round(v['balance'])>0){
-							var html="<tr>";
-							html+= "<td width='18%'><input type='text' class='form-control' value="+v['prefix']+""+v['Sal_inv_no']+" disabled><input type='hidden' name='pur_invoice_nos[]' class='form-control' value="+v['Sal_inv_no']+"><input type='hidden' name='pur_totalInvoices' class='form-control' value="+counter+"><input type='hidden' name='pur_prefix[]' class='form-control' value="+v['prefix']+"></td>"
-							html+= "<td width='15%'>"+v['sa_date']+"<input type='hidden' class='form-control' value="+v['sa_date']+"></td>"					
-							html+= "<td width='20%'><input type='number' class='form-control' value="+Math.round(v['b_amt'])+" disabled><input type='hidden' name='balance_amount[]' class='form-control' value="+Math.round(v['b_amt'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control text-danger' value="+Math.round(v['balance'])+" value='0' disabled><input type='hidden' name='bill_amount[]' class='form-control' value="+Math.round(v['bill_balance'])+"></td>"
-							html+= "<td width='20%'><input type='number' class='form-control' value='0' max="+Math.round(v['balance'])+" step='any' name='pur_rec_amount[]' onchange='totalPay()' required></td>"
-							html+="</tr>";
+				url: "/vouchers2/purpendingInvoice/" + cust_id,
+
+				success: function (result) {
+					$('#purpendingInvoices').html(''); // clear loading row
+					let hasInvoices = false;
+
+					$.each(result, function (k, v) {
+						if (Math.round(v['balance']) > 0) {
+							hasInvoices = true;
+							var html = "<tr>";
+							html += "<td width='18%'><input type='text' class='form-control' value='" + v['prefix'] + v['Sal_inv_no'] + "' disabled><input type='hidden' name='pur_invoice_nos[]' value='" + v['Sal_inv_no'] + "'><input type='hidden' name='pur_totalInvoices' value='" + counter + "'><input type='hidden' name='pur_prefix[]' value='" + v['prefix'] + "'></td>";
+							html += "<td width='15%'>" + v['sa_date'] + "<input type='hidden' value='" + v['sa_date'] + "'></td>";
+							html += "<td width='20%'><input type='number' class='form-control' value='" + Math.round(v['b_amt']) + "' disabled><input type='hidden' name='balance_amount[]' value='" + Math.round(v['b_amt']) + "'></td>";
+							html += "<td width='20%'><input type='number' class='form-control text-danger' value='" + Math.round(v['balance']) + "' disabled><input type='hidden' name='bill_amount[]' value='" + Math.round(v['bill_balance']) + "'></td>";
+							html += "<td width='20%'><input type='number' class='form-control' value='0' max='" + Math.round(v['balance']) + "' step='any' name='pur_rec_amount[]' onchange='totalPay()' required></td>";
+							html += "</tr>";
+
 							$('#purpendingInvoices').append(html);
 							counter++;
 						}
 					});
+
+					// If no invoices found
+					if (!hasInvoices) {
+						$('#purpendingInvoices').html("<tr><td colspan='5' class='text-center text-muted py-3'>No pending invoices found</td></tr>");
+					}
 				},
-				error: function(){
-					alert("error");
+
+				error: function () {
+					$('#purpendingInvoices').html("<tr><td colspan='5' class='text-center text-danger py-3'>Error loading data</td></tr>");
 				}
 			});
 		}
