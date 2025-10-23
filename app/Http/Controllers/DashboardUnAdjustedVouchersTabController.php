@@ -21,10 +21,10 @@ class DashboardUnAdjustedVouchersTabController extends Controller
             ->get(['jv2_id', 'sales_prefix', 'sales_id', 'ac_name', 'amount']);
 
 
-        $unadjusted_sales_ageing_jv2 = unadjusted_sales_ageing_jv2::where('unadjusted_sales_ageing_jv2.remaining_amount', '!=', 0)
+        $unadjusted_sales_ageing_jv2 = unadjusted_sales_ageing_jv2::where('unadjusted_sales_ageing_jv2.remaining_amount_after_rtn', '!=', 0)
             ->where('unadjusted_sales_ageing_jv2.SumCredit', '!=', 0)
             ->orderBy('jv_date')
-            ->get(['jv2_id', 'prefix','ac_name', 'SumCredit','jv_date','pur_age_amount','remaining_amount']);
+            ->get(['jv2_id', 'prefix','ac_name', 'SumCredit','jv_date','pur_age_amount','remaining_amount','remaining_amount_after_rtn','rtn_amount']);
 
         $unadjusted_purchase_ageing_jv2 = unadjusted_purchase_ageing_jv2::where('unadjusted_purchase_ageing_jv2.remaining_amount', '!=', 0)
             ->whereNotIn('unadjusted_purchase_ageing_jv2.account_cod', [25, 11])
