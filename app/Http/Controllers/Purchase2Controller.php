@@ -243,7 +243,7 @@ class Purchase2Controller extends Controller
             }
         }
 
-        return redirect()->route('all-purchases2-paginate');
+        return redirect()->route('show-purchases2', $pur_2_id['Sale_inv_no']);
     }
 
     public function edit($id)
