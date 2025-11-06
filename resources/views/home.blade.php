@@ -2085,7 +2085,7 @@
 				} else {
 					result[millCode].weight += item.total_weight;
 					result[millCode].name = item.mill_name;
-					if(item.mill_name=="STEELEX"){
+					if(item.mill_name=="STEELEX BAITUL HADID"){
 						result[millCode].backgroundColor = 'rgba(220, 53, 69, 1)';
 					}
 					else if(item.mill_name=="S.P.M"){
