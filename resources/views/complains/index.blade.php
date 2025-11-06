@@ -241,7 +241,7 @@
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <label for="update_party_name">Party Name<span style="color: red;"><strong>*</strong></span></label>
-                                <select id="update_party_name" data-plugin-selecttwo class="form-control select2-js" name="pupdate_arty_name" required>
+                                <select id="update_party_name" data-plugin-selecttwo class="form-control select2-js" name="update_party_name" required>
                                     <option value="" disabled>Select Party Name</option>
                                     @foreach($acc as $key => $row)
                                         <option value="{{$row->ac_code}}">{{$row->ac_name}}</option>
