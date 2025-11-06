@@ -2088,6 +2088,9 @@
 					if(item.mill_name=="STEELEX BAITUL HADID"){
 						result[millCode].backgroundColor = 'rgba(220, 53, 69, 1)';
 					}
+					else if(item.mill_name=="STEELEX SURYA ENTERPRISES"){
+						result[millCode].backgroundColor = 'rgba(255, 204, 0, 1)';
+					}
 					else if(item.mill_name=="S.P.M"){
 						result[millCode].backgroundColor = 'rgba(0, 136, 204, 1)';
 					}
