@@ -10,6 +10,9 @@
                             <section class="card">
                                 <header class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                                     <h2 class="card-title">PDC</h2>
+                                    <h2 class="text-danger">
+								        <strong>Please be alert! This is the 2025 database.</strong>
+							        </h2>
                                     <div style="display: flex; gap: 10px;">
                                         <form class="text-end" action="{{ route('create-pdc-multiple') }}" method="GET">
                                             <button type="button" class="btn btn-primary mt-2 modal-with-zoom-anim ws-normal" href="#addModal">

@@ -15,8 +15,7 @@
                                     </h2>   
                                     <h2 class="text-danger">
 								        <strong>Please be alert! This is the 2025 database.</strong>
-							        </h2>
-							        <img src="/assets/img/danger.jpg" height="60" alt="Danger Logo">                                 
+							        </h2>                                 
                                     <form class="text-end" action="{{ route('new-jv2') }}" method="GET">
                                         <button type="submit" class="btn btn-primary"> <i class="fas fa-plus"></i> New Voucher</button>
                                     </form>

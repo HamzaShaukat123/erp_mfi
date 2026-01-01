@@ -13,7 +13,6 @@
                                     <h2 class="text-danger">
 								        <strong>Please be alert! This is the 2025 database.</strong>
 							        </h2>
-							        <img src="/assets/img/danger.jpg" height="60" alt="Danger Logo">
                                     <div class="card-actions">
                                         <button type="button" class="modal-with-form btn btn-primary" href="#addModal"> <i class="fas fa-plus"></i> New Complain</button>
                                     </div>
