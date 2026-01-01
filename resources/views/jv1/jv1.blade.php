@@ -10,6 +10,10 @@
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
                                     <h2 class="card-title">Journal Voucher 1</h2>
+                                    <h2 class="text-danger">
+								        <strong>Please be alert! This is the 2025 database.</strong>
+							        </h2>
+							        <img src="/assets/img/danger.jpg" height="60" alt="Danger Logo">
                                     <div class="text-end">
                                         <button type="button" class="btn btn-danger modal-with-zoom-anim ws-normal mb-2" 
                                             onclick="getpdc()" href="#getpdc">

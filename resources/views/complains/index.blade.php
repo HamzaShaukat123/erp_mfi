@@ -10,6 +10,10 @@
                             <section class="card">
                                 <header class="card-header" style="display: flex;justify-content: space-between;">
                                     <h2 class="card-title">Complains</h2>
+                                    <h2 class="text-danger">
+								        <strong>Please be alert! This is the 2025 database.</strong>
+							        </h2>
+							        <img src="/assets/img/danger.jpg" height="60" alt="Danger Logo">
                                     <div class="card-actions">
                                         <button type="button" class="modal-with-form btn btn-primary" href="#addModal"> <i class="fas fa-plus"></i> New Complain</button>
                                     </div>
