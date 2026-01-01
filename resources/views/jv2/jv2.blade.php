@@ -14,7 +14,7 @@
                                         <a href="{{ route('all-jv2') }}"><small><small>&nbsp;&nbsp;&nbsp;Fetch All</small></small></a>
                                     </h2>   
                                     <h2 class="text-danger">
-								        <strong>Please be alert! This is the 2025 database.</strong>
+								        Please be alert! This is the 2025 database.
 							        </h2>                                 
                                     <form class="text-end" action="{{ route('new-jv2') }}" method="GET">
                                         <button type="submit" class="btn btn-primary"> <i class="fas fa-plus"></i> New Voucher</button>
