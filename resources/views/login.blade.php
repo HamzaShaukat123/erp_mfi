@@ -52,7 +52,7 @@
 					<div class="container resp-cont" style="position: relative;top: 20%;">
 						<a href="/" class="logo">
 							<img src="/assets/img/logo.png" height="60" alt="MFI Logo" />
-							<img src="/assets/img/danger.jpg" height="60" alt="MFI Logo" />
+							<img src="/assets/img/danger.jpg" height="60" alt="Danger Logo" />
 						</a>					
 						<h2 class="mb-0 text-primary">Welcome Back</h2>
 						<p class="text-dark mb-4">Please Login To Continue</p>
